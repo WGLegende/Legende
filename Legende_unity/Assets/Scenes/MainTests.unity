@@ -222,7 +222,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1938372180363890, guid: aca2ee3f7621f7a4e8aa8a4783e7912e, type: 3}
       propertyPath: m_Name
-      value: SwordShieldFootman
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4749499675430818, guid: aca2ee3f7621f7a4e8aa8a4783e7912e, type: 3}
       propertyPath: m_LocalPosition.x
