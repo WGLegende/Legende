@@ -234,6 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   speedRotation: 5
+  anim: {fileID: 0}
   camera_container: {fileID: 0}
 --- !u!1001 &912908664
 PrefabInstance:
