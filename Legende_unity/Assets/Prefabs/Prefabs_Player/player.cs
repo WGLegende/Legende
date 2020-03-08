@@ -16,7 +16,7 @@ public class player : MonoBehaviour
         // Get the state of buttons, triggers and stick directions : hinput.gamepad[​0​].A.pressed hinput.gamepad[​6​].leftTrigger.pressed hinput.anyGamepad.rightStick.left.pressed 
         // Get the state of sticks and D-Pads : hinput.gamepad[​4​].leftStick.position hinput.gamepad[​1​].dPad.position 
         // Other useful features : hinput.gamepad[​0​].X.justPressed hinput.gamepad[​2​].rightBumper.doublePress hinput.anyGamepad.rightStick.vertical hinput.gamepad[​7​].Vibrate(0.5); 
-        // Vector3 leftStick = hinput.gamepad[0].leftStick.worldPositionFlat;
+        Vector3 leftStick = hinput.gamepad[0].leftStick.worldPositionFlat;
     }
 
     void FixedUpdate()
