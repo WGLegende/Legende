@@ -89,6 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4511684023298460007}
   - component: {fileID: 630746524055882599}
+  - component: {fileID: 5420014413794755713}
   m_Layer: 0
   m_Name: key_silver
   m_TagString: Untagged
@@ -103,7 +104,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4511684023298817353}
-  m_LocalRotation: {x: -0.3859819, y: -0.5924677, z: -0.3859819, w: 0.5924677}
+  m_LocalRotation: {x: -0.3859818, y: -0.5924678, z: -0.3859818, w: 0.5924678}
   m_LocalPosition: {x: 4.96, y: 1.42, z: -1.55}
   m_LocalScale: {x: 0.14281563, y: 0.14475796, z: 0.14281566}
   m_Children:
@@ -123,4 +124,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e14b693d9842d6b8ae51bb6a0c5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: Cle Argente
+  type: Cle Grise
+--- !u!65 &5420014413794755713
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4511684023298817353}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.244301, y: 6.6021852, z: 2.8281343}
+  m_Center: {x: 0.23768799, y: 3.1606443, z: -0.12543252}

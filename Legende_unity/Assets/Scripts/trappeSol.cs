@@ -8,23 +8,20 @@ public class trappeSol : MonoBehaviour
   Animator anim;
 
 
-
- void Start(){
+    void Start(){
 
      anim = GetComponentInChildren<Animator>();
- } 
+    } 
 
 
- void OnTriggerEnter(){
+    void OnTriggerEnter(){
 
-        anim.SetBool("trappeIsOpen", true);
-   
+     anim.SetBool("trappeIsOpen", true);
     }
 
- void OnTriggerExit(){
+    void OnTriggerExit(){
 
-        anim.SetBool("trappeIsOpen", false);
-
+     anim.SetBool("trappeIsOpen", false);
     }
 
 
