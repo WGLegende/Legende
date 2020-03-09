@@ -27,18 +27,14 @@ public class Inventaire : MonoBehaviour
     void FixedUpdate(){
 
            
-        // if (Input.GetKeyDown(KeyCode.I)){
+        if (Input.GetKeyDown(KeyCode.P)){
        
-        //     print("Touche I");
-        //     activationUI =!activationUI;
-        //     GetComponent<Canvas>().enabled = activationUI;
-        // }
+           print("Touche P");
+            activationUI =!activationUI;
+            GetComponent<Canvas>().enabled = activationUI;
+        }
         
-        // if (hinput.gamepad[0].start.justPressed){
-        //     activationUI =!activationUI;
-        //     Debug.Log("Touche Start");
-        //     GetComponent<Canvas>().enabled = activationUI;  
-        // }
+     
 
     }
 
