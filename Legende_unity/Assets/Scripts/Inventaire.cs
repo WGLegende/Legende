@@ -24,25 +24,6 @@ public class Inventaire : MonoBehaviour
     }
 
     
-    void FixedUpdate(){
-
-           
-        if (Input.GetKeyDown(KeyCode.P)){
-       
-           print("Touche P");
-            activationUI =!activationUI;
-            GetComponent<Canvas>().enabled = activationUI;
-        }
-        
-     
-
-    }
-
-
-
-
-
-
 
     public void compteurCle(){
 
