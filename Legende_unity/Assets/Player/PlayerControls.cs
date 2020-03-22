@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/PlayerControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Player/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -28,7 +28,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""RightStick"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""20820594-1a89-447c-81f3-d35b342c841c"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -46,6 +46,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": ""ButtonB"",
                     ""type"": ""Button"",
                     ""id"": ""aa489604-0b82-4ba2-865f-d930c055681e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""buttonLT"",
+                    ""type"": ""Button"",
+                    ""id"": ""49cd6182-e6a1-4b08-a934-d5923b5c9618"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -95,6 +103,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""ButtonB"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9abe0e8c-7ee9-4dc0-bba9-3ff70f3ae6b2"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""buttonLT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -107,6 +126,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_RightStick = m_Gameplay.FindAction("RightStick", throwIfNotFound: true);
         m_Gameplay_ButtonX = m_Gameplay.FindAction("ButtonX", throwIfNotFound: true);
         m_Gameplay_ButtonB = m_Gameplay.FindAction("ButtonB", throwIfNotFound: true);
+        m_Gameplay_buttonLT = m_Gameplay.FindAction("buttonLT", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -160,6 +180,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_RightStick;
     private readonly InputAction m_Gameplay_ButtonX;
     private readonly InputAction m_Gameplay_ButtonB;
+    private readonly InputAction m_Gameplay_buttonLT;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -168,6 +189,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @RightStick => m_Wrapper.m_Gameplay_RightStick;
         public InputAction @ButtonX => m_Wrapper.m_Gameplay_ButtonX;
         public InputAction @ButtonB => m_Wrapper.m_Gameplay_ButtonB;
+        public InputAction @buttonLT => m_Wrapper.m_Gameplay_buttonLT;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -189,6 +211,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @ButtonB.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonB;
                 @ButtonB.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonB;
                 @ButtonB.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonB;
+                @buttonLT.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonLT;
+                @buttonLT.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonLT;
+                @buttonLT.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonLT;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -205,6 +230,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @ButtonB.started += instance.OnButtonB;
                 @ButtonB.performed += instance.OnButtonB;
                 @ButtonB.canceled += instance.OnButtonB;
+                @buttonLT.started += instance.OnButtonLT;
+                @buttonLT.performed += instance.OnButtonLT;
+                @buttonLT.canceled += instance.OnButtonLT;
             }
         }
     }
@@ -215,5 +243,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnRightStick(InputAction.CallbackContext context);
         void OnButtonX(InputAction.CallbackContext context);
         void OnButtonB(InputAction.CallbackContext context);
+        void OnButtonLT(InputAction.CallbackContext context);
     }
 }

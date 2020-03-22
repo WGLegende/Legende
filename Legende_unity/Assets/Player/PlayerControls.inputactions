@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "RightStick",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "20820594-1a89-447c-81f3-d35b342c841c",
                     "expectedControlType": "",
                     "processors": "",
@@ -33,6 +33,14 @@
                     "name": "ButtonB",
                     "type": "Button",
                     "id": "aa489604-0b82-4ba2-865f-d930c055681e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "buttonLT",
+                    "type": "Button",
+                    "id": "49cd6182-e6a1-4b08-a934-d5923b5c9618",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -80,6 +88,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ButtonB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9abe0e8c-7ee9-4dc0-bba9-3ff70f3ae6b2",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "buttonLT",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
