@@ -119,6 +119,7 @@ public class PlayerGamePad : MonoBehaviour
         if(collision.gameObject.layer == 10){ // le layer 10 correspond au layer SOL
             Player_Animator.SetBool("Grounded", false); // Grounded est true quand le personnage est sur le sol, false quand il est en l'air (Quand il saute par exemple)
             Player_Animator.SetBool("initiate_jump", true); 
+            // For Pull
 
         }
     }
