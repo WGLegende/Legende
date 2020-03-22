@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &662408243 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 549532168109347770, guid: 4ad315429f8020a408b97889a1b8256e,
+    type: 3}
+  m_PrefabInstance: {fileID: 777723046}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +226,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2845835670936468469, guid: 4ad315429f8020a408b97889a1b8256e,
+        type: 3}
+      propertyPath: camera_container
+      value: 
+      objectReference: {fileID: 662408243}
+    - target: {fileID: 2845835670936468469, guid: 4ad315429f8020a408b97889a1b8256e,
+        type: 3}
+      propertyPath: speedRotation
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 7073293083934594864, guid: 4ad315429f8020a408b97889a1b8256e,
         type: 3}
       propertyPath: m_Name
@@ -294,7 +310,7 @@ GameObject:
   - component: {fileID: 1069482741}
   - component: {fileID: 1069482740}
   - component: {fileID: 1069482739}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

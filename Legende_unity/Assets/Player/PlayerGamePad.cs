@@ -8,31 +8,43 @@ using UnityEngine.InputSystem;
 public class PlayerGamePad : MonoBehaviour
 {
 
+    public bool use_multiple_jump;
+
     PlayerControls controls;
     Vector2 movePlayer;
     Vector2 rotate;
-    Animator Player;
     public int SpeedMove;
     public int speedRotation;
     public int ForceJump;
     public GameObject camera_container;
 
-    void Start(){
+    Rigidbody player_rigidBody;
+    Animator Player_Animator;
+    bool playerIsMoving;
+    bool cameraIsTurning;
 
-        Player = GameObject.Find("Player").GetComponent<Animator>();
+    void Start(){
+        player_rigidBody = GetComponent<Rigidbody>();
+        Player_Animator = GetComponent<Animator>();
     }
 
     void Awake(){
 
         controls = new PlayerControls();
 
-        controls.Gameplay.ButtonX.performed += ctx => Jump();
+        controls.Gameplay.ButtonX.started += ctx => Jump();
 
-        controls.Gameplay.Move.performed += ctx => movePlayer = ctx.ReadValue<Vector2>();// PASSER SUR LE JOYSTICK DE GAUCHE
-        controls.Gameplay.Move.canceled += ctx => movePlayer = Vector2.zero;// PASSER SUR LE JOYSTICK DE GAUCHE
+        controls.Gameplay.Move.performed += ctx => movePlayer = ctx.ReadValue<Vector2>();
+        controls.Gameplay.Move.canceled += ctx => movePlayer = Vector2.zero;
 
-        controls.Gameplay.Move.performed += ctx => rotate = ctx.ReadValue<Vector2>(); // REPASSER SUR LE JOYSTICK DE DROITE
-        controls.Gameplay.Move.canceled += ctx => rotate = Vector2.zero; // REPASSER SUR LE JOYSTICK DE DROITE
+        controls.Gameplay.RightStick.performed += ctx => rotate = ctx.ReadValue<Vector2>(); 
+        controls.Gameplay.RightStick.canceled += ctx => rotate = Vector2.zero; 
+
+        controls.Gameplay.buttonLT.started += ctx => behindPlayer();
+    }
+
+    void behindPlayer(){
+        camera_container.transform.localEulerAngles = new Vector3(0f,0f,0f);
     }
 
     void Update(){
@@ -42,24 +54,22 @@ public class PlayerGamePad : MonoBehaviour
         // stick.y -1 = down
         // stick.y 1 = up
 
-        if(movePlayer.x < 0 || movePlayer.x > 0 || movePlayer.y < 0 || movePlayer.y > 0){ // Mouvement left stick
-            // anim.SetFloat("SpeedMove", Mathf.Abs(movePlayer.y));
+        playerIsMoving = movePlayer.x < 0 || movePlayer.x > 0 || movePlayer.y < 0 || movePlayer.y > 0;
+        cameraIsTurning = rotate.x < 0 || rotate.x > 0 || rotate.y < 0 || rotate.y > 0;
 
-            Player.SetBool("isWalking", true);
-            Player.SetBool("isRunning", false);
+        if(playerIsMoving){ // Mouvement left stick
 
-            transform.Translate(movePlayer * SpeedMove  * Time.deltaTime * (movePlayer.y < 0 ? 0.5f : 1f), Space.Self);
-        }else if(Player.GetBool("isWalking") || Player.GetBool("isRunning")){
-           // anim.SetFloat("SpeedMove", 0);
-
-            Player.SetBool("isWalking", false);
-            Player.SetBool("isRunning", false);
-
+            Player_Animator.SetFloat("SpeedMove", (movePlayer.y));
+            transform.Translate(new Vector3(0f, 0f, movePlayer.y) * SpeedMove  * Time.deltaTime * (movePlayer.y < 0 ? 0.5f : 1f), Space.Self);
+            transform.Rotate(0, movePlayer.x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
+        }else{
+           Player_Animator.SetFloat("SpeedMove", 0);
         }
 
         // PAS TOUCHE CONNARD
-        if(rotate.x < 0 || rotate.x > 0 || rotate.y < 0 || rotate.y > 0){ // Mouvement right stick
-            transform.Rotate(0, rotate.x * speedRotation  * Time.deltaTime, 0, Space.Self); // rotate right/left character.
+        if(cameraIsTurning){ // Mouvement right stick
+            camera_container.transform.Rotate(0, rotate.x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
+
             if(rotate.y < -0.2 || rotate.y > 0.2){ // Rotate up/Down camera.
                 float camera_Y = rotate.y * speedRotation/5  * Time.deltaTime;
                 float angle = camera_container.transform.localEulerAngles.x;
@@ -67,14 +77,25 @@ public class PlayerGamePad : MonoBehaviour
                 camera_Y = angle < -40 && rotate.y > 0 ? 0 : angle > 20 && rotate.y < 0?  0 : camera_Y;
                 camera_container.transform.Rotate(-camera_Y, 0, 0, Space.Self);
             }
+        }else if(playerIsMoving){
+            StopAllCoroutines();
+
+            if(camera_container.transform.localEulerAngles.y >= 0.5f || camera_container.transform.localEulerAngles.y <= -0.5f){
+                float diff = camera_container.transform.localEulerAngles.y;     
+                diff -= diff > 180f ? 360f : 0f;
+                camera_container.transform.localEulerAngles = new Vector3(0f,diff/1.02f,0f);
+
+            }else if(camera_container.transform.localEulerAngles.y != 0f){
+                camera_container.transform.localEulerAngles = new Vector3(0f,0f,0f);
+            }
+
         }
     }
-   
 
     void Jump(){
-
-        Player.SetBool("isJump", true);
-        GetComponent<Rigidbody>().AddForce(new Vector3(0,ForceJump,0), ForceMode.Impulse);
+        if(Player_Animator.GetBool("Grounded") || use_multiple_jump){
+            player_rigidBody.AddForce(new Vector3(0,ForceJump,0), ForceMode.Impulse);
+        }
     }
 
     void OnEnable(){
@@ -87,4 +108,18 @@ public class PlayerGamePad : MonoBehaviour
         controls.Gameplay.Disable();
     }
 
+    void OnCollisionEnter(Collision collision){
+
+        if(collision.gameObject.layer == 10){ // le layer 10 correspond au layer SOL
+            Player_Animator.SetBool("Grounded", true); // Grounded est true quand le personnage est sur le sol, false quand il est en l'air (Quand il saute par exemple)
+        }
+    }
+    void OnCollisionExit(Collision collision){
+
+        if(collision.gameObject.layer == 10){ // le layer 10 correspond au layer SOL
+            Player_Animator.SetBool("Grounded", false); // Grounded est true quand le personnage est sur le sol, false quand il est en l'air (Quand il saute par exemple)
+            Player_Animator.SetBool("initiate_jump", true); 
+
+        }
+    }
 }
