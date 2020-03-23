@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4906085388145045603}
   - component: {fileID: 4906085388145045604}
   - component: {fileID: 4906085388145045605}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SwitchSol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4906085388145045606}
-  m_LocalRotation: {x: -0, y: 0.7068626, z: 0, w: 0.7073509}
+  m_LocalRotation: {x: 0, y: 0.70685995, z: 0, w: 0.7073536}
   m_LocalPosition: {x: -29.24, y: 0.12900001, z: 23.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4906085388267486651}
   - component: {fileID: 4906085388267486652}
   - component: {fileID: 4906085388267486653}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bouton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 4906085388866058986}
   - component: {fileID: 4906085388866058987}
   - component: {fileID: 4906085388866058988}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: socle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

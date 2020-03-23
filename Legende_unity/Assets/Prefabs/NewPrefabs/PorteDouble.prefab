@@ -203,12 +203,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c6ebc2868df4a23a91518f89993778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keysList: []
+  keysList:
+  - {fileID: 0}
+  - {fileID: 0}
   OpenPivot: 0
   OpenUp: 0
   OpenSlide: 1
   OpenChute: 0
-  textPorte: {fileID: 0}
   Switch: {fileID: 0}
 --- !u!1 &2626164744285187691
 GameObject:

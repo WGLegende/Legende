@@ -17,7 +17,6 @@ public class Porte : MonoBehaviour
  public bool OpenChute;
 
  Animator animPorte;
- public Animator textPorte;
  public GameObject Switch; // on attache le switch sol voulu
  switchSol SwitchScript; // variable pour recuperer la bool dnas le script switchSol
  Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
@@ -27,7 +26,7 @@ public class Porte : MonoBehaviour
 
     void Start(){
 
-        UIInventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
+         UIInventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
         OneShot = true;
         animPorte = GetComponentInChildren<Animator>(); 
        
@@ -51,7 +50,14 @@ public class Porte : MonoBehaviour
             }
 
             if(keysList.Where(a => a != null).Count() > 0){
-                UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clés");
+
+                if (keysList.Length > 1){
+                    UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clés");
+                }
+                 else{
+                    UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clé");
+                }
+
             }  
         }
 
@@ -59,12 +65,12 @@ public class Porte : MonoBehaviour
 
             if( SwitchScript.switchSolIsPressed == false){
                 UIInventaire.afficheInfoText("Trouvez l'interrupteur !");
-                textPorte.SetBool("textPorte", true); 
+               
             }
 
             if(SwitchScript.switchSolIsPressed == true && OneShot == true){
                 UIInventaire.afficheInfoText("Vous avez déverrouillé la Porte !");  
-                textPorte.SetBool("textPorte", false); 
+               
                 animPorte.SetBool(typeAnimation, true);
                 OneShot = false;
             }

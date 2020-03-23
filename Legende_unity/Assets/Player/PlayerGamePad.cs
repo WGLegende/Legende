@@ -23,9 +23,10 @@ public class PlayerGamePad : MonoBehaviour
     bool playerIsMoving;
     bool cameraIsTurning;
 
+   
     void Start(){
         player_rigidBody = GetComponent<Rigidbody>();
-        Player_Animator = GetComponent<Animator>();
+        Player_Animator = GetComponent<Animator>();  
     }
 
     void Awake(){
@@ -122,4 +123,6 @@ public class PlayerGamePad : MonoBehaviour
 
         }
     }
+
+    
 }

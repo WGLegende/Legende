@@ -2280,8 +2280,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f2b772ebfe17ab4e89a54faa793e975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  use_multiple_jump: 0
   SpeedMove: 8
+  speedRotation: 200
   ForceJump: 12
+  camera_container: {fileID: 549532168109347770}
 --- !u!1 &7073311426148010550
 GameObject:
   m_ObjectHideFlags: 0

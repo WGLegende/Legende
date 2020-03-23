@@ -50,3 +50,8 @@ public class Zone : MonoBehaviour
 
 
 }
+
+internal class Text
+{
+    public string text { get; internal set; }
+}
