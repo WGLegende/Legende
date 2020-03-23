@@ -8,7 +8,7 @@ public class switchSol : MonoBehaviour
 
   Animator anim;
   public bool switchSolIsPressed;
-  public bool MultiPush; // comportemet du switch
+  public bool JustOnce; // comportemet du switch
 
    public GameObject Wagon; 
    Animator animWagon;
@@ -20,8 +20,6 @@ public class switchSol : MonoBehaviour
         switchSolIsPressed = false;
         AllerRetour = false;
        
-
-        
         if (Wagon != null){
           animWagon = Wagon.GetComponent<Animator>();
         }  
@@ -29,28 +27,19 @@ public class switchSol : MonoBehaviour
 
     void OnTriggerEnter(){
 
-        anim.SetBool("switchSol", true);
-        
+        anim.SetBool("switchSol", true);   
     }
 
     void OnTriggerExit(){
 
-      if(MultiPush == true){
-
-          if(!switchSolIsPressed){
-            
-             switchSolIsPressed = false;  
-          }else{
-              anim.SetBool("switchSol", false); 
-              switchSolIsPressed = false;  
-          }
+      if(JustOnce == false){
+        anim.SetBool("switchSol", false); 
+        switchSolIsPressed = false;  
       }
-
-     
     }
 
 
-    void SwitchPressed(){  // on attend que le switch s'enfonce completement en fin d'anim
+    void SwitchPressed(){  // declenche en fin d'animatiom
 
         switchSolIsPressed = true;
 

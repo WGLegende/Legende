@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8001229807172779491}
   - component: {fileID: 8001229807172779490}
   - component: {fileID: 8001229807172779493}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8001229807522735648}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: pivotTrappe1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8001229808134302802}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: pivotTrappe2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8001229808455730924}
   - component: {fileID: 8001229808455730925}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: trappeAnim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 8001229808644868854}
   - component: {fileID: 8001229808644868809}
   - component: {fileID: 8001229808644868855}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trappe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 8001229808923511199}
   - component: {fileID: 8001229808923511198}
   - component: {fileID: 8001229808923511185}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
