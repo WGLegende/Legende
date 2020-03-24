@@ -211,6 +211,7 @@ MonoBehaviour:
   OpenSlide: 1
   OpenChute: 0
   Switch: {fileID: 0}
+  AutoClosed: 0
 --- !u!1 &2626164744285187691
 GameObject:
   m_ObjectHideFlags: 0

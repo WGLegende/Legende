@@ -22,7 +22,7 @@ public class Porte : MonoBehaviour
  Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
 
  bool OneShot; // on affiche qu'une fois "porte verrouilée"
- 
+ public bool AutoClosed;
 
     void Start(){
 
@@ -80,10 +80,12 @@ public class Porte : MonoBehaviour
     }
 
     void OnTriggerExit(){
-
-        if (Switch == null){
-            if (keysList.Where(a => a != null).Count() == 0){
-                animPorte.SetBool(typeAnimation, false);
+        
+        if(AutoClosed){
+            if (Switch == null){
+                if (keysList.Where(a => a != null).Count() == 0){
+                    animPorte.SetBool(typeAnimation, false);
+                }
             }
         }
     }

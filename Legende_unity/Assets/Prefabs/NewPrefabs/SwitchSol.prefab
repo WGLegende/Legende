@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchSolIsPressed: 0
+  JustOnce: 1
 --- !u!1 &4906085388267486655
 GameObject:
   m_ObjectHideFlags: 0

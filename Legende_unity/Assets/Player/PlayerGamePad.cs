@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 
 
 
@@ -34,6 +34,8 @@ public class PlayerGamePad : MonoBehaviour
         controls = new PlayerControls();
 
         controls.Gameplay.ButtonX.started += ctx => Jump();
+
+        controls.Gameplay.ButtonB.started += ctx => ButtonB();
 
         controls.Gameplay.Move.performed += ctx => movePlayer = ctx.ReadValue<Vector2>();
         controls.Gameplay.Move.canceled += ctx => movePlayer = Vector2.zero;
@@ -97,6 +99,10 @@ public class PlayerGamePad : MonoBehaviour
         if(Player_Animator.GetBool("Grounded") || use_multiple_jump){
             player_rigidBody.AddForce(new Vector3(0,ForceJump,0), ForceMode.Impulse);
         }
+    }
+
+     void ButtonB(){
+        Player_Animator.SetTrigger("attack01");
     }
 
     void OnEnable(){
