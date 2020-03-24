@@ -39,11 +39,14 @@ public class LevierButton : MonoBehaviour
     void OnTriggerEnter(){
 
         area = true;  
+        GameObject.Find("DollyCart1").GetComponent<Animator>().SetBool("startWagon",toggle);
+        transform.GetChild(2).gameObject.SetActive(true);
     }
     
     void OnTriggerExit(){
 
-       area = false;  
+       area = false; 
+       transform.GetChild(2).gameObject.SetActive(false); 
     }
 
 

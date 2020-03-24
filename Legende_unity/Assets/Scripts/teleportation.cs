@@ -15,8 +15,6 @@ public class teleportation : MonoBehaviour
 
         anim = GetComponent<Animator>(); 
         positionPlayer = GameObject.Find("Player").GetComponent<Transform>();
-       
-
     }
 
     void OnTriggerEnter(){
