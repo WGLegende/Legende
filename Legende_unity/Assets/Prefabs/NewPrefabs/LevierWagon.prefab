@@ -175,12 +175,12 @@ GameObject:
   - component: {fileID: 6067419615946414059}
   - component: {fileID: 6067419615946414056}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: ActionB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6067419615946414057
 Transform:
   m_ObjectHideFlags: 0
@@ -317,8 +317,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.37506846, y: 1.1790719, z: 0.5992292}
-  m_Center: {x: -0.006793022, y: 0.6304922, z: 0.20038545}
+  m_Size: {x: 0.37506846, y: 1.1790721, z: 0.3644597}
+  m_Center: {x: -0.0067930277, y: 0.6304922, z: 0.08300075}
 --- !u!95 &6067419613895996366
 Animator:
   serializedVersion: 3
