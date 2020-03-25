@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 
 
 public class Porte : MonoBehaviour
@@ -26,7 +26,7 @@ public class Porte : MonoBehaviour
 
     void Start(){
 
-         UIInventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
+        UIInventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
         OneShot = true;
         animPorte = GetComponentInChildren<Animator>(); 
        
@@ -68,11 +68,14 @@ public class Porte : MonoBehaviour
                
             }
 
-            if(SwitchScript.switchSolIsPressed == true && OneShot == true){
-                UIInventaire.afficheInfoText("Vous avez déverrouillé la Porte !");  
-               
+            if(SwitchScript.switchSolIsPressed == true){
                 animPorte.SetBool(typeAnimation, true);
-                OneShot = false;
+
+                if(OneShot){
+                UIInventaire.afficheInfoText("Vous avez déverrouillé la Porte !");
+                OneShot = false;  
+                }
+              
             }
         }
 
@@ -80,13 +83,9 @@ public class Porte : MonoBehaviour
     }
 
     void OnTriggerExit(){
-        
+
         if(AutoClosed){
-            if (Switch == null){
-                if (keysList.Where(a => a != null).Count() == 0){
-                    animPorte.SetBool(typeAnimation, false);
-                }
-            }
+            animPorte.SetBool(typeAnimation, false);          
         }
     }
     
