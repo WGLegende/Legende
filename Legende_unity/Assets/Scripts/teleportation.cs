@@ -8,14 +8,11 @@ public class teleportation : MonoBehaviour
     public GameObject destination ;
     Transform positionPlayer;
     Animator anim;
-    Transform center;
-
+    
     void Start(){
 
         anim = GetComponent<Animator>(); 
-        center = GetComponent<Transform>();
-        positionPlayer = GameObject.Find("Player").GetComponent<Transform>();
-      
+        positionPlayer = GameObject.Find("Player").GetComponent<Transform>(); 
     }
 
     void OnTriggerEnter(){
