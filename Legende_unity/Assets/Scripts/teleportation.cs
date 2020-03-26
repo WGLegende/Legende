@@ -8,21 +8,22 @@ public class teleportation : MonoBehaviour
     public GameObject destination ;
     Transform positionPlayer;
     Animator anim;
-
-
+    Transform center;
 
     void Start(){
 
         anim = GetComponent<Animator>(); 
+        center = GetComponent<Transform>();
         positionPlayer = GameObject.Find("Player").GetComponent<Transform>();
+      
     }
 
     void OnTriggerEnter(){
-
-        if (destination != null){
+             
+        if (destination != null){ 
             anim.SetBool("teleportationGate", true);
-            GameObject.Find("Player").GetComponent<PlayerGamePad>().enabled = false;
-            GameObject.Find("Player").GetComponent<Animator>().SetTrigger("teleportation");
+            GameObject.Find("Player").GetComponent<Animator>().SetTrigger("teleportation");   
+            PlayerGamePad.canMove = false;
         }
     }
 
@@ -32,10 +33,9 @@ public class teleportation : MonoBehaviour
     }
 
     void endAnim(){
-
-        positionPlayer.transform.position = destination.transform.position; 
-        GameObject.Find("Player").GetComponent<PlayerGamePad>().enabled = true;
-        
+ 
+        positionPlayer.transform.position = new Vector3 (destination.transform.position.x,2f, destination.transform.position.z);
+        PlayerGamePad.canMove = true;
     }
 
 

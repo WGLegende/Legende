@@ -257,6 +257,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4906085388145045605, guid: 99d10ec2e27f24f6397f097390f9d01f,
+        type: 3}
+      propertyPath: JustOnce
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4906085388145045606, guid: 99d10ec2e27f24f6397f097390f9d01f,
         type: 3}
       propertyPath: m_Name
@@ -833,7 +838,7 @@ PrefabInstance:
     - target: {fileID: 7079482417964454624, guid: 4ad315429f8020a408b97889a1b8256e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.047
       objectReference: {fileID: 0}
     - target: {fileID: 7079482417964454624, guid: 4ad315429f8020a408b97889a1b8256e,
         type: 3}
@@ -1269,7 +1274,7 @@ PrefabInstance:
     - target: {fileID: 2626164744199983837, guid: aa3cef379fbc647c793e5a6a175b207a,
         type: 3}
       propertyPath: AutoClosed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2626164744199983840, guid: aa3cef379fbc647c793e5a6a175b207a,
         type: 3}
@@ -1549,6 +1554,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2706321380181713985, guid: 3d64983a912ee3a4ea94c7a96c53b710,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 2947170000438671292, guid: 3d64983a912ee3a4ea94c7a96c53b710,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1622,6 +1632,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EndRail
+      objectReference: {fileID: 0}
+    - target: {fileID: 4657656413043077587, guid: 8efa1ea1faf3cd643896c03c3dd3c355,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4657656413043272281, guid: 8efa1ea1faf3cd643896c03c3dd3c355,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4657656413043443705, guid: 8efa1ea1faf3cd643896c03c3dd3c355,
         type: 3}
@@ -1905,6 +1925,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219354407299067635, guid: bfabc83ed3d0213468212bcea80af374,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.12222941
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219354407299067635, guid: bfabc83ed3d0213468212bcea80af374,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.06741413
       objectReference: {fileID: 0}
     - target: {fileID: 7219354407299067644, guid: bfabc83ed3d0213468212bcea80af374,
         type: 3}

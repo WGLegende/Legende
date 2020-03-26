@@ -41,6 +41,7 @@ public class LevierButton : MonoBehaviour
         area = true;  
         GameObject.Find("DollyCart1").GetComponent<Animator>().SetBool("startWagon",toggle);
         GameObject.Find("TextButtonB").GetComponent<UnityEngine.UI.Text>().text = "Activer"; // maj du text
+        PlayerGamePad.canAttack = false;
 
     }
     
@@ -48,6 +49,7 @@ public class LevierButton : MonoBehaviour
 
        area = false; 
        GameObject.Find("TextButtonB").GetComponent<UnityEngine.UI.Text>().text = "Attaquer"; // maj du text
+       PlayerGamePad.canAttack = true;
     }
 
 

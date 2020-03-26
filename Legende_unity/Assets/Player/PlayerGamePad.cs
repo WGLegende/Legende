@@ -22,11 +22,15 @@ public class PlayerGamePad : MonoBehaviour
     Animator Player_Animator;
     bool playerIsMoving;
     bool cameraIsTurning;
+    public static bool canAttack;
+    public static bool canMove;
 
    
     void Start(){
         player_rigidBody = GetComponent<Rigidbody>();
         Player_Animator = GetComponent<Animator>();  
+        canAttack = true;
+        canMove = true;
     }
 
     void Awake(){
@@ -60,7 +64,7 @@ public class PlayerGamePad : MonoBehaviour
         playerIsMoving = movePlayer.x < 0 || movePlayer.x > 0 || movePlayer.y < 0 || movePlayer.y > 0;
         cameraIsTurning = rotate.x < 0 || rotate.x > 0 || rotate.y < 0 || rotate.y > 0;
 
-        if(playerIsMoving){ // Mouvement left stick
+        if(playerIsMoving && canMove){ // Mouvement left stick
 
             Player_Animator.SetFloat("SpeedMove", (movePlayer.y));
             transform.Translate(new Vector3(0f, 0f, movePlayer.y) * SpeedMove  * Time.deltaTime * (movePlayer.y < 0 ? 0.5f : 1f), Space.Self);
@@ -101,8 +105,11 @@ public class PlayerGamePad : MonoBehaviour
         }
     }
 
-     void ButtonB(){
-        Player_Animator.SetTrigger("attack01");
+    void ButtonB(){
+
+        if(canAttack){
+            Player_Animator.SetTrigger("attack01");
+        }
     }
 
     void OnEnable(){
@@ -110,7 +117,7 @@ public class PlayerGamePad : MonoBehaviour
         controls.Gameplay.Enable();
     }
 
-     void OnDisable(){
+    void OnDisable(){
 
         controls.Gameplay.Disable();
     }
