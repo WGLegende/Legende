@@ -41,25 +41,29 @@ public class LevierButton : MonoBehaviour
         area = true;  
         GameObject.Find("DollyCart1").GetComponent<Animator>().SetBool("startWagon",toggle);
         GameObject.Find("TextButtonB").GetComponent<UnityEngine.UI.Text>().text = "Activer"; // maj du text
+        GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",true);
         PlayerGamePad.canAttack = false;
 
     }
     
     void OnTriggerExit(){
 
-       area = false; 
+       area = false;
+       GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",false);
        GameObject.Find("TextButtonB").GetComponent<UnityEngine.UI.Text>().text = "Attaquer"; // maj du text
        PlayerGamePad.canAttack = true;
+
     }
 
 
 
-    void Action(){
+    void Action(){ // function appelee par le bouton
        
-       if (area){
+       if (area){  // uniquement si on est devant le levier
          toggle =!toggle;
+         GameObject.Find("Player").GetComponent<Animator>().SetTrigger("action");   
          anim.SetBool("pushLevier", toggle);
-          GameObject.Find("DollyCart1").GetComponent<Animator>().SetBool("startWagon",toggle);
+         GameObject.Find("DollyCart1").GetComponent<Animator>().SetBool("startWagon",toggle);
         }
     }
 }

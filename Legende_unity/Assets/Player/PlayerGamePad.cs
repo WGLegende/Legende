@@ -27,6 +27,7 @@ public class PlayerGamePad : MonoBehaviour
 
    
     void Start(){
+
         player_rigidBody = GetComponent<Rigidbody>();
         Player_Animator = GetComponent<Animator>();  
         canAttack = true;
@@ -128,6 +129,7 @@ public class PlayerGamePad : MonoBehaviour
             Player_Animator.SetBool("Grounded", true); // Grounded est true quand le personnage est sur le sol, false quand il est en l'air (Quand il saute par exemple)
         }
     }
+    
     void OnCollisionExit(Collision collision){
 
         if(collision.gameObject.layer == 10){ // le layer 10 correspond au layer SOL

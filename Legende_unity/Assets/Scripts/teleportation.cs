@@ -29,7 +29,7 @@ public class teleportation : MonoBehaviour
         anim.SetBool("teleportationGate", false);
     }
 
-    void endAnim(){
+    void endAnim(){ // on attend la fin d'anim avant de le teleporter (un 2f pour une petite chute a l'arrivee)
  
         positionPlayer.transform.position = new Vector3 (destination.transform.position.x,2f, destination.transform.position.z);
         PlayerGamePad.canMove = true;
