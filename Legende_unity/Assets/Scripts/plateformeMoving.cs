@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class plateformeMoving : MonoBehaviour
 {
-    Animator anim;
+ 
     public GameObject player;
     
-   
+  
     private void OnTriggerEnter(Collider other){
 
         if(other.gameObject == player){
@@ -19,7 +19,6 @@ public class plateformeMoving : MonoBehaviour
 
         if(other.gameObject == player){
             player.transform.parent = null;
-       
         }
     }
 

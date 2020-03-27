@@ -61,6 +61,7 @@ public class ElevatorLevier : MonoBehaviour
             GameObject.Find("Player").GetComponent<Animator>().SetTrigger("action");   
             GameObject.Find("elevator").GetComponent<Animator>().SetBool("elevatorOn",toggle);    
             GameObject.Find("Vapeur").GetComponent<ParticleSystem>().enableEmission = toggle;
+            GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",false);
         }
     }
 }

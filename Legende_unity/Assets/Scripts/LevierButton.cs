@@ -64,6 +64,7 @@ public class LevierButton : MonoBehaviour
          GameObject.Find("Player").GetComponent<Animator>().SetTrigger("action");   
          anim.SetBool("pushLevier", toggle);
          GameObject.Find("DollyCart1").GetComponent<Animator>().SetBool("startWagon",toggle);
+          GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",false);
         }
     }
 }
