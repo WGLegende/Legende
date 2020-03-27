@@ -15,6 +15,7 @@ public class ElevatorLevier : MonoBehaviour
 
         area = false;
         toggle = false;
+        GameObject.Find("Vapeur").GetComponent<ParticleSystem>().enableEmission = false;
     } 
        
 
@@ -58,7 +59,8 @@ public class ElevatorLevier : MonoBehaviour
         if (area){  // uniquement si on est devant le levier
             toggle =!toggle;
             GameObject.Find("Player").GetComponent<Animator>().SetTrigger("action");   
-            GameObject.Find("elevator").GetComponent<Animator>().SetBool("elevatorOn",toggle);
+            GameObject.Find("elevator").GetComponent<Animator>().SetBool("elevatorOn",toggle);    
+            GameObject.Find("Vapeur").GetComponent<ParticleSystem>().enableEmission = toggle;
         }
     }
 }
