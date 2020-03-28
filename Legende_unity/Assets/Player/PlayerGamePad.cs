@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 
 
 
@@ -22,10 +22,16 @@ public class PlayerGamePad : MonoBehaviour
     Animator Player_Animator;
     bool playerIsMoving;
     bool cameraIsTurning;
+    public static bool canAttack;
+    public static bool canMove;
 
+   
     void Start(){
+
         player_rigidBody = GetComponent<Rigidbody>();
-        Player_Animator = GetComponent<Animator>();
+        Player_Animator = GetComponent<Animator>();  
+        canAttack = true;
+        canMove = true;
     }
 
     void Awake(){
@@ -33,6 +39,8 @@ public class PlayerGamePad : MonoBehaviour
         controls = new PlayerControls();
 
         controls.Gameplay.ButtonX.started += ctx => Jump();
+
+        controls.Gameplay.ButtonB.started += ctx => ButtonB();
 
         controls.Gameplay.Move.performed += ctx => movePlayer = ctx.ReadValue<Vector2>();
         controls.Gameplay.Move.canceled += ctx => movePlayer = Vector2.zero;
@@ -57,7 +65,7 @@ public class PlayerGamePad : MonoBehaviour
         playerIsMoving = movePlayer.x < 0 || movePlayer.x > 0 || movePlayer.y < 0 || movePlayer.y > 0;
         cameraIsTurning = rotate.x < 0 || rotate.x > 0 || rotate.y < 0 || rotate.y > 0;
 
-        if(playerIsMoving){ // Mouvement left stick
+        if(playerIsMoving && canMove){ // Mouvement left stick
 
             Player_Animator.SetFloat("SpeedMove", (movePlayer.y));
             transform.Translate(new Vector3(0f, 0f, movePlayer.y) * SpeedMove  * Time.deltaTime * (movePlayer.y < 0 ? 0.5f : 1f), Space.Self);
@@ -98,29 +106,44 @@ public class PlayerGamePad : MonoBehaviour
         }
     }
 
+    void ButtonB(){
+
+        if(canAttack){
+            Player_Animator.SetTrigger("attack01");
+        }
+    }
+
     void OnEnable(){
 
         controls.Gameplay.Enable();
     }
 
-     void OnDisable(){
+    void OnDisable(){
 
         controls.Gameplay.Disable();
     }
 
     void OnCollisionEnter(Collision collision){
 
-        if(collision.gameObject.layer == 10){ // le layer 10 correspond au layer SOL
-            Player_Animator.SetBool("Grounded", true); // Grounded est true quand le personnage est sur le sol, false quand il est en l'air (Quand il saute par exemple)
+        if(collision.gameObject.layer == 10){ 
+            Player_Animator.SetBool("Grounded", true);
         }
     }
+
+     void OnCollisionStay(Collision collision){
+
+        if(collision.gameObject.layer == 10){ 
+            Player_Animator.SetBool("Grounded", true);
+        }
+    }
+    
     void OnCollisionExit(Collision collision){
-
-        if(collision.gameObject.layer == 10){ // le layer 10 correspond au layer SOL
-            Player_Animator.SetBool("Grounded", false); // Grounded est true quand le personnage est sur le sol, false quand il est en l'air (Quand il saute par exemple)
+        if(collision.gameObject.layer == 10){
+            Player_Animator.SetBool("Grounded", false);
             Player_Animator.SetBool("initiate_jump", true); 
-            // For Pull
-
         }
     }
+
+
+    
 }

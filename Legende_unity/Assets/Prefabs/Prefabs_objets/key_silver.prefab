@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e14b693d9842d6b8ae51bb6a0c5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: Cle Grise
+  type: "Cl\xE9 Argent\xE9e"
 --- !u!65 &5420014413794755713
 BoxCollider:
   m_ObjectHideFlags: 0

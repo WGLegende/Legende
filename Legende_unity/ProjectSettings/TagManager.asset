@@ -4,9 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Shadow
-  - Collide
-  - Ground
+  - Rails
+  - TurnoutRails
   layers:
   - Default
   - TransparentFX
@@ -16,8 +15,8 @@ TagManager:
   - UI
   - 
   - 
-  - TempCast
-  - Walkable
+  - RailGuide
+  - TrainWheels
   - SOL
   - 
   - 

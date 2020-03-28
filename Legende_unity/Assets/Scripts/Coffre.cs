@@ -6,19 +6,28 @@ public class Coffre : MonoBehaviour
 {
 
     Animator anim;
+    bool isOpen;
   
     void Start()
     {
         anim = GetComponent<Animator>(); 
+        isOpen= false;
     }
 
   
     void OnTriggerEnter(){
 
-     anim.SetTrigger("OpenCoffre");
+        if(!isOpen){
+            anim.SetTrigger("OpenCoffre");
+            PlayerGamePad.canMove = false;
+        }
     }
 
 
 
+    void finAnim(){
 
+         PlayerGamePad.canMove = true;
+         isOpen = true;
+    }
 }
