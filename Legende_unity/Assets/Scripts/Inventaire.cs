@@ -4,7 +4,6 @@ using UnityEngine;
 //using UnityEngine.UI;
 
 
-
 public class Inventaire : MonoBehaviour
 {
     public static int cleTrouve;
