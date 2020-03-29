@@ -205,7 +205,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keysList:
   - {fileID: 0}
-  - {fileID: 0}
   OpenPivot: 0
   OpenUp: 0
   OpenSlide: 1
