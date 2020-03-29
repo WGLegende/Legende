@@ -714,6 +714,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bde74c4b2f21ba248a062822ba653f4d, type: 3}
+<<<<<<< HEAD
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
+=======
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 --- !u!1001 &262239965
 PrefabInstance:
@@ -948,9 +951,12 @@ Mesh:
     size: 0
     path: 
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!43 &302712807
 Mesh:
 =======
+=======
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 --- !u!1 &486865194 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 7bc63138df878d64ab83167681e83b86,
@@ -1071,6 +1077,7 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_Name: Rails Deformed
   serializedVersion: 10
+<<<<<<< HEAD
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -1254,11 +1261,67 @@ GameObject:
   m_StaticEditorFlags: 0
   m_IsActive: 0
 --- !u!4 &313019196
+=======
+  m_Type: 1
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 1
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 28.412704}
+  m_UseBoundingSphereOverride: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &705507995
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 313019195}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 7.31863, y: 0, z: -8.610288}
@@ -1270,6 +1333,13 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &313019197
 =======
+=======
+  m_GameObject: {fileID: 705507993}
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalPosition: {x: 0, y: 24.73, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
@@ -1683,6 +1753,7 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_Name: Rails Deformed
   serializedVersion: 10
   m_SubMeshes:
@@ -1868,11 +1939,17 @@ GameObject:
   m_StaticEditorFlags: 0
   m_IsActive: 0
 --- !u!4 &475380862
+=======
+  m_GameObject: {fileID: 1069482738}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1069482742
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 475380861}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.13, y: 0, z: 16.92}
@@ -1903,6 +1980,19 @@ MonoBehaviour:
 --- !u!43 &517577927
 Mesh:
 =======
+=======
+  m_GameObject: {fileID: 1069482738}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1113173096
+PrefabInstance:
+  m_ObjectHideFlags: 0
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
@@ -1971,6 +2061,7 @@ Mesh:
   m_SourcePrefab: {fileID: 100100000, guid: 4ad315429f8020a408b97889a1b8256e, type: 3}
 --- !u!1001 &1192034314
 PrefabInstance:
+<<<<<<< HEAD
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2145,11 +2236,14 @@ PrefabInstance:
     path: 
 --- !u!1001 &534071902
 PrefabInstance:
+=======
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+<<<<<<< HEAD
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2166,45 +2260,98 @@ PrefabInstance:
       value: -9.461746
       objectReference: {fileID: 0}
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
+=======
+    - target: {fileID: 8001229808644868808, guid: c8a6a7427a0764420aed694c17d6cae4,
+        type: 3}
+      propertyPath: m_Name
+      value: Trappe
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
+=======
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
         type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
+=======
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
+=======
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
         type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
+=======
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
+=======
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 2989741202825791244, guid: bde74c4b2f21ba248a062822ba653f4d,
+=======
+    - target: {fileID: 8001229808644868854, guid: c8a6a7427a0764420aed694c17d6cae4,
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 2989741202825791245, guid: bde74c4b2f21ba248a062822ba653f4d,
         type: 3}
       propertyPath: m_Name
@@ -2220,6 +2367,9 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: bde74c4b2f21ba248a062822ba653f4d, type: 3}
 --- !u!1 &650863257
 =======
+=======
+    m_RemovedComponents: []
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
   m_SourcePrefab: {fileID: 100100000, guid: c8a6a7427a0764420aed694c17d6cae4, type: 3}
 --- !u!1 &1615512861 stripped
 GameObject:
@@ -2292,6 +2442,7 @@ GameObject:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   serializedVersion: 6
   m_Component:
   - component: {fileID: 705507995}
@@ -2306,6 +2457,8 @@ GameObject:
 --- !u!108 &705507994
 Light:
 =======
+=======
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
   m_GameObject: {fileID: 1786032902}
   m_LocalRotation: {x: 0.0000000018147753, y: -0.009938614, z: 1.8037242e-11, w: 0.99995065}
   m_LocalPosition: {x: 24.979279, y: 0.0000000394676, z: -13.230933}
@@ -5981,7 +6134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 1
+=======
+      value: 18
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 =======
       value: 18
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
@@ -6142,7 +6299,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 6
+=======
+      value: 9
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 =======
       value: 9
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
@@ -6225,7 +6386,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 7
+=======
+      value: 6
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 =======
       value: 6
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
@@ -6502,7 +6667,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 5
+=======
+      value: 13
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 =======
       value: 13
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
@@ -6585,7 +6754,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 12
+=======
+      value: 7
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 =======
       value: 7
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)

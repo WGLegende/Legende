@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 //using UnityEngine.UI;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 
 public class Inventaire : MonoBehaviour
 {
