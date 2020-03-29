@@ -101,7 +101,7 @@ public class PlayerGamePad : MonoBehaviour
     }
 
     void Jump(){
-        if(Player_Animator.GetBool("Grounded") || use_multiple_jump){
+        if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canMove){
             player_rigidBody.AddForce(new Vector3(0,ForceJump,0), ForceMode.Impulse);
         }
     }

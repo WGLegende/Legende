@@ -65,7 +65,7 @@ MonoBehaviour:
   OpenSlide: 0
   OpenChute: 0
   Switch: {fileID: 0}
-  AutoClosed: 0
+  AutoClosed: 1
 --- !u!114 &868890311
 MonoBehaviour:
   m_ObjectHideFlags: 0

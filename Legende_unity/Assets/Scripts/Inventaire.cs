@@ -20,7 +20,7 @@ public class Inventaire : MonoBehaviour
     public void compteurCle(){
 
         if(cleTrouve > 0){
-            GameObject.Find("nbrKey").GetComponent<Text>().text = cleTrouve.ToString(); // maj du text
+            GameObject.Find("nbrKey").GetComponent<UnityEngine.UI.Text>().text = cleTrouve.ToString(); // maj du text
             GameObject.Find ("PanelKey").GetComponent<Animator>().SetBool("panelKeyIsOpen", true); // affichage ui clé
             GameObject.Find ("PanelInfo").GetComponent<Animator>().SetTrigger("panelInfo");
         }
