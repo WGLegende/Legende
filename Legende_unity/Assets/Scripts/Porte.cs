@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 
 
 public class Porte : MonoBehaviour
@@ -19,12 +19,14 @@ public class Porte : MonoBehaviour
  Animator animPorte;
  public GameObject Switch; // on attache le switch sol voulu
  switchSol SwitchScript; // variable pour recuperer la bool dnas le script switchSol
+ Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
 
  bool OneShot; // on affiche qu'une fois "porte verrouilée"
  public bool AutoClosed;
 
     void Start(){
 
+        UIInventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
         OneShot = true;
         animPorte = GetComponentInChildren<Animator>(); 
        
@@ -43,17 +45,17 @@ public class Porte : MonoBehaviour
            
             if (keysList.Where(a => a != null).Count() == 0){
                 animPorte.SetBool(typeAnimation, true);
-                Inventaire.instance.cleTrouve = 0;
-                Inventaire.instance.compteurCle();
+                Inventaire.cleTrouve = 0;
+                UIInventaire.compteurCle();
             }
 
             if(keysList.Where(a => a != null).Count() > 0){
 
                 if (keysList.Length > 1){
-                    Inventaire.instance.afficheInfoText("Il vous faut "+keysList.Length+" clés");
+                    UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clés");
                 }
                  else{
-                    Inventaire.instance.afficheInfoText("Il vous faut "+keysList.Length+" clé");
+                    UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clé");
                 }
 
             }  
@@ -62,7 +64,7 @@ public class Porte : MonoBehaviour
         if (Switch != null){
 
             if( SwitchScript.switchSolIsPressed == false){
-                Inventaire.instance.afficheInfoText("Trouvez l'interrupteur !");
+                UIInventaire.afficheInfoText("Trouvez l'interrupteur !");
                
             }
 
@@ -70,7 +72,7 @@ public class Porte : MonoBehaviour
                 animPorte.SetBool(typeAnimation, true);
 
                 if(OneShot){
-                Inventaire.instance.afficheInfoText("Vous avez déverrouillé la Porte !");
+                UIInventaire.afficheInfoText("Vous avez déverrouillé la Porte !");
                 OneShot = false;  
                 }
               
