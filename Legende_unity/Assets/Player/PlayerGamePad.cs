@@ -15,15 +15,27 @@ public class PlayerGamePad : MonoBehaviour
     Vector2 rotate;
     public int SpeedMove;
     public int speedRotation;
-    public int ForceJump;
     public GameObject camera_container;
 
     Rigidbody player_rigidBody;
     Animator Player_Animator;
     bool playerIsMoving;
     bool cameraIsTurning;
+    bool cameraIsBehind;
     public static bool canAttack;
     public static bool canMove;
+
+
+    private CharacterController characterController;
+
+    private float verticalVelocity;
+    public float player_gravity = 1f;
+    public float jumpForce = 0.2f;
+    private bool hasJump = false;
+
+
+
+
 
    
     void Start(){
@@ -32,9 +44,14 @@ public class PlayerGamePad : MonoBehaviour
         Player_Animator = GetComponent<Animator>();  
         canAttack = true;
         canMove = true;
+        cameraIsBehind = true;
+        characterController = GetComponent<CharacterController>();
+        player_gravity/=10f;
+        jumpForce/=10f;
     }
 
     void Awake(){
+
 
         controls = new PlayerControls();
 
@@ -65,11 +82,31 @@ public class PlayerGamePad : MonoBehaviour
         playerIsMoving = movePlayer.x < 0 || movePlayer.x > 0 || movePlayer.y < 0 || movePlayer.y > 0;
         cameraIsTurning = rotate.x < 0 || rotate.x > 0 || rotate.y < 0 || rotate.y > 0;
 
+
+        if(characterController.isGrounded && canMove){
+            verticalVelocity = -player_gravity * Time.deltaTime;
+        }else{
+            verticalVelocity -= player_gravity * Time.deltaTime;
+        }
+
+        if(hasJump){
+            verticalVelocity = use_multiple_jump ? (verticalVelocity + jumpForce) : jumpForce;
+            hasJump = false;
+        }
+
+        characterController.Move(new Vector3(0f, verticalVelocity, 0f));
+
         if(playerIsMoving && canMove){ // Mouvement left stick
 
             Player_Animator.SetFloat("SpeedMove", (movePlayer.y));
-            transform.Translate(new Vector3(0f, 0f, movePlayer.y) * SpeedMove  * Time.deltaTime * (movePlayer.y < 0 ? 0.5f : 1f), Space.Self);
+
+            if(!cameraIsBehind){
+                transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y + camera_container.transform.localEulerAngles.y, 0f);
+                camera_container.transform.localEulerAngles = new Vector3(camera_container.transform.localEulerAngles.x,0f,0f);
+            }
+
             transform.Rotate(0, movePlayer.x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
+            transform.Translate(new Vector3(0f, 0f, movePlayer.y) * SpeedMove  * Time.deltaTime * (movePlayer.y < 0 ? 0.5f : 1f), Space.Self);
         }else{
            Player_Animator.SetFloat("SpeedMove", 0);
         }
@@ -77,7 +114,7 @@ public class PlayerGamePad : MonoBehaviour
         // PAS TOUCHE CONNARD
         if(cameraIsTurning){ // Mouvement right stick
             camera_container.transform.Rotate(0, rotate.x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
-
+            cameraIsBehind = false;
             if(rotate.y < -0.2 || rotate.y > 0.2){ // Rotate up/Down camera.
                 float camera_Y = rotate.y * speedRotation/5  * Time.deltaTime;
                 float angle = camera_container.transform.localEulerAngles.x;
@@ -86,7 +123,7 @@ public class PlayerGamePad : MonoBehaviour
                 camera_container.transform.Rotate(-camera_Y, 0, 0, Space.Self);
             }
         }else if(playerIsMoving){
-            StopAllCoroutines();
+            // StopAllCoroutines();
 
             if(camera_container.transform.localEulerAngles.y >= 0.5f || camera_container.transform.localEulerAngles.y <= -0.5f){
                 float diff = camera_container.transform.localEulerAngles.y;     
@@ -94,7 +131,8 @@ public class PlayerGamePad : MonoBehaviour
                 camera_container.transform.localEulerAngles = new Vector3(0f,diff/1.02f,0f);
 
             }else if(camera_container.transform.localEulerAngles.y != 0f){
-                camera_container.transform.localEulerAngles = new Vector3(0f,0f,0f);
+                cameraIsBehind = true;
+                camera_container.transform.localEulerAngles = new Vector3(camera_container.transform.localEulerAngles.x,0f,0f);
             }
 
         }
@@ -102,7 +140,9 @@ public class PlayerGamePad : MonoBehaviour
 
     void Jump(){
         if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canMove){
-            player_rigidBody.AddForce(new Vector3(0,ForceJump,0), ForceMode.Impulse);
+            hasJump = true;
+            Player_Animator.SetBool("Grounded", false);
+            Player_Animator.SetBool("initiate_jump", true); 
         }
     }
 
@@ -123,25 +163,39 @@ public class PlayerGamePad : MonoBehaviour
         controls.Gameplay.Disable();
     }
 
-    void OnCollisionEnter(Collision collision){
 
-        if(collision.gameObject.layer == 10){ 
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.gameObject.layer == 10 && !Player_Animator.GetBool("Grounded")){
             Player_Animator.SetBool("Grounded", true);
         }
     }
 
-     void OnCollisionStay(Collision collision){
 
-        if(collision.gameObject.layer == 10){ 
-            Player_Animator.SetBool("Grounded", true);
-        }
+    void OnTriggerEnter(Collider collider){
+        Debug.Log("enter : " + collider.gameObject.name);
+        // if(collider.gameObject.layer == 10){ 
+        //     Debug.Log("ENTER");
+        //     Player_Animator.SetBool("Grounded", true);
+        // }
+    }
+
+     void OnTriggerStay(Collider collider){
+        Debug.Log("stay : " + collider.gameObject.name);
+
+        // if(!Player_Animator.GetBool("Grounded") && collider.gameObject.layer == 10){ 
+        //     Debug.Log("STAY");
+        //     Player_Animator.SetBool("Grounded", true);
+        // }
     }
     
-    void OnCollisionExit(Collision collision){
-        if(collision.gameObject.layer == 10){
-            Player_Animator.SetBool("Grounded", false);
-            Player_Animator.SetBool("initiate_jump", true); 
-        }
+    void OnTriggerExit(Collider collider){
+        Debug.Log("exit : " + collider.gameObject.name);
+        // if(collider.gameObject.layer == 10){
+        //     Debug.Log("EXIT");
+        //     Player_Animator.SetBool("Grounded", false);
+        //     Player_Animator.SetBool("initiate_jump", true); 
+        // }
     }
 
 
