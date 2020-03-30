@@ -6,6 +6,7 @@ using UnityEngine;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
@@ -13,6 +14,8 @@ using UnityEngine;
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
 =======
 >>>>>>> parent of 9d88d4b... push Mine des Laves (base)
+=======
+>>>>>>> Ben
 
 public class Inventaire : MonoBehaviour
 {
