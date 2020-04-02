@@ -44,6 +44,7 @@ public class ActionButton : MonoBehaviour
         GameObject.Find("TextButtonB").GetComponent<UnityEngine.UI.Text>().text = "Activer"; // maj du text
         GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",true);
         PlayerGamePad.canAttack = false;
+       
 
     }
     
@@ -63,6 +64,7 @@ public class ActionButton : MonoBehaviour
         if (area){  // uniquement si on est devant le levier
             toggle =!toggle; 
             anim.SetBool(VarAnimator, toggle);
+            GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",false);
         }
     }
 }

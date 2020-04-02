@@ -24,6 +24,7 @@ public class PlayerGamePad : MonoBehaviour
     bool cameraIsBehind;
     public static bool canAttack;
     public static bool canMove;
+    public static bool canJump;
 
 
     private CharacterController characterController;
@@ -34,20 +35,19 @@ public class PlayerGamePad : MonoBehaviour
     private bool hasJump = false;
 
 
-
-
-
    
     void Start(){
-
-        player_rigidBody = GetComponent<Rigidbody>();
+        
         Player_Animator = GetComponent<Animator>();  
         canAttack = true;
         canMove = true;
+        canJump = true;
         cameraIsBehind = true;
         characterController = GetComponent<CharacterController>();
         player_gravity/=10f;
         jumpForce/=10f;
+
+        
     }
 
     void Awake(){
@@ -108,7 +108,7 @@ public class PlayerGamePad : MonoBehaviour
             transform.Rotate(0, movePlayer.x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
             transform.Translate(new Vector3(0f, 0f, movePlayer.y) * SpeedMove  * Time.deltaTime * (movePlayer.y < 0 ? 0.5f : 1f), Space.Self);
         }else{
-           Player_Animator.SetFloat("SpeedMove", 0);
+        Player_Animator.SetFloat("SpeedMove", 0);
         }
 
         // PAS TOUCHE CONNARD
@@ -136,10 +136,11 @@ public class PlayerGamePad : MonoBehaviour
             }
 
         }
+        
     }
 
     void Jump(){
-        if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canMove){
+        if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canJump){
             hasJump = true;
             Player_Animator.SetBool("Grounded", false);
             Player_Animator.SetBool("initiate_jump", true); 
@@ -173,7 +174,7 @@ public class PlayerGamePad : MonoBehaviour
 
 
     void OnTriggerEnter(Collider collider){
-        Debug.Log("enter : " + collider.gameObject.name);
+     //   Debug.Log("enter : " + collider.gameObject.name);
         // if(collider.gameObject.layer == 10){ 
         //     Debug.Log("ENTER");
         //     Player_Animator.SetBool("Grounded", true);
@@ -181,7 +182,7 @@ public class PlayerGamePad : MonoBehaviour
     }
 
      void OnTriggerStay(Collider collider){
-        Debug.Log("stay : " + collider.gameObject.name);
+       // Debug.Log("stay : " + collider.gameObject.name);
 
         // if(!Player_Animator.GetBool("Grounded") && collider.gameObject.layer == 10){ 
         //     Debug.Log("STAY");
@@ -190,7 +191,7 @@ public class PlayerGamePad : MonoBehaviour
     }
     
     void OnTriggerExit(Collider collider){
-        Debug.Log("exit : " + collider.gameObject.name);
+      //  Debug.Log("exit : " + collider.gameObject.name);
         // if(collider.gameObject.layer == 10){
         //     Debug.Log("EXIT");
         //     Player_Animator.SetBool("Grounded", false);
