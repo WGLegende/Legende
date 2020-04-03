@@ -73,29 +73,30 @@ void FixedUpdate(){
 
                 if (hinput.gamepad[0].B.pressed || Input.GetKey(KeyCode.Joystick1Button1)){ // Avance
                     vitesse_demandee = vitesse_avancer_chariot;
-                    vapeur_bar.startVapeur = true;
+                    vapeur_bar.FunctionstartVapeur(1);
                 }
                 
                 if (hinput.gamepad[0].rightTrigger.pressed || Input.GetKey(KeyCode.Joystick1Button5)){ // Boost
                     vitesse_demandee = vitesse_boost_du_chariot;   
-                    vapeur_bar.startVapeurBoost = true;        
+                    vapeur_bar.FunctionstartVapeur(3);        
                 }
 
             }
 
             if (hinput.gamepad[0].X.pressed || Input.GetKey(KeyCode.Joystick1Button2)){ // Jump 
                 anim.Play("JumpChariot");
+                vapeur_bar.FunctionstartVapeur(2);
             }
 
             if (hinput.gamepad[0].A.pressed || Input.GetKey(KeyCode.Joystick1Button0)){ // Recul
                 vitesse_demandee = vitesse_reculer_chariot;
+                vapeur_bar.FunctionstartVapeur(1);
             }
+        }
 
-            if (hinput.gamepad[0].Y.pressed || Input.GetKey(KeyCode.Joystick1Button3)){ // Stop
+         if (hinput.gamepad[0].Y.pressed || Input.GetKey(KeyCode.Joystick1Button3)){ // Stop
             vitesse_demandee = vitesse_stop_du_chariot;
             }
-
-        }
 
 
         if (hinput.gamepad[0].B.justReleased || Input.GetKeyUp(KeyCode.Joystick1Button1)){ 

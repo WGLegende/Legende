@@ -229,7 +229,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   fill: {fileID: 3679599878427174702}
-  JaugeVapeur: 0
+  JaugeVapeur: 10
   AjoutVapeur: 1
   startVapeur: 0
   startVapeurBoost: 0

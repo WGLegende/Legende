@@ -23,7 +23,6 @@ public class VapeurBar : MonoBehaviour
              
         startVapeur = false;
         startVapeurBoost = false;
-        print("jaugevapeur"+JaugeVapeur);
     }
 
 
@@ -31,21 +30,25 @@ public class VapeurBar : MonoBehaviour
 
         slider.value = JaugeVapeur/timerBar;
         fill.color = gradient.Evaluate(slider.normalizedValue);
-        print( slider.value);
+       
+        // Pour test
+        if (Input.GetKeyDown(KeyCode.Space)){   // on ajoute
+            JaugeVapeur += AjoutVapeur;
+            if(JaugeVapeur >= 0 && JaugeVapeur <= 10){
+                JaugeVapeur = 10;
+                ChariotPlayer.hasVapeur = true;
+            }
+        }
+
         
-        if (startVapeurBoost){  // en vitesse boost
-            if(JaugeVapeur <= 10){
-                JaugeVapeur -= Time.deltaTime; 
-            }
-        }
+   }
 
-         if (startVapeur){  // en vitesse normal
-            if(JaugeVapeur <= 10){
-                JaugeVapeur -= Time.deltaTime/3;  
-            }
-        }
+    public void FunctionstartVapeur(int facteur){
 
-        if (JaugeVapeur <= 0){
+         if(JaugeVapeur <= 10){
+                JaugeVapeur -= Time.deltaTime *facteur / 2f ;  // on divise par 2f pour la duree 
+            }
+               if (JaugeVapeur <= 0){
             JaugeVapeur = 0;
             ChariotPlayer.hasVapeur = false;
         }
@@ -53,25 +56,5 @@ public class VapeurBar : MonoBehaviour
         if (JaugeVapeur > 0){ 
             ChariotPlayer.hasVapeur = true;
         }
-        
-
-        if (GainVapeur){   // on ajoute
-            JaugeVapeur += AjoutVapeur;
-            if(JaugeVapeur >= 10){
-                JaugeVapeur = 10;
-            }
-        }
-
-        // Pour test
-        if (Input.GetKeyDown(KeyCode.Space)){   // on ajoute
-            JaugeVapeur += AjoutVapeur;
-            if(JaugeVapeur >= 10){
-                JaugeVapeur = 10;
-            }
-        }
-
-        
-   }
-
-
+    }
 }
