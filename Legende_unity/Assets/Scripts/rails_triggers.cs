@@ -8,6 +8,7 @@ public class rails_triggers : MonoBehaviour
     public enum type_collision{
 
         stop,
+        chute
     };
 
     public type_collision _type_collision;
@@ -20,7 +21,11 @@ public class rails_triggers : MonoBehaviour
         if(_type_collision == type_collision.stop){
 
            ChariotPlayer.stop_obstacle = true;
-           print("COllsionRailStop");
+           print("COllisionRailStop");
+        }
+          if(_type_collision == type_collision.chute){
+
+           print("Oooouche");
         }
     }
  
