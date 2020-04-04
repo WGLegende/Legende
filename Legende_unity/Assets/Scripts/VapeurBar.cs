@@ -6,55 +6,47 @@ using UnityEngine.UI;
 public class VapeurBar : MonoBehaviour
 {
 
+    public static VapeurBar instance;
     public Slider slider;
     public Gradient gradient;
     public Image fill;
 
-    public float JaugeVapeur;
-    public const float timerBar = 10f;  //temps 
+    float vapeur_stock;
 
-    public float AjoutVapeur;
-    public bool startVapeur;
-    public bool startVapeurBoost;
-    public bool GainVapeur;
+    public float vapeur_stock_max;
 
 
-    void Start() {
-             
-        startVapeur = false;
-        startVapeurBoost = false;
+
+    public void Start(){
+        instance = this;
+        fill_vapeur_stock();
+        StartCoroutine(update_vapeur_UI());
     }
+    public void fill_vapeur_stock(){
+        vapeur_stock = vapeur_stock_max;
+    } 
+
+    public void addVapeur(float amount){
+        vapeur_stock += amount;
+    } 
+
+    public bool useVapeur(float amount){
+        vapeur_stock = vapeur_stock - amount < 0f ? 0f : vapeur_stock - amount;
+        return vapeur_stock != 0; //  S'il n'y a plus de vapeur, return false, sinon return true
+    } 
 
 
-   void Update(){
-
-        slider.value = JaugeVapeur/timerBar;
-        fill.color = gradient.Evaluate(slider.normalizedValue);
-       
-        // Pour test
-        if (Input.GetKeyDown(KeyCode.Space)){   // on ajoute
-            JaugeVapeur += AjoutVapeur;
-            if(JaugeVapeur >= 0 && JaugeVapeur <= 10){
-                JaugeVapeur = 10;
-                ChariotPlayer.hasVapeur = true;
-            }
-        }
-
+    public IEnumerator update_vapeur_UI (){
+        yield return new WaitForSeconds(0.1f);
         
-   }
+        slider.value = vapeur_stock/vapeur_stock_max;
+        fill.color = gradient.Evaluate(slider.normalizedValue);
 
-    public void FunctionstartVapeur(int facteur){
-
-         if(JaugeVapeur <= 10){
-                JaugeVapeur -= Time.deltaTime *facteur / 2f ;  // on divise par 2f pour la duree 
-            }
-               if (JaugeVapeur <= 0){
-            JaugeVapeur = 0;
-            ChariotPlayer.hasVapeur = false;
-        }
-
-        if (JaugeVapeur > 0){ 
-            ChariotPlayer.hasVapeur = true;
-        }
+        StartCoroutine(update_vapeur_UI());
     }
+
+
+
+
+
 }
