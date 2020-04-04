@@ -32,7 +32,7 @@ public class VapeurBar : MonoBehaviour
 
     public bool useVapeur(float amount){
         vapeur_stock = vapeur_stock - amount < 0f ? 0f : vapeur_stock - amount;
-        return vapeur_stock != 0; //  S'il n'y a plus de vapeur, return false, sinon return true
+        return vapeur_stock > 0; //  S'il n'y a plus de vapeur, return false, sinon return true
     } 
 
 

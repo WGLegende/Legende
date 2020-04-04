@@ -5,17 +5,11 @@ using UnityEngine;
 public class ChariotPlayer : MonoBehaviour
 {
   
-    public static bool canForward;
-    public static bool stop_obstacle;
     
     public bool equipement_Bouteille;
     public bool equipement_Belier;
     public bool equipement_light;
       
-    public float vitesse_stop_du_chariot;
-    public float vitesse_avancer_chariot;
-    public float vitesse_reculer_chariot;
-    public float vitesse_boost_du_chariot;
     public float velocity_chariot;
 
     float vitesse_demandee;
@@ -61,7 +55,6 @@ public Transform chariot_siege;
     void Start(){
 
         anim = gameObject.GetComponent<Animation>(); // Pour le Saut
-        canForward = true;
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
     }
@@ -116,7 +109,6 @@ public Transform chariot_siege;
                 if(!particle_vapeur_back.isPlaying){
                     particle_vapeur_front.Stop();
                     particle_vapeur_back.Play();
-
                 }
             }else {
                 valeur_boost = -valeur_boost_max;
@@ -125,10 +117,10 @@ public Transform chariot_siege;
                     particle_vapeur_front.Play();
                 }
             }
-        }else if(valeur_boost != 1f){
+        }else if(valeur_boost != 0f){
             particle_vapeur_front.Stop();
             particle_vapeur_back.Stop();
-            valeur_boost = 1f;
+            valeur_boost = 0f;
         }
 
       // PHYSICS CHARIOT
@@ -139,7 +131,9 @@ public Transform chariot_siege;
         vitesse_demandee = angleChariot + valeur_vitesse_basique + valeur_boost;
 
         // Vérifie si on doit accélèrer OU décélerer
-        vitesse_actuelle += vitesse_actuelle < vitesse_demandee ? Time.deltaTime* velocity_chariot : -(Time.deltaTime* velocity_chariot);
+        vitesse_actuelle += vitesse_actuelle < vitesse_demandee ? 
+                                    Time.deltaTime* velocity_chariot : 
+                                   -(Time.deltaTime* velocity_chariot);
         
         // Multiplie par la valeur frein qui peut être entre 0 (frein total) et 1 (aucun frein)
         vitesse_actuelle *= valeur_frein; 
@@ -160,91 +154,11 @@ public Transform chariot_siege;
         if (hinput.gamepad[0].B.justPressed){// || Input.GetKey(KeyCode.Joystick1Button2)){ // Jump 
             attaque_chariot();
         }
-return;
-
-
-
-
-    // Ton code de merde si dessous
-
-    //  SI BESOIN POUR MAPPING JOYCON
-    //      for (KeyCode i = 0; i <= KeyCode.Joystick8Button19; i++)
-    //      {
-    //          if (Input.GetKey(i))
-    //              Debug.Log(i);
-    //  }
-
-
-      // GESTION DES BOUTON
-
-
-
-
-
-    //     if(canForward){
-
-    //         if (hinput.gamepad[0].B.pressed || Input.GetKey(KeyCode.Joystick1Button1)){ // Avance
-    //             vitesse_demandee = vitesse_avancer_chariot;
-    //             VapeurBar.instance.facteur = 1;
-    //         }
-            
-    //         if (hinput.gamepad[0].rightTrigger.pressed || Input.GetKey(KeyCode.Joystick1Button5)){ // Boost
-    //             vitesse_demandee = vitesse_boost_du_chariot;   
-    //             VapeurBar.instance.facteur = 3;
-    //         }
-
-    //     }
-
-    //     if (hinput.gamepad[0].X.pressed || Input.GetKey(KeyCode.Joystick1Button2)){ // Jump 
-    //         anim.Play("JumpChariot");
-    //             VapeurBar.instance.facteur = 2;
-    //     }
-
-    //     if (hinput.gamepad[0].A.pressed || Input.GetKey(KeyCode.Joystick1Button0)){ // Recul
-    //         vitesse_demandee = vitesse_reculer_chariot;
-    //             VapeurBar.instance.facteur = 1;
-    //     }
-
-    //     if (hinput.gamepad[0].Y.pressed || Input.GetKey(KeyCode.Joystick1Button3)){ // Stop
-    //             vitesse_demandee = vitesse_stop_du_chariot;
-    //     }
-
-
-    //  // COMMANDE DE LA VITESSE DU CHARIOT
-    //     if (vitesse_actuelle < vitesse_demandee && canForward){
-            
-    //         vitesse_actuelle += Time.deltaTime* velocity_chariot;
-    //         vitesse_actuelle = Mathf.Round(vitesse_actuelle * 1000f) / 1000f;
-
-    //         if (Mathf.Abs(vitesse_actuelle) < 0.1f && vitesse_demandee == 0){
-    //             vitesse_actuelle = 0;
-    //         }
-
-    //         SplineFollow.Speed = vitesse_actuelle;
-    //     }
-
-    //     if (vitesse_actuelle > vitesse_demandee){
-            
-    //         vitesse_actuelle -= Time.deltaTime* velocity_chariot;
-    //         vitesse_actuelle = Mathf.Round(vitesse_actuelle * 1000f) / 1000f;
-          
-    //         if(vitesse_actuelle < -2){
-    //             canForward = true;
-    //             stop_obstacle = false;
-    //         }    
-
-    //         SplineFollow.Speed = vitesse_actuelle;
-
-    //     }   
-
-    //     if (stop_obstacle  && canForward && !equipement_Belier){
-    //         canForward = false;
-    //         SplineFollow.Speed = 0;
-    //         vitesse_demandee = 0;
-    //         vitesse_actuelle = 0;
-    //     }
     }
-        public GameObject raycastObject;
+
+    
+        
+    public GameObject raycastObject;
 
     void attaque_chariot(){
 
