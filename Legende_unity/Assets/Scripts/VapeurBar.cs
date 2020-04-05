@@ -15,8 +15,6 @@ public class VapeurBar : MonoBehaviour
 
     public float vapeur_stock_max;
 
-
-
     public void Start(){
         instance = this;
         fill_vapeur_stock();

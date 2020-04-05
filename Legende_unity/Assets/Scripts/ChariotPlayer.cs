@@ -73,12 +73,12 @@ public Transform chariot_siege;
         left_stick_y = hinput.gamepad[0].leftStick.position.y;
 
         if(right_stick_x != 0 || right_stick_y != 0){ // Mouvement left stick
-            chariot_siege.Rotate(0, right_stick_x * camera_speed_rotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
+            chariot_siege.Rotate(0,  0,right_stick_x * camera_speed_rotation  * Time.deltaTime, Space.Self); // rotate right/left character.
 
             if(right_stick_y < -0.2 || right_stick_y > 0.2){ // Rotate up/Down camera.
                 float camera_Y = right_stick_y * camera_speed_rotation/2  * Time.deltaTime;
                 float angle = UnityEditor.TransformUtils.GetInspectorRotation(camera_container).x;
-                camera_Y = angle > 120 && right_stick_y > 0 ? 0 : angle < 60  && right_stick_y < 0?  0 : camera_Y;
+                camera_Y = angle > 120 && right_stick_y < 0 ? 0 : angle < 60  && right_stick_y > 0?  0 : camera_Y;
                 camera_container.Rotate(-camera_Y, 0, 0, Space.Self);
             }
         }
