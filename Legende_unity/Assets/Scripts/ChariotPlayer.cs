@@ -66,11 +66,11 @@ public Transform chariot_siege;
             VapeurBar.instance.fill_vapeur_stock();
         }
 
-        right_stick_x = hinput.gamepad[0].rightStick.position.x;
-        right_stick_y = hinput.gamepad[0].rightStick.position.y;
+        right_stick_x = hinput.anyGamepad.rightStick.position.x;
+        right_stick_y = hinput.anyGamepad.rightStick.position.y;
 
-        left_stick_x = hinput.gamepad[0].leftStick.position.x;
-        left_stick_y = hinput.gamepad[0].leftStick.position.y;
+        left_stick_x = hinput.anyGamepad.leftStick.position.x;
+        left_stick_y = hinput.anyGamepad.leftStick.position.y;
 
         if(right_stick_x != 0 || right_stick_y != 0){ // Mouvement left stick
             chariot_siege.Rotate(0,  0,right_stick_x * camera_speed_rotation  * Time.deltaTime, Space.Self); // rotate right/left character.
@@ -84,7 +84,7 @@ public Transform chariot_siege;
         }
 
         // GERE LE FREINAGE DU VEHICULE
-        if (hinput.gamepad[0].leftTrigger.pressed){ //|| Input.GetKey(KeyCode.Joystick1Button5)){ // Frein
+        if (hinput.anyGamepad.leftTrigger.pressed){ //|| Input.GetKey(KeyCode.Joystick1Button5)){ // Frein
             valeur_frein -= Time.deltaTime/resistance_au_freinage;
             valeur_frein = valeur_frein < 0f ? 0f : valeur_frein;
         }else{
@@ -103,7 +103,7 @@ public Transform chariot_siege;
 
 
         // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
-        if (hinput.gamepad[0].rightTrigger.pressed && VapeurBar.instance.useVapeur(0.05f)){ // || Input.GetKey(KeyCode.Joystick1Button5)){ // Boost
+        if (hinput.anyGamepad.rightTrigger.pressed && VapeurBar.instance.useVapeur(0.05f)){ // || Input.GetKey(KeyCode.Joystick1Button5)){ // Boost
             if(valeur_vitesse_basique > 0){
                 valeur_boost = valeur_boost_max;
                 if(!particle_vapeur_back.isPlaying){
@@ -146,12 +146,12 @@ public Transform chariot_siege;
         SplineFollow.Speed = vitesse_actuelle;
 
 
-        if (hinput.gamepad[0].A.justPressed && VapeurBar.instance.useVapeur(10f)){// || Input.GetKey(KeyCode.Joystick1Button2)){ // Jump 
+        if (hinput.anyGamepad.A.justPressed && VapeurBar.instance.useVapeur(10f)){// || Input.GetKey(KeyCode.Joystick1Button2)){ // Jump 
             anim.Play("JumpChariot");
             particle_vapeur_under.Play();
         }
 
-        if (hinput.gamepad[0].B.justPressed){// || Input.GetKey(KeyCode.Joystick1Button2)){ // Jump 
+        if (hinput.anyGamepad.B.justPressed){// || Input.GetKey(KeyCode.Joystick1Button2)){ // Jump 
             attaque_chariot();
         }
     }
