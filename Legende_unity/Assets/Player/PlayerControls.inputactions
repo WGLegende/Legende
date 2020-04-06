@@ -76,6 +76,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "joycon",
+                    "type": "Button",
+                    "id": "07a1a447-f6e0-4171-b782-bf03e875bb5a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -175,6 +183,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "buttonRT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c7188ea0-f221-469e-b0d8-87f7cb11c498",
+                    "path": "<HID::Nintendo Wireless Gamepad>/rx",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "joycon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

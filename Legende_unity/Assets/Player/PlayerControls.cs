@@ -89,6 +89,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""joycon"",
+                    ""type"": ""Button"",
+                    ""id"": ""07a1a447-f6e0-4171-b782-bf03e875bb5a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -190,6 +198,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""buttonRT"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7188ea0-f221-469e-b0d8-87f7cb11c498"",
+                    ""path"": ""<HID::Nintendo Wireless Gamepad>/rx"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""joycon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -207,6 +226,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_ButtonY = m_Gameplay.FindAction("ButtonY", throwIfNotFound: true);
         m_Gameplay_ButtonStart = m_Gameplay.FindAction("ButtonStart", throwIfNotFound: true);
         m_Gameplay_buttonRT = m_Gameplay.FindAction("buttonRT", throwIfNotFound: true);
+        m_Gameplay_joycon = m_Gameplay.FindAction("joycon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -265,6 +285,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_ButtonY;
     private readonly InputAction m_Gameplay_ButtonStart;
     private readonly InputAction m_Gameplay_buttonRT;
+    private readonly InputAction m_Gameplay_joycon;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -278,6 +299,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @ButtonY => m_Wrapper.m_Gameplay_ButtonY;
         public InputAction @ButtonStart => m_Wrapper.m_Gameplay_ButtonStart;
         public InputAction @buttonRT => m_Wrapper.m_Gameplay_buttonRT;
+        public InputAction @joycon => m_Wrapper.m_Gameplay_joycon;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -314,6 +336,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @buttonRT.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonRT;
                 @buttonRT.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonRT;
                 @buttonRT.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonRT;
+                @joycon.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJoycon;
+                @joycon.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJoycon;
+                @joycon.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJoycon;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -345,6 +370,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @buttonRT.started += instance.OnButtonRT;
                 @buttonRT.performed += instance.OnButtonRT;
                 @buttonRT.canceled += instance.OnButtonRT;
+                @joycon.started += instance.OnJoycon;
+                @joycon.performed += instance.OnJoycon;
+                @joycon.canceled += instance.OnJoycon;
             }
         }
     }
@@ -360,5 +388,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnButtonY(InputAction.CallbackContext context);
         void OnButtonStart(InputAction.CallbackContext context);
         void OnButtonRT(InputAction.CallbackContext context);
+        void OnJoycon(InputAction.CallbackContext context);
     }
 }
