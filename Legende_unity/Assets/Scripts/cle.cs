@@ -19,8 +19,8 @@ public class cle : MonoBehaviour
 
         Destroy(gameObject);
         Inventaire.cleTrouve += 1; // var cleTrouve dans le script Inventaire
-        Varinventaire.compteurCle(); // Affichage UI
-        Varinventaire.afficheInfoText(type);          
+        Inventaire.instance.compteurCle(); // Affichage UI
+        Inventaire.instance.afficheInfoText(type);          
     }
 
     

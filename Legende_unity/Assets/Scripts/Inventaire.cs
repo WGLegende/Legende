@@ -7,14 +7,15 @@ public class Inventaire : MonoBehaviour
 {
     public static int cleTrouve;
     public static string InfoText;
+    public static Inventaire instance;
+
 
     void Start()
     {
-      cleTrouve = 0;
-      InfoText = "";
+        instance = this;
+        cleTrouve = 0;
+        InfoText = "";
     }
-
-    
 
     public void compteurCle(){
 

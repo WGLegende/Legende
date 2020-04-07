@@ -43,6 +43,7 @@ public class bullet : MonoBehaviour
             Destroy(particuleEffect,2); // et la particule 2s apres
 
          }else{
+
            Destroy(gameObject,duree_de_vie);
         }
         
