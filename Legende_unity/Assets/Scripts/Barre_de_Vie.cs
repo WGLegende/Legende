@@ -23,11 +23,11 @@ public class Barre_de_Vie : MonoBehaviour
 
 	void Update () {  // POUR TEST
 
-        if (Input.GetKey(KeyCode.Space)){ 
+        if (Input.GetKeyDown(KeyCode.Space)){ 
            PvPlayer(1);
         }
 
-        if (Input.GetKey(KeyCode.K)){
+        if (Input.GetKeyDown(KeyCode.K)){
            PvPlayer(-1);
         }   
     }
