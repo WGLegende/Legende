@@ -21,7 +21,7 @@ public class Barre_de_Vie : MonoBehaviour
     }
 
 
-	void Update () {
+	void Update () {  // POUR TEST
 
         if (Input.GetKey(KeyCode.Space)){ 
            PvPlayer(1);

@@ -1,23 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour
 {
-   PlayerControls controls;
-    Animator anim;
+    PlayerControls controls;
+    Animation anim;
     bool area;
-    bool toggle;
-    public GameObject Objet_A_Actionner;
-    public string VarAnimator ="";
-
-
+    bool isPositionUp;
+  
     void Start(){
 
-        anim =  Objet_A_Actionner.GetComponent<Animator>(); 
         area = false;
-        toggle = false;
-      
+        isPositionUp = true;
+        anim = GetComponent<Animation>();
     } 
        
 
@@ -41,18 +38,16 @@ public class ActionButton : MonoBehaviour
     void OnTriggerEnter(){
 
         area = true;  
-        GameObject.Find("TextButtonB").GetComponent<UnityEngine.UI.Text>().text = "Activer"; // maj du text
+        GameObject.Find("TextButtonB").GetComponent<Text>().text = "Activer"; // maj du text
         GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",true);
         PlayerGamePad.canAttack = false;
-       
-
     }
     
     void OnTriggerExit(){
 
        area = false;
        GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",false);
-       GameObject.Find("TextButtonB").GetComponent<UnityEngine.UI.Text>().text = "Attaquer"; // maj du text
+       GameObject.Find("TextButtonB").GetComponent<Text>().text = "Attaquer"; // maj du text
        PlayerGamePad.canAttack = true;
 
     }
@@ -62,9 +57,20 @@ public class ActionButton : MonoBehaviour
     void Action(){ // function appelee par le bouton
        
         if (area){  // uniquement si on est devant le levier
-            toggle =!toggle; 
-            anim.SetBool(VarAnimator, toggle);
+           if (isPositionUp){
+            anim.Play("elevatorDown");
+           }else{
+                anim.Play("elevatorUp");
+           }
             GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",false);
         }
+    }
+
+    void elevatorPositionDown(){ // on appelle la fonction en fin d'amim
+        isPositionUp = false;   
+    }
+
+    void elevatorPositionUp(){
+        isPositionUp = true;  
     }
 }

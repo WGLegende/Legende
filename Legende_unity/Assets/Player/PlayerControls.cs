@@ -89,14 +89,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""joycon"",
-                    ""type"": ""Button"",
-                    ""id"": ""07a1a447-f6e0-4171-b782-bf03e875bb5a"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -104,6 +96,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""5cab7af2-b410-4836-85d4-7ad50f0c0659"",
                     ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19966479-34d6-45c4-951d-a8a78614181a"",
+                    ""path"": ""<HID::Nintendo Wireless Gamepad>/hat"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -135,8 +138,30 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""dbb8d643-981e-4cbf-84d5-9add16dcc836"",
+                    ""path"": ""<HID::Nintendo Wireless Gamepad>/button3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9420aaca-e3c6-4b6a-9dea-2a304b774534"",
                     ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0c28b59-5a8d-40b0-8fe0-6ff2b7f88440"",
+                    ""path"": ""<HID::Nintendo Wireless Gamepad>/button2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -157,8 +182,30 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d3d5ee84-32d2-4e18-b1ff-bf594cd011a1"",
+                    ""path"": ""<HID::Nintendo Wireless Gamepad>/button5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""buttonLT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7d6e5de1-44bd-4be4-a6b9-848c9b50a258"",
                     ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonA"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6edc1b8-5f56-4b3c-b3c1-b47b21f5be60"",
+                    ""path"": ""<Joystick>/trigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -179,8 +226,30 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1ad07dfc-cd38-4628-8f4c-af4daa0e36ba"",
+                    ""path"": ""<HID::Nintendo Wireless Gamepad>/button4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""67cc59d9-c363-4a72-abd0-d2af782549f7"",
                     ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d15bfba6-8804-4787-bcc2-c4e8ea836877"",
+                    ""path"": ""<HID::Nintendo Wireless Gamepad>/button9"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -201,12 +270,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c7188ea0-f221-469e-b0d8-87f7cb11c498"",
-                    ""path"": ""<HID::Nintendo Wireless Gamepad>/rx"",
+                    ""id"": ""3bb393af-f097-4601-8d5d-8c1b74f90139"",
+                    ""path"": ""<HID::Nintendo Wireless Gamepad>/button6"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""joycon"",
+                    ""action"": ""buttonRT"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -226,7 +295,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Gameplay_ButtonY = m_Gameplay.FindAction("ButtonY", throwIfNotFound: true);
         m_Gameplay_ButtonStart = m_Gameplay.FindAction("ButtonStart", throwIfNotFound: true);
         m_Gameplay_buttonRT = m_Gameplay.FindAction("buttonRT", throwIfNotFound: true);
-        m_Gameplay_joycon = m_Gameplay.FindAction("joycon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -285,7 +353,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_ButtonY;
     private readonly InputAction m_Gameplay_ButtonStart;
     private readonly InputAction m_Gameplay_buttonRT;
-    private readonly InputAction m_Gameplay_joycon;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -299,7 +366,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @ButtonY => m_Wrapper.m_Gameplay_ButtonY;
         public InputAction @ButtonStart => m_Wrapper.m_Gameplay_ButtonStart;
         public InputAction @buttonRT => m_Wrapper.m_Gameplay_buttonRT;
-        public InputAction @joycon => m_Wrapper.m_Gameplay_joycon;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -336,9 +402,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @buttonRT.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonRT;
                 @buttonRT.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonRT;
                 @buttonRT.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnButtonRT;
-                @joycon.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJoycon;
-                @joycon.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJoycon;
-                @joycon.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJoycon;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -370,9 +433,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @buttonRT.started += instance.OnButtonRT;
                 @buttonRT.performed += instance.OnButtonRT;
                 @buttonRT.canceled += instance.OnButtonRT;
-                @joycon.started += instance.OnJoycon;
-                @joycon.performed += instance.OnJoycon;
-                @joycon.canceled += instance.OnJoycon;
             }
         }
     }
@@ -388,6 +448,5 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnButtonY(InputAction.CallbackContext context);
         void OnButtonStart(InputAction.CallbackContext context);
         void OnButtonRT(InputAction.CallbackContext context);
-        void OnJoycon(InputAction.CallbackContext context);
     }
 }
