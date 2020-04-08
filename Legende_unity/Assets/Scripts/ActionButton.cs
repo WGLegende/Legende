@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour
 {
+    public static ActionButton instance;
     PlayerControls controls;
     Animation anim;
     bool area;
@@ -12,6 +13,7 @@ public class ActionButton : MonoBehaviour
   
     void Start(){
 
+        instance = this;
         area = false;
         isPositionUp = true;
         anim = GetComponent<Animation>();
@@ -20,18 +22,18 @@ public class ActionButton : MonoBehaviour
 
    void Awake(){
 
-        controls = new PlayerControls();
-        controls.Gameplay.ButtonB.started += ctx => Action();
+      //  controls = new PlayerControls();
+       // controls.Gameplay.ButtonB.started += ctx => Action();
     }
 
  void OnEnable(){
 
-        controls.Gameplay.Enable();
+       // controls.Gameplay.Enable();
     }
 
      void OnDisable(){
 
-        controls.Gameplay.Disable();
+      //  controls.Gameplay.Disable();
     }
 
 
@@ -54,15 +56,11 @@ public class ActionButton : MonoBehaviour
 
 
 
-    void Action(){ // function appelee par le bouton
+    public void Action(){ // function appelee par le bouton
        
         if (area){  // uniquement si on est devant le levier
-           if (isPositionUp){
-            anim.Play("elevatorDown");
-           }else{
-                anim.Play("elevatorUp");
-           }
             GameObject.Find("ButtonActionText").GetComponent<Animator>().SetBool("actionTextPlayer",false);
+            isPositionUp = isPositionUp ?  anim.Play("elevatorDown") : anim.Play("elevatorUp");
         }
     }
 

@@ -45,9 +45,7 @@ public class PlayerGamePad : MonoBehaviour
         cameraIsBehind = true;
         characterController = GetComponent<CharacterController>();
         player_gravity/=10f;
-        jumpForce/=10f;
-
-        
+        jumpForce/=10f;   
     }
 
     void Awake(){
@@ -174,6 +172,11 @@ public class PlayerGamePad : MonoBehaviour
 
 
     void OnTriggerEnter(Collider collider){
+
+        if(collider.tag == "Ascenseur"){
+
+            ActionButton.instance.Action();
+        }
      //   Debug.Log("enter : " + collider.gameObject.name);
         // if(collider.gameObject.layer == 10){ 
         //     Debug.Log("ENTER");
