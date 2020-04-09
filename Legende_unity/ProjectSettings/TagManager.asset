@@ -6,9 +6,6 @@ TagManager:
   tags:
   - Rails
   - TurnoutRails
-  - CollisionRails
-  - Cible_chariot
-  - Ascenseur
   layers:
   - Default
   - TransparentFX
@@ -20,8 +17,8 @@ TagManager:
   - 
   - RailGuide
   - TrainWheels
-  - SOL
-  - Action
+  - 
+  - 
   - 
   - 
   - 
