@@ -646,9 +646,9 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   cloudProjectId: 43a66740-df45-4f06-8e07-4f53da77f633
   framebufferDepthMemorylessMode: 0
-  projectName: 
+  projectName: legende_des_terres_entravees
   organizationId: charlyraclett
   cloudEnabled: 0
-  enableNativePlatformBackendsForNewInputSystem: 0
+  enableNativePlatformBackendsForNewInputSystem: 1
   disableOldInputManagerSupport: 0
   legacyClampBlendShapeWeights: 1
