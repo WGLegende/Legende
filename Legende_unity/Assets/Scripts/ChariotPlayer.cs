@@ -101,7 +101,7 @@ public class ChariotPlayer : MonoBehaviour
         }
 
         // Gestion de la vitesse basique avec le joystick
-        if (left_stick_y > 0){ //|| Input.GetKey(KeyCode.Joystick1Button1)){ // Avance
+        if (left_stick_y > 0 || Input.GetKey(KeyCode.S)){ //|| Input.GetKey(KeyCode.Joystick1Button1)){ // Avance
             valeur_vitesse_basique = valeur_vitesse_basique_max;
         }else if (left_stick_y < 0){ // || Input.GetKey(KeyCode.Joystick1Button0)){ // Recul
             valeur_vitesse_basique = -valeur_vitesse_basique_max;
@@ -196,7 +196,8 @@ public class ChariotPlayer : MonoBehaviour
         //             if (Input.GetKey(i))
         //             Debug.Log(i);
         //     }     
-    }
+    
+    } 
 
    
     IEnumerator refreshSpeedUI(){
