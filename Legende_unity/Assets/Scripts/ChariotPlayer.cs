@@ -196,7 +196,8 @@ public class ChariotPlayer : MonoBehaviour
         //             if (Input.GetKey(i))
         //             Debug.Log(i);
         //     }     
-    }
+    
+    } 
 
    
     IEnumerator refreshSpeedUI(){
