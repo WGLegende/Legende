@@ -5,42 +5,37 @@ using UnityEngine.UI;
 
 public class EnterChariot : MonoBehaviour
 
-
 {
-    ChariotPlayer ScriptChariotPlayer ;
-    public GameObject MainPlayer;
-    public GameObject PlayerInChariot;
-    public GameObject UIChariot;
-    public GameObject Chariot_Bonbonne;
+  public GameObject CircuitRails;
+  GameObject MainPlayer;
+  GameObject Chariot;
+  
+  void Start(){
+ 
+    MainPlayer = GameObject.Find("Player");
+    Chariot = CircuitRails.transform.GetChild(0).gameObject;
+    
+  }
 
+  void OnTriggerEnter(Collider collider){
 
-    void Start(){
-
-       ScriptChariotPlayer = GameObject.Find("player_chariot").GetComponent<ChariotPlayer>();
-
+       Debug.Log("enterName : " + collider.gameObject.name); 
+    
+    if(collider.gameObject.name =="Player"){
+                     
+      MainPlayer.SetActive(false); 
+      Chariot.SetActive(true);        
     }
 
-    void OnTriggerEnter(Collider other){
-
-        if(other.gameObject.name =="Player"){
-              
-            if(ScriptChariotPlayer.equipement_Bouteille == true){
-                MainPlayer.SetActive(false);
-                PlayerInChariot.SetActive(true);
-                UIChariot.SetActive(true);
-                Chariot_Bonbonne.SetActive(true);
-                GameObject.Find("player_chariot").GetComponent<ChariotPlayer>().enabled = true; // On active le script du player Chariot
-            
-             }else{
-             
-                Inventaire.instance.afficheInfoText("Il vous faut une Bouteille avec de la Vapeur");
-            }
-        }
-
+    if(collider.gameObject.name =="player_chariot"){
+                     
+      MainPlayer.SetActive(true); 
+      Chariot.SetActive(false);        
     }
 
 
+  }
 
-   
+
 
 }
