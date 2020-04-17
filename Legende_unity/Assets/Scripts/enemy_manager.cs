@@ -42,8 +42,9 @@ public class enemy_manager : MonoBehaviour
         }
    
         if (mesEnemyList != null){
-
+  print("list");
             foreach (GameObject CloneEnemy in mesEnemyList){
+              
 
                 NavMeshAgent agent = CloneEnemy.GetComponent<NavMeshAgent>();
                 Transform agentPosition =  CloneEnemy.GetComponent<Transform>();
@@ -64,10 +65,10 @@ public class enemy_manager : MonoBehaviour
                     agent.SetDestination(Enemy_Container.position);
                     directionToBase = true;
                 }
-                  if (distancePlayer <= 3){ 
+                  if (distancePlayer <= 3 && directionToBase){ 
                         directionToBase = false;  
                     }
-
+                
                 if(distanceOrigin <= agent.stoppingDistance){ 
                     modeSentinelle = true;
                     directionToBase = false;
