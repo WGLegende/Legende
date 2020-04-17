@@ -43,7 +43,7 @@ public class enemy_manager : MonoBehaviour
                 float distancePlayer = Vector3.Distance(Player.transform.position,agentPosition.transform.position);
                 float distanceOrigin = Vector3.Distance(Enemy_Container.transform.position,agentPosition.transform.position);
                
-                if (distancePlayer <= 20f){
+                if (distancePlayer <= 20 && distanceOrigin <= 20){
                     agent.SetDestination(Player.position);
 
                     if (distancePlayer <= agent.stoppingDistance){
@@ -64,6 +64,8 @@ public class enemy_manager : MonoBehaviour
     void CreateEnemy(){
         
         CloneEnemy = Instantiate(Enemy,Enemy_Container.position, Enemy_Container.rotation);
+        // int max = (Random.Range(20,100)/10)*10;
+        // enemy.instance.EnemyCharacteristic(max);
         NavMeshAgent agent = CloneEnemy.GetComponent<NavMeshAgent>();
         agent.speed = Random.Range(3f, 6f);
         mesEnemyList.Add(CloneEnemy); 
