@@ -20,7 +20,6 @@ public class Barre_de_Vie : MonoBehaviour
     
     }
 
-
 	void Update () {  // POUR TEST
 
         if (Input.GetKeyDown(KeyCode.Space)){ 

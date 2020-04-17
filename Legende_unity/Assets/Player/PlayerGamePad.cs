@@ -55,7 +55,7 @@ public class PlayerGamePad : MonoBehaviour
 
         controls.Gameplay.ButtonX.started += ctx => Jump();
 
-        controls.Gameplay.ButtonB.started += ctx => ButtonB();
+       // controls.Gameplay.ButtonB.started += ctx => ButtonB();
 
         controls.Gameplay.Move.performed += ctx => movePlayer = ctx.ReadValue<Vector2>();
         controls.Gameplay.Move.canceled += ctx => movePlayer = Vector2.zero;
@@ -172,11 +172,8 @@ public class PlayerGamePad : MonoBehaviour
 
 
     void OnTriggerEnter(Collider collider){
+  
 
-        if(collider.tag == "Ascenseur"){
-
-            ActionButton.instance.Action();
-        }
      //   Debug.Log("enter : " + collider.gameObject.name);
         // if(collider.gameObject.layer == 10){ 
         //     Debug.Log("ENTER");
@@ -194,6 +191,8 @@ public class PlayerGamePad : MonoBehaviour
     }
     
     void OnTriggerExit(Collider collider){
+
+       
       //  Debug.Log("exit : " + collider.gameObject.name);
         // if(collider.gameObject.layer == 10){
         //     Debug.Log("EXIT");

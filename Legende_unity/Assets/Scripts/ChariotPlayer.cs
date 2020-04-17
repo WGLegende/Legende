@@ -158,28 +158,20 @@ public class ChariotPlayer : MonoBehaviour
           
 
         // Gestion des etincelles
-        if(SplineFollow.Speed >= 20){
+        // if(SplineFollow.Speed >= 20){
 
-        
+        //     particle_etincelle_left_back.Play();
+        //     particle_etincelle_right_back.Play();
+        //     particle_etincelle_left_front.Stop();
+        //     particle_etincelle_right_front.Stop();
 
-            particle_etincelle_left_back.Play();
-            particle_etincelle_right_back.Play();
-            particle_etincelle_left_front.Stop();
-            particle_etincelle_right_front.Stop();
-
-         }else if (SplineFollow.Speed < -20){
-
-            particle_etincelle_left_back.Stop();
-            particle_etincelle_right_back.Stop();
-            particle_etincelle_left_front.Play();
-            particle_etincelle_right_front.Play();
-
-          }//else{
+        //  }else if (SplineFollow.Speed < -20){
 
         //     particle_etincelle_left_back.Stop();
         //     particle_etincelle_right_back.Stop();
-        //     particle_etincelle_left_front.Stop();
-        //     particle_etincelle_right_front.Stop();
+        //     particle_etincelle_left_front.Play();
+        //     particle_etincelle_right_front.Play();
+
         // }
                
 
@@ -243,7 +235,7 @@ public class ChariotPlayer : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider collider){
-        Debug.Log("enterName : " + collider.gameObject.name); 
+//        Debug.Log("enterName : " + collider.gameObject.name); 
 
         if(collider.gameObject.tag == "CollisionRails"){ 
             collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
@@ -257,7 +249,7 @@ public class ChariotPlayer : MonoBehaviour
 
          //  Debug.Log("exit : " + collider.gameObject.name);
         if(collider.gameObject.layer == 10){
-            Debug.Log("TOUCHE!!!");
+         //   Debug.Log("TOUCHE!!!");
         //     Player_Animator.SetBool("Grounded", false);
         //     Player_Animator.SetBool("initiate_jump", true); 
         }

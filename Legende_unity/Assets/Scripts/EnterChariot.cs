@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class EnterChariot : MonoBehaviour
 
+
+
 {
   public GameObject CircuitRails;
   GameObject MainPlayer;
   GameObject Chariot;
+  bool inFoot = true;
   
   void Start(){
  
@@ -17,24 +20,34 @@ public class EnterChariot : MonoBehaviour
     
   }
 
+
+
   void OnTriggerEnter(Collider collider){
 
-       Debug.Log("enterName : " + collider.gameObject.name); 
-    
-    if(collider.gameObject.name =="Player"){
-                     
+    if(collider.gameObject.name =="Player" && inFoot){           
       MainPlayer.SetActive(false); 
-      Chariot.SetActive(true);        
+      Chariot.SetActive(true);      
     }
-
-    if(collider.gameObject.name =="player_chariot"){
-                     
+    if(collider.gameObject.name =="player_chariot" && !inFoot){                 
       MainPlayer.SetActive(true); 
       Chariot.SetActive(false);        
     }
 
-
   }
+
+
+  void OnTriggerExit(Collider collider) {
+        
+    if(collider.gameObject.name =="player_chariot"){              
+      inFoot = false; 
+    }
+     if(collider.gameObject.name =="Player"){              
+      inFoot = true; 
+    }
+
+  } 
+
+
 
 
 

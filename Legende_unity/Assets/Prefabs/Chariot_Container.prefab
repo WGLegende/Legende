@@ -82495,7 +82495,6 @@ MonoBehaviour:
   camera_speed_rotation: 70
   camera_container: {fileID: 2705564246607394178}
   chariot_siege: {fileID: 8026859180223125936}
-  SpeedUI: {fileID: 0}
   myBullet: {fileID: 2393223426856828844, guid: a7852d0bf6168684ba9c733afd4dc50d,
     type: 3}
   CanonContainer: {fileID: 2220236886150013084}
@@ -82512,10 +82511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8783cc09577d31b4cb95908f67c5eb69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainPlayer: {fileID: 0}
-  PlayerInChariot: {fileID: 7606480841494483989}
-  UIChariot: {fileID: 0}
-  Chariot_Bonbonne: {fileID: 3152494728220502094}
+  CircuitRails: {fileID: 0}
 --- !u!111 &7921322367636433222
 Animation:
   m_ObjectHideFlags: 0
