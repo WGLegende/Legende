@@ -609,7 +609,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SPACE TO CREATE ENEMY
+  m_Text: '''E'' TO CREATE ENEMY'
 --- !u!222 &986361836
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1808,6 +1808,9 @@ MonoBehaviour:
   Player: {fileID: 800187603}
   Enemy: {fileID: 3475219800205501402, guid: fcb68a2b322be6b4b84790caf91a7ad0, type: 3}
   Enemy_Container: {fileID: 1841558736}
+  Target: {x: 0, y: 0, z: 0}
+  timer: 0
+  newTarget: 3
   mesEnemyList: []
 --- !u!4 &1953135919
 Transform:

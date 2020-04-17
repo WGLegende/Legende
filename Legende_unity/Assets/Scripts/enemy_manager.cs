@@ -15,7 +15,15 @@ public class enemy_manager : MonoBehaviour
     public Transform Enemy_Container;
     
     GameObject CloneEnemy;
-    bool follow;
+  
+    public Vector3 Target;
+    public float timer;
+    public int newTarget;
+
+    bool modeSentinelle;
+    bool directionToBase;
+
+
     public List<GameObject> mesEnemyList = new List<GameObject>();
 
 
@@ -29,7 +37,7 @@ public class enemy_manager : MonoBehaviour
     void Update(){
 
 
-        if (Input.GetKeyDown("space")){
+        if (Input.GetKeyDown("e")){
             CreateEnemy();
         }
    
@@ -43,17 +51,44 @@ public class enemy_manager : MonoBehaviour
                 float distancePlayer = Vector3.Distance(Player.transform.position,agentPosition.transform.position);
                 float distanceOrigin = Vector3.Distance(Enemy_Container.transform.position,agentPosition.transform.position);
                
-                if (distancePlayer <= 20 && distanceOrigin <= 20){
+                if (distancePlayer <= 20 && distanceOrigin <= 25 && !directionToBase){
                     agent.SetDestination(Player.position);
-
+                    print("en chasse!");
                     if (distancePlayer <= agent.stoppingDistance){
                         print("Fight !");
                     }
+                    modeSentinelle = false;
                 }
 
-                if (distanceOrigin >= 20 && distancePlayer > 20f){
+                if ((distanceOrigin > 25 && distancePlayer <= 20) || distanceOrigin > 25){
                     agent.SetDestination(Enemy_Container.position);
+                    directionToBase = true;
+                    modeSentinelle = false;
                 }
+
+                if(distanceOrigin <= agent.stoppingDistance){ 
+                    modeSentinelle = true;
+                    directionToBase = false;
+                }
+                   
+                if (modeSentinelle){
+
+                    timer += Time.deltaTime;
+
+                    if (timer >= newTarget){
+
+                        float x = agentPosition.transform.position.x;
+                        float y = agentPosition.transform.position.y;
+                        float xPos = Random.Range(x - 20,x +10);
+                        float yPos = Random.Range(y - 20,y +10);
+
+                        Target = new Vector3(xPos,agentPosition.transform.position.y,yPos);
+                        agent.SetDestination(Target);
+                        timer = 0;
+                    }
+                }
+
+               
 
              
             }
@@ -70,6 +105,8 @@ public class enemy_manager : MonoBehaviour
         agent.speed = Random.Range(3f, 6f);
         mesEnemyList.Add(CloneEnemy); 
     }
+
+   
 
 
 }
