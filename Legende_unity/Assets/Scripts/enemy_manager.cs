@@ -51,20 +51,22 @@ public class enemy_manager : MonoBehaviour
                 float distancePlayer = Vector3.Distance(Player.transform.position,agentPosition.transform.position);
                 float distanceOrigin = Vector3.Distance(Enemy_Container.transform.position,agentPosition.transform.position);
                
-                if (distancePlayer <= 20 && distanceOrigin <= 25 && !directionToBase){
+                if (distancePlayer <= 20 && distanceOrigin < 40 && !directionToBase){
                     agent.SetDestination(Player.position);
-                    print("en chasse!");
+                
                     if (distancePlayer <= agent.stoppingDistance){
                         print("Fight !");
                     }
                     modeSentinelle = false;
                 }
 
-                if ((distanceOrigin > 25 && distancePlayer <= 20) || distanceOrigin > 25){
+                if (distanceOrigin > 40){
                     agent.SetDestination(Enemy_Container.position);
                     directionToBase = true;
-                    modeSentinelle = false;
                 }
+                  if (distancePlayer <= 3){ 
+                        directionToBase = false;  
+                    }
 
                 if(distanceOrigin <= agent.stoppingDistance){ 
                     modeSentinelle = true;
