@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Barre_de_Vie : MonoBehaviour
 {
-
+ public static Barre_de_Vie instance;
  public Slider slider;
  public int player_currentPv;
  public int player_maxPv = 100;
@@ -15,6 +15,7 @@ public class Barre_de_Vie : MonoBehaviour
 
 	void Start() { 
 
+        instance = this;
         player_currentPv  = player_maxPv;
         slider.value = player_currentPv;
     
@@ -41,8 +42,11 @@ public class Barre_de_Vie : MonoBehaviour
         TX_PvText.color = player_currentPv < 20 ? TX_PvText.color = Color.red : TX_PvText.color = Color.black;
 
         if (player_currentPv == 0){
+            
             GameObject.Find ("TextInfo").GetComponent<Text>().text = "Vous etes une quiche";
             GameObject.Find ("PanelInfo").GetComponent<Animator>().SetTrigger("panelInfo");
+            CheckPoint.instance.MonCheckPoint();
+
         }
 
     }

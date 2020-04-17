@@ -42,7 +42,7 @@ public class enemy_manager : MonoBehaviour
         }
    
         if (mesEnemyList != null){
-  print("list");
+ 
             foreach (GameObject CloneEnemy in mesEnemyList){
               
 
