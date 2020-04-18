@@ -43,9 +43,9 @@ public class Barre_de_Vie : MonoBehaviour
 
         if (player_currentPv == 0){
             
-            GameObject.Find ("TextInfo").GetComponent<Text>().text = "Vous etes une quiche";
+            GameObject.Find ("TextInfo").GetComponent<Text>().text = "Vous etes une Quiche";
             GameObject.Find ("PanelInfo").GetComponent<Animator>().SetTrigger("panelInfo");
-            CheckPoint.instance.MonCheckPoint();
+            Obstacle_Manager.instance.GoCheckPointMananger();
 
         }
 

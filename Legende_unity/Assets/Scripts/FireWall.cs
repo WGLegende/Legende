@@ -7,8 +7,8 @@ public class FireWall : MonoBehaviour
     FireWall instance ;
     ParticleSystem fireGround;
   
-    public int Force;
-    public float DureeCycle;
+    public int degat;
+    public float dureeCycle;
     public bool isActive;
 
     float timer;
@@ -25,7 +25,7 @@ public class FireWall : MonoBehaviour
 
         if (isActive){
             timer += Time.deltaTime;
-                if (timer >= DureeCycle){
+                if (timer >= dureeCycle){
                     timer = 0;
                     toggle = !toggle;
                     if (toggle){
@@ -52,7 +52,7 @@ public class FireWall : MonoBehaviour
     void OnParticleCollision(GameObject other){
 
         if (other.name == "Player"){
-            Obstacle_Manager.instance.DegatPlayer(-Force);
+            Obstacle_Manager.instance.DegatPlayer(-degat);
         }
     }
     
