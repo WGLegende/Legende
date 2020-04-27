@@ -6,41 +6,49 @@ using UnityEngine.UI;
 public class EnterChariot : MonoBehaviour
 
 
+
 {
-    ChariotPlayer ScriptChariotPlayer ;
-    public GameObject MainPlayer;
-    public GameObject PlayerInChariot;
-    public GameObject UIChariot;
-    public GameObject Chariot_Bonbonne;
+  public GameObject CircuitRails;
+  GameObject MainPlayer;
+  GameObject Chariot;
+  bool inFoot = true;
+  
+  void Start(){
+ 
+    MainPlayer = GameObject.Find("Player");
+    Chariot = CircuitRails.transform.GetChild(0).gameObject;
+    
+  }
 
 
-    void Start(){
 
-       ScriptChariotPlayer = GameObject.Find("player_chariot").GetComponent<ChariotPlayer>();
+  void OnTriggerEnter(Collider collider){
 
+    if(collider.gameObject.name =="Player" && inFoot){           
+      MainPlayer.SetActive(false); 
+      Chariot.SetActive(true);      
+    }
+    if(collider.gameObject.name =="player_chariot" && !inFoot){                 
+      MainPlayer.SetActive(true); 
+      Chariot.SetActive(false);        
     }
 
-    void OnTriggerEnter(Collider other){
+  }
 
-        if(other.gameObject.name =="Player"){
-              
-            if(ScriptChariotPlayer.equipement_Bouteille == true){
-                MainPlayer.SetActive(false);
-                PlayerInChariot.SetActive(true);
-                UIChariot.SetActive(true);
-                Chariot_Bonbonne.SetActive(true);
-                GameObject.Find("player_chariot").GetComponent<ChariotPlayer>().enabled = true; // On active le script du player Chariot
-            
-             }else{
-             
-                Inventaire.instance.afficheInfoText("Il vous faut une Bouteille avec de la Vapeur");
-            }
-        }
 
+  void OnTriggerExit(Collider collider) {
+        
+    if(collider.gameObject.name =="player_chariot"){              
+      inFoot = false; 
+    }
+     if(collider.gameObject.name =="Player"){              
+      inFoot = true; 
     }
 
+  } 
 
 
-   
+
+
 
 }

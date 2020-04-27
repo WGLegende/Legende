@@ -18,7 +18,7 @@ public class ChariotPlayer : MonoBehaviour
     public float vitesse_maximum;
   
     public Battlehub.MeshDeformer2.SplineFollow SplineFollow;
-
+   
     Transform Chariot_ContainerRotation;
     float angleChariot;
 
@@ -53,7 +53,7 @@ public class ChariotPlayer : MonoBehaviour
     public Transform camera_container;
     public Transform chariot_siege;
 
-    public Text SpeedUI;
+    Text SpeedUI;
 
     public GameObject myBullet;
     public Transform CanonContainer;
@@ -64,7 +64,10 @@ public class ChariotPlayer : MonoBehaviour
         anim = gameObject.GetComponent<Animation>(); // Pour le Saut
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
+        SpeedUI = GameObject.Find("speedValue").GetComponent<Text>(); 
         StartCoroutine(refreshSpeedUI());
+      
+         
     }
 
 
@@ -73,7 +76,7 @@ public class ChariotPlayer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur
             VapeurBar.instance.fill_vapeur_stock();
         }
-
+        
         right_stick_x = hinput.anyGamepad.rightStick.position.x;
         right_stick_y = hinput.anyGamepad.rightStick.position.y;
 
@@ -111,7 +114,7 @@ public class ChariotPlayer : MonoBehaviour
 
 
         // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
-        if (hinput.anyGamepad.rightTrigger.pressed  && VapeurBar.instance.useVapeur(0.05f) ){ // Boost
+        if ((hinput.anyGamepad.rightTrigger.pressed || Input.GetKey(KeyCode.A)) && VapeurBar.instance.useVapeur(0.05f) ){ // Boost
             if(valeur_vitesse_basique > 0){
                 valeur_boost = valeur_boost_max;
                 if(!particle_vapeur_back.isPlaying){
@@ -151,30 +154,25 @@ public class ChariotPlayer : MonoBehaviour
                            vitesse_actuelle < -vitesse_maximum ? -vitesse_maximum : 
                            vitesse_actuelle;
 
-        SplineFollow.Speed = vitesse_actuelle;
+        SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
+          
 
         // Gestion des etincelles
-        if(SplineFollow.Speed > 20){
+        // if(SplineFollow.Speed >= 20){
 
-            particle_etincelle_left_back.Play();
-            particle_etincelle_right_back.Play();
-            particle_etincelle_left_front.Stop();
-            particle_etincelle_right_front.Stop();
+        //     particle_etincelle_left_back.Play();
+        //     particle_etincelle_right_back.Play();
+        //     particle_etincelle_left_front.Stop();
+        //     particle_etincelle_right_front.Stop();
 
-         }else if (SplineFollow.Speed < -20){
+        //  }else if (SplineFollow.Speed < -20){
 
-            particle_etincelle_left_back.Stop();
-            particle_etincelle_right_back.Stop();
-            particle_etincelle_left_front.Play();
-            particle_etincelle_right_front.Play();
+        //     particle_etincelle_left_back.Stop();
+        //     particle_etincelle_right_back.Stop();
+        //     particle_etincelle_left_front.Play();
+        //     particle_etincelle_right_front.Play();
 
-         }else{
-
-            particle_etincelle_left_back.Stop();
-            particle_etincelle_right_back.Stop();
-            particle_etincelle_left_front.Stop();
-            particle_etincelle_right_front.Stop();
-        }
+        // }
                
 
         if(hinput.anyGamepad.A.justPressed && VapeurBar.instance.useVapeur(10f)){ // Jump 
@@ -237,7 +235,7 @@ public class ChariotPlayer : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider collider){
-        Debug.Log("enterName : " + collider.gameObject.name); 
+//        Debug.Log("enterName : " + collider.gameObject.name); 
 
         if(collider.gameObject.tag == "CollisionRails"){ 
             collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
@@ -251,7 +249,7 @@ public class ChariotPlayer : MonoBehaviour
 
          //  Debug.Log("exit : " + collider.gameObject.name);
         if(collider.gameObject.layer == 10){
-            Debug.Log("TOUCHE!!!");
+         //   Debug.Log("TOUCHE!!!");
         //     Player_Animator.SetBool("Grounded", false);
         //     Player_Animator.SetBool("initiate_jump", true); 
         }

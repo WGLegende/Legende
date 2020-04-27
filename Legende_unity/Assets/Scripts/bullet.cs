@@ -24,18 +24,23 @@ public class bullet : MonoBehaviour
      
     }
 
+    public void shoot(Transform sourceShoot){
 
-    void OnTriggerEnter(Collider collider)
-    {
+        GetComponent<Rigidbody>().AddForce(sourceShoot.forward*force_canon, ForceMode.Impulse);            
+    }
+
+
+    void OnTriggerEnter(Collider collider){
+
         if (collider.gameObject.tag == "Cible_chariot"){
 
             GameObject particuleEffect = Instantiate(particule_fire,transform.position,transform.rotation); //creation de la particule
             Collider[] colliders = Physics.OverlapSphere(transform.position, rayon_explosion);
 
             foreach (Collider nearbyObject in colliders){
-               Rigidbody rb =  nearbyObject.GetComponent<Rigidbody>();
+                Rigidbody rb =  nearbyObject.GetComponent<Rigidbody>();
                 if (rb !=  null){
-                   rb.AddExplosionForce(force_explosion, transform.position, rayon_explosion);
+                    rb.AddExplosionForce(force_explosion, transform.position, rayon_explosion);
                 }
             }
 
@@ -43,15 +48,10 @@ public class bullet : MonoBehaviour
             Destroy(particuleEffect,2); // et la particule 2s apres
 
          }else{
-
-           Destroy(gameObject,duree_de_vie);
+            Destroy(gameObject,duree_de_vie);
         }
         
     }
 
-    public void shoot(Transform sourceShoot){
-
-        GetComponent<Rigidbody>().AddForce(sourceShoot.forward*force_canon, ForceMode.Impulse);
-             
-    }
+   
 }

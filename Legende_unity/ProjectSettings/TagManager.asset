@@ -6,6 +6,12 @@ TagManager:
   tags:
   - Rails
   - TurnoutRails
+  - Cible_chariot
+  - CollisionRails
+  - Interactable
+  - degatPlayer
+  - degatEnemy
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,9 +23,9 @@ TagManager:
   - 
   - RailGuide
   - TrainWheels
-  - 
-  - 
-  - 
+  - Ground
+  - Player
+  - degat
   - 
   - 
   - 

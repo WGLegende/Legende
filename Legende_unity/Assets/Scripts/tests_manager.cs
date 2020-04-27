@@ -8,19 +8,33 @@ public class tests_manager : MonoBehaviour
 {
  
  
-	void Start() {
+    void Start() {
 
+      string toto = "fludffe";
+
+      Debug.Log(superTest(toto));
+
+
+
+     
+
+    }
+
+
+    void Update () {
+
+        this.transform.Translate(Vector3.right * Time.deltaTime * 0.5f, Space.World);
     
-  }
+    }
 
+    public string superTest(string entree){
 
-	void Update () {
-
-    
-   
-  }
-
- 
+        if(entree == "fluffe"){
+            return "FLUFFALE";
+        }else{
+            return "TAPIR";
+        }
+    }
 
             
 }
