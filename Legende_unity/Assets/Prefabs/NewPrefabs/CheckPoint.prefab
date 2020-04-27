@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5041974308621794808}
   - component: {fileID: 5041974308621794809}
   - component: {fileID: 5041974308621794791}
-  - component: {fileID: 7819657579014775040}
+  - component: {fileID: 8573420649762644064}
   m_Layer: 0
   m_Name: Gate
   m_TagString: Untagged
@@ -4804,7 +4804,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7819657579014775040
+--- !u!114 &8573420649762644064
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

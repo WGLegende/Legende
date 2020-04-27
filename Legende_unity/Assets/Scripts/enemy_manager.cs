@@ -5,111 +5,141 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class enemy_manager : MonoBehaviour
-{
 
-    
+{
     public static enemy_manager instance;
 
-    public Transform Player;
-    public GameObject Enemy;
-    public Transform Enemy_Container;
-    
-    GameObject CloneEnemy;
-  
-    public Vector3 Target;
-    public float timer;
-    public int newTarget;
+    public enum comportement{
 
-    bool modeSentinelle;
-    bool directionToBase;
+        attente,
+        alerte,
+        cible_detectee,
+        attack, 
+        sentinel,
+        retour_base,
+        patrouille  
+    }
 
+    public float degatForPlayer;
+   
+    public List<enemy> mesEnemyList = new List<enemy>();
 
-    public List<GameObject> mesEnemyList = new List<GameObject>();
-
-
-
-    void Start(){
+    void Awake(){
 
         instance = this;
-       // InvokeRepeating("CreateEnemy", 0f, 5f);
     }
 
     void Update(){
+       
+        foreach (enemy enemy in mesEnemyList){
 
+            if(enemy.isAlive){
 
-        if (Input.GetKeyDown("e")){
-            CreateEnemy();
-        }
-   
-        if (mesEnemyList != null){
- 
-            foreach (GameObject CloneEnemy in mesEnemyList){
-              
-
-                NavMeshAgent agent = CloneEnemy.GetComponent<NavMeshAgent>();
-                Transform agentPosition =  CloneEnemy.GetComponent<Transform>();
-              
-                float distancePlayer = Vector3.Distance(Player.transform.position,agentPosition.transform.position);
-                float distanceOrigin = Vector3.Distance(Enemy_Container.transform.position,agentPosition.transform.position);
-               
-                if (distancePlayer <= 20 && distanceOrigin < 40 && !directionToBase){
-                    agent.SetDestination(Player.position);
+                if (enemy.comportement_actuel == comportement.alerte){
+                    alerte(enemy);  
+                }
+            
+                if (enemy.comportement_actuel == comportement.cible_detectee){
+                    detection_player(enemy);  
+                }
                 
-                    if (distancePlayer <= agent.stoppingDistance){
-                        print("Fight !");
-                    }
-                    modeSentinelle = false;
+                if (enemy.comportement_actuel == comportement.attack){
+                    enemy_attack(enemy);  
                 }
 
-                if (distanceOrigin > 40){
-                    agent.SetDestination(Enemy_Container.position);
-                    directionToBase = true;
-                }
-                  if (distancePlayer <= 3 && directionToBase){ 
-                        directionToBase = false;  
-                    }
-                
-                if(distanceOrigin <= agent.stoppingDistance){ 
-                    modeSentinelle = true;
-                    directionToBase = false;
-                }
-                   
-                if (modeSentinelle){
-
-                    timer += Time.deltaTime;
-
-                    if (timer >= newTarget){
-
-                        float x = agentPosition.transform.position.x;
-                        float y = agentPosition.transform.position.y;
-                        float xPos = Random.Range(x - 20,x +10);
-                        float yPos = Random.Range(y - 20,y +10);
-
-                        Target = new Vector3(xPos,agentPosition.transform.position.y,yPos);
-                        agent.SetDestination(Target);
-                        timer = 0;
-                    }
+                if (enemy.comportement_actuel == comportement.retour_base){
+                    retour_a_la_base(enemy);  
                 }
 
-               
+                if (enemy.comportement_actuel == comportement.attente){// On se la rouille grave
+                    enemy.directionBase = false; 
+                    enemy.activeSentinel = true;
+                    enemy.activePatrouille = true;
+                }
 
-             
+                if (enemy.comportement_actuel == comportement.patrouille){
+                    enemy.activePatrouille = true; 
+                    enemy.HealthBar.GetComponent<Canvas>().enabled = false; // on desactive la barre de vie  
+                }
+
+                if (enemy.comportement_actuel == enemy_manager.comportement.sentinel){  
+                    mode_sentinelle(enemy);
+                }
+
             }
-        }
+
+        }    
     }
 
   
-    void CreateEnemy(){
-        
-        CloneEnemy = Instantiate(Enemy,Enemy_Container.position, Enemy_Container.rotation);
-        // int max = (Random.Range(20,100)/10)*10;
-        // enemy.instance.EnemyCharacteristic(max);
-        NavMeshAgent agent = CloneEnemy.GetComponent<NavMeshAgent>();
-        agent.speed = Random.Range(3f, 6f);
-        mesEnemyList.Add(CloneEnemy); 
+    public void addToList(enemy enemy){
+      
+        mesEnemyList.Add(enemy); 
+    }
+
+
+    public void alerte(enemy enemy){ // on se dirige vers le player
+
+        enemy.agent.speed = 1f;
+        enemy.agent.SetDestination(enemy.target.position); 
+        enemy.HealthBar.GetComponent<Canvas>().enabled = true; // on active la barre de vie 
+    }
+
+
+    public void detection_player(enemy enemy){  // On se dirige vers le Player en courant
+
+        enemy.activeSentinel = false;
+        enemy.activePatrouille = false;
+        enemy.agent.speed = enemy.moveSpeed; // on fait courir enemy
+        enemy.agent.SetDestination(enemy.target.position);
+        enemy.HealthBar.GetComponent<Canvas>().enabled = true; // on active la barre de vie  
+    }
+
+
+    public void enemy_attack(enemy enemy){ // on renseigne les degats infliges au Player
+
+        enemy_manager.instance.degatForPlayer = Random.Range(enemy.degatMin, enemy.degatMax);   
+    }
+
+
+    public void retour_a_la_base(enemy enemy){ // retour a la position initiale
+
+        enemy.agent.stoppingDistance = 2.5f;
+        enemy.agent.speed = 8f;
+        enemy.agent.SetDestination(enemy.startPosition);
+
+        if ((enemy.distanceBase <= enemy.agent.stoppingDistance) && enemy.directionBase){  //enemy dans sa position initiale
+            enemy.comportement_actuel = comportement.attente;
+            enemy.directionBase = false;
+            enemy.HealthBar.GetComponent<Canvas>().enabled = false; // on desactive la barre de vie 
+        }
+       
     }
 
    
+
+    public void mode_sentinelle(enemy enemy){ // enemy patrouille dans son rayon max
+
+        enemy.directionBase = false;
+
+        if(!enemy.agent.pathPending && enemy.agent.remainingDistance <= 3f){
+
+            enemy.agent.speed = 1f; 
+
+            float x = enemy.startPosition.x;
+            float z = enemy.startPosition.z;
+            float xPos = Random.Range(x - enemy.rayon_d_actionMax, x + enemy.rayon_d_actionMax);
+            float zPos = Random.Range(z - enemy.rayon_d_actionMax, z + enemy.rayon_d_actionMax);
+            
+            enemy.sentinelTarget = new Vector3(xPos,transform.position.y,zPos);
+            enemy.agent.SetDestination(enemy.sentinelTarget);
+
+                 
+        }
+            
+    }
+
+    
 
 
 }

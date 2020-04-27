@@ -7,8 +7,22 @@ using UnityEngine;
 
 public class PlayerGamePad : MonoBehaviour
 {
-
+    public static PlayerGamePad instance; 
     public bool use_multiple_jump;
+   
+    public GameObject Bow;
+    public GameObject Arrow;
+    public GameObject Sword;
+    public GameObject Shield;
+    public Transform originArrow;
+    public GameObject projectile;
+    public float puissance_de_tir;
+    public float degat_sword;
+    public float degat_bow;
+
+    bool isBowman;
+    bool isShooting;
+    string modePlayer = "noweapon";
 
     PlayerControls controls;
     Vector2 movePlayer;
@@ -22,10 +36,14 @@ public class PlayerGamePad : MonoBehaviour
     bool playerIsMoving;
     bool cameraIsTurning;
     bool cameraIsBehind;
+
     public static bool canAttack;
     public static bool canMove;
     public static bool canJump;
 
+    public bool PlayerIsAttack;
+
+    
 
     private CharacterController characterController;
 
@@ -34,10 +52,12 @@ public class PlayerGamePad : MonoBehaviour
     public float jumpForce = 0.2f;
     private bool hasJump = false;
 
+    //bool toggle;
 
    
     void Start(){
-        
+
+        instance = this;
         Player_Animator = GetComponent<Animator>();  
         canAttack = true;
         canMove = true;
@@ -46,6 +66,15 @@ public class PlayerGamePad : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         player_gravity/=10f;
         jumpForce/=10f;   
+
+        Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
+        Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
+        Bow.SetActive(false);
+        Arrow.SetActive(false);
+        Sword.SetActive(false);
+        Shield.SetActive(false);
+        isBowman = false;
+        
     }
 
     void Awake(){
@@ -55,7 +84,7 @@ public class PlayerGamePad : MonoBehaviour
 
         controls.Gameplay.ButtonX.started += ctx => Jump();
 
-       // controls.Gameplay.ButtonB.started += ctx => ButtonB();
+        controls.Gameplay.ButtonB.started += ctx => ButtonB();
 
         controls.Gameplay.Move.performed += ctx => movePlayer = ctx.ReadValue<Vector2>();
         controls.Gameplay.Move.canceled += ctx => movePlayer = Vector2.zero;
@@ -76,6 +105,22 @@ public class PlayerGamePad : MonoBehaviour
         // stick.x 1 = right
         // stick.y -1 = down
         // stick.y 1 = up
+
+          if(Input.GetKeyDown("p") && modePlayer != "noweapon"){
+            modePlayer = "noweapon";
+              Player_Animator.SetTrigger("changeEquipement");
+        } 
+
+        if(Input.GetKeyDown("o") && modePlayer != "bow"){  
+            modePlayer = "bow";
+              Player_Animator.SetTrigger("changeEquipement");
+        }
+
+        if(Input.GetKeyDown("i") && modePlayer != "sword"){ 
+             modePlayer = "sword";
+               Player_Animator.SetTrigger("changeEquipement");
+        }
+       
 
         playerIsMoving = movePlayer.x < 0 || movePlayer.x > 0 || movePlayer.y < 0 || movePlayer.y > 0;
         cameraIsTurning = rotate.x < 0 || rotate.x > 0 || rotate.y < 0 || rotate.y > 0;
@@ -148,7 +193,13 @@ public class PlayerGamePad : MonoBehaviour
     void ButtonB(){
 
         if(canAttack){
-            Player_Animator.SetTrigger("attack01");
+            if(!isBowman){
+                Player_Animator.SetTrigger("attackSword1");
+              
+            }
+            else if(isBowman){
+                Player_Animator.SetTrigger("attackBow");
+            }
         }
     }
 
@@ -164,7 +215,7 @@ public class PlayerGamePad : MonoBehaviour
 
 
     void OnControllerColliderHit(ControllerColliderHit hit)
-    {
+    {  
         if(hit.gameObject.layer == 10 && !Player_Animator.GetBool("Grounded")){
             Player_Animator.SetBool("Grounded", true);
         }
@@ -172,13 +223,19 @@ public class PlayerGamePad : MonoBehaviour
 
 
     void OnTriggerEnter(Collider collider){
-  
 
-     //   Debug.Log("enter : " + collider.gameObject.name);
-        // if(collider.gameObject.layer == 10){ 
-        //     Debug.Log("ENTER");
-        //     Player_Animator.SetBool("Grounded", true);
-        // }
+    //    Debug.Log("enter : " + collider.gameObject.name);
+
+        if(collider.gameObject.tag == "degatPlayer"){
+            Player_Animator.SetTrigger("getHit");
+            float value = enemy_manager.instance.degatForPlayer;
+            player_main.instance.DegatPlayerPv(value);   
+           // print("Player a recu "+value.ToString("f0")+" de degats");
+
+            if(collider.gameObject.name== "FlecheEnemy(Clone)"){
+                Destroy(collider.gameObject);
+            }
+        }
     }
 
      void OnTriggerStay(Collider collider){
@@ -200,6 +257,63 @@ public class PlayerGamePad : MonoBehaviour
         //     Player_Animator.SetBool("initiate_jump", true); 
         // }
     }
+
+
+    void ShootArrow(){ // called par anim
+
+      //  enemy_manager.instance.degatForPlayer = degatMax;
+        GameObject ProjectileClone = Instantiate(projectile,originArrow.position, originArrow.rotation);
+        ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right *puissance_de_tir, ForceMode.Impulse);
+        Destroy(ProjectileClone,5);    
+    }
+
+      void changeEquipement(){ // declenchee par anim
+
+        if(modePlayer == "noweapon"){ 
+            Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
+            Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
+            Bow.SetActive(false);
+            Arrow.SetActive(false);
+            Sword.SetActive(false);
+            Shield.SetActive(false);
+            isBowman = false;
+        }
+
+        if(modePlayer == "sword"){  // 1 layer Sword, weight pour la priorite
+            Player_Animator.SetLayerWeight (1, 1); // layer 1 Sword
+            Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
+            Bow.SetActive(false);
+            Arrow.SetActive(false);
+            Sword.SetActive(true);
+            Shield.SetActive(true);
+            isBowman = false;
+        }
+
+        if(modePlayer == "bow"){ // 1 layer Sword, weight pour la priorite 
+            Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
+            Player_Animator.SetLayerWeight (2, 1); // layer 2 Bow
+            Bow.SetActive(true);
+            Arrow.SetActive(true);
+            Sword.SetActive(false);
+            Shield.SetActive(false);
+            isBowman = true;
+        }
+    }
+
+     void isAttackStart(){
+
+        PlayerIsAttack = true;
+
+    }
+     void isAttackEnd(){
+
+        PlayerIsAttack = false;
+
+    }
+ 
+ 
+
+ 
 
 
     

@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1409923595
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1409923596}
+  m_Layer: 0
+  m_Name: OriginProjectile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1409923596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409923595}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 403702877019273240}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &809515271109541108
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +118,7 @@ GameObject:
   - component: {fileID: 488953000476550859}
   - component: {fileID: 5915661120260459296}
   - component: {fileID: 809515270752364431}
+  - component: {fileID: 1986561694}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -108,6 +139,7 @@ Transform:
   m_Children:
   - {fileID: 8700979101677578815}
   - {fileID: 2342872731708787052}
+  - {fileID: 1409923596}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -185,10 +217,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 6051325856685973515}
-  currentPv: 0
-  maxPv: 40
   TX_Pv: {fileID: 2487987783325652362}
   TX_PvMax: {fileID: 6421533166494350752}
+  maxPv: 30
+  degatMin: 1
+  degatMax: 5
+  lookRadius: 20
+  moveSpeed: 3
+  poids: 1
+  isSentinel: 0
+  distance_parcours: 20
+  isBowman: 1
+  Projectile: {fileID: 404569285952651835, guid: 7d56bec7690507a4e8ec5c6536428d37,
+    type: 3}
+  OriginProjectile: {fileID: 1409923596}
+  power_projectile: 30
 --- !u!195 &5915661120260459296
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -227,6 +270,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &1986561694
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3475219800205501402}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.47
+  m_Height: 2.61
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3610856803867824289
 GameObject:
   m_ObjectHideFlags: 0

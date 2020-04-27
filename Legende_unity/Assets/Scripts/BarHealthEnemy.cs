@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class BarHealthEnemy : MonoBehaviour
 {
+ 
+  public static  BarHealthEnemy instance;
   Transform cam;
+
     void Start()
     {
         cam = GameObject.Find("Camera").GetComponent<Transform>();
+        instance=this;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -20,5 +23,18 @@ public class BarHealthEnemy : MonoBehaviour
     {
         transform.LookAt(transform.position + cam.forward);
     }
+    
 
+
+
+    public void Hide(){
+
+      gameObject.GetComponent<Canvas>().enabled = false; 
+      print("hide bar")                ;
+    }
+
+    public void Show(){
+
+      gameObject.GetComponent<Canvas>().enabled = true;                 
+    }
 }

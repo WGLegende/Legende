@@ -18,12 +18,17 @@ public class CheckPoint : MonoBehaviour
         checkPointPosition = GetComponent<Transform>();    
     }
 
-    void OnTriggerEnter(){
+    void OnTriggerEnter(Collider other){
 
-        if(!justOnce){
-            particule.startColor = Color.green;
-            Obstacle_Manager.instance.CheckPointSaveManager(checkPointPosition);
-            justOnce = true; 
+        if (other.name == "Player"){
+
+            if(!justOnce){
+
+                particule.startColor = Color.green;
+                level_main.instance.CheckpointSavePosition(checkPointPosition);
+                justOnce = true; 
+            }
+            
         }
          
     }

@@ -52,7 +52,7 @@ public class FireWall : MonoBehaviour
     void OnParticleCollision(GameObject other){
 
         if (other.name == "Player"){
-            Obstacle_Manager.instance.DegatPlayer(-degat);
+            player_main.instance.DegatPlayerPv(degat);
         }
     }
     

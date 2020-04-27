@@ -16,14 +16,14 @@ public class tests_manager : MonoBehaviour
 
 
 
-
+     
 
     }
 
 
     void Update () {
 
-      
+        this.transform.Translate(Vector3.right * Time.deltaTime * 0.5f, Space.World);
     
     }
 
