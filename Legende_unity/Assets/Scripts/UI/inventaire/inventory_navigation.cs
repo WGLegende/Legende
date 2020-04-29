@@ -25,57 +25,28 @@ public class inventory_navigation : MonoBehaviour
         if(instance == null){
             instance = this;
         }
-        // StartCoroutine(testtt());
     }
 
-    IEnumerator testtt(){
-        yield return new WaitForSeconds(0.2f);
-        enter_a_slot_container(main_inventory_part[inventory_part_selected]);
+
+    public void go_left_menu(){
+        if(inventory_part_selected -1 >= 0){
+            main_inventory_part[inventory_part_selected].gameObject.SetActive(false);
+            inventory_part_selected--;
+            back_all_open_slots_container();
+            enter_a_slot_container(main_inventory_part[inventory_part_selected]);
+        }
+    }
+    public void go_right_menu(){
+        if(inventory_part_selected +1 < main_inventory_part.Length){
+            main_inventory_part[inventory_part_selected].gameObject.SetActive(false);
+            inventory_part_selected++;
+            back_all_open_slots_container();
+            enter_a_slot_container(main_inventory_part[inventory_part_selected]);
+        }
     }
 
-    void Update(){
-        //tests only
-        if(Input.GetKeyDown(KeyCode.UpArrow)){
-            navigate_in_slots(0);
-        }else if(Input.GetKeyDown(KeyCode.RightArrow)){
-            navigate_in_slots(1);
-        }else if(Input.GetKeyDown(KeyCode.DownArrow)){
-            navigate_in_slots(2);
-        }else if(Input.GetKeyDown(KeyCode.LeftArrow)){
-            navigate_in_slots(3);
-        }else if(Input.GetKeyDown(KeyCode.KeypadEnter)){
-            action_equiper_ou_utiliser(); // Button A
-        }else if(Input.GetKeyDown(KeyCode.Delete)){
-            action_jeter(); // Button Y
-        }else if(Input.GetKeyDown(KeyCode.Escape)){
-            back();// Button B
-        }
-
-        if(Input.GetKeyDown(KeyCode.I)){
-            open_close_inventory();
-        }
-        
-        if(Input.GetKeyDown(KeyCode.Alpha1)){
-            if(inventory_part_selected -1 >= 0){
-                main_inventory_part[inventory_part_selected].gameObject.SetActive(false);
-                inventory_part_selected--;
-                back_all_open_slots_container();
-                enter_a_slot_container(main_inventory_part[inventory_part_selected]);
-            }
-        }else if(Input.GetKeyDown(KeyCode.Alpha2)){
-            if(inventory_part_selected +1 < main_inventory_part.Length){
-                main_inventory_part[inventory_part_selected].gameObject.SetActive(false);
-                inventory_part_selected++;
-                back_all_open_slots_container();
-                enter_a_slot_container(main_inventory_part[inventory_part_selected]);
-            }
-        }
-
-        
 
 
-
-    }
 
     public void back_all_open_slots_container(){// close every active slots containers
         while(selected_inventory_slots_container != null && selected_inventory_slots_container.parent_Slot_Container != null){ 
@@ -85,6 +56,8 @@ public class inventory_navigation : MonoBehaviour
 
     public void open_close_inventory(){
         bool is_open = !inventory_main.instance.TR_Inventaire.gameObject.activeSelf;
+        GamePad_manager.instance.open_close_inventory(is_open);
+
         inventory_main.instance.TR_Inventaire.gameObject.SetActive(is_open);    
 
         if(is_open){

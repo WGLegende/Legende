@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.InputSystem;
 
-
-
-public class PlayerGamePad : MonoBehaviour
+public class player_gamePad_manager : MonoBehaviour
 {
-    public static PlayerGamePad instance; 
+    
+    public static player_gamePad_manager instance; 
     public bool use_multiple_jump;
    
     public GameObject Bow;
@@ -24,17 +22,14 @@ public class PlayerGamePad : MonoBehaviour
     bool isShooting;
     string modePlayer = "noweapon";
 
-    PlayerControls controls;
-    Vector2 movePlayer;
-    Vector2 rotate;
     public int SpeedMove;
     public int speedRotation;
     public GameObject camera_container;
 
     Rigidbody player_rigidBody;
     Animator Player_Animator;
-    bool playerIsMoving;
-    bool cameraIsTurning;
+    public bool player_is_moving;
+    public bool camera_is_turning;
     bool cameraIsBehind;
 
     public static bool canAttack;
@@ -56,8 +51,10 @@ public class PlayerGamePad : MonoBehaviour
 
    
     void Start(){
+        if(instance == null){
+            instance = this;
+        }
 
-        instance = this;
         Player_Animator = GetComponent<Animator>();  
         canAttack = true;
         canMove = true;
@@ -69,44 +66,17 @@ public class PlayerGamePad : MonoBehaviour
 
         Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
         Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
-        Bow.SetActive(false);
-        Arrow.SetActive(false);
-        Sword.SetActive(false);
-        Shield.SetActive(false);
+        // Bow.SetActive(false);
+        // Arrow.SetActive(false);
+        // Sword.SetActive(false);
+        // Shield.SetActive(false);
         isBowman = false;
-        
     }
 
-    void Awake(){
-
-
-        controls = new PlayerControls();
-
-        controls.Gameplay.ButtonX.started += ctx => Jump();
-
-        controls.Gameplay.ButtonB.started += ctx => ButtonB();
-
-        controls.Gameplay.Move.performed += ctx => movePlayer = ctx.ReadValue<Vector2>();
-        controls.Gameplay.Move.canceled += ctx => movePlayer = Vector2.zero;
-
-        controls.Gameplay.RightStick.performed += ctx => rotate = ctx.ReadValue<Vector2>(); 
-        controls.Gameplay.RightStick.canceled += ctx => rotate = Vector2.zero; 
-
-        controls.Gameplay.buttonLT.started += ctx => behindPlayer();
-    }
-
-    void behindPlayer(){
-        camera_container.transform.localEulerAngles = new Vector3(0f,0f,0f);
-    }
 
     void Update(){
 
-        // stick.x -1 = left
-        // stick.x 1 = right
-        // stick.y -1 = down
-        // stick.y 1 = up
-
-          if(Input.GetKeyDown("p") && modePlayer != "noweapon"){
+        if(Input.GetKeyDown("p") && modePlayer != "noweapon"){
             modePlayer = "noweapon";
               Player_Animator.SetTrigger("changeEquipement");
         } 
@@ -120,54 +90,42 @@ public class PlayerGamePad : MonoBehaviour
              modePlayer = "sword";
                Player_Animator.SetTrigger("changeEquipement");
         }
-       
 
-        playerIsMoving = movePlayer.x < 0 || movePlayer.x > 0 || movePlayer.y < 0 || movePlayer.y > 0;
-        cameraIsTurning = rotate.x < 0 || rotate.x > 0 || rotate.y < 0 || rotate.y > 0;
+        
+    }
 
-
+    public void player_velocity_calculation(){
         if(characterController.isGrounded && canMove){
             verticalVelocity = -player_gravity * Time.deltaTime;
         }else{
             verticalVelocity -= player_gravity * Time.deltaTime;
         }
-
         if(hasJump){
             verticalVelocity = use_multiple_jump ? (verticalVelocity + jumpForce) : jumpForce;
             hasJump = false;
         }
-
         characterController.Move(new Vector3(0f, verticalVelocity, 0f));
 
-        if(playerIsMoving && canMove){ // Mouvement left stick
+        if(!player_is_moving || !canMove){
+            Player_Animator.SetFloat("SpeedMove", 0);
+        }
+    }
 
-            Player_Animator.SetFloat("SpeedMove", (movePlayer.y));
 
+
+
+    public void player_movement(float right_stick_x, float right_stick_y){
+        if(canMove){
+            Player_Animator.SetFloat("SpeedMove", (right_stick_y));
             if(!cameraIsBehind){
                 transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y + camera_container.transform.localEulerAngles.y, 0f);
                 camera_container.transform.localEulerAngles = new Vector3(camera_container.transform.localEulerAngles.x,0f,0f);
             }
-
-            transform.Rotate(0, movePlayer.x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
-            transform.Translate(new Vector3(0f, 0f, movePlayer.y) * SpeedMove  * Time.deltaTime * (movePlayer.y < 0 ? 0.5f : 1f), Space.Self);
-        }else{
-            Player_Animator.SetFloat("SpeedMove", 0);
+            transform.Rotate(0, right_stick_x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
+            transform.Translate(new Vector3(0f, 0f, right_stick_y) * SpeedMove  * Time.deltaTime * (right_stick_y < 0 ? 0.5f : 1f), Space.Self);
         }
 
-        // PAS TOUCHE CONNARD
-        if(cameraIsTurning){ // Mouvement right stick
-            camera_container.transform.Rotate(0, rotate.x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
-            cameraIsBehind = false;
-            if(rotate.y < -0.2 || rotate.y > 0.2){ // Rotate up/Down camera.
-                float camera_Y = rotate.y * speedRotation/5  * Time.deltaTime;
-                float angle = camera_container.transform.localEulerAngles.x;
-                angle = (angle > 180) ? angle - 360 : angle;
-                camera_Y = angle < -40 && rotate.y > 0 ? 0 : angle > 20 && rotate.y < 0?  0 : camera_Y;
-                camera_container.transform.Rotate(-camera_Y, 0, 0, Space.Self);
-            }
-        }else if(playerIsMoving){
-            // StopAllCoroutines();
-
+        if(!camera_is_turning){ // to delete ?
             if(camera_container.transform.localEulerAngles.y >= 0.5f || camera_container.transform.localEulerAngles.y <= -0.5f){
                 float diff = camera_container.transform.localEulerAngles.y;     
                 diff -= diff > 180f ? 360f : 0f;
@@ -177,12 +135,28 @@ public class PlayerGamePad : MonoBehaviour
                 cameraIsBehind = true;
                 camera_container.transform.localEulerAngles = new Vector3(camera_container.transform.localEulerAngles.x,0f,0f);
             }
-
         }
-        
     }
 
-    void Jump(){
+
+
+    public void player_camera(float left_stick_x, float left_stick_y){
+        camera_container.transform.Rotate(0, left_stick_x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
+        cameraIsBehind = false;
+        if(left_stick_y < -0.2 || left_stick_y > 0.2){ // Rotate up/Down camera.
+            float camera_Y = left_stick_y * speedRotation/5  * Time.deltaTime;
+            float angle = camera_container.transform.localEulerAngles.x;
+            angle = (angle > 180) ? angle - 360 : angle;
+            camera_Y = angle < -40 && left_stick_y > 0 ? 0 : angle > 20 && left_stick_y < 0?  0 : camera_Y;
+            camera_container.transform.Rotate(-camera_Y, 0, 0, Space.Self);
+        }
+    }
+
+    public void put_camera_behind_player(){
+        camera_container.transform.localEulerAngles = new Vector3(0f,0f,0f);
+    }
+
+    public void player_jump(){
         if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canJump){
             hasJump = true;
             Player_Animator.SetBool("Grounded", false);
@@ -190,29 +164,16 @@ public class PlayerGamePad : MonoBehaviour
         }
     }
 
-    void ButtonB(){
-
+    public void player_attack(){
         if(canAttack){
             if(!isBowman){
                 Player_Animator.SetTrigger("attackSword1");
-              
             }
             else if(isBowman){
                 Player_Animator.SetTrigger("attackBow");
             }
         }
     }
-
-    void OnEnable(){
-
-        controls.Gameplay.Enable();
-    }
-
-    void OnDisable(){
-
-        controls.Gameplay.Disable();
-    }
-
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {  
@@ -223,8 +184,6 @@ public class PlayerGamePad : MonoBehaviour
 
 
     void OnTriggerEnter(Collider collider){
-
-    //    Debug.Log("enter : " + collider.gameObject.name);
 
         if(collider.gameObject.tag == "degatPlayer"){
             Player_Animator.SetTrigger("getHit");
@@ -311,10 +270,30 @@ public class PlayerGamePad : MonoBehaviour
 
     }
  
- 
-
- 
 
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

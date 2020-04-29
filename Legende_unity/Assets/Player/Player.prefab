@@ -2390,7 +2390,7 @@ GameObject:
   - component: {fileID: 7079482417964454624}
   - component: {fileID: 7169000728094273536}
   - component: {fileID: 7075014712361596027}
-  - component: {fileID: 2845835670936468469}
+  - component: {fileID: 4732854272833062891}
   - component: {fileID: 192674893}
   - component: {fileID: 47964599}
   m_Layer: 0
@@ -2451,7 +2451,7 @@ CapsuleCollider:
   m_Height: 1.9154077
   m_Direction: 1
   m_Center: {x: 0, y: 0.9511788, z: 0.102098346}
---- !u!114 &2845835670936468469
+--- !u!114 &4732854272833062891
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2460,13 +2460,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 7073293083934594864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f2b772ebfe17ab4e89a54faa793e975, type: 3}
+  m_Script: {fileID: 11500000, guid: f0d1358adb4b1374586d22653fa41704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   use_multiple_jump: 0
+  Bow: {fileID: 0}
+  Arrow: {fileID: 0}
+  Sword: {fileID: 0}
+  Shield: {fileID: 0}
+  originArrow: {fileID: 0}
+  projectile: {fileID: 0}
+  puissance_de_tir: 0
+  degat_sword: 0
+  degat_bow: 0
   SpeedMove: 8
   speedRotation: 200
   camera_container: {fileID: 549532168109347770}
+  player_is_moving: 0
+  camera_is_turning: 0
+  PlayerIsAttack: 0
   player_gravity: 7
   jumpForce: 3
 --- !u!143 &192674893
@@ -2500,8 +2512,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
-  player_currentPv: 0
-  player_maxPv: 100
   TX_PvText: {fileID: 0}
 --- !u!1 &7073311426148010550
 GameObject:

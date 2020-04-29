@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChariotPlayer : MonoBehaviour
+public class kart_manager : MonoBehaviour
 {
-    public static ChariotPlayer instance;
+    public static kart_manager instance;
     public bool equipement_Bouteille;
     public bool equipement_Belier;
     public bool equipement_light;
@@ -59,49 +59,51 @@ public class ChariotPlayer : MonoBehaviour
         if(instance == null){
             instance = this;
         }
-
+        
         anim = gameObject.GetComponent<Animation>(); // Pour le Saut
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
         SpeedUI = GameObject.Find("speedValue").GetComponent<Text>(); 
         StartCoroutine(refreshSpeedUI());
-      
-         
     }
 
+    // Gere le mouvement de camera et la rotation du siege
     public void kart_movement(float right_stick_x, float right_stick_y, float left_stick_x, float left_stick_y){
-            chariot_siege.Rotate(0, right_stick_x * camera_speed_rotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
+        chariot_siege.Rotate(0, right_stick_x * camera_speed_rotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
 
-            if(right_stick_y < -0.2 || right_stick_y > 0.2){ // Rotate up/Down camera.
-                float camera_Y = right_stick_y * camera_speed_rotation/2  * Time.deltaTime;
-                float angle = UnityEditor.TransformUtils.GetInspectorRotation(camera_container).x;
-                camera_Y = angle > 120 && right_stick_y > 0 ? 0 : angle < 60  && right_stick_y < 0?  0 : camera_Y;
-                camera_container.Rotate(-camera_Y, 0, 0, Space.Self);
-            }
+        if(right_stick_y < -0.2 || right_stick_y > 0.2){ // Rotate up/Down camera.
+            float camera_Y = right_stick_y * camera_speed_rotation/2  * Time.deltaTime;
+            float angle = UnityEditor.TransformUtils.GetInspectorRotation(camera_container).x;
+            camera_Y = angle > 120 && right_stick_y > 0 ? 0 : angle < 60  && right_stick_y < 0?  0 : camera_Y;
+            camera_container.Rotate(-camera_Y, 0, 0, Space.Self);
+        }
     }
 
-
-
-
-    void Update(){
-
-        if (Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur
-            VapeurBar.instance.fill_vapeur_stock();
-        }
-        
-        
-
-        // GERE LE FREINAGE DU VEHICULE
-        if (hinput.anyGamepad.leftTrigger.pressed ){ //|| Input.GetKey(KeyCode.Joystick1Button5)){ // Frein
+    // GERE LE FREINAGE DU VEHICULE
+    public void frein(bool is_frein_active){
+        if (is_frein_active){
             valeur_frein -= Time.deltaTime/resistance_au_freinage;
             valeur_frein = valeur_frein < 0f ? 0f : valeur_frein;
         }else{
             valeur_frein += Time.deltaTime;
             valeur_frein = valeur_frein > 1f ? 1f : valeur_frein;
         }
+    }
 
-        // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
-        if ((hinput.anyGamepad.rightTrigger.pressed || Input.GetKey(KeyCode.A)) && VapeurBar.instance.useVapeur(0.05f) ){ // Boost
+    // Gestion de la vitesse basique avec le joystick
+    public void calcul_vitesse_basique(float left_stick_y){
+        if (left_stick_y > 0){ // Avance
+            valeur_vitesse_basique = valeur_vitesse_basique_max;
+        }else if (left_stick_y < 0){ // Recul
+            valeur_vitesse_basique = -valeur_vitesse_basique_max;
+        }else {
+            valeur_vitesse_basique = 0f;
+        }
+    }
+
+    // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
+    public void boost(bool boosting){
+        if (boosting && VapeurBar.instance.useVapeur(0.05f) ){
             if(valeur_vitesse_basique > 0){
                 valeur_boost = valeur_boost_max;
                 if(!particle_vapeur_back.isPlaying){
@@ -120,8 +122,36 @@ public class ChariotPlayer : MonoBehaviour
             particle_vapeur_back.Stop();
             valeur_boost = 0f;
         }
+    }
 
-      // PHYSICS CHARIOT
+    // Gestion du saut du kart
+    public void kart_jump(){
+        if(VapeurBar.instance.useVapeur(10f)){ // Jump 
+            anim.Play("JumpChariot");
+            particle_vapeur_under.Play();
+        }
+    }
+
+    // Gestion attaque du kart
+    public void kart_attaque(){
+        if (StockBullet.instance.bullet_stock > 0 && equipement_canon){  
+            GameObject myBulletClone = Instantiate(myBullet,CanonContainer.position, CanonContainer.rotation);
+            bullet bullet = myBulletClone.GetComponent<bullet>();
+            bullet.shoot(CanonContainer);
+            VapeurBar.instance.useVapeur(1f);  // consommation de vapeur
+            StockBullet.instance.update_stock_bullet(-1); // maj du stock bullet
+        }
+    }
+
+    // Allume lumiere du kart
+    public void kart_light(){
+        if (equipement_light){  
+            toggle_light_chariot = !toggle_light_chariot;
+            light_chariot.enabled = toggle_light_chariot;    
+        }
+    }
+
+    public void speed_and_move(){
         angleChariot = Chariot_ContainerRotation.localEulerAngles.x;
         angleChariot = angleChariot > 180 ? angleChariot - 360 : angleChariot;
         angleChariot = Mathf.Round(angleChariot * 100f) / 100f;
@@ -142,100 +172,55 @@ public class ChariotPlayer : MonoBehaviour
                            vitesse_actuelle;
 
         SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
-          
+    }
+
+    void Update(){
+        if (Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
+            VapeurBar.instance.fill_vapeur_stock();
+        }
+
+        speed_and_move();
 
         // Gestion des etincelles
         // if(SplineFollow.Speed >= 20){
-
         //     particle_etincelle_left_back.Play();
         //     particle_etincelle_right_back.Play();
         //     particle_etincelle_left_front.Stop();
         //     particle_etincelle_right_front.Stop();
-
         //  }else if (SplineFollow.Speed < -20){
-
         //     particle_etincelle_left_back.Stop();
         //     particle_etincelle_right_back.Stop();
         //     particle_etincelle_left_front.Play();
         //     particle_etincelle_right_front.Play();
-
         // }
-               
-
-        if(hinput.anyGamepad.A.justPressed && VapeurBar.instance.useVapeur(10f)){ // Jump 
-            anim.Play("JumpChariot");
-            particle_vapeur_under.Play();
-        }
-
-        if ((hinput.anyGamepad.B.justPressed || Input.GetKeyDown("space")) && StockBullet.instance.bullet_stock > 0 && equipement_canon){  // Attack 
-            attaque_chariot();
-        }
-
-        if (Input.GetKeyDown("l") && equipement_light){  // Attack 
-            toggle_light_chariot = !toggle_light_chariot;
-            light_chariot.enabled = toggle_light_chariot;    
-        }
-
     } 
 
    
     IEnumerator refreshSpeedUI(){
-
-       SpeedUI.text = Mathf.Abs(vitesse_actuelle).ToString("f0");
-       yield return  new WaitForSeconds(0.2f);
-       StartCoroutine(refreshSpeedUI());
-             
+        SpeedUI.text = Mathf.Abs(vitesse_actuelle).ToString("f0");
+        yield return  new WaitForSeconds(0.2f);
+        StartCoroutine(refreshSpeedUI());
     }
-        
-    public GameObject raycastObject;
    
 
-    void attaque_chariot(){
- 
-        GameObject myBulletClone = Instantiate(myBullet,CanonContainer.position, CanonContainer.rotation);
-        bullet bullet = myBulletClone.GetComponent<bullet>();
-        bullet.shoot(CanonContainer);
-        VapeurBar.instance.useVapeur(1f);  // consommation de vapeur
-        StockBullet.instance.update_stock_bullet(-1); // maj du stock bullet
-
-        // Debug.Log("ATTAQUE CHARIOT");
-        // RaycastHit objectHit;
-        // Vector3 fwd = chariot_siege.TransformDirection(new Vector3(0f, -1f, 0f));
-        // Debug.DrawRay(chariot_siege.position, fwd * 50, Color.green);
-       
-
-
-            // if (Physics.Raycast(chariot_siege.position, fwd, out objectHit, 50))
-            // {
-            //     //do something about  objectHit.transform.gameObject.name
-                
-
-            // }
-
-        
-    }
-
     void OnTriggerEnter(Collider collider){
-//        Debug.Log("enterName : " + collider.gameObject.name); 
-
         if(collider.gameObject.tag == "CollisionRails"){ 
             collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
         }
     }
 
     void OnTriggerStay(Collider collider){
-    }
-    
-    void OnTriggerExit(Collider collider){
 
-         //  Debug.Log("exit : " + collider.gameObject.name);
+    }
+    void OnTriggerExit(Collider collider){
         if(collider.gameObject.layer == 10){
-         //   Debug.Log("TOUCHE!!!");
-        //     Player_Animator.SetBool("Grounded", false);
-        //     Player_Animator.SetBool("initiate_jump", true); 
+            
         }
     }
 
 
-    
+
+
+
+
 }
