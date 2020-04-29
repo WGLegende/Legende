@@ -8461,9 +8461,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 10
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 80
   m_StoppingDistance: 2.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -8488,27 +8488,30 @@ MonoBehaviour:
   maxPv: 30
   degatMin: 1
   degatMax: 5
-  rayon_d_attaque: 11.4
+  rayon_d_attaque: 10.85
   moveSpeed: 3.85
   poids: 1
-  rayon_d_actionMax: 29.6
-  isModeSentinel: 0
+  rayon_d_actionMax: 25
+  courage: 20
   isFlying: 0
+  altitude: 0
+  isSentinel: 0
+  speed_sentinelle: 1
   activeSentinel: 0
-  isPatrouille: 1
+  sentinelTarget: {x: 0, y: 0, z: 0}
+  isPatrouille: 0
+  loop_trajet: 1
+  speed_patrouille: 1
   activePatrouille: 1
-  WayPoint:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  allerparcours: 1
+  WayPoint: []
+  current: 0
   isBowman: 0
   Projectile: {fileID: 0}
   OriginProjectile: {fileID: 0}
   power_projectile: 10
   anim: {fileID: 1981087931781226067}
   poids_enemy: {fileID: 0}
-  sentinelTarget: {x: 0, y: 0, z: 0}
   startPosition: {x: 0, y: 0, z: 0}
   currentPv: 0
   slider: {fileID: 1300631249676520552}
@@ -8519,11 +8522,15 @@ MonoBehaviour:
   agent: {fileID: 1981087931781226065}
   distancePlayer: 0
   distanceBase: 0
-  distancePlayerRayonAction: 0
   isAlive: 1
   directionBase: 1
+  Alerte: 0
+  caserne: 0
+  nbrEnemy: 3
+  Caserne: {fileID: 0}
+  newEnemy: {fileID: 1981087931781226063}
+  groupe_soutien: []
   particule: {fileID: 100002, guid: 61a8ed71f8daec245b699a1ee3e6de17, type: 3}
-  groupeEnemy: []
 --- !u!54 &1981087931781226066
 Rigidbody:
   m_ObjectHideFlags: 0
