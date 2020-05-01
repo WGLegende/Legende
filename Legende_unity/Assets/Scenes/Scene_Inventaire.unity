@@ -9308,6 +9308,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4732854272833062891, guid: 4ad315429f8020a408b97889a1b8256e,
+        type: 3}
+      propertyPath: player_root
+      value: 
+      objectReference: {fileID: 1906922889}
     - target: {fileID: 7073293083934594864, guid: 4ad315429f8020a408b97889a1b8256e,
         type: 3}
       propertyPath: m_Name
@@ -12629,6 +12634,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893922989}
   m_CullTransparentMesh: 0
+--- !u!1 &1906922889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7073903637241489058, guid: 4ad315429f8020a408b97889a1b8256e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1343456653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1908979859
 GameObject:
   m_ObjectHideFlags: 0
