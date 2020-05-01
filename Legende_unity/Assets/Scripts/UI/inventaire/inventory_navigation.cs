@@ -28,30 +28,27 @@ public class inventory_navigation : MonoBehaviour
     }
 
 
-    public void go_left_menu(){
-        if(inventory_part_selected -1 >= 0){
-            main_inventory_part[inventory_part_selected].gameObject.SetActive(false);
-            inventory_part_selected--;
+
+    public void navigateInMainMenus(int direction){
+        if(inventory_part_selected + direction >= 0 && inventory_part_selected + direction < main_inventory_part.Length){
+            inventory_part_selected += direction;
             back_all_open_slots_container();
-            enter_a_slot_container(main_inventory_part[inventory_part_selected]);
-        }
-    }
-    public void go_right_menu(){
-        if(inventory_part_selected +1 < main_inventory_part.Length){
-            main_inventory_part[inventory_part_selected].gameObject.SetActive(false);
-            inventory_part_selected++;
-            back_all_open_slots_container();
+            closeAllMainParts();
             enter_a_slot_container(main_inventory_part[inventory_part_selected]);
         }
     }
 
 
-
+    public void closeAllMainParts(){
+        for(int i = 0; i < main_inventory_part.Length; i++){
+            main_inventory_part[i].gameObject.SetActive(false);
+        }
+    }
 
     public void back_all_open_slots_container(){// close every active slots containers
-        while(selected_inventory_slots_container != null && selected_inventory_slots_container.parent_Slot_Container != null){ 
-            back();
-        }
+        back();
+        back();
+        back();
     }
 
     public void open_close_inventory(){
@@ -61,6 +58,7 @@ public class inventory_navigation : MonoBehaviour
         inventory_main.instance.TR_Inventaire.gameObject.SetActive(is_open);    
 
         if(is_open){
+            closeAllMainParts();
             enter_a_slot_container(main_inventory_part[inventory_part_selected]);
         }else{
             back_all_open_slots_container();
@@ -111,7 +109,7 @@ public class inventory_navigation : MonoBehaviour
         slot_container.hovered_slot.gameObject.GetComponent<Outline>().enabled = true;
 
         inventory_object hovered_object = slot_container.slots_list.FirstOrDefault(o => o.Key == slot_container.hovered_slot).Value;
-        slot_container.selected_slot_details_UI.Show_Object_Detail(hovered_object);
+        slot_container.selected_slot_details_UI.Show_Object_Detail(hovered_object, slot_container);
 
         slot_container.current_hovered_slot_id = id;
     }
@@ -120,7 +118,11 @@ public class inventory_navigation : MonoBehaviour
         if(selected_inventory_slots_container.hovered_slot != null && selected_inventory_slots_container.hovered_slot.children_slots_navigation != null){
             enter_a_slot_container(selected_inventory_slots_container.hovered_slot.children_slots_navigation);
         }else{
-            equiper_objet(selected_inventory_slots_container.hovered_slot);
+            if(selected_inventory_slots_container.action_utiliser_active){
+                utiliser_objet(selected_inventory_slots_container.hovered_slot);
+            }else if(selected_inventory_slots_container.action_equiper_active){
+                equiper_objet(selected_inventory_slots_container.hovered_slot);
+            }
         }
     }
 
@@ -136,6 +138,16 @@ public class inventory_navigation : MonoBehaviour
         }
     }
 
+
+    public void go_to_shortcut(int direction){
+        if(selected_inventory_slots_container.hovered_slot != null){
+            Debug.Log("go_to_shortcut " + direction);
+            inventory_object obj = selected_inventory_slots_container.slots_list.FirstOrDefault(o => o.Key == selected_inventory_slots_container.hovered_slot).Value;
+            inventory_shortcuts.instance.create_shortcut(direction, obj);
+        }
+    }
+
+
     public void equiper_objet(_Slot slot){
         inventory_object obj = selected_inventory_slots_container.slots_list.FirstOrDefault(o => o.Key == slot).Value;
 
@@ -144,18 +156,25 @@ public class inventory_navigation : MonoBehaviour
             return;
         }
 
-        inventory_object currently_equiped = inventory_main.instance.object_list.FirstOrDefault(o => o._type_object == obj._type_object && o.is_equiped);
-        if(currently_equiped != null){
-            currently_equiped.is_equiped = false;
-        }
+        // envoi l'objet à la logique du player pour qu'il l'équipe (avec les animations et tout le tralala)
+        player_equipement.instance.equipe_un_objet(obj);
 
-        obj.is_equiped = true;
+        // refresh l'endroit ou sont affichés les objets équipés
         int current_hovered_slot_id = selected_inventory_slots_container.parent_Slot_Container.current_hovered_slot_id;
-
-        selected_inventory_slots_container.parent_Slot_Container.create_slots(selected_inventory_slots_container.parent_Slot_Container);
         selected_inventory_slots_container.parent_Slot_Container.create_slots(selected_inventory_slots_container.parent_Slot_Container);
         hover_slot(selected_inventory_slots_container.parent_Slot_Container, current_hovered_slot_id);
 
+    }
+
+
+    public void utiliser_objet(_Slot slot){
+        inventory_object obj = selected_inventory_slots_container.slots_list.FirstOrDefault(o => o.Key == slot).Value;
+
+        if(obj == null){
+            Debug.Log("Impossible d'utiliser");
+        }else{
+            player_utilisables.instance.utilise_un_objet(obj);
+        }
     }
 
     public void back(){
@@ -167,11 +186,8 @@ public class inventory_navigation : MonoBehaviour
                 }
             }
             selected_inventory_slots_container.gameObject.SetActive(false);
-            selected_inventory_slots_container.selected_slot_details_UI.Show_Object_Detail(null);
+            selected_inventory_slots_container.selected_slot_details_UI.Show_Object_Detail(null, null);
             enter_a_slot_container(selected_inventory_slots_container.parent_Slot_Container);
         }
     }
-
-
-
 }

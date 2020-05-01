@@ -19,11 +19,14 @@ public class inventory_slots_container : MonoBehaviour
     public inventory_show_details selected_slot_details_UI;
 
     public int number_of_slot_per_line = 4;
+    public int number_of_slot_max;
 
     public _Slot hovered_slot;
     public int current_hovered_slot_id;
 
-
+    public bool action_equiper_active;
+    public bool action_utiliser_active;
+    public bool action_jeter_active;
 
 
     [Serializable]
@@ -61,14 +64,26 @@ public class inventory_slots_container : MonoBehaviour
     }
 
 
-    public void create_new_slots(inventory_slots_container slot_container){
-        empty_slots();
-        foreach(inventory_object obj in inventory_main.instance.object_list.FindAll(o => o._type_object == type_object_slots)){
+    public void create_slot_object(inventory_object obj){
+
             _Slot newSlot = Instantiate(inventory_navigation.instance._PF_slot).GetComponent<_Slot>();
             newSlot.gameObject.transform.SetParent(GetComponent<Transform>(), false);
             newSlot.set_slot(obj);
             slots_list.Add(newSlot.GetComponent<_Slot>(), obj);
+
+    }
+
+
+    public void create_new_slots(inventory_slots_container slot_container){
+        empty_slots();
+        foreach(inventory_object obj in inventory_main.instance.object_list.FindAll(o => o._type_object == type_object_slots)){
+            create_slot_object(obj);
         }
+        for(int i = slots_list.Count; i < number_of_slot_max; i++){
+             create_slot_object(null);
+        }
+
+
         inventory_navigation.instance.hover_slot(slot_container, 0);
     }
 

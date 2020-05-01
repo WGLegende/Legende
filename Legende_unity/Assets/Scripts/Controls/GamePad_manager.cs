@@ -88,16 +88,27 @@ public class GamePad_manager : MonoBehaviour
                     player_gamePad_manager.instance.player_attack();
                 }
 
+                // Utilise des shortcuts
+                if(hinput.anyGamepad.dPad.up.justPressed){
+                    inventory_shortcuts.instance.use_shortcut(0);
+                }else if(hinput.anyGamepad.dPad.right.justPressed){
+                    inventory_shortcuts.instance.use_shortcut(1);
+                }else if(hinput.anyGamepad.dPad.down.justPressed){
+                    inventory_shortcuts.instance.use_shortcut(2);
+                }else if(hinput.anyGamepad.dPad.left.justPressed){
+                    inventory_shortcuts.instance.use_shortcut(3);
+                }
+
+
             break;
             case game_pad_attribution.inventory :
 
 
-
                 // Navigue dans les menus principaux
                 if(hinput.anyGamepad.leftTrigger.justPressed){
-                    inventory_navigation.instance.go_left_menu();
+                    inventory_navigation.instance.navigateInMainMenus(-1);
                 }else if(hinput.anyGamepad.rightTrigger.justPressed){
-                    inventory_navigation.instance.go_right_menu();
+                    inventory_navigation.instance.navigateInMainMenus(1);
                 }
 
                 // Navigue dans les slots
@@ -112,6 +123,18 @@ public class GamePad_manager : MonoBehaviour
                         StartCoroutine(navigate_in_inventory(3));
                     } 
                 }
+
+                // Creer des shortcuts
+                if(hinput.anyGamepad.dPad.up.justPressed){
+                    inventory_navigation.instance.go_to_shortcut(0);
+                }else if(hinput.anyGamepad.dPad.right.justPressed){
+                    inventory_navigation.instance.go_to_shortcut(1);
+                }else if(hinput.anyGamepad.dPad.down.justPressed){
+                    inventory_navigation.instance.go_to_shortcut(2);
+                }else if(hinput.anyGamepad.dPad.left.justPressed){
+                    inventory_navigation.instance.go_to_shortcut(3);
+                }
+
 
                 // Actions sur les objets
                 if(hinput.anyGamepad.A.justPressed){

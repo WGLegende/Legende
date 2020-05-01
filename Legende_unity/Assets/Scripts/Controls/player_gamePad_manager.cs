@@ -90,8 +90,6 @@ public class player_gamePad_manager : MonoBehaviour
              modePlayer = "sword";
                Player_Animator.SetTrigger("changeEquipement");
         }
-
-        
     }
 
     public void player_velocity_calculation(){

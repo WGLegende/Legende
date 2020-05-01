@@ -54,7 +54,7 @@ public class inventory_show_details : MonoBehaviour
 
 
 
-    public void Show_Object_Detail(inventory_object obj)
+    public void Show_Object_Detail(inventory_object obj, inventory_slots_container slot_container)
     {
         gameObject.SetActive(obj != null);
         if(obj == null){
@@ -92,9 +92,11 @@ public class inventory_show_details : MonoBehaviour
         TX_Quantite.gameObject.SetActive(obj.quantite > 1);
 
 
-        Action_utiliser.gameObject.SetActive(object_is_consommable);
-        Action_Equiper.gameObject.SetActive(object_is_arme || object_is_armure || object_is_relique_composant);
-        Action_Jeter.gameObject.SetActive(object_is_arme || object_is_armure || object_is_consommable || object_is_ressource);
+        Action_utiliser.gameObject.SetActive(slot_container.action_utiliser_active);
+        Action_Equiper.gameObject.SetActive(slot_container.action_equiper_active);
+        Action_Jeter.gameObject.SetActive(slot_container.action_jeter_active);
+
+
 
         if(object_is_arme){
             Degats[1].text = obj.degatsInfligesMin +  " -> " + obj.degatsInfligesMax;

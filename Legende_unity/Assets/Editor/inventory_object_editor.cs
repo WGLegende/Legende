@@ -61,6 +61,8 @@
         serializedObject.Update ();
         inventory_main.type_object st = (inventory_main.type_object)_type_object.enumValueIndex;
 
+
+
         respectValueConstistancy();
 
         // GUIStyle titre = new GUIStyle();

@@ -7,7 +7,6 @@ using UnityEngine;
 public class inventory_main : MonoBehaviour
 {
     public static inventory_main instance;
-    public GameObject PF_UI_Inventory_Object;
 
     public enum inventory_main_parts{
          equipement, 
@@ -147,7 +146,64 @@ public class inventory_main : MonoBehaviour
     //     }
     // }
 
+    // float distance_avec_le_joueur;
+    // oldComportement = "attend"
+    // comportement = "attaque"
+
+
+    // void Update(){
+    //     distance_avec_le_joueur = Vector3.Distance(...);
+
+    //     if(oldComportement != comportement){
+
+    //         if(comportement == "attaque"){
+    //             StartCoroutine(attaque());
+    //         }
+    //         //else if...
+
+    //         oldComportement = comportement;
+    //     }
+    // }
+
+
+
+    // public IEnumerator attaque(){
+
+    //         // Ta logique que tu ne fais qu'une fois  (quand l'attaque commence)
+
+    //         while(distance_avec_le_joueur < 10f){
+
+    //             // Ta logique que tu répète (comme dans l'update)
+                
+    //             yield return new WaitForSeconds(0.02f);
+    //         }
+
+    //     yield return new WaitForSeconds(0.1f);
+    // }
+
+
+
+
+
+
+
+
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
