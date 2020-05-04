@@ -201,7 +201,7 @@ public class player_gamePad_manager : MonoBehaviour
 
     void ShootArrow(){ // called par anim
 
-        enemy_manager.instance.degatForPlayer = degat_bow;
+      //  enemy_manager.instance.degatForPlayer = degat_bow;
         GameObject ProjectileClone = Instantiate(projectile,originArrow.position, originArrow.rotation);
         ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right *puissance_de_tir, ForceMode.Impulse);
         Destroy(ProjectileClone,5);    
