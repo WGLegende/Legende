@@ -17,7 +17,7 @@ public class inventory_navigation : MonoBehaviour
     public inventory_slots_container selected_inventory_slots_container; 
 
     public inventory_slots_container[] main_inventory_part; 
-    int inventory_part_selected = 1; 
+    int inventory_part_selected = 0; 
 
 
     void Start()
