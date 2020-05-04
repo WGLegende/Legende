@@ -20,14 +20,14 @@ public class player_gamePad_manager : MonoBehaviour
 
     bool isBowman;
     bool isShooting;
-    string modePlayer = "noweapon";
+    public string modePlayer = "noweapon";
 
     public int SpeedMove;
     public int speedRotation;
     public GameObject camera_container;
 
     Rigidbody player_rigidBody;
-    Animator Player_Animator;
+    public Animator Player_Animator;
     public bool player_is_moving;
     public bool camera_is_turning;
     bool cameraIsBehind;
@@ -74,23 +74,6 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
 
-    void Update(){
-
-        if(Input.GetKeyDown("p") && modePlayer != "noweapon"){
-            modePlayer = "noweapon";
-              Player_Animator.SetTrigger("changeEquipement");
-        } 
-
-        if(Input.GetKeyDown("o") && modePlayer != "bow"){  
-            modePlayer = "bow";
-              Player_Animator.SetTrigger("changeEquipement");
-        }
-
-        if(Input.GetKeyDown("i") && modePlayer != "sword"){ 
-             modePlayer = "sword";
-               Player_Animator.SetTrigger("changeEquipement");
-        }
-    }
 
     public void player_velocity_calculation(){
         if(characterController.isGrounded && canMove){
@@ -218,13 +201,13 @@ public class player_gamePad_manager : MonoBehaviour
 
     void ShootArrow(){ // called par anim
 
-      //  enemy_manager.instance.degatForPlayer = degatMax;
+        enemy_manager.instance.degatForPlayer = degat_bow;
         GameObject ProjectileClone = Instantiate(projectile,originArrow.position, originArrow.rotation);
         ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right *puissance_de_tir, ForceMode.Impulse);
         Destroy(ProjectileClone,5);    
     }
 
-      void changeEquipement(){ // declenchee par anim
+    public void changeEquipement(){ // declenchee par anim
 
         if(modePlayer == "noweapon"){ 
             Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
