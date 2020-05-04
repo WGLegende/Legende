@@ -149,7 +149,7 @@ public class enemy_manager : MonoBehaviour
         enemy.agent.SetDestination(enemy.startPosition);
         enemy.HealthBar.GetComponent<Canvas>().enabled = false;
         if (enemy.distanceBase > enemy.rayon_d_actionMax){
-            enemy.agent.speed = PlayerGamePad.instance.SpeedMove + 0.05f; 
+            enemy.agent.speed = player_gamePad_manager.instance.SpeedMove + 0.05f; 
         }
   
         while(enemy.current_comportement == enemy_manager.comportement.retour_base){

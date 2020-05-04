@@ -22,7 +22,17 @@ public class player_equipement : MonoBehaviour
     }
 
     public void equipe_un_objet(inventory_object obj){
+
         Debug.Log("j'equipe " + obj.nom);
+
+
+        switch(obj.nom){
+
+            case "arc": player_gamePad_manager.instance.modePlayer = "bow"; player_gamePad_manager.instance.Player_Animator.SetTrigger("changeEquipement");
+            break;
+            case "Epee d'acier": player_gamePad_manager.instance.modePlayer = "sword"; player_gamePad_manager.instance.Player_Animator.SetTrigger("changeEquipement");
+            break;
+        }
 
         // Unequiped current equiped object
         inventory_object currently_equiped = inventory_main.instance.object_list.FirstOrDefault(o => o._type_object == obj._type_object && o.is_equiped);
