@@ -29,8 +29,7 @@ public class player_main : MonoBehaviour
  
  
     void Start()
-    {
-       
+    { 
         playerTransform = GameObject.Find("Player").GetComponent<Transform>(); 
         cam = GameObject.Find("cam_container").GetComponent<Transform>(); 
         startPosition = player.transform.position;
@@ -42,8 +41,6 @@ public class player_main : MonoBehaviour
     {
         
     }
-
-
 
     public void AddPlayerPv(float value){
 

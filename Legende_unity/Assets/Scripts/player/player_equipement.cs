@@ -33,6 +33,16 @@ public class player_equipement : MonoBehaviour
         // Equip selected object
         obj.is_equiped = true;
 
+        if(obj._type_object == inventory_main.type_object.arme_CaC){
+
+            //equipe epee
+        }
+        else if(obj._type_object == inventory_main.type_object.arme_Distance){
+
+            //equipe arc
+        }
+        
+      
 
     }
 }

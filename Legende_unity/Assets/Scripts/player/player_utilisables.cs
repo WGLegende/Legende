@@ -21,7 +21,7 @@ public class player_utilisables : MonoBehaviour
         Debug.Log("j'utilise " + obj.nom);
 
 
-
+              /// potion 
 
     }
 }
