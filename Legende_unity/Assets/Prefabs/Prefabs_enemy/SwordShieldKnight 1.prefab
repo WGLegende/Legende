@@ -8495,13 +8495,12 @@ MonoBehaviour:
   rayon_d_actionMax: 25
   courage: 20
   cadence_de_frappe: 1
-  timerAttack: 0
-  deplacement: 2
-  parcours: 0
+  _deplacement: 0
+  _parcours: 0
   speed_sentinelle: 1
   speed_patrouille: 1
   WayPoint: []
-  current: 0
+  current_patrol_point: 0
   Finparcours: 1
   sentinelTarget: {x: 0, y: 0, z: 0}
   isFlying: 0
@@ -8511,13 +8510,11 @@ MonoBehaviour:
   OriginProjectile: {fileID: 0}
   power_projectile: 10
   distance_attack_bowman: 15
-  caserne: 0
+  newEnemy: {fileID: 1981087931781226063}
   nbrEnemy: 0
   cadence_enemy: 2
-  countEnemy: 0
   goCreateEnemy: 1
   emplacement_caserne: {fileID: 0}
-  newEnemy: {fileID: 1981087931781226063}
   groupe_soutien: []
   anim: {fileID: 1981087931781226067}
   poids_enemy: {fileID: 0}
@@ -8532,11 +8529,11 @@ MonoBehaviour:
   distancePlayer: 0
   distanceBase: 0
   isAlive: 1
-  directionBase: 1
   Alerte: 0
   particule: {fileID: 100002, guid: 61a8ed71f8daec245b699a1ee3e6de17, type: 3}
-  forEachDone: 0
-  justOnceCoroutine: 0
+  current_comportement: 0
+  old_comportement: 0
+  enemy_ready: 0
 --- !u!54 &1981087931781226066
 Rigidbody:
   m_ObjectHideFlags: 0

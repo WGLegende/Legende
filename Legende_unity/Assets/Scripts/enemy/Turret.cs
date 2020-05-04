@@ -48,7 +48,6 @@ public class Turret : MonoBehaviour{
     void Update(){ 
 
         if(!detection && isActive){
-
             pan.transform.Rotate(Vector3.down * Time.deltaTime * speed_auto_rotation, Space.World);
         }
     }
