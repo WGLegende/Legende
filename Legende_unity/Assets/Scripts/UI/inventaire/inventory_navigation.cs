@@ -17,7 +17,7 @@ public class inventory_navigation : MonoBehaviour
     public inventory_slots_container selected_inventory_slots_container; 
 
     public inventory_slots_container[] main_inventory_part; 
-    int inventory_part_selected = 0; 
+    int inventory_part_selected = 1; 
 
 
     void Start()
@@ -27,8 +27,6 @@ public class inventory_navigation : MonoBehaviour
         }
     }
 
-
-
     public void navigateInMainMenus(int direction){
         if(inventory_part_selected + direction >= 0 && inventory_part_selected + direction < main_inventory_part.Length){
             inventory_part_selected += direction;
@@ -37,7 +35,6 @@ public class inventory_navigation : MonoBehaviour
             enter_a_slot_container(main_inventory_part[inventory_part_selected]);
         }
     }
-
 
     public void closeAllMainParts(){
         for(int i = 0; i < main_inventory_part.Length; i++){
@@ -103,10 +100,11 @@ public class inventory_navigation : MonoBehaviour
         }
 
         if(slot_container != null && slot_container.hovered_slot != null){
-            slot_container.hovered_slot.gameObject.GetComponent<Outline>().enabled = false;
+            slot_container.hovered_slot.hover_slot(false);
         }
+        
         slot_container.hovered_slot = slot_container.slots_list.ElementAt(id).Key;
-        slot_container.hovered_slot.gameObject.GetComponent<Outline>().enabled = true;
+            slot_container.hovered_slot.hover_slot(true);
 
         inventory_object hovered_object = slot_container.slots_list.FirstOrDefault(o => o.Key == slot_container.hovered_slot).Value;
         slot_container.selected_slot_details_UI.Show_Object_Detail(hovered_object, slot_container);
@@ -177,7 +175,7 @@ public class inventory_navigation : MonoBehaviour
         }
     }
 
-    public void back(){
+    public void back(bool forceBack = false){
         if(selected_inventory_slots_container.parent_Slot_Container != null){
             if(selected_inventory_slots_container.gameObjects_to_open.Length > 0){
                 foreach (GameObject g in selected_inventory_slots_container.gameObjects_to_open)
@@ -188,6 +186,11 @@ public class inventory_navigation : MonoBehaviour
             selected_inventory_slots_container.gameObject.SetActive(false);
             selected_inventory_slots_container.selected_slot_details_UI.Show_Object_Detail(null, null);
             enter_a_slot_container(selected_inventory_slots_container.parent_Slot_Container);
+        }
+        else if(forceBack)
+        {
+            GamePad_manager.instance.open_close_inventory(false);
+            inventory_main.instance.TR_Inventaire.gameObject.SetActive(false);    
         }
     }
 }
