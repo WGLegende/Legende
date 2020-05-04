@@ -15,7 +15,7 @@ public class Barre_de_Vie : MonoBehaviour
 	void Start(){ 
 
         instance = this;  
-        RefreshPvPlayerUI(player_main.instance.player_current_pv);
+        //RefreshPvPlayerUI(player_main.instance.player_current_pv);
         
     }
 

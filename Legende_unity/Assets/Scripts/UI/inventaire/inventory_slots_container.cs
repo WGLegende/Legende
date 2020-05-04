@@ -64,14 +64,6 @@ public class inventory_slots_container : MonoBehaviour
     }
 
 
-    public void create_slot_object(inventory_object obj){
-
-            _Slot newSlot = Instantiate(inventory_navigation.instance._PF_slot).GetComponent<_Slot>();
-            newSlot.gameObject.transform.SetParent(GetComponent<Transform>(), false);
-            newSlot.set_slot(obj);
-            slots_list.Add(newSlot.GetComponent<_Slot>(), obj);
-
-    }
 
 
     public void create_new_slots(inventory_slots_container slot_container){
@@ -91,28 +83,40 @@ public class inventory_slots_container : MonoBehaviour
     public void update_defined_slots(inventory_slots_container slot_container){
         foreach (equipement_slot equipement_slot in _equipement_slot)
         {
-            if(equipement_slot.type_Object == inventory_main.type_object.consommable_player || equipement_slot.type_Object == inventory_main.type_object.consommable_ressources){
-                slots_list.Add(equipement_slot.Slot, null);
-            }else{
                 inventory_object obj = inventory_main.instance.object_list.FirstOrDefault(o => o._type_object == equipement_slot.type_Object && o.is_equiped);
                 equipement_slot.Slot.set_slot(obj);
                 slots_list.Add(equipement_slot.Slot, obj);
-            }
+
+
+
+
+            // if(equipement_slot.type_Object == inventory_main.type_object.consommable_player || equipement_slot.type_Object == inventory_main.type_object.consommable_ressources){
+            //     equipement_slot.Slot.set_slot(obj);
+            //     slots_list.Add(equipement_slot.Slot, null);
+            // }else{
+            //     inventory_object obj = inventory_main.instance.object_list.FirstOrDefault(o => o._type_object == equipement_slot.type_Object && o.is_equiped);
+            //     equipement_slot.Slot.set_slot(obj);
+            //     slots_list.Add(equipement_slot.Slot, obj);
+            // }
         }
 
         
         if(hovered_slot == null){
             inventory_navigation.instance.hover_slot(slot_container, 0);
+        }else{
+            inventory_navigation.instance.hover_slot(slot_container, current_hovered_slot_id);
         }
     }
 
 
+    public void create_slot_object(inventory_object obj){
 
+            _Slot newSlot = Instantiate(inventory_navigation.instance._PF_slot).GetComponent<_Slot>();
+            newSlot.gameObject.transform.SetParent(GetComponent<Transform>(), false);
+            newSlot.set_slot(obj);
+            slots_list.Add(newSlot.GetComponent<_Slot>(), obj);
 
-
-
-
-
+    }
 
 
 

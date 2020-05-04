@@ -144,7 +144,7 @@ public class GamePad_manager : MonoBehaviour
                     inventory_navigation.instance.action_jeter();
                 }
                 if(hinput.anyGamepad.B.justPressed){
-                    inventory_navigation.instance.back();
+                    inventory_navigation.instance.back(true);
                 }
 
 

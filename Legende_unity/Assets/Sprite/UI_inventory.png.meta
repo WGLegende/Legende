@@ -10,22 +10,85 @@ TextureImporter:
     second: UI_button_RB
   - first:
       213: -56435265928195772
-    second: UI_button_Y
+    second: UI_button_Ydfdf
   - first:
       213: 65799231546922085
     second: UI_button_B
   - first:
       213: -7538066577579394998
-    second: UI_button_X
+    second: UI_button_A
   - first:
       213: -1744023276934056893
     second: UI_button_A
   - first:
       213: -1299231355901829428
-    second: UI_button_Y
+    second: UI_button_Ydfdf
   - first:
       213: -4352372984308722052
-    second: UI_inventory_1
+    second: UI_Slot
+  - first:
+      213: -5013457254314053226
+    second: UI_Slot_selected
+  - first:
+      213: -8212926862690923117
+    second: UI_Slot
+  - first:
+      213: -1299231355901829428
+    second: UI_button_A
+  - first:
+      213: 1350742730631433446
+    second: UI_button_Ydfdf
+  - first:
+      213: 1326092415452296575
+    second: UI_button_RB
+  - first:
+      213: -413930017739275622
+    second: UI_button_LB
+  - first:
+      213: 4061111373642518503
+    second: UI_slot_quantity
+  - first:
+      213: -6965917179723032650
+    second: UI_Panel_Description
+  - first:
+      213: 4092734423999279014
+    second: UI_inventory_8
+  - first:
+      213: 1850941869457927001
+    second: UI_inventory_9
+  - first:
+      213: 982709729057439844
+    second: UI_inventory_10
+  - first:
+      213: -7884604227209656747
+    second: UI_Slot_empty
+  - first:
+      213: 2575656925126118253
+    second: UI_Panel_Center
+  - first:
+      213: -1854424460380359354
+    second: UI_Panel_Side
+  - first:
+      213: -1299231355901829428
+    second: UI_button_X
+  - first:
+      213: 65799231546922085
+    second: UI_button_B
+  - first:
+      213: 1350742730631433446
+    second: UI_Fond_Perso
+  - first:
+      213: -7538066577579394998
+    second: ddd_inventory_4
+  - first:
+      213: -375005578906337865
+    second: UI_inventory_4
+  - first:
+      213: -1744023276934056893
+    second: UI_button_Y
+  - first:
+      213: 9123130559516331922
+    second: UI_button_A
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -84,7 +147,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -96,7 +159,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -108,7 +171,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Windows Store Apps
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -120,7 +183,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: iPhone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -132,7 +195,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -146,13 +209,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_button_LB
+      name: UI_Slot_hovered
       rect:
         serializedVersion: 2
-        x: 9
-        y: 1005
-        width: 59
-        height: 25
+        x: 451
+        y: 879
+        width: 110
+        height: 110
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,8 +223,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec59447c7de550c70800000000000000
-      internalID: 8936653316440757710
+      spriteID: 691710c803f9c6ab0800000000000000
+      internalID: -5013457254314053226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Slot
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 879
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39d4b074882d50e80800000000000000
+      internalID: -8212926862690923117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_button_X
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 1015
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cce1c6627f338fde0800000000000000
+      internalID: -1299231355901829428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Fond_Perso
+      rect:
+        serializedVersion: 2
+        x: 1468
+        y: 288
+        width: 309
+        height: 480
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ec4a326b5dceb210800000000000000
+      internalID: 1350742730631433446
       vertices: []
       indices: 
       edges: []
@@ -170,10 +296,10 @@ TextureImporter:
       name: UI_button_RB
       rect:
         serializedVersion: 2
-        x: 74
-        y: 1004
-        width: 58
-        height: 26
+        x: 485
+        y: 1030
+        width: 137
+        height: 52
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +307,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72e5f5dc4e8f4e380800000000000000
-      internalID: -8942749298469151193
+      spriteID: f75bf52a60a376210800000000000000
+      internalID: 1326092415452296575
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_button_Y
+      name: UI_button_LB
       rect:
         serializedVersion: 2
-        x: 14
-        y: 946
-        width: 48
-        height: 48
+        x: 648
+        y: 1033
+        width: 137
+        height: 52
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,8 +328,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4419b85bc60873ff0800000000000000
-      internalID: -56435265928195772
+      spriteID: a9287ca87dc614af0800000000000000
+      internalID: -413930017739275622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_slot_quantity
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 1054
+        width: 90
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7efc2431747fb5830800000000000000
+      internalID: 4061111373642518503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Panel_Description
+      rect:
+        serializedVersion: 2
+        x: 1404
+        y: 819
+        width: 542
+        height: 295
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b751d76b37145f90800000000000000
+      internalID: -6965917179723032650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Slot_empty
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 879
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55600a2da32449290800000000000000
+      internalID: -7884604227209656747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Panel_Center
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 39
+        width: 820
+        height: 980
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6bca65b3529eb320800000000000000
+      internalID: 2575656925126118253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Panel_Side
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 48
+        width: 553
+        height: 802
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 645bb3847c2c346e0800000000000000
+      internalID: -1854424460380359354
       vertices: []
       indices: 
       edges: []
@@ -212,10 +443,10 @@ TextureImporter:
       name: UI_button_B
       rect:
         serializedVersion: 2
-        x: 13
-        y: 895
-        width: 48
-        height: 47
+        x: 46
+        y: 1015
+        width: 87
+        height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,34 +461,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_button_X
+      name: UI_button_Y
       rect:
         serializedVersion: 2
-        x: 13
-        y: 844
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a48b226d268636790800000000000000
-      internalID: -7538066577579394998
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UI_button_A
-      rect:
-        serializedVersion: 2
-        x: 13
-        y: 793
-        width: 48
-        height: 48
+        x: 361
+        y: 1020
+        width: 87
+        height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -272,13 +482,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_inventory_1
+      name: UI_button_A
       rect:
         serializedVersion: 2
-        x: 1653
-        y: 134
-        width: 13
-        height: 16
+        x: 149
+        y: 1014
+        width: 87
+        height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -286,8 +496,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c769544a4d34993c0800000000000000
-      internalID: -4352372984308722052
+      spriteID: 29f4b7f48eedb9e70800000000000000
+      internalID: 9123130559516331922
       vertices: []
       indices: 
       edges: []
