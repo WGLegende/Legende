@@ -16,7 +16,8 @@ public class enemy_manager : MonoBehaviour
         attack, 
         sentinel,
         retour_base,
-        patrouille
+        patrouille,
+        dead
     }
 
     public float degatForPlayer;
@@ -26,18 +27,14 @@ public class enemy_manager : MonoBehaviour
     bool trigger = false;
 
     void Awake(){
-
         instance = this;
     }
 
     void Update(){
-       
+  
         foreach (enemy enemy in mesEnemyList){
 
-            if(!enemy.isAlive){
-                StopAllCoroutines();
-            }
-        
+
             if(enemy.old_comportement != enemy.current_comportement){
 
                                       
@@ -51,7 +48,7 @@ public class enemy_manager : MonoBehaviour
 
                 else if (enemy.current_comportement == enemy_manager.comportement.attack){
                     StartCoroutine(enemy_attack(enemy)); 
-                    StartCoroutine(degatParSeconde(enemy));   
+                    StartCoroutine(degatParSeconde(enemy)); 
                 }
 
                 else if (enemy.current_comportement == enemy_manager.comportement.patrouille){
@@ -65,7 +62,7 @@ public class enemy_manager : MonoBehaviour
                 else if (enemy.current_comportement == enemy_manager.comportement.retour_base){
                     StartCoroutine(retour_a_la_base(enemy));   
                 }
-
+                
                 else{
                     enemy.current_comportement = enemy_manager.comportement.attente;
                 } 
@@ -84,10 +81,15 @@ public class enemy_manager : MonoBehaviour
 
  // on se dirige vers le player en marchant
     IEnumerator do_alert_walk(enemy enemy){ 
+
+        Sound_manager.Instance.lanceMusiqueAttaque();
+        enemy.HealthBar.GetComponent<Canvas>().enabled = true; 
+        enemy.agent.speed = enemy.move_speed_walk;
+      
         while(enemy.current_comportement == enemy_manager.comportement.alerte){
             enemy.FaceTarget();    
             enemy.agent.SetDestination(enemy.target.position); 
-            enemy.HealthBar.GetComponent<Canvas>().enabled = true; 
+           
             yield return new  WaitForSeconds(0.02f); 
         } 
         yield return null; 
@@ -98,6 +100,7 @@ public class enemy_manager : MonoBehaviour
     // on se dirige vers le player en courant en appelant les renforts si y a 
     IEnumerator detection_player(enemy enemy){
 
+        enemy.anim.SetBool("eye_alerte",true);
         enemy.HealthBar.GetComponent<Canvas>().enabled = true; 
         enemy.agent.stoppingDistance = enemy.distance_attack; 
         enemy.agent.speed = enemy.move_speed_attack; 
@@ -121,17 +124,45 @@ public class enemy_manager : MonoBehaviour
 
     //on attaque la cible
     IEnumerator enemy_attack(enemy enemy){ 
+
+        int hasard = 0;
+
         while(enemy.current_comportement == enemy_manager.comportement.attack){
+
             enemy.FaceTarget();
             enemy.agent.SetDestination(enemy.target.position);
+            hasard = Random.Range(0,30);
+           
+            
             yield return new  WaitForSeconds(0.02f); 
+            if (player_gamePad_manager.instance.Player_Animator.GetCurrentAnimatorStateInfo(3).IsTag("playerAttack") && hasard == 2 &&  enemy.colliderTrigger.isTrigger == true){
+               enemy.StartCoroutine(defense(enemy));
+            }
         } 
         yield return null; 
     }
 
+    IEnumerator defense(enemy enemy){ 
+
+        enemy.anim.SetBool("defenseShield",true);
+        enemy.colliderTrigger.isTrigger = false;
+        yield return new  WaitForSeconds(4f);
+        enemy.colliderTrigger.isTrigger = true;
+        enemy.anim.SetBool("defenseShield",false);
+                 
+        yield return null; 
+    }
+
     IEnumerator degatParSeconde(enemy enemy){ 
+        
         while(enemy.distancePlayer <= enemy.agent.stoppingDistance){
-            enemy.anim.SetTrigger("attack"+Random.Range(1, 3));
+
+            int random = 0;
+            random = Random.Range(1,3);
+            enemy.anim.SetTrigger("attack"+random);
+
+            if(random == 1){Sound_manager.Instance.lanceMusiquetest();}
+            
             enemy_manager.instance.degatForPlayer = Random.Range(enemy.degatMin, enemy.degatMax); 
             if(enemy.isFlying){ StartCoroutine(ShootPlayer(enemy));}
             yield return new  WaitForSeconds(enemy.cadence_de_frappe); 
@@ -145,6 +176,7 @@ public class enemy_manager : MonoBehaviour
     // retour a la position initiale
     IEnumerator retour_a_la_base(enemy enemy){
 
+        enemy.anim.SetBool("eye_alerte",false);
         enemy.agent.stoppingDistance = 2.5f;
         enemy.agent.SetDestination(enemy.startPosition);
         enemy.HealthBar.GetComponent<Canvas>().enabled = false;
@@ -158,7 +190,8 @@ public class enemy_manager : MonoBehaviour
                 StartCoroutine(remonte(enemy));
             }  
             if(enemy.agent.remainingDistance <= 3f){  //enemy dans sa position initiale
-                enemy.current_comportement =  enemy_manager.comportement.attente;    
+                enemy.current_comportement =  enemy_manager.comportement.attente; 
+                StartCoroutine(axeInitiale(enemy));// rotation intiale pour mode garde
             }
             yield return new WaitForSeconds(0.02f);// apres la boucle
 
@@ -172,6 +205,16 @@ public class enemy_manager : MonoBehaviour
         }     
         yield return null; 
     }
+    // rotation intiale pour mode garde
+    IEnumerator axeInitiale(enemy enemy){
+        float timer = 0;
+        while( timer <= 1f) {
+            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation,enemy.startRotation, Time.deltaTime * 10f);
+            timer += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime); 
+        }     
+    }
+
 
 
 
@@ -185,6 +228,8 @@ public class enemy_manager : MonoBehaviour
     }
 
    
+
+
 
     // enemy se deplace en aleatoire dans son rayon max
     IEnumerator mode_sentinelle(enemy enemy){
@@ -213,41 +258,48 @@ public class enemy_manager : MonoBehaviour
 
 
 
+
     // enemy patrouille suivant un trajet predini
     IEnumerator mode_patrouille(enemy enemy){
+
+        if(enemy.Trajet.Length == 0){
+            Debug.Log("AUCUN TRAJET TROUVE !!!");
+        }else{
            
-        while(enemy.current_comportement == enemy_manager.comportement.patrouille){
+            while(enemy.current_comportement == enemy_manager.comportement.patrouille){
 
-            enemy.agent.SetDestination(enemy.Trajet[enemy.point_de_trajet].position);
-                  
-            if(!enemy.agent.pathPending && enemy.agent.remainingDistance <= 3f){  // prochaine destination
-                enemy.agent.speed = enemy.speed_patrouille;
+                enemy.agent.SetDestination(enemy.Trajet[enemy.point_de_trajet].position);
+                    
+                if(!enemy.agent.pathPending && enemy.agent.remainingDistance <= 3f){  // prochaine destination
+                    enemy.agent.speed = enemy.speed_patrouille;
 
-                if (enemy._parcours == enemy.parcours.allerRetour){ // mode aller retour
+                    if (enemy._parcours == enemy.parcours.allerRetour){ // mode aller retour
 
-                    if(enemy.point_de_trajet == 0){   
-                        enemy.Finparcours = false;
-                        StartCoroutine(waitTimeFinParcours(enemy));
-                        yield return new  WaitForSeconds(8f);  
+                        if(enemy.point_de_trajet == 0){   
+                            enemy.Finparcours = false;
+                            StartCoroutine(waitTimeFinParcours(enemy));
+                            yield return new  WaitForSeconds(8f);  
+                        }
+                        if(enemy.point_de_trajet == enemy.Trajet.Length-1){
+                            enemy.Finparcours = true;
+                            StartCoroutine(waitTimeFinParcours(enemy));
+                            yield return new  WaitForSeconds(8f); 
+                        }
+                        if(enemy.Finparcours){
+                            enemy.point_de_trajet--; 
+                        }
+                        else{
+                            enemy.point_de_trajet++;
+                        }
                     }
-                    if(enemy.point_de_trajet == enemy.Trajet.Length-1){
-                        enemy.Finparcours = true;
-                        StartCoroutine(waitTimeFinParcours(enemy));
-                        yield return new  WaitForSeconds(8f); 
-                    }
-                    if(enemy.Finparcours){
-                        enemy.point_de_trajet--; 
-                    }
-                    else{
-                        enemy.point_de_trajet++;
-                    }
-                }
-                if(enemy._parcours == enemy.parcours.boucle){   // mode Boucle
-                    enemy.point_de_trajet = (enemy.point_de_trajet + 1) % enemy.Trajet.Length;
-                } 
-            }  
-            yield return new  WaitForSeconds(0.02f); 
-        } 
+
+                    if(enemy._parcours == enemy.parcours.boucle){   // mode Boucle
+                        enemy.point_de_trajet = (enemy.point_de_trajet + 1) % enemy.Trajet.Length;
+                    } 
+                }  
+                yield return new  WaitForSeconds(0.02f); 
+            } 
+        }
         yield return null; 
     }
 
@@ -259,6 +311,7 @@ public class enemy_manager : MonoBehaviour
         int rayon_alentour = 10;
 
         while(count > 0){
+
             float xPos = Random.Range(enemy.agent.transform.position.x + rayon_alentour, enemy.agent.transform.position.x - rayon_alentour);
             float zPos = Random.Range(enemy.agent.transform.position.z + rayon_alentour, enemy.agent.transform.position.z - rayon_alentour);      
             enemy.sentinelTarget = new Vector3(xPos,transform.position.y,zPos);
@@ -279,6 +332,8 @@ public class enemy_manager : MonoBehaviour
             renfort.current_comportement = enemy_manager.comportement.cible_detectee;       
         } 
     }
+
+
 
 
 
@@ -304,7 +359,7 @@ public class enemy_manager : MonoBehaviour
 
     
 
-  // declenchee par anim attack Bowman
+  
     public IEnumerator ShootPlayer(enemy enemy){
 
         degatForPlayer = Random.Range(enemy.degatMin,enemy. degatMax);

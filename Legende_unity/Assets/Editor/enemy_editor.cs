@@ -13,6 +13,7 @@
     degatMin,
     degatMax,
     rayon_d_attaque ,
+    angle_de_vison,
     move_speed_attack ,
     move_speed_walk ,
     poids,
@@ -54,6 +55,7 @@
         degatMin = serializedObject.FindProperty ("degatMin");
         degatMax = serializedObject.FindProperty ("degatMax");
         rayon_d_attaque = serializedObject.FindProperty ("rayon_d_attaque");
+        angle_de_vison = serializedObject.FindProperty ("angle_de_vison");
         move_speed_attack = serializedObject.FindProperty ("move_speed_attack");
         move_speed_walk = serializedObject.FindProperty ("move_speed_walk");
         poids = serializedObject.FindProperty ("poids");
@@ -95,8 +97,11 @@
 
         EditorGUILayout.PropertyField( maxPv, new GUIContent("Maximum de PV : ") );  
         EditorGUILayout.PropertyField( degatMin, new GUIContent("Degat Min : "));  
-        EditorGUILayout.PropertyField( degatMax, new GUIContent("Degat Max : "));  
-        EditorGUILayout.PropertyField( rayon_d_attaque, new GUIContent("Rayon d'Attaque: "));  
+        EditorGUILayout.PropertyField( degatMax, new GUIContent("Degat Max : ")); 
+        
+        EditorGUILayout.PropertyField( rayon_d_attaque, new GUIContent("Rayon d'Attaque : ")); 
+        EditorGUILayout.PropertyField( angle_de_vison, new GUIContent("Angle de Vision : ")); 
+          
         EditorGUILayout.PropertyField( move_speed_attack, new GUIContent("Vitesse d'Attaque : "));  
         EditorGUILayout.PropertyField( move_speed_walk, new GUIContent("Vitesse de Marche : "));  
         EditorGUILayout.PropertyField( rayon_d_actionMax, new GUIContent("Deplacement Max : "));  

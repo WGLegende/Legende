@@ -20,7 +20,7 @@ public class player_gamePad_manager : MonoBehaviour
 
     bool isBowman;
     bool isShooting;
-    public string modePlayer = "noweapon";
+    public string modePlayer = "sword";
 
     public int SpeedMove;
     public int speedRotation;
@@ -70,6 +70,8 @@ public class player_gamePad_manager : MonoBehaviour
         // Arrow.SetActive(false);
         // Sword.SetActive(false);
         // Shield.SetActive(false);
+        modePlayer = "sword";
+        changeEquipement();
         isBowman = false;
     }
 
@@ -149,10 +151,20 @@ public class player_gamePad_manager : MonoBehaviour
         if(canAttack){
             if(!isBowman){
                 Player_Animator.SetTrigger("attackSword1");
+
             }
             else if(isBowman){
                 Player_Animator.SetTrigger("attackBow");
             }
+        }
+    }
+
+     public void player_attack2(){
+        if(canAttack){
+            if(!isBowman){
+                Player_Animator.SetTrigger("attackSword2");
+
+            }    
         }
     }
 
@@ -201,7 +213,7 @@ public class player_gamePad_manager : MonoBehaviour
 
     void ShootArrow(){ // called par anim
 
-        enemy_manager.instance.degatForPlayer = degat_bow;
+      //  enemy_manager.instance.degatForPlayer = degat_bow;
         GameObject ProjectileClone = Instantiate(projectile,originArrow.position, originArrow.rotation);
         ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right *puissance_de_tir, ForceMode.Impulse);
         Destroy(ProjectileClone,5);    
