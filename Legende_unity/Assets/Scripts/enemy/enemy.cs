@@ -11,10 +11,12 @@ public class enemy : MonoBehaviour
     public enemy_manager.comportement comportement_actuel = new enemy_manager.comportement();
 
    [Header("Characteristic Enemy")]
+    public float currentPv;
     public float maxPv = 20f;
     public float degatMin = 1f;
     public float degatMax = 5f;
     public float rayon_d_attaque = 10f;
+    public float angle_de_vison = 90f;
     public float move_speed_attack = 3.5f;
     public float move_speed_walk = 1f;
     public float poids = 1f;
@@ -22,6 +24,10 @@ public class enemy : MonoBehaviour
     public int courage;
     public float cadence_de_frappe = 1;
     public float distance_attack = 2.5f;
+    public Rigidbody poids_enemy;
+    int pourcentage_rayonAlerte = 80;
+    public Collider colliderTrigger;
+
 
     [Header("Comportement")]
     public deplacement _deplacement;
@@ -64,21 +70,19 @@ public class enemy : MonoBehaviour
     public enemy[] groupe_soutien;
 
     public Animator anim;
-    public Rigidbody poids_enemy;
 
+    public Slider slider;
+    public Text TX_Pv;
+    public Text TX_PvMax;
+    public GameObject HealthBar;
+
+    public Transform target; // positionPlayer pour navmesh
+    public NavMeshAgent agent;
     public Vector3 startPosition;  // position initiale
-    [HideInInspector] public float currentPv;
-
-    [HideInInspector] public Slider slider;
-    [HideInInspector] public Text TX_Pv;
-    [HideInInspector] public Text TX_PvMax;
-    [HideInInspector] public GameObject HealthBar;
-
-    [HideInInspector] public Transform target; // positionPlayer pour navmesh
-    [HideInInspector] public NavMeshAgent agent;
-
-    [HideInInspector] public float distancePlayer; // distance avec le player
-    [HideInInspector] public float distanceBase ; // distance avec la base
+    public Quaternion startRotation;  // rotation initiale
+    public float distancePlayer; // distance avec le player
+    public float angleVision; // angle de vision
+    public float distanceBase ; // distance avec la base
 
     public bool isAlive = true;
     public bool Alerte = false;
@@ -90,12 +94,17 @@ public class enemy : MonoBehaviour
     public enemy_manager.comportement old_comportement = new enemy_manager.comportement();
 
     public bool enemy_ready = false;
+    float timerNewComportement= 2f;
+
+    ParticleSystem effectSmokeDegat;
 
     void Start(){
        enemy_manager.instance.addToList(GetComponent<enemy>()); 
     }
 
     public void activate_enemy(){
+
+        effectSmokeDegat = GetComponentInChildren<ParticleSystem>();
 
         CharacteristicEnemyPv(maxPv); // on met a jour la barre de vie avec le pvMax
 
@@ -105,15 +114,14 @@ public class enemy : MonoBehaviour
         poids_enemy = GetComponent<Rigidbody>();
         poids_enemy.mass = poids;
 
-        anim = GetComponent<Animator>();
         HealthBar.GetComponent<Canvas>().enabled = false;
 
         target = player_main.instance.player.transform; // on recupere la position du player
         startPosition = new Vector3(agent.transform.position.x, agent.transform.position.y, agent.transform.position.z); // on stocke la position intiale
-    
+        startRotation = transform.rotation; // on stocke la rotation intiale (pour retour mode garde)
+                
         Trajet = new Transform[WayPoint.Length];
         System.Array.Copy(WayPoint, Trajet, WayPoint.Length);
-
 
         if (isFlying){ agent.baseOffset = altitude; }
         agent.stoppingDistance = distance_attack;
@@ -128,33 +136,56 @@ public class enemy : MonoBehaviour
         }
           
         enemy_ready = true;
+        StartCoroutine(check_if_new_comportement()); 
     }
 
 
     void Update(){
-        if(enemy_ready && isAlive){
-            check_if_new_comportement();     
+
+        if(enemy_ready){
+
+            distancePlayer = Vector3.Distance(target.position, transform.position);
+
+            if(distancePlayer < rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100 + 10){
+                timerNewComportement = 0.02f;   
+            }
+            else{
+                timerNewComportement = 1f;  
+            }    
         }
     }
 
-    void check_if_new_comportement(){
+    IEnumerator check_if_new_comportement(){
 
-        anim.SetFloat("SpeedMove", agent.desiredVelocity.magnitude);
-
-        distancePlayer = Vector3.Distance(target.position, transform.position);
-        distanceBase = Vector3.Distance(startPosition, transform.position);
-
-        if(check_if_alert_walk()) {current_comportement = enemy_manager.comportement.alerte;}
-        if(check_if_cible_detectee()) {current_comportement = enemy_manager.comportement.cible_detectee;}
-        if(check_if_attack()) {current_comportement = enemy_manager.comportement.attack;}
-        if(check_if_return_base()) {current_comportement = enemy_manager.comportement.retour_base;}
-        //if(check_if_too_far()) { print("TROP LOIN");}
+        while(enemy_ready){
+      
+            anim.SetFloat("SpeedMove", agent.desiredVelocity.magnitude);
+            distancePlayer = Vector3.Distance(target.position, transform.position);
+            distanceBase = Vector3.Distance(startPosition, transform.position);
+            angleVision = Vector3.Angle(transform.forward, target.position - transform.position);
+        
+            if(check_if_alert_walk()) {current_comportement = enemy_manager.comportement.alerte;}
+            if(check_if_cible_detectee()) {current_comportement = enemy_manager.comportement.cible_detectee;}
+            if(check_if_attack() && isAlive) {current_comportement = enemy_manager.comportement.attack;}
+            if(check_if_return_base()) {current_comportement = enemy_manager.comportement.retour_base;}
+            //if(check_if_too_far()) { print("TROP LOIN");}
+            yield return new  WaitForSeconds(timerNewComportement); 
+        }
     }
 
 
+     // On check si Target est dans son angle de vision
+    public bool check_if_target_visible(){
+        if (Mathf.Abs(angleVision) <= angle_de_vison/2 && distancePlayer <= rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     // On se dirige vers le player
     public bool check_if_alert_walk(){
-        if(distancePlayer <= rayon_d_attaque + rayon_d_attaque*40/100 && !Alerte && distancePlayer > rayon_d_attaque){
+        if(distancePlayer <= rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100 && !Alerte && distancePlayer > rayon_d_attaque && check_if_target_visible()){
             Alerte = true;
             return true;
         }else{
@@ -163,7 +194,7 @@ public class enemy : MonoBehaviour
     }
     // on se dirige vers le player en courant
     public bool check_if_cible_detectee(){
-        if (distancePlayer <= rayon_d_attaque && distancePlayer > agent.stoppingDistance+1 ){
+        if (distancePlayer <= rayon_d_attaque && distancePlayer > agent.stoppingDistance + 1){
             return true;
         }else{
             return false;
@@ -179,7 +210,7 @@ public class enemy : MonoBehaviour
     }
     // Retour vers la base
     public bool check_if_return_base(){
-        if (distancePlayer > rayon_d_attaque + rayon_d_attaque *40/100 && Alerte && courage < 100){ 
+        if (distancePlayer > rayon_d_attaque + rayon_d_attaque *pourcentage_rayonAlerte/100 && Alerte && courage < 100){ 
             Alerte = false;
             return true;
         }else{
@@ -207,7 +238,7 @@ public class enemy : MonoBehaviour
 
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 20f);
     }
 
 
@@ -231,7 +262,7 @@ public class enemy : MonoBehaviour
     //degat inflige a enemy
     public void DegatEnemy(){
 
-        currentPv -= PlayerGamePad.instance.degat_sword;
+        currentPv -= 8;
         currentPv = Mathf.Clamp(currentPv, 0, maxPv);
         slider.value = Mathf.Clamp(currentPv, 0, maxPv);
         TX_Pv.text = currentPv.ToString("f0");
@@ -239,11 +270,32 @@ public class enemy : MonoBehaviour
 
         anim.SetTrigger("getHit");
 
+        if(this.name == "Acolyte Mecanique"){
+            if(currentPv < maxPv/2){
+                effectSmokeDegat.Play();   
+            }
+        }
         if (currentPv <= 0 && isAlive){
+          
             isAlive = false;
+            enemy_manager.instance.StopAllCoroutines();
             HealthBar.GetComponent<Canvas>().enabled = false;
             anim.SetBool("isAlive",false);
+            DisparitionEnemy();
         }
+    }
+
+     // declenchee par anim Die
+    void DisparitionEnemy(){
+
+        Vector3 positionSave = transform.position; // on recupere la derniere positon enemy pour la creation de la particule
+        Quaternion rotationSave = transform.rotation;
+        GameObject particuleDeath = Instantiate(particule, positionSave, rotationSave);
+
+        Destroy(gameObject);
+        Sound_manager.Instance.lanceMusiquetest();
+        Destroy(particuleDeath,5f); 
+        enemy_manager.instance.mesEnemyList.Remove(this);    
     }
 
 
@@ -258,17 +310,6 @@ public class enemy : MonoBehaviour
         slider.maxValue = maxPv; // maj du slider en fonction du pvMax
     }
 
-    // declenchee par anim Die
-    void DisparitionEnemy(){
-
-        Vector3 positionSave = transform.position; // on recupere la derniere positon enemy pour la creation de la particule
-        Quaternion rotationSave = transform.rotation;
-        GameObject particuleDeath = Instantiate(particule, positionSave, rotationSave);
-        Destroy(gameObject,1.5f);
-        Destroy(particuleDeath,5f);
-        enemy_manager.instance.mesEnemyList.Remove(this);
-    }
-
 
     void OnDrawGizmosSelected()
     {
@@ -279,11 +320,23 @@ public class enemy : MonoBehaviour
         Gizmos.DrawWireSphere(startPosition,rayon_d_actionMax);
 
         Gizmos.color = Color.yellow; // rayon d'alerte
-        Gizmos.DrawWireSphere(transform.position,rayon_d_attaque+rayon_d_attaque*40/100);
+        Gizmos.DrawWireSphere(transform.position,rayon_d_attaque+rayon_d_attaque*pourcentage_rayonAlerte/100);
 
-        for (int i = 0; i < WayPoint.Length - 1; i++){
+        for (int i = 0; i < WayPoint.Length - 1; i++){ // trace pour patrouile
             Debug.DrawLine(WayPoint[i].position,WayPoint[i + 1].position, Color.magenta);
         }
+
+        // trace pour angle de vision
+        Gizmos.color = Color.white;
+        float totalFOV = angle_de_vison;
+        float halfFOV = totalFOV / 2.0f;
+
+        Quaternion leftRayRotation = Quaternion.AngleAxis( -halfFOV, Vector3.up );
+        Quaternion rightRayRotation = Quaternion.AngleAxis( halfFOV, Vector3.up );
+        Vector3 leftRayDirection = leftRayRotation * transform.forward;
+        Vector3 rightRayDirection = rightRayRotation * transform.forward;
+        Gizmos.DrawRay( transform.position, leftRayDirection * (rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100));
+        Gizmos.DrawRay( transform.position, rightRayDirection * (rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100));
     }
 
 

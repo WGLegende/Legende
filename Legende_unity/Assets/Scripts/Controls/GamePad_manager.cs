@@ -88,6 +88,10 @@ public class GamePad_manager : MonoBehaviour
                     player_gamePad_manager.instance.player_attack();
                 }
 
+                // if(hinput.anyGamepad.B.doublePress){
+                //     player_gamePad_manager.instance.player_attack2();
+                // }
+
                 // Utilise des shortcuts
                 if(hinput.anyGamepad.dPad.up.justPressed){
                     inventory_shortcuts.instance.use_shortcut(0);
