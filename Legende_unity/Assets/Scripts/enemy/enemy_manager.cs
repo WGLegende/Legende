@@ -14,6 +14,7 @@ public class enemy_manager : MonoBehaviour
         alerte,
         cible_detectee,
         attack, 
+        defense,
         sentinel,
         retour_base,
         patrouille,
@@ -21,34 +22,41 @@ public class enemy_manager : MonoBehaviour
     }
 
     public float degatForPlayer;
+    public bool player_is_attack;
     public bool boolAppelSoutien = false;
+    bool zicFight;
 
     public List<enemy> mesEnemyList = new List<enemy>();
-    bool trigger = false;
+
 
     void Awake(){
-        instance = this;
+        instance = this;   
     }
 
     void Update(){
-  
+
         foreach (enemy enemy in mesEnemyList){
 
-
             if(enemy.old_comportement != enemy.current_comportement){
-
+    
+                if(enemy.current_comportement == enemy_manager.comportement.dead){ 
+                    enemy.DisparitionEnemy(); 
+                }
                                       
                 if(enemy.current_comportement == enemy_manager.comportement.alerte){
-                    StartCoroutine(do_alert_walk(enemy));
+                    StartCoroutine(do_alert_walk(enemy)); 
                 }
 
                 else if (enemy.current_comportement == enemy_manager.comportement.cible_detectee){
-                    StartCoroutine(detection_player(enemy));         
+                    StartCoroutine(detection_player(enemy));      
                 }
 
                 else if (enemy.current_comportement == enemy_manager.comportement.attack){
                     StartCoroutine(enemy_attack(enemy)); 
-                    StartCoroutine(degatParSeconde(enemy)); 
+                }
+
+                else if (enemy.current_comportement == enemy_manager.comportement.defense){
+                    StartCoroutine(mode_defense(enemy)); 
                 }
 
                 else if (enemy.current_comportement == enemy_manager.comportement.patrouille){
@@ -60,36 +68,56 @@ public class enemy_manager : MonoBehaviour
                 }
 
                 else if (enemy.current_comportement == enemy_manager.comportement.retour_base){
-                    StartCoroutine(retour_a_la_base(enemy));   
+                    StartCoroutine(retour_a_la_base(enemy));  
                 }
                 
                 else{
                     enemy.current_comportement = enemy_manager.comportement.attente;
                 } 
+
+                if(mesEnemyList.Any(e => e.current_comportement == comportement.cible_detectee) && !zicFight){
+                    Music_sound.instance.PlayMusic("FightTheme");
+                    Music_sound.instance.FadeOutAndStop("MainTheme",2f); 
+                    zicFight = true;
+                }
+
+                else if(mesEnemyList.All(e => e.current_comportement == comportement.patrouille ||
+                                              e.current_comportement == comportement.sentinel ||
+                                              e.current_comportement == comportement.retour_base ||
+                                              e.current_comportement == comportement.dead ||
+                                              e.current_comportement == comportement.attente)){
+
+                    Music_sound.instance.PlayMusic("MainTheme");   
+                    Music_sound.instance.FadeOutAndStop("FightTheme",2f);
+                    zicFight = false;
+                }
+
                 enemy.old_comportement = enemy.current_comportement;
             }
-        }    
+        }      
     }
 
-  
     public void addToList(enemy enemy){
         enemy.activate_enemy();
         mesEnemyList.Add(enemy); 
     }
 
+    public void playerAttack(){ // declenche par player manager
+        player_is_attack = true;
+    }
 
 
  // on se dirige vers le player en marchant
     IEnumerator do_alert_walk(enemy enemy){ 
 
-        Sound_manager.Instance.lanceMusiqueAttaque();
+        enemy.EnemyAttackScript.animAlerte(true);
         enemy.HealthBar.GetComponent<Canvas>().enabled = true; 
         enemy.agent.speed = enemy.move_speed_walk;
-      
+
         while(enemy.current_comportement == enemy_manager.comportement.alerte){
+
             enemy.FaceTarget();    
             enemy.agent.SetDestination(enemy.target.position); 
-           
             yield return new  WaitForSeconds(0.02f); 
         } 
         yield return null; 
@@ -100,16 +128,23 @@ public class enemy_manager : MonoBehaviour
     // on se dirige vers le player en courant en appelant les renforts si y a 
     IEnumerator detection_player(enemy enemy){
 
-        enemy.anim.SetBool("eye_alerte",true);
+        enemy.EnemyAttackScript.animAlerte(true);
         enemy.HealthBar.GetComponent<Canvas>().enabled = true; 
-        enemy.agent.stoppingDistance = enemy.distance_attack; 
         enemy.agent.speed = enemy.move_speed_attack; 
-        appelRenfort(enemy);
-        StartCoroutine(nest(enemy));
+
+        if(!boolAppelSoutien && enemy.nbrEnemy > 0){
+            appelRenfort(enemy);
+            StartCoroutine(nest(enemy));
+            boolAppelSoutien = true;
+        }
+
+       // yield return new WaitForSeconds(0.5f);// test pour eviter permutation trop rapide
       
         while(enemy.current_comportement == enemy_manager.comportement.cible_detectee){
+
                      
             enemy.agent.SetDestination(enemy.target.position);
+            enemy.agent.stoppingDistance = enemy.distance_attack; 
           
             if(enemy.isFlying){// on descend pour attaquer
                 float levelPlayer = enemy.target.position.y;
@@ -122,64 +157,52 @@ public class enemy_manager : MonoBehaviour
 
 
 
+
+
     //on attaque la cible
     IEnumerator enemy_attack(enemy enemy){ 
 
-        int hasard = 0;
-
+        enemy.EnemyAttackScript.StartAttack(); // on declenche attack dans script enemyAttack
+     
         while(enemy.current_comportement == enemy_manager.comportement.attack){
-
+            
             enemy.FaceTarget();
             enemy.agent.SetDestination(enemy.target.position);
-            hasard = Random.Range(0,30);
-           
-            
+            enemy.agent.stoppingDistance = enemy.distance_attack; 
             yield return new  WaitForSeconds(0.02f); 
-            if (player_gamePad_manager.instance.Player_Animator.GetCurrentAnimatorStateInfo(3).IsTag("playerAttack") && hasard == 2 &&  enemy.colliderTrigger.isTrigger == true){
-               enemy.StartCoroutine(defense(enemy));
-            }
+        } 
+
+        enemy.EnemyAttackScript.StopAttack();
+             
+        yield return null; 
+    }
+
+
+     //en defense
+    IEnumerator mode_defense(enemy enemy){ 
+
+        player_is_attack = false;
+        enemy.EnemyDefenseScript.enemyIsDefense();
+      
+        while(enemy.current_comportement == enemy_manager.comportement.defense){  
+            enemy.FaceTarget();
+            enemy.agent.SetDestination(enemy.target.position);
+            yield return new  WaitForSeconds(0.02f); 
         } 
         yield return null; 
     }
 
-    IEnumerator defense(enemy enemy){ 
-
-        enemy.anim.SetBool("defenseShield",true);
-        enemy.colliderTrigger.isTrigger = false;
-        yield return new  WaitForSeconds(4f);
-        enemy.colliderTrigger.isTrigger = true;
-        enemy.anim.SetBool("defenseShield",false);
-                 
-        yield return null; 
-    }
-
-    IEnumerator degatParSeconde(enemy enemy){ 
-        
-        while(enemy.distancePlayer <= enemy.agent.stoppingDistance){
-
-            int random = 0;
-            random = Random.Range(1,3);
-            enemy.anim.SetTrigger("attack"+random);
-
-            if(random == 1){Sound_manager.Instance.lanceMusiquetest();}
-            
-            enemy_manager.instance.degatForPlayer = Random.Range(enemy.degatMin, enemy.degatMax); 
-            if(enemy.isFlying){ StartCoroutine(ShootPlayer(enemy));}
-            yield return new  WaitForSeconds(enemy.cadence_de_frappe); 
-        }    
-        yield return null; 
-    }
-    
-
-
-
+  
     // retour a la position initiale
     IEnumerator retour_a_la_base(enemy enemy){
 
-        enemy.anim.SetBool("eye_alerte",false);
-        enemy.agent.stoppingDistance = 2.5f;
+        enemy.EnemyAttackScript.FinAlerte();
+        enemy.EnemyAttackScript.animAlerte(false);
+
+        enemy.agent.stoppingDistance = 1f;
         enemy.agent.SetDestination(enemy.startPosition);
         enemy.HealthBar.GetComponent<Canvas>().enabled = false;
+
         if (enemy.distanceBase > enemy.rayon_d_actionMax){
             enemy.agent.speed = player_gamePad_manager.instance.SpeedMove + 0.05f; 
         }
@@ -188,11 +211,13 @@ public class enemy_manager : MonoBehaviour
 
             if(enemy.isFlying){// on remonte  
                 StartCoroutine(remonte(enemy));
-            }  
-            if(enemy.agent.remainingDistance <= 3f){  //enemy dans sa position initiale
+            } 
+
+            if(enemy.agent.remainingDistance <=  enemy.agent.stoppingDistance ){  //enemy dans sa position initiale
                 enemy.current_comportement =  enemy_manager.comportement.attente; 
                 StartCoroutine(axeInitiale(enemy));// rotation intiale pour mode garde
             }
+
             yield return new WaitForSeconds(0.02f);// apres la boucle
 
             if(enemy._deplacement == enemy.deplacement.Sentinel){ // si sentinel on rebascule en mode sentinel  
@@ -205,13 +230,20 @@ public class enemy_manager : MonoBehaviour
         }     
         yield return null; 
     }
-    // rotation intiale pour mode garde
+
+
+
+
+    // On se remet dans l'axe initial pour le mode garde
     IEnumerator axeInitiale(enemy enemy){
+
+        yield return new WaitForSeconds(1f);
+        
         float timer = 0;
-        while( timer <= 1f) {
-            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation,enemy.startRotation, Time.deltaTime * 10f);
+        while( timer <= 2f) {
+            enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation,enemy.startRotation, Time.deltaTime * 2f);
             timer += Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime); 
+            yield return new WaitForSeconds(0.02f); 
         }     
     }
 
@@ -234,11 +266,15 @@ public class enemy_manager : MonoBehaviour
     // enemy se deplace en aleatoire dans son rayon max
     IEnumerator mode_sentinelle(enemy enemy){
 
-        enemy.agent.stoppingDistance = 3f;
+        enemy.agent.stoppingDistance = 1f;
+        enemy.EnemyAttackScript.FinAlerte();
+
+        enemy.sentinelTarget = new Vector3(enemy.startPosition.x+Random.Range(0,10),transform.position.y,enemy.startPosition.z+Random.Range(0,10));
+        enemy.agent.SetDestination(enemy.sentinelTarget);
 
         while(enemy.current_comportement == enemy_manager.comportement.sentinel){
               
-            if(!enemy.agent.pathPending && enemy.agent.remainingDistance <= 3f){
+            if(!enemy.agent.pathPending && enemy.agent.remainingDistance <= enemy.agent.stoppingDistance){
 
                 enemy.agent.speed = enemy.speed_sentinelle;
         
@@ -250,7 +286,7 @@ public class enemy_manager : MonoBehaviour
                 enemy.sentinelTarget = new Vector3(xPos,transform.position.y,zPos);
                 enemy.agent.SetDestination(enemy.sentinelTarget);
             }          
-                yield return new  WaitForSeconds(0.02f); 
+            yield return new  WaitForSeconds(0.02f); 
         } 
         yield return null; 
     }
@@ -262,15 +298,18 @@ public class enemy_manager : MonoBehaviour
     // enemy patrouille suivant un trajet predini
     IEnumerator mode_patrouille(enemy enemy){
 
-        if(enemy.Trajet.Length == 0){
-            Debug.Log("AUCUN TRAJET TROUVE !!!");
-        }else{
-           
-            while(enemy.current_comportement == enemy_manager.comportement.patrouille){
+        enemy.EnemyAttackScript.FinAlerte();
+        enemy.agent.stoppingDistance = 1f;
 
+        if(enemy.Trajet.Length == 0){
+            Debug.LogError("AUCUN TRAJET TROUVE !!!");
+        }else{
+            
+            while(enemy.current_comportement == enemy_manager.comportement.patrouille){
+               
                 enemy.agent.SetDestination(enemy.Trajet[enemy.point_de_trajet].position);
                     
-                if(!enemy.agent.pathPending && enemy.agent.remainingDistance <= 3f){  // prochaine destination
+                if(!enemy.agent.pathPending && enemy.agent.remainingDistance <= 2f){  // prochaine destination
                     enemy.agent.speed = enemy.speed_patrouille;
 
                     if (enemy._parcours == enemy.parcours.allerRetour){ // mode aller retour
@@ -303,11 +342,12 @@ public class enemy_manager : MonoBehaviour
         yield return null; 
     }
 
+
     // petit check en fin de parcours aux alentours
     public IEnumerator waitTimeFinParcours(enemy enemy){ 
 
         yield return new  WaitForSeconds(2f);
-        int count = 2;
+        int count = 2; // nbr de position avant de repartir
         int rayon_alentour = 10;
 
         while(count > 0){
@@ -340,33 +380,26 @@ public class enemy_manager : MonoBehaviour
     public IEnumerator nest(enemy enemy){ 
 
         while(enemy.nbrEnemy > 0){ // nest
-        // logique en byucle PENDANT
+     
+            GameObject.Find("usine").GetComponent<Animator>().SetTrigger("createRobot");
+            yield return new  WaitForSeconds(0.5f);    
 
             enemy Clone = Instantiate(enemy.newEnemy, enemy.emplacement_caserne.position, enemy.emplacement_caserne.rotation).GetComponent<enemy>();
-            Clone.CharacteristicEnemyPv(Random.Range(30,80));
-            Clone.move_speed_attack = Random.Range(2f,6f);
-            Clone.cadence_de_frappe = Random.Range(1,4);  
+            yield return new  WaitForSeconds(0.2f);    
+            Clone.CharacteristicEnemyPv(Random.Range(30,200));
+            Clone.move_speed_attack = Random.Range(2f,10f);
+            Clone.EnemyAttackScript.cadence_de_frappe = Random.Range(1,4);  
             Clone.courage = Random.Range(1,100);  
             Clone.nbrEnemy = 0;
-            Clone.current_comportement = enemy_manager.comportement.sentinel;
+            enemy.nbrEnemy--;   
+            Clone.Alerte = true;
             Clone.current_comportement = enemy_manager.comportement.cible_detectee;  
-            enemy.nbrEnemy--;
+
             yield return new  WaitForSeconds(enemy.cadence_enemy);    
         }         
-        // logique qui se fait une seule fois APRES  
+      
         yield return null; 
     }
 
-    
-
-  
-    public IEnumerator ShootPlayer(enemy enemy){
-
-        degatForPlayer = Random.Range(enemy.degatMin,enemy. degatMax);
-        GameObject ProjectileClone = Instantiate(enemy.Projectile,enemy.OriginProjectile.position,enemy. OriginProjectile.rotation);
-        ProjectileClone.GetComponent<Rigidbody>().AddForce(enemy.OriginProjectile.right *enemy.power_projectile, ForceMode.Impulse);
-        Destroy(ProjectileClone,3);
-        yield return null;  
-    }
            
 }

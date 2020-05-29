@@ -13,7 +13,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -28,7 +28,28 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - Tete_main
+    - Tete_eye_brow
+    - Tete_eye
+    - Corps_ventilo
+    - Corps_main
+    - Corps_estoc
+    - Corps_epee_pivot
+    - Corps_epee_lame
+    - Corps_epaule_ventilo
+    - Corps_epaule_soufflerie
+    - Corps_epaule_estoc
+    - Corps_epaule_epee
+    - Corps_epaule_empty
+    - Corps_epaule_bouclier
+    - Corps_bouclier_pivot
+    - Corps_bouclier
+    - Tete_spike_05
+    - Tete_spike_04
+    - Tete_spike_03
+    - Tete_spike_02
+    - Tete_spike_01
     extraUserProperties: []
     clipAnimations: []
     isReadable: 0
@@ -89,7 +110,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

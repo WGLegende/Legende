@@ -24,10 +24,13 @@ public class FireWall : MonoBehaviour
     void Update(){
 
         if (isActive){
+
             timer += Time.deltaTime;
+
                 if (timer >= dureeCycle){
                     timer = 0;
                     toggle = !toggle;
+                    
                     if (toggle){
                         fireOn();
                     }else{

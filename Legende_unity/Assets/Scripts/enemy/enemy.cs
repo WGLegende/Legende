@@ -10,6 +10,9 @@ public class enemy : MonoBehaviour
 {
     public enemy_manager.comportement comportement_actuel = new enemy_manager.comportement();
 
+    public EnemyAttack EnemyAttackScript;
+    public EnemyDefense EnemyDefenseScript;
+
    [Header("Characteristic Enemy")]
     public float currentPv;
     public float maxPv = 20f;
@@ -20,14 +23,12 @@ public class enemy : MonoBehaviour
     public float move_speed_attack = 3.5f;
     public float move_speed_walk = 1f;
     public float poids = 1f;
-    public float rayon_d_actionMax = 20f;
+    public float rayon_d_actionMax = 30f;
     public int courage;
-    public float cadence_de_frappe = 1;
     public float distance_attack = 2.5f;
     public Rigidbody poids_enemy;
-    int pourcentage_rayonAlerte = 80;
-    public Collider colliderTrigger;
-
+    int pourcentage_rayonAlerte = 60;
+    public bool isDefense;
 
     [Header("Comportement")]
     public deplacement _deplacement;
@@ -43,6 +44,13 @@ public class enemy : MonoBehaviour
         allerRetour
     }
 
+    public race _race;
+    public enum race{
+
+        robot,
+        human
+    }
+   
     public float speed_sentinelle = 1f;
     public float speed_patrouille = 1f;
     public Transform[] WayPoint;
@@ -56,11 +64,6 @@ public class enemy : MonoBehaviour
     public bool isFlying;
     public float altitude;
 
-    public bool isBowman;
-    public GameObject Projectile;
-    public Transform OriginProjectile;
-    public float power_projectile = 10f;
-    
     [Header("Renfort")]
     public GameObject newEnemy;
     public int nbrEnemy = 0;
@@ -98,12 +101,26 @@ public class enemy : MonoBehaviour
 
     ParticleSystem effectSmokeDegat;
 
+    public GameObject effectSword;
+    public GameObject origin_impact;
+
+    public GameObject bouclier;
+    
+
     void Start(){
+
        enemy_manager.instance.addToList(GetComponent<enemy>()); 
+       saveEnemy.instance.SaveEnemyList.Add(gameObject); 
+
     }
 
     public void activate_enemy(){
 
+        anim.SetBool("activate",true);
+
+        EnemyAttackScript = GetComponentInParent<EnemyAttack>();
+        EnemyDefenseScript = GetComponentInParent<EnemyDefense>();
+      
         effectSmokeDegat = GetComponentInChildren<ParticleSystem>();
 
         CharacteristicEnemyPv(maxPv); // on met a jour la barre de vie avec le pvMax
@@ -124,17 +141,19 @@ public class enemy : MonoBehaviour
         System.Array.Copy(WayPoint, Trajet, WayPoint.Length);
 
         if (isFlying){ agent.baseOffset = altitude; }
+        
+                  
         agent.stoppingDistance = distance_attack;
 
-        if(current_comportement != enemy_manager.comportement.cible_detectee){
+      
             if(_deplacement == deplacement.Patrouille){
-                current_comportement = enemy_manager.comportement.patrouille;
+               current_comportement = enemy_manager.comportement.patrouille;
             }
-            else if(_deplacement == deplacement.Sentinel){
+            if(_deplacement == deplacement.Sentinel){
                 current_comportement = enemy_manager.comportement.sentinel; 
             }
-        }
-          
+        
+         
         enemy_ready = true;
         StartCoroutine(check_if_new_comportement()); 
     }
@@ -146,7 +165,7 @@ public class enemy : MonoBehaviour
 
             distancePlayer = Vector3.Distance(target.position, transform.position);
 
-            if(distancePlayer < rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100 + 10){
+            if(distancePlayer < rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100 + 10){ // si player se rapproche on accelere le check comportement
                 timerNewComportement = 0.02f;   
             }
             else{
@@ -157,8 +176,8 @@ public class enemy : MonoBehaviour
 
     IEnumerator check_if_new_comportement(){
 
-        while(enemy_ready){
-      
+        while(enemy_ready && isAlive){
+
             anim.SetFloat("SpeedMove", agent.desiredVelocity.magnitude);
             distancePlayer = Vector3.Distance(target.position, transform.position);
             distanceBase = Vector3.Distance(startPosition, transform.position);
@@ -166,7 +185,8 @@ public class enemy : MonoBehaviour
         
             if(check_if_alert_walk()) {current_comportement = enemy_manager.comportement.alerte;}
             if(check_if_cible_detectee()) {current_comportement = enemy_manager.comportement.cible_detectee;}
-            if(check_if_attack() && isAlive) {current_comportement = enemy_manager.comportement.attack;}
+            if(check_if_attack()) {current_comportement = enemy_manager.comportement.attack;}
+            if(check_if_defense()) {current_comportement = enemy_manager.comportement.defense;}
             if(check_if_return_base()) {current_comportement = enemy_manager.comportement.retour_base;}
             //if(check_if_too_far()) { print("TROP LOIN");}
             yield return new  WaitForSeconds(timerNewComportement); 
@@ -192,25 +212,37 @@ public class enemy : MonoBehaviour
             return false;
         }
     }
+
     // on se dirige vers le player en courant
     public bool check_if_cible_detectee(){
-        if (distancePlayer <= rayon_d_attaque && distancePlayer > agent.stoppingDistance + 1){
+        if (distancePlayer <= rayon_d_attaque && distancePlayer > agent.stoppingDistance && !isDefense){   
             return true;
         }else{
             return false;
         }
     }
+
     // Attaque
     public bool check_if_attack(){
-        if (distancePlayer <= agent.stoppingDistance){
-                return true;
+        if (distancePlayer < agent.stoppingDistance && !isDefense){
+            return true;
         }else{
             return false;
         }
     }
+
+    // Defense
+    public bool check_if_defense(){       
+        if (!EnemyAttackScript.attack_special_is_active && EnemyAttackScript.enemyIsAttack && enemy_manager.instance.player_is_attack && !isDefense && distancePlayer < 5){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     // Retour vers la base
     public bool check_if_return_base(){
-        if (distancePlayer > rayon_d_attaque + rayon_d_attaque *pourcentage_rayonAlerte/100 && Alerte && courage < 100){ 
+        if (distancePlayer > rayon_d_attaque + rayon_d_attaque * pourcentage_rayonAlerte/100 && Alerte && courage < 100){ 
             Alerte = false;
             return true;
         }else{
@@ -218,7 +250,7 @@ public class enemy : MonoBehaviour
         }
     }
 
- // Retour vers la base si trop loin
+    // Retour vers la base si trop loin  (pas encore implementee)
     public bool check_if_too_far(){
         if (distanceBase > rayon_d_actionMax && Alerte && courage < 100){
             Alerte = false;
@@ -242,19 +274,10 @@ public class enemy : MonoBehaviour
     }
 
 
-    // declenchee par anim attack Bowman
-    public void ShootArrow(){
-
-        enemy_manager.instance.degatForPlayer = Random.Range(degatMin, degatMax);
-        GameObject ProjectileClone = Instantiate(Projectile,OriginProjectile.position, OriginProjectile.rotation);
-        ProjectileClone.GetComponent<Rigidbody>().AddForce(OriginProjectile.right *power_projectile, ForceMode.Impulse);
-        Destroy(ProjectileClone,3);
-    }
-
 
     public void OnTriggerEnter(Collider other) {
 
-        if(other.gameObject.tag == "degatEnemy"){
+        if(other.gameObject.tag == "degatEnemy" && isAlive && !isDefense){
             DegatEnemy();
         }
     }
@@ -262,52 +285,102 @@ public class enemy : MonoBehaviour
     //degat inflige a enemy
     public void DegatEnemy(){
 
-        currentPv -= 8;
-        currentPv = Mathf.Clamp(currentPv, 0, maxPv);
-        slider.value = Mathf.Clamp(currentPv, 0, maxPv);
-        TX_Pv.text = currentPv.ToString("f0");
-        HealthBar.GetComponent<Canvas>().enabled = true;
+            currentPv -= 5; // a adapter
 
-        anim.SetTrigger("getHit");
+        if (currentPv > 0){
 
-        if(this.name == "Acolyte Mecanique"){
-            if(currentPv < maxPv/2){
+            freezeEffect.instance.Freeze();
+
+            GameObject effect_sword = Instantiate(effectSword, origin_impact.transform.position, Quaternion.identity);
+            Destroy(effect_sword, 2f); 
+
+            currentPv = Mathf.Clamp(currentPv, 0, maxPv);
+            slider.value = Mathf.Clamp(currentPv, 0, maxPv);
+            TX_Pv.text = currentPv.ToString("f0");
+            HealthBar.GetComponent<Canvas>().enabled = true;
+
+            anim.SetTrigger("getHit");
+            PlaySound(5);
+
+            if( effectSmokeDegat != null && currentPv < maxPv/2){ 
+
+                effectSmokeDegat.startSize += 1f;  
                 effectSmokeDegat.Play();   
             }
         }
-        if (currentPv <= 0 && isAlive){
-          
+
+        else if (currentPv <= 0){
+
             isAlive = false;
-            enemy_manager.instance.StopAllCoroutines();
+            current_comportement = enemy_manager.comportement.dead;
             HealthBar.GetComponent<Canvas>().enabled = false;
-            anim.SetBool("isAlive",false);
-            DisparitionEnemy();
+            EnemyAttackScript.StopAttack();
+            hinput.gamepad[0].StopVibration();
+        }  
+         
+    }
+
+    // declenche par manager
+    public void DisparitionEnemy(){
+
+        switch (_race){ //enum type race
+
+            case race.robot: AudioSource.PlayClipAtPoint(Enemy_sound.instance.Robot[9], transform.position);
+                             hinput.gamepad[0].Vibrate(0.4f);
+                             Vector3 positionSave = transform.position; // on recupere la derniere position enemy pour la creation de la particule
+                             Quaternion rotationSave = transform.rotation;
+                             GameObject particuleDeath = Instantiate(particule, positionSave, rotationSave);
+                             Destroy(particuleDeath,5f);
+                             this.enabled = false;
+                             gameObject.SetActive(false);  
+            break;
+
+            case race.human: PlaySound(9);
+                             anim.SetBool("isAlive",false);
+                             this.enabled = false;
+            break;
         }
     }
 
-     // declenchee par anim Die
-    void DisparitionEnemy(){
 
-        Vector3 positionSave = transform.position; // on recupere la derniere positon enemy pour la creation de la particule
-        Quaternion rotationSave = transform.rotation;
-        GameObject particuleDeath = Instantiate(particule, positionSave, rotationSave);
+   
+    public void PlaySound(int i){
 
-        Destroy(gameObject);
-        Sound_manager.Instance.lanceMusiquetest();
-        Destroy(particuleDeath,5f); 
-        enemy_manager.instance.mesEnemyList.Remove(this);    
+        switch (_race){ //enum type son
+            case race.robot: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Robot[i]); break;
+            case race.human: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Human[i]); break;
+        }
+    }
+
+    public void StopSound(int i){
+
+        switch (_race){
+            case race.robot: Enemy_sound.instance.StopSound(gameObject,Enemy_sound.instance.Robot[i]); break;
+            case race.human: Enemy_sound.instance.StopSound(gameObject,Enemy_sound.instance.Human[i]); break;
+        }
     }
 
 
-    // declenchee par le void start
+    // declenchee par le void start et par le saveEnemy
     public void CharacteristicEnemyPv(float valueMax){
 
         maxPv = valueMax;
+        slider.maxValue = maxPv; // maj du slider en fonction du pvMax
         currentPv  = maxPv;
         slider.value = currentPv;
         TX_Pv.text = currentPv.ToString();
         TX_PvMax.text = maxPv.ToString();
-        slider.maxValue = maxPv; // maj du slider en fonction du pvMax
+
+        if(effectSmokeDegat != null ){
+            effectSmokeDegat.Stop();
+            effectSmokeDegat.startSize = 0f;
+        }
+
+        if(bouclier == null)
+        return;
+
+        bouclier.SetActive(true);
+        GetComponentInChildren<EnemyBouclier>().resistance_Shield = EnemyDefenseScript.resistance_bouclier;
     }
 
 
@@ -322,7 +395,7 @@ public class enemy : MonoBehaviour
         Gizmos.color = Color.yellow; // rayon d'alerte
         Gizmos.DrawWireSphere(transform.position,rayon_d_attaque+rayon_d_attaque*pourcentage_rayonAlerte/100);
 
-        for (int i = 0; i < WayPoint.Length - 1; i++){ // trace pour patrouile
+        for (int i = 0; i < WayPoint.Length - 1; i++){ // trace pour patrouille
             Debug.DrawLine(WayPoint[i].position,WayPoint[i + 1].position, Color.magenta);
         }
 
