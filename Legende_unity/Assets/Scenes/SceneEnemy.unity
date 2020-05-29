@@ -7030,7 +7030,7 @@ PrefabInstance:
     - target: {fileID: 3396128613301961844, guid: 71c72f01176d8f247ba3d018ed6e09c5,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3396128613301961848, guid: 71c72f01176d8f247ba3d018ed6e09c5,
         type: 3}
@@ -7045,7 +7045,7 @@ PrefabInstance:
     - target: {fileID: 3396128613301961848, guid: 71c72f01176d8f247ba3d018ed6e09c5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -127.4
+      value: -110.6
       objectReference: {fileID: 0}
     - target: {fileID: 3396128613301961848, guid: 71c72f01176d8f247ba3d018ed6e09c5,
         type: 3}
@@ -7089,54 +7089,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3396128613301961849, guid: 71c72f01176d8f247ba3d018ed6e09c5,
         type: 3}
+      propertyPath: emplacement_caserne
+      value: 
+      objectReference: {fileID: 1065949948}
+    - target: {fileID: 3396128613301961849, guid: 71c72f01176d8f247ba3d018ed6e09c5,
+        type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 5056625735218131700}
     - target: {fileID: 3396128613301961849, guid: 71c72f01176d8f247ba3d018ed6e09c5,
         type: 3}
-      propertyPath: nbrEnemy
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3396128613301961849, guid: 71c72f01176d8f247ba3d018ed6e09c5,
-        type: 3}
-      propertyPath: cadence_enemy
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3396128613301961849, guid: 71c72f01176d8f247ba3d018ed6e09c5,
-        type: 3}
       propertyPath: newEnemy
       value: 
-      objectReference: {fileID: 1766584660062716387, guid: 564f9238474d8e44da97f5fe470b4509,
+      objectReference: {fileID: 1766584660062716387, guid: 3f83dd28dcd8e844395d44887fe25163,
         type: 3}
-    - target: {fileID: 3396128613301961849, guid: 71c72f01176d8f247ba3d018ed6e09c5,
-        type: 3}
-      propertyPath: _deplacement
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3396128613301961849, guid: 71c72f01176d8f247ba3d018ed6e09c5,
-        type: 3}
-      propertyPath: emplacement_caserne
-      value: 
-      objectReference: {fileID: 1065949948}
-    - target: {fileID: 3396128613301961851, guid: 71c72f01176d8f247ba3d018ed6e09c5,
-        type: 3}
-      propertyPath: m_Acceleration
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3396128613301961851, guid: 71c72f01176d8f247ba3d018ed6e09c5,
-        type: 3}
-      propertyPath: m_AutoBraking
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3971320231267600150, guid: 71c72f01176d8f247ba3d018ed6e09c5,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3971320231267600150, guid: 71c72f01176d8f247ba3d018ed6e09c5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71c72f01176d8f247ba3d018ed6e09c5, type: 3}
@@ -7177,12 +7152,12 @@ PrefabInstance:
     - target: {fileID: 513489029513465996, guid: 3f83dd28dcd8e844395d44887fe25163,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 513489029513465996, guid: 3f83dd28dcd8e844395d44887fe25163,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1766584660062716387, guid: 3f83dd28dcd8e844395d44887fe25163,
         type: 3}
@@ -7192,7 +7167,7 @@ PrefabInstance:
     - target: {fileID: 1766584660062716387, guid: 3f83dd28dcd8e844395d44887fe25163,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1766584660062716398, guid: 3f83dd28dcd8e844395d44887fe25163,
         type: 3}

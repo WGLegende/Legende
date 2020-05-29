@@ -19,7 +19,7 @@ public class saveEnemy : MonoBehaviour
 
     public void restoreEnemy(){
 
-        if(SaveEnemyList != null){
+        if(SaveEnemyList.Count > 0){
        
             foreach (GameObject target in SaveEnemyList){
 

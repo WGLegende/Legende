@@ -128,8 +128,6 @@ public class EnemyAttack : MonoBehaviour
         while(enemyIsAttack){
 
             if(!enemyScript.isDefense && !attack_special_is_active){ // Seulement si enemy n'est pas en attaque special et en defense
-
-            print("attack");
                   
                 if(_type_attack == typeAttack.Cac){ // attack Cac
 

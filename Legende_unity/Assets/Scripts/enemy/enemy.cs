@@ -105,7 +105,6 @@ public class enemy : MonoBehaviour
     public GameObject origin_impact;
 
     public GameObject bouclier;
-    
 
     void Start(){
 
@@ -188,7 +187,7 @@ public class enemy : MonoBehaviour
             if(check_if_attack()) {current_comportement = enemy_manager.comportement.attack;}
             if(check_if_defense()) {current_comportement = enemy_manager.comportement.defense;}
             if(check_if_return_base()) {current_comportement = enemy_manager.comportement.retour_base;}
-            //if(check_if_too_far()) { print("TROP LOIN");}
+            if(check_if_too_far()) { }
             yield return new  WaitForSeconds(timerNewComportement); 
         }
     }
@@ -205,7 +204,8 @@ public class enemy : MonoBehaviour
 
     // On se dirige vers le player
     public bool check_if_alert_walk(){
-        if(distancePlayer <= rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100 && !Alerte && distancePlayer > rayon_d_attaque && check_if_target_visible()){
+        if(distancePlayer <= rayon_d_attaque + rayon_d_attaque*pourcentage_rayonAlerte/100 && !Alerte && distancePlayer > rayon_d_attaque && check_if_target_visible() &&
+           current_comportement != enemy_manager.comportement.cible_detectee){
             Alerte = true;
             return true;
         }else{
@@ -215,7 +215,8 @@ public class enemy : MonoBehaviour
 
     // on se dirige vers le player en courant
     public bool check_if_cible_detectee(){
-        if (distancePlayer <= rayon_d_attaque && distancePlayer > agent.stoppingDistance && !isDefense){   
+        if (distancePlayer <= rayon_d_attaque && distancePlayer > agent.stoppingDistance && current_comportement != enemy_manager.comportement.retour_base){  
+            Alerte = true;
             return true;
         }else{
             return false;
@@ -224,7 +225,7 @@ public class enemy : MonoBehaviour
 
     // Attaque
     public bool check_if_attack(){
-        if (distancePlayer < agent.stoppingDistance && !isDefense){
+        if (distancePlayer <= agent.stoppingDistance && !isDefense){
             return true;
         }else{
             return false;
@@ -250,10 +251,10 @@ public class enemy : MonoBehaviour
         }
     }
 
-    // Retour vers la base si trop loin  (pas encore implementee)
+    // Retour vers la base si trop loin 
     public bool check_if_too_far(){
-        if (distanceBase > rayon_d_actionMax && Alerte && courage < 100){
-            Alerte = false;
+        if (distanceBase > rayon_d_actionMax  && courage < 100 && current_comportement == enemy_manager.comportement.cible_detectee){
+            StartCoroutine("horsZone");
             return true;
         }else{
             return false;
@@ -262,7 +263,10 @@ public class enemy : MonoBehaviour
 
     IEnumerator horsZone(){
         yield return new  WaitForSeconds(courage-courage*90/100);
-        comportement_actuel = enemy_manager.comportement.retour_base;
+        current_comportement = enemy_manager.comportement.retour_base;
+        Alerte = false; 
+        StopCoroutine("horsZone");
+        print("goback");
     }
 
     // face au player

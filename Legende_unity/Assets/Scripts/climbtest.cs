@@ -67,6 +67,8 @@ public class climbtest : MonoBehaviour{
 
         if (other.name == "Player"){
 
+           
+
             if (hinput.gamepad[0].leftStick.position.y > 0 ) {
 
                 StartCoroutine(EndClimb());
@@ -107,6 +109,7 @@ public class climbtest : MonoBehaviour{
 
         player_gamePad_manager.canMove = true;
         controller.enabled = true;   
+        yield return null;
     }
  
 }
