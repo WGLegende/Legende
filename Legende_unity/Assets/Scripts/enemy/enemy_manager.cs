@@ -392,7 +392,6 @@ public class enemy_manager : MonoBehaviour
             Clone.courage = Random.Range(1,100);  
             Clone.nbrEnemy = 0;
             enemy.nbrEnemy--;   
-            Clone.Alerte = true;
             Clone.current_comportement = enemy_manager.comportement.cible_detectee;  
 
             yield return new  WaitForSeconds(enemy.cadence_enemy);    
