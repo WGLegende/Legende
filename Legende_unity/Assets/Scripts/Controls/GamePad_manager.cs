@@ -29,11 +29,15 @@ public class GamePad_manager : MonoBehaviour
         if(instance == null){
             instance = this;
         }
+        inventory_main_structure.instance.StartCoroutine(inventory_main_structure.instance.initialize_inventory());
     }
 
     public void open_close_inventory(bool is_open){
+        Debug.Log("open_close_inventory " + is_open);
         if(is_open){
-            _last_game_pad_attribution = _game_pad_attribution;
+            if(_game_pad_attribution != game_pad_attribution.inventory){
+                _last_game_pad_attribution = _game_pad_attribution;
+            }
             _game_pad_attribution = game_pad_attribution.inventory;
         }else{
             _game_pad_attribution = _last_game_pad_attribution;
@@ -42,10 +46,8 @@ public class GamePad_manager : MonoBehaviour
 
     void Update()
     {
-
         if(hinput.anyGamepad.back.justPressed){
-            inventory_navigation.instance.open_close_inventory();
-            // change here game_pad_attribution
+            inventory_navigation.instance.navigateInMainMenus(0);
         }
 
         right_stick_x = hinput.anyGamepad.rightStick.position.x;
@@ -106,7 +108,9 @@ public class GamePad_manager : MonoBehaviour
 
             break;
             case game_pad_attribution.inventory :
-
+                if(hinput.anyGamepad.A.justPressed){
+                    Debug.Log("Test A");
+                }
 
                 // Navigue dans les menus principaux
                 if(hinput.anyGamepad.leftTrigger.justPressed){
@@ -118,37 +122,37 @@ public class GamePad_manager : MonoBehaviour
                 // Navigue dans les slots
                 if(!currently_navigate_in_inventory){
                     if(hinput.anyGamepad.leftStick.up){
-                        StartCoroutine(navigate_in_inventory(0));
+                        StartCoroutine(navigate_in_inventory("up"));
                     }else if(hinput.anyGamepad.leftStick.right){
-                        StartCoroutine(navigate_in_inventory(1));
+                        StartCoroutine(navigate_in_inventory("right"));
                     }else if(hinput.anyGamepad.leftStick.down){
-                        StartCoroutine(navigate_in_inventory(2));
+                        StartCoroutine(navigate_in_inventory("down"));
                     }else if(hinput.anyGamepad.leftStick.left){
-                        StartCoroutine(navigate_in_inventory(3));
+                        StartCoroutine(navigate_in_inventory("left"));
                     } 
                 }
 
                 // Creer des shortcuts
-                if(hinput.anyGamepad.dPad.up.justPressed){
-                    inventory_navigation.instance.go_to_shortcut(0);
-                }else if(hinput.anyGamepad.dPad.right.justPressed){
-                    inventory_navigation.instance.go_to_shortcut(1);
-                }else if(hinput.anyGamepad.dPad.down.justPressed){
-                    inventory_navigation.instance.go_to_shortcut(2);
-                }else if(hinput.anyGamepad.dPad.left.justPressed){
-                    inventory_navigation.instance.go_to_shortcut(3);
-                }
+                // if(hinput.anyGamepad.dPad.up.justPressed){
+                //     inventory_navigation.instance.go_to_shortcut(0);
+                // }else if(hinput.anyGamepad.dPad.right.justPressed){
+                //     inventory_navigation.instance.go_to_shortcut(1);
+                // }else if(hinput.anyGamepad.dPad.down.justPressed){
+                //     inventory_navigation.instance.go_to_shortcut(2);
+                // }else if(hinput.anyGamepad.dPad.left.justPressed){
+                //     inventory_navigation.instance.go_to_shortcut(3);
+                // }
 
 
                 // Actions sur les objets
                 if(hinput.anyGamepad.A.justPressed){
-                    inventory_navigation.instance.action_equiper_ou_utiliser();
+                    inventory_navigation.instance.action_A();
                 }
                 if(hinput.anyGamepad.Y.justPressed){
-                    inventory_navigation.instance.action_jeter();
+                    inventory_navigation.instance.action_Y();
                 }
                 if(hinput.anyGamepad.B.justPressed){
-                    inventory_navigation.instance.back(true);
+                    inventory_navigation.instance.action_Back();
                 }
 
 
@@ -189,7 +193,7 @@ public class GamePad_manager : MonoBehaviour
     }
 
 
-    IEnumerator navigate_in_inventory(int direction){
+    IEnumerator navigate_in_inventory(string direction){
         currently_navigate_in_inventory = true;
         inventory_navigation.instance.navigate_in_slots(direction);
         yield return new WaitForSeconds(0.2f);

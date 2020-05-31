@@ -221,6 +221,8 @@ public class player_gamePad_manager : MonoBehaviour
 
     public void changeEquipement(){ // declenchee par anim
 
+        return;
+
         if(modePlayer == "noweapon"){ 
             Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
             Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow

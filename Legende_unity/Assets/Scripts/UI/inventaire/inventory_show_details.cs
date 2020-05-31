@@ -54,19 +54,20 @@ public class inventory_show_details : MonoBehaviour
 
 
 
-    public void Show_Object_Detail(inventory_object obj, inventory_slots_container slot_container)
+    public void Show_Object_Detail(inventory_object obj)
     {
         gameObject.SetActive(obj != null);
         if(obj == null){
             return;
         }
 
-        bool object_is_arme = obj._type_object == inventory_main.type_object.arme_CaC || obj._type_object == inventory_main.type_object.arme_Distance || obj._type_object == inventory_main.type_object.arme_Projectile;
-        bool object_is_armure = obj._type_object == inventory_main.type_object.armure_Corps || obj._type_object == inventory_main.type_object.armure_Mains || obj._type_object == inventory_main.type_object.armure_Pieds|| obj._type_object == inventory_main.type_object.armure_Tete;
-        bool object_is_consommable = obj._type_object == inventory_main.type_object.consommable_player;
-        bool object_is_ressource = obj._type_object == inventory_main.type_object.consommable_ressources;
-        bool object_is_relique = obj._type_object == inventory_main.type_object.relique_relique;
-        bool object_is_relique_composant = obj._type_object == inventory_main.type_object.relique_composant;
+
+        bool object_is_arme = obj._type_equipement == inventory_main.equipement.arme_CaC || obj._type_equipement == inventory_main.equipement.arme_Distance || obj._type_equipement == inventory_main.equipement.arme_Projectile;
+        bool object_is_armure = obj._type_equipement == inventory_main.equipement.armure_Corps || obj._type_equipement == inventory_main.equipement.armure_Mains || obj._type_equipement == inventory_main.equipement.armure_Pieds || obj._type_equipement == inventory_main.equipement.armure_Tete;
+        bool object_is_consommable = obj._type_consommable != 0;
+        bool object_is_ressource = obj._type_ressource != 0;
+        bool object_is_relique = obj._type_relique != 0;
+        bool object_is_relique_composant = obj._type_relique != 0;
 
 
 
@@ -92,9 +93,9 @@ public class inventory_show_details : MonoBehaviour
         TX_Quantite.gameObject.SetActive(obj.quantite > 1);
 
 
-        Action_utiliser.gameObject.SetActive(slot_container.action_utiliser_active);
-        Action_Equiper.gameObject.SetActive(slot_container.action_equiper_active);
-        Action_Jeter.gameObject.SetActive(slot_container.action_jeter_active);
+        Action_utiliser.gameObject.SetActive(obj._type_object != inventory_main.type_object.equipement);
+        Action_Equiper.gameObject.SetActive(obj._type_object == inventory_main.type_object.equipement);
+        Action_Jeter.gameObject.SetActive(obj.jetable);
 
 
 
@@ -106,7 +107,7 @@ public class inventory_show_details : MonoBehaviour
             pourcentageCritiques[1].text = obj.pourcentageCritique + "%";
             Recul[1].text = obj.puissanceDeRecul.ToString();
 
-            if(obj._type_object == inventory_main.type_object.arme_Distance || obj._type_object == inventory_main.type_object.arme_Projectile){
+            if(obj._type_equipement == inventory_main.equipement.arme_Distance || obj._type_equipement == inventory_main.equipement.arme_Projectile){
                 Portee[0].gameObject.SetActive(true);
                 Portee[1].gameObject.SetActive(true);
                 Portee[1].text = obj.portee.ToString();
