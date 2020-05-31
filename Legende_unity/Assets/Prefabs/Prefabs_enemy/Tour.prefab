@@ -19782,7 +19782,7 @@ MonoBehaviour:
   maxPv: 150
   degatMin: 1
   degatMax: 5
-  rayon_d_attaque: 25
+  rayon_d_attaque: 20
   angle_de_vison: 100
   move_speed_attack: 3
   move_speed_walk: 1
@@ -19792,7 +19792,7 @@ MonoBehaviour:
   distance_attack: 0
   poids_enemy: {fileID: 1766584660062716397}
   isDefense: 0
-  _deplacement: 2
+  _deplacement: 0
   _parcours: 0
   _race: 0
   speed_sentinelle: 2
@@ -19805,8 +19805,7 @@ MonoBehaviour:
   sentinelTarget: {x: 0, y: 0, z: 0}
   isFlying: 0
   altitude: 0
-  newEnemy: {fileID: 1766584660062716387, guid: 564f9238474d8e44da97f5fe470b4509,
-    type: 3}
+  newEnemy: {fileID: 0}
   nbrEnemy: 0
   cadence_enemy: 3
   goCreateEnemy: 1
@@ -19850,7 +19849,7 @@ MonoBehaviour:
   degatMax: 5
   cadence_de_frappe: 2
   distance_C_a_C: 3.5
-  distance_shoot: 20
+  distance_shoot: 15
   Pcent_attackSecondaire: 40
   Pcent_attackSpecial: 30
   Pcent_gain_Supp: 10
@@ -19911,7 +19910,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2.06
   m_BaseOffset: 0

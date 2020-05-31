@@ -204,7 +204,7 @@ public class enemy_manager : MonoBehaviour
         enemy.HealthBar.GetComponent<Canvas>().enabled = false;
 
         if (enemy.distanceBase > enemy.rayon_d_actionMax){
-            enemy.agent.speed = player_gamePad_manager.instance.SpeedMove + 0.05f; 
+            enemy.agent.speed = player_gamePad_manager.instance.SpeedMove + 0.5f; 
         }
   
         while(enemy.current_comportement == enemy_manager.comportement.retour_base){
@@ -266,7 +266,7 @@ public class enemy_manager : MonoBehaviour
     // enemy se deplace en aleatoire dans son rayon max
     IEnumerator mode_sentinelle(enemy enemy){
 
-        enemy.agent.stoppingDistance = 1f;
+        enemy.agent.stoppingDistance = 3f;
         enemy.EnemyAttackScript.FinAlerte();
 
         enemy.sentinelTarget = new Vector3(enemy.startPosition.x+Random.Range(0,10),transform.position.y,enemy.startPosition.z+Random.Range(0,10));
@@ -387,12 +387,12 @@ public class enemy_manager : MonoBehaviour
             enemy Clone = Instantiate(enemy.newEnemy, enemy.emplacement_caserne.position, enemy.emplacement_caserne.rotation).GetComponent<enemy>();
             yield return new  WaitForSeconds(0.2f);    
             Clone.CharacteristicEnemyPv(Random.Range(30,200));
-            Clone.move_speed_attack = Random.Range(2f,10f);
+            Clone.move_speed_attack = Random.Range(2f,8f);
             Clone.EnemyAttackScript.cadence_de_frappe = Random.Range(1,4);  
             Clone.courage = Random.Range(1,100);  
             Clone.nbrEnemy = 0;
-            enemy.nbrEnemy--;   
             Clone.current_comportement = enemy_manager.comportement.cible_detectee;  
+            enemy.nbrEnemy--;   
 
             yield return new  WaitForSeconds(enemy.cadence_enemy);    
         }         

@@ -93,6 +93,7 @@ public class player_gamePad_manager : MonoBehaviour
 
             Player_sound.instance.StopMove(); // Sound Player
         }
+       
            
     }
 
