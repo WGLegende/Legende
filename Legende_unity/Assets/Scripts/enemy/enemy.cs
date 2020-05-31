@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class enemy : MonoBehaviour
 
 {
-    public enemy_manager.comportement comportement_actuel = new enemy_manager.comportement();
 
     public EnemyAttack EnemyAttackScript;
     public EnemyDefense EnemyDefenseScript;
@@ -107,54 +106,79 @@ public class enemy : MonoBehaviour
     public GameObject bouclier;
 
     void Start(){
-
-       enemy_manager.instance.addToList(GetComponent<enemy>()); 
-       saveEnemy.instance.SaveEnemyList.Add(gameObject); 
-
+        startPosition = new Vector3(transform.position.x,transform.position.y,transform.position.z); // on stocke la position intiale
+        startRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w); // on stocke la position intiale
+        Initialize();
     }
+
+    public void Initialize(){
+        gameObject.SetActive(true);  
+        enemy_manager.instance.mesEnemyList.Add(GetComponent<enemy>());
+
+        activate_enemy();
+
+        saveEnemy.instance.SaveEnemyList.Add(GetComponent<enemy>()); 
+    }
+
+
+
+    public void RandomizeEnemy(){
+        CharacteristicEnemyPv(Random.Range(30,200));
+        move_speed_attack = Random.Range(2f,8f);
+        EnemyAttackScript.cadence_de_frappe = Random.Range(1,4);  
+        courage = Random.Range(1,100);  
+        nbrEnemy = 0;
+    }
+
+
+
 
     public void activate_enemy(){
 
         anim.SetBool("activate",true);
 
+        gameObject.transform.position =  startPosition;
+        transform.rotation = startRotation;
+
         EnemyAttackScript = GetComponentInParent<EnemyAttack>();
         EnemyDefenseScript = GetComponentInParent<EnemyDefense>();
-      
         effectSmokeDegat = GetComponentInChildren<ParticleSystem>();
+        agent = GetComponent<NavMeshAgent>();
+        poids_enemy = GetComponent<Rigidbody>();
 
         CharacteristicEnemyPv(maxPv); // on met a jour la barre de vie avec le pvMax
 
-        agent = GetComponent<NavMeshAgent>();
         agent.speed = move_speed_attack;
 
-        poids_enemy = GetComponent<Rigidbody>();
         poids_enemy.mass = poids;
 
         HealthBar.GetComponent<Canvas>().enabled = false;
 
         target = player_main.instance.player.transform; // on recupere la position du player
-        startPosition = new Vector3(agent.transform.position.x, agent.transform.position.y, agent.transform.position.z); // on stocke la position intiale
-        startRotation = transform.rotation; // on stocke la rotation intiale (pour retour mode garde)
                 
         Trajet = new Transform[WayPoint.Length];
         System.Array.Copy(WayPoint, Trajet, WayPoint.Length);
 
-        if (isFlying){ agent.baseOffset = altitude; }
+        if (isFlying){
+            agent.baseOffset = altitude;
+        }
         
                   
         agent.stoppingDistance = distance_attack;
 
-      
-            if(_deplacement == deplacement.Patrouille){
-               current_comportement = enemy_manager.comportement.patrouille;
-            }
-            if(_deplacement == deplacement.Sentinel){
+    
+        switch(_deplacement){
+            case deplacement.Patrouille :
+                current_comportement = enemy_manager.comportement.patrouille;
+                break;
+            case deplacement.Sentinel :
                 current_comportement = enemy_manager.comportement.sentinel; 
-            }
+                break;
+        }
         
-         
         enemy_ready = true;
         StartCoroutine(check_if_new_comportement()); 
+        Debug.Log("a yest ennemy est actif");
     }
 
 
@@ -234,7 +258,12 @@ public class enemy : MonoBehaviour
 
     // Defense
     public bool check_if_defense(){       
-        if (!EnemyAttackScript.attack_special_is_active && EnemyAttackScript.enemyIsAttack && enemy_manager.instance.player_is_attack && !isDefense && distancePlayer < 5){
+        if (
+            !EnemyAttackScript.attack_special_is_active &&
+             current_comportement == enemy_manager.comportement.attack &&
+              enemy_manager.instance.player_is_attack &&
+               !isDefense &&
+                distancePlayer < 5){
             return true;
         }else{
             return false;
@@ -318,7 +347,6 @@ public class enemy : MonoBehaviour
             isAlive = false;
             current_comportement = enemy_manager.comportement.dead;
             HealthBar.GetComponent<Canvas>().enabled = false;
-            EnemyAttackScript.StopAttack();
             hinput.gamepad[0].StopVibration();
         }  
          
@@ -331,11 +359,10 @@ public class enemy : MonoBehaviour
 
             case race.robot: AudioSource.PlayClipAtPoint(Enemy_sound.instance.Robot[9], transform.position);
                              hinput.gamepad[0].Vibrate(0.4f);
-                             Vector3 positionSave = transform.position; // on recupere la derniere position enemy pour la creation de la particule
-                             Quaternion rotationSave = transform.rotation;
-                             GameObject particuleDeath = Instantiate(particule, positionSave, rotationSave);
+
+                             GameObject particuleDeath = Instantiate(particule, transform.position, transform.rotation);
                              Destroy(particuleDeath,5f);
-                             this.enabled = false;
+                            //  this.enabled = false;
                              gameObject.SetActive(false);  
             break;
 
@@ -351,7 +378,8 @@ public class enemy : MonoBehaviour
     public void PlaySound(int i){
 
         switch (_race){ //enum type son
-            case race.robot: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Robot[i]); break;
+            case race.robot: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Robot[i]); 
+                             break;
             case race.human: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Human[i]); break;
         }
     }
@@ -380,8 +408,9 @@ public class enemy : MonoBehaviour
             effectSmokeDegat.startSize = 0f;
         }
 
-        if(bouclier == null)
-        return;
+        if(bouclier == null){
+            return;
+        }
 
         bouclier.SetActive(true);
         GetComponentInChildren<EnemyBouclier>().resistance_Shield = EnemyDefenseScript.resistance_bouclier;

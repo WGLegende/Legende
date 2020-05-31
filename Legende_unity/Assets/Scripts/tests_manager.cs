@@ -12,4 +12,19 @@ public class tests_manager : MonoBehaviour
             PlayerPrefs.DeleteAll();
         }
     }
+
+
+
+    void Update(){
+
+        if(Input.GetKeyDown(KeyCode.O)){
+            Debug.Log("KILL ALLLLLLL ");
+            foreach(enemy enemy in enemy_manager.instance.mesEnemyList){
+                enemy.current_comportement = enemy_manager.comportement.dead;
+            }
+
+        }
+
+
+    }
 }

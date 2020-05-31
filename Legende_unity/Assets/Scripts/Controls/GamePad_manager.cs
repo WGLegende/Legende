@@ -29,7 +29,7 @@ public class GamePad_manager : MonoBehaviour
         if(instance == null){
             instance = this;
         }
-        inventory_main_structure.instance.StartCoroutine(inventory_main_structure.instance.initialize_inventory());
+        // inventory_main_structure.instance.StartCoroutine(inventory_main_structure.instance.initialize_inventory());
     }
 
     public void open_close_inventory(bool is_open){
