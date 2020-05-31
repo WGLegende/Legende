@@ -23,9 +23,6 @@ public class player_equipement : MonoBehaviour
 
     public void equipe_un_objet(inventory_object obj){
 
-        Debug.Log("j'equipe " + obj.nom);
-
-
         switch(obj.nom){
 
             case "arc": player_gamePad_manager.instance.modePlayer = "bow"; player_gamePad_manager.instance.Player_Animator.SetTrigger("changeEquipement");
@@ -34,20 +31,11 @@ public class player_equipement : MonoBehaviour
             break;
         }
 
-        // Unequiped current equiped object
-        inventory_object currently_equiped = inventory_main.instance.object_list.FirstOrDefault(o => o._type_object == obj._type_object && o.is_equiped);
-        if(currently_equiped != null){
-            currently_equiped.is_equiped = false;
-        }
-
-        // Equip selected object
-        obj.is_equiped = true;
-
-        if(obj._type_object == inventory_main.type_object.arme_CaC){
+        if(obj._type_equipement == inventory_main.equipement.arme_CaC){
 
             //equipe epee
         }
-        else if(obj._type_object == inventory_main.type_object.arme_Distance){
+        else if(obj._type_equipement == inventory_main.equipement.arme_Distance){
 
             //equipe arc
         }

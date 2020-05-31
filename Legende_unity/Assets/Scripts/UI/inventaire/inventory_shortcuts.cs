@@ -63,11 +63,11 @@ public class inventory_shortcuts : MonoBehaviour
         }
         Debug.Log("use_shortcut " + direction);
 
-        if(shortcut_slot_object[direction]._type_object == inventory_main.type_object.consommable_player || shortcut_slot_object[direction]._type_object == inventory_main.type_object.consommable_ressources){
-            player_utilisables.instance.utilise_un_objet(shortcut_slot_object[direction]);
-        }else{
-            player_equipement.instance.equipe_un_objet(shortcut_slot_object[direction]);
-        }
+        // if(shortcut_slot_object[direction]._type_object == inventory_main.type_object.consommable_player || shortcut_slot_object[direction]._type_object == inventory_main.type_object.consommable_ressources){
+        //     player_utilisables.instance.utilise_un_objet(shortcut_slot_object[direction]);
+        // }else{
+        //     player_equipement.instance.equipe_un_objet(shortcut_slot_object[direction]);
+        // }
 
         shortcut_quantity[direction].text = shortcut_slot_object[direction].quantite.ToString();
         check_if_any(direction);

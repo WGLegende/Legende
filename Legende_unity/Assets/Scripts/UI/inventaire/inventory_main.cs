@@ -4,6 +4,9 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 public class inventory_main : MonoBehaviour
 {
     public static inventory_main instance;
@@ -16,42 +19,46 @@ public class inventory_main : MonoBehaviour
 
         public enum type_object{ 
             aucun,
+            equipement,
+            consommable,
+            ressource,
+            plan,
+            carte,
+            quete,
+            savoir,
+            relique
+        };
+
+        public enum equipement{
+            aucun,
             arme_CaC,
             arme_Distance,
             arme_Projectile,
+            bouclier,
             armure_Tete,
             armure_Corps,
             armure_Mains,
-            armure_Pieds,
-            consommable_player,
-            consommable_ressources,
-            relique_relique,
-            relique_composant 
+            armure_Pieds
         };
 
+        public enum consommable{ aucun, change_player_caracteristique, change_equipement_caracteristique };
+        public enum ressource{ aucun, composite, textile, plante_ou_champignon, liquide, metal, pierre, bois };
+        public enum plan{ aucun, plan };
+        public enum carte{ aucun, carte };
+        public enum quete{ aucun, quete };
+        public enum savoir{ aucun, savoir };
+        public enum relique{ aucun, relique, composant };
 
-            public enum type_consommable_player{ 
-                vie, 
-                vapeur
+
+        public enum type_effets{ 
+                aucun, 
+                brulant,
+                glace,
+                energie
             };
-            public enum type_consommable_ressource{ 
-
-            };
-
-            public enum type_effets{ 
-                    aucun, 
-                    brulant,
-                    glace,
-                    energie
-                };
-
-    public Transform TR_Inventaire, TR_Inventaire_equipement, TR_Inventaire_consommables, TR_Inventaire_relique;
-
-
 
 
     public List<inventory_object> object_list = new List<inventory_object>();
-    // public Dictionary<type_object, Base_sous_objects> Base_sous_objects_list = new Dictionary<type_object, Base_sous_objects>();
 
 
     void Start(){
@@ -60,130 +67,45 @@ public class inventory_main : MonoBehaviour
         }
 
 
-
-        // for (int x = 0; x < _Base_sous_objects.Length; x++) {
-        //     Base_sous_objects_list.Add(((inventory_main.type_object)x), _Base_sous_objects[x]);
-        // }
-
-
-        // StartCoroutine(load_invetory_TEST());
-
-        // foreach(type_object type in Enum.GetValues(typeof(type_object)))
-        // {
-        //     slots_lists.Add(type, new List<Transform>());
-        // }
-
-        // foreach (KeyValuePair<type_object, List<Transform>> slot_container in slots_lists)
-        // {
-        //     Debug.Log(slot_container.Key.ToString());
-
-        // }
+        check_if_objects_ids_are_unique();
     }
+
+    public void check_if_objects_ids_are_unique(){
+        int same_ids_error =  GameObject.FindObjectsOfType<inventory_object>().Length - GameObject.FindObjectsOfType<inventory_object>().GroupBy(o => o.state_id).ToList().Count();
+
+        if(same_ids_error > 0){
+            throw new Exception("WARNING : " + same_ids_error + " objets d'inventaires semblent avoir le même ID !!!");
+        }
+    }
+
+
+
     IEnumerator load_invetory_TEST(){
         yield return new WaitForSeconds(0.5f);
         load_inventory();
     }
 
+    public void add_new_object(inventory_object new_obj){
+        inventory_object existing_object = object_list.LastOrDefault(o => o.nom == new_obj.nom);
 
-
-    void FixedUpdate(){
-
-
-        
-    }
-
-
-    public void add_new_object(inventory_object obj){
-        object_list.Add(obj);
-
-        //for test only
-
-        // Inventaire.gameObject.SetActive(false);
-        // _TypesInventaires.Inventaire_equipement.gameObject.SetActive(false);
-        // _TypesInventaires.Inventaire_consommables.gameObject.SetActive(false);
-        // _TypesInventaires.Inventaire_relique.gameObject.SetActive(false);
-
-    }
-
-    public void open_inventory(){
-        
-        TR_Inventaire.gameObject.SetActive(true);
-        TR_Inventaire_equipement.gameObject.SetActive(true);
-        TR_Inventaire_consommables.gameObject.SetActive(false);
-        TR_Inventaire_relique.gameObject.SetActive(false);
+        if(existing_object != null){
+            if(new_obj.quantite + existing_object.quantite > new_obj.max_stack){
+                int new_stack_quantity = new_obj.quantite + existing_object.quantite-new_obj.max_stack;
+                existing_object.quantite = existing_object.max_stack;
+                new_obj.quantite = new_stack_quantity;
+                object_list.Add(new_obj);
+            }else{
+                existing_object.quantite += new_obj.quantite;
+            }
+        }else{
+            object_list.Add(new_obj);
+        }
     }
 
 
     public void load_inventory(){
             
-        // foreach(inventory_object obj in object_list){
-
-        //     _inventory_slot Equiped_slot = Base_sous_objects_list[obj._type_object].Equiped_slot;
-        //     inventory_slot_main SlotContainer = Base_sous_objects_list[obj._type_object].SlotContainer; // pas utile ici
-
-        //     if(obj.is_equiped){
-        //         Equiped_slot.show_object_in_slot(obj);
-        //     }
-        // }
     }
-
-
-
-    // public void load_active_slot_objects(inventory_slot_main active_slot, type_object type_object){
-    //         Debug.Log("load_active_slot_objects");
-
-    //     foreach(inventory_object obj in object_list){
-
-    //         // _inventory_slot Equiped_slot = Base_sous_objects_list[obj._type_object].Equiped_slot;
-    //         // inventory_slot_main SlotContainer = Base_sous_objects_list[obj._type_object].SlotContainer; // pas utile ici
-
-
-    //         // if(obj.is_equiped){
-    //         //     Equiped_slot.show_object_in_slot(obj);
-    //         // }
-
-
-    //     }
-    // }
-
-    // float distance_avec_le_joueur;
-    // oldComportement = "attend"
-    // comportement = "attaque"
-
-
-    // void Update(){
-    //     distance_avec_le_joueur = Vector3.Distance(...);
-
-    //     if(oldComportement != comportement){
-
-    //         if(comportement == "attaque"){
-    //             StartCoroutine(attaque());
-    //         }
-    //         //else if...
-
-    //         oldComportement = comportement;
-    //     }
-    // }
-
-
-
-    // public IEnumerator attaque(){
-
-    //         // Ta logique que tu ne fais qu'une fois  (quand l'attaque commence)
-
-    //         while(distance_avec_le_joueur < 10f){
-
-    //             // Ta logique que tu répète (comme dans l'update)
-                
-    //             yield return new WaitForSeconds(0.02f);
-    //         }
-
-    //     yield return new WaitForSeconds(0.1f);
-    // }
-
-
-
-
 
 
 
@@ -192,16 +114,6 @@ public class inventory_main : MonoBehaviour
 
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

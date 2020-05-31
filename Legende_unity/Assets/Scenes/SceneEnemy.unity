@@ -1999,6 +1999,7 @@ GameObject:
   - component: {fileID: 554922216}
   - component: {fileID: 554922221}
   - component: {fileID: 554922222}
+  - component: {fileID: 554922223}
   m_Layer: 0
   m_Name: MainManager
   m_TagString: Untagged
@@ -2108,6 +2109,19 @@ MonoBehaviour:
   duration: 0.06
   slowDownFactor: 0.05
   slowDownFactorLenght: 0.5
+--- !u!114 &554922223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554922215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e867ba54c2590444839a68d9896737c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyPlayerPrefs: 0
 --- !u!1001 &561953275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7136,7 +7150,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.41000366, y: -0.1400013}
   m_SizeDelta: {x: -15.43, y: -14.91}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -18087,7 +18101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3dae4fed45a5144684b6e72f70eacbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comportement_actuel: 0
   EnemyAttackScript: {fileID: 1981087932551775543}
   EnemyDefenseScript: {fileID: 0}
   currentPv: 0
@@ -18266,7 +18279,6 @@ MonoBehaviour:
   distance_aspiration: 10
   particule_attackSpecial: {fileID: 0}
   attack_special_is_active: 0
-  enemyIsAttack: 0
 --- !u!114 &1981087932551775544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20952,7 +20964,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &2173536443608274564
 AudioSource:
   m_ObjectHideFlags: 0
@@ -21080,7 +21092,6 @@ MonoBehaviour:
   distance_aspiration: 10
   particule_attackSpecial: {fileID: 0}
   attack_special_is_active: 0
-  enemyIsAttack: 0
 --- !u!114 &2173536443608274566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21749,7 +21760,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3dae4fed45a5144684b6e72f70eacbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comportement_actuel: 0
   EnemyAttackScript: {fileID: 0}
   EnemyDefenseScript: {fileID: 0}
   currentPv: 0
@@ -31831,7 +31841,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3dae4fed45a5144684b6e72f70eacbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comportement_actuel: 0
   EnemyAttackScript: {fileID: 0}
   EnemyDefenseScript: {fileID: 0}
   currentPv: 0
@@ -43339,7 +43348,6 @@ MonoBehaviour:
   distance_aspiration: 10
   particule_attackSpecial: {fileID: 0}
   attack_special_is_active: 0
-  enemyIsAttack: 0
 --- !u!54 &7086132062066980264
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -43406,7 +43414,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3dae4fed45a5144684b6e72f70eacbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comportement_actuel: 0
   EnemyAttackScript: {fileID: 7086132062066980263}
   EnemyDefenseScript: {fileID: 0}
   currentPv: 0

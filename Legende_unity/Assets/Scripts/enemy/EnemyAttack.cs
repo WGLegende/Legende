@@ -44,7 +44,6 @@ public class EnemyAttack : MonoBehaviour
     public ParticleSystem particule_attackSpecial;
 
     public bool attack_special_is_active;
-    public bool enemyIsAttack;
   
    
     void Start(){
@@ -61,20 +60,6 @@ public class EnemyAttack : MonoBehaviour
 
         
         Pcent_gain_attackSpecial = Pcent_attackSpecial;  
-    }
-
-
-    // declenchee par manager
-    public void StartAttack(){ 
-        enemyIsAttack = true;
-        StartCoroutine("attackTarget");
-        if(tireur){StartCoroutine(checkPositionPlayer());}
-    }
-
-    // declenchee par manager
-    public void StopAttack(){
-        enemyIsAttack = false;
-        StopCoroutine("attackTarget");
     }
 
     // declenche par manager comportement alerte
@@ -107,7 +92,7 @@ public class EnemyAttack : MonoBehaviour
 
     // Si player se rapproche on passe en mode corps a corps seulement si typeAttack = Cac et distance
     public IEnumerator checkPositionPlayer(){
-        while(enemyIsAttack){
+        while(enemyScript.current_comportement == enemy_manager.comportement.attack){
 
             if ((Vector3.Distance(target.position, transform.position)) < distance_shoot/2){
 
@@ -122,10 +107,13 @@ public class EnemyAttack : MonoBehaviour
 
     // Tout se passe ici
     public IEnumerator attackTarget(){
+        if(tireur){
+            StartCoroutine(checkPositionPlayer());
+        }
 
        yield return new WaitForSeconds(0.5f);  // tempo pour eviter permuation trop rapide a tester
 
-        while(enemyIsAttack){
+        while(enemyScript.current_comportement == enemy_manager.comportement.attack){
 
             if(!enemyScript.isDefense && !attack_special_is_active){ // Seulement si enemy n'est pas en attaque special et en defense
                   
