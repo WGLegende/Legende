@@ -56,7 +56,7 @@ public class Turret : MonoBehaviour{
 
         enemy_manager.instance.degatForPlayer = degat_projectile;
         GameObject ProjectileClone = Instantiate(Projectile,OriginShoot.position, pan.rotation);
-        ProjectileClone.GetComponent<Rigidbody>().AddForce(OriginShoot.forward *puissance_de_tir, ForceMode.Impulse);
+        ProjectileClone.GetComponent<Rigidbody>().AddForce(OriginShoot.right *puissance_de_tir, ForceMode.Impulse);
         particule.Play();
         Destroy(ProjectileClone,5);  
     }

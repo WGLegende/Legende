@@ -7,20 +7,18 @@
     public SerializedProperty 
 
     current_comportement,
+    _race,
      
     _deplacement,
     maxPv,
-    degatMin,
-    degatMax,
-    rayon_d_attaque ,
+    rayon_d_attaque,
     angle_de_vison,
-    move_speed_attack ,
-    move_speed_walk ,
+    move_speed_attack,
+    move_speed_walk,
     poids,
-    rayon_d_actionMax ,
+    rayon_d_actionMax,
     courage,
-    cadence_de_frappe,
-    distance_attack,
+   // distance_attack,
 
         speedSentinel,
         speedPatrouille,
@@ -30,30 +28,20 @@
     isFlying,
     altitude,
 
-        isBowman,
-        Projectile,
-        OriginProjectile,
-        power_projectile,
-       
-
     nbrEnemy,
     cadence_enemy,
     emplacement_caserne,
     newEnemy,
-    groupe_soutien;
-
-
-
+    groupe_soutien,
+    bouclier;
 
         
      void OnEnable () {
 
         current_comportement = serializedObject.FindProperty ("current_comportement");
-
+        _race = serializedObject.FindProperty ("_race");
         _deplacement = serializedObject.FindProperty ("_deplacement");
         maxPv = serializedObject.FindProperty ("maxPv");
-        degatMin = serializedObject.FindProperty ("degatMin");
-        degatMax = serializedObject.FindProperty ("degatMax");
         rayon_d_attaque = serializedObject.FindProperty ("rayon_d_attaque");
         angle_de_vison = serializedObject.FindProperty ("angle_de_vison");
         move_speed_attack = serializedObject.FindProperty ("move_speed_attack");
@@ -61,8 +49,10 @@
         poids = serializedObject.FindProperty ("poids");
         rayon_d_actionMax = serializedObject.FindProperty ("rayon_d_actionMax");
         courage = serializedObject.FindProperty ("courage");
-        cadence_de_frappe = serializedObject.FindProperty ("cadence_de_frappe");
-        distance_attack = serializedObject.FindProperty ("distance_attack");
+        groupe_soutien = serializedObject.FindProperty ("groupe_soutien");
+        bouclier = serializedObject.FindProperty ("bouclier");
+        
+       //distance_attack = serializedObject.FindProperty ("distance_attack");
 
 
         speedSentinel = serializedObject.FindProperty ("speed_sentinelle");
@@ -73,11 +63,6 @@
 
         isFlying = serializedObject.FindProperty ("isFlying");
         altitude = serializedObject.FindProperty ("altitude");
-
-        isBowman = serializedObject.FindProperty ("isBowman");
-        Projectile = serializedObject.FindProperty ("Projectile");
-        OriginProjectile = serializedObject.FindProperty ("OriginProjectile");
-        power_projectile = serializedObject.FindProperty ("power_projectile");
        
         nbrEnemy = serializedObject.FindProperty ("nbrEnemy");
         cadence_enemy = serializedObject.FindProperty ("cadence_enemy");
@@ -90,24 +75,26 @@
     public override void OnInspectorGUI() {
 
         serializedObject.Update ();
+
         EditorGUILayout.LabelField("Comportement actuel",EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(current_comportement, new GUIContent("") ); 
-
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider); 
 
-        EditorGUILayout.PropertyField( maxPv, new GUIContent("Maximum de PV : ") );  
-        EditorGUILayout.PropertyField( degatMin, new GUIContent("Degat Min : "));  
-        EditorGUILayout.PropertyField( degatMax, new GUIContent("Degat Max : ")); 
-        
+
+        EditorGUILayout.LabelField("Race",EditorStyles.boldLabel);
+        EditorGUILayout.PropertyField(_race, new GUIContent("") ); 
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider); 
+
+      
+        EditorGUILayout.PropertyField( maxPv, new GUIContent("Maximum de PV : ") );
         EditorGUILayout.PropertyField( rayon_d_attaque, new GUIContent("Rayon d'Attaque : ")); 
-        EditorGUILayout.PropertyField( angle_de_vison, new GUIContent("Angle de Vision : ")); 
-          
+        EditorGUILayout.PropertyField( angle_de_vison, new GUIContent("Angle de Vision : "));  
         EditorGUILayout.PropertyField( move_speed_attack, new GUIContent("Vitesse d'Attaque : "));  
         EditorGUILayout.PropertyField( move_speed_walk, new GUIContent("Vitesse de Marche : "));  
         EditorGUILayout.PropertyField( rayon_d_actionMax, new GUIContent("Deplacement Max : "));  
-        EditorGUILayout.PropertyField( courage, new GUIContent("Courage : "));  
-        EditorGUILayout.PropertyField( cadence_de_frappe, new GUIContent("Cadence de Frappe : "));
-        EditorGUILayout.PropertyField( distance_attack, new GUIContent("Distance d'Attaque : "));
+        EditorGUILayout.PropertyField( courage, new GUIContent("Courage : ")); 
+        EditorGUILayout.PropertyField(bouclier, new GUIContent("bouclier"));    
+       // EditorGUILayout.PropertyField( distance_attack, new GUIContent("Distance d'Attaque : "));
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
@@ -115,15 +102,7 @@
         if(isFlying.boolValue){
             EditorGUILayout.PropertyField(altitude, new GUIContent("Altitude : "));
         }
-
-        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-        EditorGUILayout.PropertyField(isBowman, new GUIContent("Tireur: "));
-        if(isBowman.boolValue){
-            EditorGUILayout.PropertyField(Projectile, new GUIContent("Projectile : "));
-            EditorGUILayout.PropertyField(OriginProjectile, new GUIContent("Origine du Tir : "));
-            EditorGUILayout.PropertyField(power_projectile, new GUIContent("Puissance de Tir : "));
-        }
+   
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 

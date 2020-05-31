@@ -12,6 +12,12 @@ TagManager:
   - degatPlayer
   - degatEnemy
   - Enemy
+  - wood
+  - gravel
+  - metal
+  - water
+  - stone
+  - snow
   layers:
   - Default
   - TransparentFX

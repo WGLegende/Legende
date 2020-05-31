@@ -3179,6 +3179,7 @@ MonoBehaviour:
   cadence_de_frappe: 3
   distance_attack: 2.5
   poids_enemy: {fileID: 2541324903266946460}
+  colliderTrigger: {fileID: 2541324903266946458}
   _deplacement: 2
   _parcours: 1
   speed_sentinelle: 1
@@ -10539,7 +10540,7 @@ Transform:
   m_GameObject: {fileID: 2542273498160805015}
   m_LocalRotation: {x: -0.70710677, y: -0.000000029802315, z: -0.000000029802315,
     w: 0.70710677}
-  m_LocalPosition: {x: -0.0000050825765, y: 0, z: -0.05060311}
+  m_LocalPosition: {x: 0.0000025425106, y: 0, z: -0.050603364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2543770853798146839}
