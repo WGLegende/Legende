@@ -36,6 +36,9 @@ public class enemy_manager : MonoBehaviour
     void Update(){
 
         foreach (enemy enemy in mesEnemyList){
+            if(enemy.current_comportement == comportement.dead){
+                return;
+            }
 
             if(enemy.old_comportement != enemy.current_comportement){
     
@@ -95,11 +98,6 @@ public class enemy_manager : MonoBehaviour
                 enemy.old_comportement = enemy.current_comportement;
             }
         }      
-    }
-
-    public void addToList(enemy enemy){
-        enemy.activate_enemy();
-        mesEnemyList.Add(enemy); 
     }
 
     public void playerAttack(){ // declenche par player manager
@@ -162,7 +160,7 @@ public class enemy_manager : MonoBehaviour
     //on attaque la cible
     IEnumerator enemy_attack(enemy enemy){ 
 
-        enemy.EnemyAttackScript.StartAttack(); // on declenche attack dans script enemyAttack
+        enemy.EnemyAttackScript.StartCoroutine(enemy.EnemyAttackScript.attackTarget()); // on declenche attack dans script enemyAttack
      
         while(enemy.current_comportement == enemy_manager.comportement.attack){
             
@@ -172,8 +170,6 @@ public class enemy_manager : MonoBehaviour
             yield return new  WaitForSeconds(0.02f); 
         } 
 
-        enemy.EnemyAttackScript.StopAttack();
-             
         yield return null; 
     }
 
@@ -367,7 +363,6 @@ public class enemy_manager : MonoBehaviour
 
     // On appelle les potes si y en a
     public void appelRenfort(enemy enemy){
-
         foreach (enemy renfort in enemy.groupe_soutien){ // soutien
             renfort.current_comportement = enemy_manager.comportement.cible_detectee;       
         } 
@@ -382,23 +377,23 @@ public class enemy_manager : MonoBehaviour
         while(enemy.nbrEnemy > 0){ // nest
      
             GameObject.Find("usine").GetComponent<Animator>().SetTrigger("createRobot");
-            yield return new  WaitForSeconds(0.5f);    
+            yield return new  WaitForSeconds(0.5f);   
 
             enemy Clone = Instantiate(enemy.newEnemy, enemy.emplacement_caserne.position, enemy.emplacement_caserne.rotation).GetComponent<enemy>();
+
             yield return new  WaitForSeconds(0.2f);    
-            Clone.CharacteristicEnemyPv(Random.Range(30,200));
-            Clone.move_speed_attack = Random.Range(2f,8f);
-            Clone.EnemyAttackScript.cadence_de_frappe = Random.Range(1,4);  
-            Clone.courage = Random.Range(1,100);  
-            Clone.nbrEnemy = 0;
+
+            Clone.RandomizeEnemy();
+        
+            enemy.nbrEnemy--;  
             Clone.current_comportement = enemy_manager.comportement.cible_detectee;  
-            enemy.nbrEnemy--;   
 
             yield return new  WaitForSeconds(enemy.cadence_enemy);    
         }         
       
         yield return null; 
     }
+
 
            
 }

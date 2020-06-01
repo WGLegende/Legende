@@ -8,52 +8,50 @@ public class saveEnemy : MonoBehaviour
 {
     public static saveEnemy instance;
 
-    public List<GameObject> SaveEnemyList = new List<GameObject>();
+    public List<enemy> SaveEnemyList = new List<enemy>();
     
 
     void Awake(){
-
         instance = this;  
     }
 
 
     public void restoreEnemy(){
 
-        if(SaveEnemyList.Count > 0){
-       
-            foreach (GameObject target in SaveEnemyList){
+        Debug.Log(SaveEnemyList.Any(e => e.current_comportement != enemy_manager.comportement.dead) ? "Les enemis ne sont pas tous morts" : "Les ennemis sont tous morts");
 
-                if(SaveEnemyList.Any(e => e.GetComponent<enemy>().enabled == false)){ // si enemy dead on reset tout
+        if(SaveEnemyList.Any(e => e.current_comportement != enemy_manager.comportement.dead)){
+            foreach (enemy enemy in SaveEnemyList){
+                if(enemy.current_comportement == enemy_manager.comportement.dead){ // si l'ennemi est dead
 
-                    target.transform.position = target.GetComponent<enemy>().startPosition;
-                    target.transform.rotation = target.GetComponent<enemy>().startRotation;
-                    target.GetComponent<enemy>().isAlive = true;
-                    target.GetComponentInChildren<Animator>().SetBool("isAlive",true);
-                    target.SetActive(true);
-                    target.GetComponent<enemy>().activate_enemy();
+                    enemy.Initialize();
+
+                    // Reactive l''ennemi
+                    enemy.isAlive = true;
+                    GetComponentInChildren<Animator>().SetBool("isAlive",true);
+                    enemy.gameObject.SetActive(true);
                 }
 
-                if(SaveEnemyList.Any(e => e.GetComponent<enemy>().enabled == true)){ // on remet les Pv a full et reposition pour les vivants
+                if(enemy.currentPv < enemy.maxPv){
 
-                    target.GetComponent<enemy>().current_comportement = enemy_manager.comportement.retour_base;
+                    enemy.current_comportement = enemy_manager.comportement.retour_base;
                     
-                    target.transform.position = target.GetComponent<enemy>().startPosition;
-                    target.transform.rotation = target.GetComponent<enemy>().startRotation;
+                    enemy.gameObject.transform.position = enemy.startPosition;
+                    enemy.gameObject.transform.rotation = enemy.startRotation;
 
-                    float value =  target.GetComponent<enemy>().maxPv;
-                    target.GetComponent<enemy>().CharacteristicEnemyPv(value);
+                    enemy.CharacteristicEnemyPv(enemy.maxPv);
                 }
-
-
-                if(SaveEnemyList.All(e => e.GetComponent<enemy>().enabled == false)){ // si tous mort on les detruits
-
-                    enemy_manager.instance.StopAllCoroutines();
-                    Destroy(target);
-                    enemy_manager.instance.mesEnemyList.Clear();
-                    SaveEnemyList.Clear();
-                }
-            
             }
+        }else{
+            Debug.Log("Je Clear la Liste");
+            enemy_manager.instance.StopAllCoroutines();
+
+            foreach (enemy enemy in SaveEnemyList){
+                Debug.Log(gameObject.name + " is active ? " + gameObject.activeSelf);
+               Destroy(enemy.gameObject);
+            }
+            SaveEnemyList.Clear();
+
         }
     }
 

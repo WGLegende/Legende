@@ -239,10 +239,6 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
 
-
-
-
-
    // declenchee par anim
     public void changeEquipement(string value){ 
 

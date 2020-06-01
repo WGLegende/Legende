@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class _Slot : MonoBehaviour
 {
 
-    public inventory_slots_container children_slots_navigation;
+    // public inventory_slots_container children_slots_navigation;
     public Image[] IMG_slot;
+    public inventory_object object_in_slot;
+
 
     void Awake(){
         IMG_slot = GetComponentsInChildren<Image>();
@@ -23,10 +25,9 @@ public class _Slot : MonoBehaviour
     public void set_slot(inventory_object obj)
     {
         IMG_slot[4].gameObject.SetActive(false);
+        object_in_slot = obj;
 
         if(obj != null){
-            gameObject.name = "slot_" + obj.nom;
-
             IMG_slot[0].gameObject.SetActive(false);
             IMG_slot[1].gameObject.SetActive(false);
             IMG_slot[2].gameObject.SetActive(true);
