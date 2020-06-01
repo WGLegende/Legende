@@ -106,20 +106,24 @@ public class enemy : MonoBehaviour
     public GameObject bouclier;
 
     void Start(){
+
         startPosition = new Vector3(transform.position.x,transform.position.y,transform.position.z); // on stocke la position intiale
         startRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w); // on stocke la position intiale
+        enemy_manager.instance.mesEnemyList.Add(GetComponent<enemy>());
+        saveEnemy.instance.SaveEnemyList.Add(GetComponent<enemy>()); 
         Initialize();
     }
 
     public void Initialize(){
-        gameObject.SetActive(true);  
-        enemy_manager.instance.mesEnemyList.Add(GetComponent<enemy>());
+
+        gameObject.SetActive(true); 
+        isAlive = true; 
+        GetComponentInChildren<Animator>().SetBool("isAlive",true);  
         activate_enemy();
-        saveEnemy.instance.SaveEnemyList.Add(GetComponent<enemy>()); 
     }
 
 
-
+   // nest appelee par manager pour creation enemy
     public void RandomizeEnemy(){
         CharacteristicEnemyPv(Random.Range(30,200));
         move_speed_attack = Random.Range(2f,8f);
@@ -127,6 +131,8 @@ public class enemy : MonoBehaviour
         courage = Random.Range(1,100);  
         nbrEnemy = 0;
     }
+
+
 
 
     public void activate_enemy(){
@@ -174,7 +180,6 @@ public class enemy : MonoBehaviour
         
         enemy_ready = true;
         StartCoroutine(check_if_new_comportement()); 
-        Debug.Log("ennemy est actif");
     }
 
 
@@ -246,6 +251,7 @@ public class enemy : MonoBehaviour
     // Attaque
     public bool check_if_attack(){
         if (distancePlayer <= agent.stoppingDistance && !isDefense){
+            StopCoroutine("horsZone");
             return true;
         }else{
             return false;
@@ -291,7 +297,6 @@ public class enemy : MonoBehaviour
         current_comportement = enemy_manager.comportement.retour_base;
         Alerte = false; 
         StopCoroutine("horsZone");
-        print("goback");
     }
 
     // face au player
@@ -355,11 +360,9 @@ public class enemy : MonoBehaviour
 
             case race.robot: AudioSource.PlayClipAtPoint(Enemy_sound.instance.Robot[9], transform.position);
                              hinput.gamepad[0].Vibrate(0.4f);
-                             print("dead");
-
                              GameObject particuleDeath = Instantiate(particule, transform.position, transform.rotation);
                              Destroy(particuleDeath,5f);
-                             //this.enabled = false;
+                             this.enabled = false;
                              gameObject.SetActive(false);  
             break;
 

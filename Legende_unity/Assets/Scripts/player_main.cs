@@ -54,8 +54,13 @@ public class player_main : MonoBehaviour
 
         if(Input.GetKeyDown("k")){
 
-            DegatPlayerPv(30);
+            DegatPlayerPv(50);
         }
+        if(Input.GetKeyDown("space")){
+
+            AddPlayerPv(100);
+        }
+
 
         checkIfPlayerIsFalling();
       
@@ -94,7 +99,7 @@ public class player_main : MonoBehaviour
             player_gamePad_manager.canMove = false;
             player_gamePad_manager.canAttack = false;
 
-            yield return new WaitForSeconds(1.7f); 
+            yield return new WaitForSeconds(1.7f); // duree anim die
         }
 
         blackout.SetBool("blackout",true);
@@ -122,7 +127,7 @@ public class player_main : MonoBehaviour
         anim.SetBool("isDead",false);
         playerIsAlive = true;   
           
-        yield return new WaitForSeconds(2.5f); 
+        yield return new WaitForSeconds(2.5f); // durre anim recoverDie
 
         player_gamePad_manager.canMove = true;
         player_gamePad_manager.canAttack = true;

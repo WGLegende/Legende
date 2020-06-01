@@ -213,6 +213,9 @@ public class EnemyAttack : MonoBehaviour
     // deplacement du player 
     IEnumerator aspirePlayer(){
 
+        anim.SetTrigger("eye_alerte_special_attack");
+        yield return new WaitForSeconds(1f); // le temps de se tourner (anim)
+
         anim.SetBool("mode_attack3",true);
         enemyScript.PlaySound(2);
 
@@ -238,7 +241,7 @@ public class EnemyAttack : MonoBehaviour
      // temps d'aspiration
     IEnumerator timerAspiration(){ 
 
-        yield return new WaitForSeconds(1f); // le temps de se tourner
+        yield return new WaitForSeconds(2f); // le temps de se tourner
 
         int i = duree_aspiration;
 

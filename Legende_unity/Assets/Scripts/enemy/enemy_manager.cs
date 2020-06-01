@@ -36,10 +36,7 @@ public class enemy_manager : MonoBehaviour
     void Update(){
 
         foreach (enemy enemy in mesEnemyList){
-            if(enemy.current_comportement == comportement.dead){
-                return;
-            }
-
+           
             if(enemy.old_comportement != enemy.current_comportement){
     
                 if(enemy.current_comportement == enemy_manager.comportement.dead){ 
@@ -77,7 +74,7 @@ public class enemy_manager : MonoBehaviour
                     StartCoroutine(retour_a_la_base(enemy));  
                 }
                 
-                else{
+                else if (enemy.current_comportement == enemy_manager.comportement.attente){
                     enemy.current_comportement = enemy_manager.comportement.attente;
                 } 
 
@@ -265,7 +262,7 @@ public class enemy_manager : MonoBehaviour
     // enemy se deplace en aleatoire dans son rayon max
     IEnumerator mode_sentinelle(enemy enemy){
 
-        enemy.agent.stoppingDistance = 3f;
+        enemy.agent.stoppingDistance = 2f;
         enemy.EnemyAttackScript.FinAlerte();
 
         enemy.sentinelTarget = new Vector3(enemy.startPosition.x+Random.Range(0,10),transform.position.y,enemy.startPosition.z+Random.Range(0,10));
