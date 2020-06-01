@@ -45,13 +45,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbab559f2c508b049948f452ba22453c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state_id: 
   nom: Potion Rouge
   description: ajoute des pv
-  image: {fileID: 2800000, guid: e52ea25af699fd445b7046374f81a5b9, type: 3}
+  image: {fileID: 2800000, guid: bf01cd826187bad42b5d383a85834432, type: 3}
+  jetable: 1
+  max_stack: 1
   _type_inventory: 0
   _type_object: 8
-  _type_consommable_player: 0
-  _type_consommable_ressource: 0
+  _type_equipement: 0
+  _type_consommable: 0
+  _type_ressource: 0
+  _type_plan: 0
+  _type_carte: 0
+  _type_quete: 0
+  _type_savoir: 0
+  _type_relique: 0
   _type_effets_secondaire: 0
   vitesseCoup: 1
   degatsInfligesMin: 10
@@ -67,7 +76,6 @@ MonoBehaviour:
   armureSecondaireMax: 0
   quantite: 10
   is_equiped: 0
-  inventory_slot_yx: 0000000000000000
 --- !u!65 &1982286488982243596
 BoxCollider:
   m_ObjectHideFlags: 0

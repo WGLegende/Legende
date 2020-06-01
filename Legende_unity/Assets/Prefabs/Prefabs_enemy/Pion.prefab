@@ -98,7 +98,6 @@ MonoBehaviour:
   distance_aspiration: 10
   particule_attackSpecial: {fileID: 0}
   attack_special_is_active: 0
-  enemyIsAttack: 0
 --- !u!114 &3396128613301961849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3dae4fed45a5144684b6e72f70eacbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comportement_actuel: 0
   EnemyAttackScript: {fileID: 3396128613301961855}
   EnemyDefenseScript: {fileID: 0}
   currentPv: 0
@@ -141,9 +139,9 @@ MonoBehaviour:
   sentinelTarget: {x: 0, y: 0, z: 0}
   isFlying: 0
   altitude: 0
-  newEnemy: {fileID: 1766584660062716387, guid: 564f9238474d8e44da97f5fe470b4509,
+  newEnemy: {fileID: 1766584660062716387, guid: 3f83dd28dcd8e844395d44887fe25163,
     type: 3}
-  nbrEnemy: 3
+  nbrEnemy: 0
   cadence_enemy: 2
   goCreateEnemy: 1
   emplacement_caserne: {fileID: 0}

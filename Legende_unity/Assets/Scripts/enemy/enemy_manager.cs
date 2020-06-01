@@ -36,10 +36,7 @@ public class enemy_manager : MonoBehaviour
     void Update(){
 
         foreach (enemy enemy in mesEnemyList){
-            if(enemy.current_comportement == comportement.dead){
-                return;
-            }
-
+           
             if(enemy.old_comportement != enemy.current_comportement){
     
                 if(enemy.current_comportement == enemy_manager.comportement.dead){ 
@@ -74,7 +71,7 @@ public class enemy_manager : MonoBehaviour
                     StartCoroutine(retour_a_la_base(enemy));  
                 }
                 
-                else{
+                else if (enemy.current_comportement == enemy_manager.comportement.attente){
                     enemy.current_comportement = enemy_manager.comportement.attente;
                 } 
 
