@@ -187,7 +187,7 @@ public class enemy : MonoBehaviour
             if(check_if_attack()) {current_comportement = enemy_manager.comportement.attack;}
             if(check_if_defense()) {current_comportement = enemy_manager.comportement.defense;}
             if(check_if_return_base()) {current_comportement = enemy_manager.comportement.retour_base;}
-            if(check_if_too_far()) { }
+           // if(check_if_too_far()) { }
             yield return new  WaitForSeconds(timerNewComportement); 
         }
     }
@@ -226,6 +226,7 @@ public class enemy : MonoBehaviour
     // Attaque
     public bool check_if_attack(){
         if (distancePlayer <= agent.stoppingDistance && !isDefense){
+            StopCoroutine("horsZone");
             return true;
         }else{
             return false;
@@ -266,7 +267,6 @@ public class enemy : MonoBehaviour
         current_comportement = enemy_manager.comportement.retour_base;
         Alerte = false; 
         StopCoroutine("horsZone");
-        print("goback");
     }
 
     // face au player
