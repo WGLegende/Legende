@@ -23,6 +23,8 @@ public class tests_manager : MonoBehaviour
                 enemy.current_comportement = enemy_manager.comportement.dead;
             }
 
+    
+
         }
 
 

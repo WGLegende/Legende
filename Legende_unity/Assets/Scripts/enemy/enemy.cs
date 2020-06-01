@@ -114,9 +114,7 @@ public class enemy : MonoBehaviour
     public void Initialize(){
         gameObject.SetActive(true);  
         enemy_manager.instance.mesEnemyList.Add(GetComponent<enemy>());
-
         activate_enemy();
-
         saveEnemy.instance.SaveEnemyList.Add(GetComponent<enemy>()); 
     }
 
@@ -129,8 +127,6 @@ public class enemy : MonoBehaviour
         courage = Random.Range(1,100);  
         nbrEnemy = 0;
     }
-
-
 
 
     public void activate_enemy(){
@@ -178,7 +174,7 @@ public class enemy : MonoBehaviour
         
         enemy_ready = true;
         StartCoroutine(check_if_new_comportement()); 
-        Debug.Log("a yest ennemy est actif");
+        Debug.Log("ennemy est actif");
     }
 
 
@@ -211,7 +207,7 @@ public class enemy : MonoBehaviour
             if(check_if_attack()) {current_comportement = enemy_manager.comportement.attack;}
             if(check_if_defense()) {current_comportement = enemy_manager.comportement.defense;}
             if(check_if_return_base()) {current_comportement = enemy_manager.comportement.retour_base;}
-            if(check_if_too_far()) { }
+           // if(check_if_too_far()) { }
             yield return new  WaitForSeconds(timerNewComportement); 
         }
     }
@@ -359,10 +355,11 @@ public class enemy : MonoBehaviour
 
             case race.robot: AudioSource.PlayClipAtPoint(Enemy_sound.instance.Robot[9], transform.position);
                              hinput.gamepad[0].Vibrate(0.4f);
+                             print("dead");
 
                              GameObject particuleDeath = Instantiate(particule, transform.position, transform.rotation);
                              Destroy(particuleDeath,5f);
-                            //  this.enabled = false;
+                             //this.enabled = false;
                              gameObject.SetActive(false);  
             break;
 

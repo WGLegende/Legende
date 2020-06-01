@@ -44,14 +44,17 @@ public class enemy_manager : MonoBehaviour
     
                 if(enemy.current_comportement == enemy_manager.comportement.dead){ 
                     enemy.DisparitionEnemy(); 
+                    print("deeeeeddd commortement");    
                 }
                                       
                 if(enemy.current_comportement == enemy_manager.comportement.alerte){
                     StartCoroutine(do_alert_walk(enemy)); 
+                    print("alerte");
                 }
 
                 else if (enemy.current_comportement == enemy_manager.comportement.cible_detectee){
-                    StartCoroutine(detection_player(enemy));      
+                    StartCoroutine(detection_player(enemy));
+                    print("cible detcte")      ;
                 }
 
                 else if (enemy.current_comportement == enemy_manager.comportement.attack){
