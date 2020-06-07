@@ -80,7 +80,7 @@ public class inventory_slot_master : MonoBehaviour
 
     public void create_all_slots(inventory_main.equipement _type_equipement = 0){
 
-        foreach(inventory_object obj in inventory_main.instance.object_list.FindAll(
+        foreach(inventory_object obj in inventory_objects_manager.instance.object_list.FindAll(
             o => o._type_object == type_object_slots && (_type_equipement != 0 ? _type_equipement == o._type_equipement : true) &&
                 (
                     _sous_type_slots._type_equipement != 0 ? o._type_equipement == _sous_type_slots._type_equipement :
@@ -115,6 +115,8 @@ public class inventory_slot_master : MonoBehaviour
 
 
     public void update_equipement_slots(){
+        Debug.Log("update_equipement_slots");
+
         foreach(inventory_equipement_slot equipement_Slot in preExistingEquipementSlots){
             _Slot slot = equipement_Slot.GetComponent<_Slot>();
             inventory_object obj = equipement_Slot.getEquipedObject();

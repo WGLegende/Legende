@@ -91,7 +91,7 @@ public class player_gamePad_manager : MonoBehaviour
         if(!player_is_moving || !canMove){
             Player_Animator.SetFloat("SpeedMove", 0);
 
-            Player_sound.instance.StopMove(); // Sound Player
+            // Player_sound.instance.StopMove(); // Sound Player
         }
        
            
@@ -105,12 +105,12 @@ public class player_gamePad_manager : MonoBehaviour
             Player_Animator.SetFloat("SpeedMove", (right_stick_y));
 
             // Son bruitage step
-            if(characterController.isGrounded){ 
+            // if(characterController.isGrounded){ 
             
-                if(right_stick_y > 0 && right_stick_y <= 0.7){ Player_sound.instance.Walk();}
-                else if(right_stick_y > 0.7 ){ Player_sound.instance.Run();}
-                else if(right_stick_y < 0 ){ Player_sound.instance.Run();}
-            }
+            //     if(right_stick_y > 0 && right_stick_y <= 0.7){ Player_sound.instance.Walk();}
+            //     else if(right_stick_y > 0.7 ){ Player_sound.instance.Run();}
+            //     else if(right_stick_y < 0 ){ Player_sound.instance.Run();}
+            // }
                 
             if(!cameraIsBehind){
                 transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y + camera_container.transform.localEulerAngles.y, 0f);
@@ -156,7 +156,7 @@ public class player_gamePad_manager : MonoBehaviour
             hasJump = true;
             Player_Animator.SetBool("Grounded", false);
             Player_Animator.SetBool("initiate_jump", true); 
-            Player_sound.instance.StopMove(); // Sound Player
+            // Player_sound.instance.StopMove(); // Sound Player
         }
     }
 
@@ -241,7 +241,7 @@ public class player_gamePad_manager : MonoBehaviour
 
    // declenchee par anim
     public void changeEquipement(string value){ 
-
+        return;
         if(value == "noweapon"){ 
             Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
             Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow

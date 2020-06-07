@@ -10,11 +10,13 @@ public class inventory_main_structure : MonoBehaviour
     public GameObject[] inventory_panel_list;
     int selected_panel_id = 0;
 
+    bool inventory_is_open = false;
 
     void Awake(){
         if(instance == null){
             instance = this;
         }
+        StartCoroutine(initialize_inventory());
     }
 
     public IEnumerator initialize_inventory(){
@@ -24,7 +26,6 @@ public class inventory_main_structure : MonoBehaviour
             panel.SetActive(false);
         }
         close_inventory();
-        GetComponent<RectTransform>().anchoredPosition = new Vector2(0,0);
     }
 
 
@@ -35,6 +36,7 @@ public class inventory_main_structure : MonoBehaviour
         opened_panel.SetActive(true);
 
         foreach(inventory_slot_master slot_master in opened_panel.GetComponentsInChildren<inventory_slot_master>().Where(s => s.slot_master_of_this == null)){
+            Debug.Log("Initialize slot_master");
             slot_master.Initialize();
         }
     }
@@ -51,12 +53,22 @@ public class inventory_main_structure : MonoBehaviour
     }
 
     public void close_inventory(){
-         gameObject.SetActive(false);
+        inventory_is_open = false;
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(-40000f,-40000f);
+    }
+    public void open_inventory(){
+        inventory_is_open = true;
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(0f,0f);
     }
 
     public void navigate_inventory_panel(int direction){
         if(direction == 0){
-            gameObject.SetActive(!gameObject.activeSelf);
+            if(!inventory_is_open){
+                open_inventory();
+            }else{
+                close_inventory();
+            }
+            GamePad_manager.instance.open_close_inventory(inventory_is_open);
         }
 
         if(gameObject.activeSelf){
@@ -65,7 +77,6 @@ public class inventory_main_structure : MonoBehaviour
             open_inventory_panel();
         }
 
-         GamePad_manager.instance.open_close_inventory(gameObject.activeSelf);
     }
 
 }

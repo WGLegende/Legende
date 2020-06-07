@@ -15,8 +15,6 @@
     public bool jetable = true;
     public int max_stack = 1;
 
-    public inventory_main.inventory_main_parts _type_inventory;
-
     public inventory_main.type_object _type_object;
     public inventory_main.equipement _type_equipement;
     public inventory_main.consommable _type_consommable;
@@ -55,18 +53,8 @@
     public bool is_equiped = false;
 
     void Start(){
-
-      StartCoroutine(checkIfObjectHasBeenTaken());
       // StartCoroutine(getObjectStraight());
     }
-
-    IEnumerator checkIfObjectHasBeenTaken(){
-      yield return new WaitForSeconds(0.3f);
-      if(PlayerPrefs.GetInt(state_id) == 1){
-          gameObject.SetActive(false);
-      }
-    }
-
 
     IEnumerator getObjectStraight(){
       yield return new WaitForSeconds(0.3f);
@@ -83,13 +71,11 @@
     }
 
     public void addObject(){
-          if(!inventory_main.instance.object_list.Any(o => o._type_equipement == _type_equipement && o._type_equipement != 0 && o.is_equiped)){
+          if(!inventory_objects_manager.instance.object_list.Any(o => o._type_equipement == _type_equipement && o._type_equipement != 0 && o.is_equiped)){
             is_equiped = true;
           }
 
-
-          inventory_main.instance.add_new_object(GetComponent<inventory_object>());
-          PlayerPrefs.SetInt(state_id, 1);
+          inventory_objects_manager.instance.add_new_object(GetComponent<inventory_object>());
 
           gameObject.SetActive(false);
           // Destroy(gameObject);

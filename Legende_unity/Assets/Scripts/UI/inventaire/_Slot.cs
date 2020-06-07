@@ -28,6 +28,7 @@ public class _Slot : MonoBehaviour
         object_in_slot = obj;
 
         if(obj != null){
+            Debug.Log("JE SET LE SLOT AVEC " + obj.nom);
             IMG_slot[0].gameObject.SetActive(false);
             IMG_slot[1].gameObject.SetActive(false);
             IMG_slot[2].gameObject.SetActive(true);
