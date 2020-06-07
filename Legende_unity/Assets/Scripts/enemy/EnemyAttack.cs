@@ -72,8 +72,7 @@ public class EnemyAttack : MonoBehaviour
 
         anim.SetBool("eye_alerte",value);
 
-        if(_type_attack != typeAttack.Cac){ // on passe en mode distance
-           
+        if(_type_attack != typeAttack.Cac){ // on passe en mode distance 
             anim.SetBool("mode_shoot",value);
         }  
         yield return null;
@@ -94,7 +93,7 @@ public class EnemyAttack : MonoBehaviour
     public IEnumerator checkPositionPlayer(){
         while(enemyScript.current_comportement == enemy_manager.comportement.attack){
 
-            if ((Vector3.Distance(target.position, transform.position)) < distance_shoot/2){
+            if (Vector3.Distance(target.position, transform.position) < distance_shoot/2){
 
                 enemyScript.distance_attack = distance_C_a_C;
                 _type_attack = typeAttack.Cac;
@@ -107,6 +106,7 @@ public class EnemyAttack : MonoBehaviour
 
     // Tout se passe ici
     public IEnumerator attackTarget(){
+
         if(tireur){
             StartCoroutine(checkPositionPlayer());
         }
@@ -256,9 +256,18 @@ public class EnemyAttack : MonoBehaviour
         enemyScript.PlaySound(8);
 
         StopCoroutine("aspirePlayer");
-        StopCoroutine("timerAspiration");  
+       // StopCoroutine("timerAspiration");  
         attack_special_is_active = false;
         hinput.gamepad[0].StopVibration();
+    }
+
+
+    IEnumerator CircleAttack(){
+
+
+
+
+        yield return null;
     }
 
 }

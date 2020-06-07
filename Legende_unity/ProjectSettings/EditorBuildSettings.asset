@@ -5,12 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/WSM Game Studio/Train Controller_v3/Addons/Subway Expansion Pack/Demo/DemoSubway1.unity
-    guid: 22dacbb134178904c98fb35bdaebc54f
-  - enabled: 0
-    path: Assets/Marketing/Marketing.unity
-    guid: cb4a6444a18cd36419e407fa4bd0c011
   - enabled: 1
-    path: Assets/Marketing/Tutorials.unity
-    guid: 693ae9d464126994ab6e7b924e79758f
+    path: Assets/Scenes/SceneVR.unity
+    guid: 137e0ef34d53aec49a817b3a03feb93b
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 7e869d00f8e655d41a1557bf34669bb6,
+      type: 2}

@@ -27,10 +27,16 @@ public class ButtonAction : MonoBehaviour
     }
 
   
-      public void Action(string value){
+    public void Action(string value){
        
         anim.SetBool("afficheButtonAction",true);
         GameObject.Find("ButtonTextAction").GetComponent<Text>().text = value;
+        
+    }
+
+    public void Hide(){
+       
+        anim.SetBool("afficheButtonAction",false);
         
     }
 

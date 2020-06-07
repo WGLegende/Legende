@@ -1,0 +1,237 @@
+ManifestFileVersion: 0
+CRC: 3994638014
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 21003bd2c9b063dfbeb5431146664bc5
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3a794216f4993b4ca5bf376b33cf50d9
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 109
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ad074644ff568a14187a3690cfbd7534, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 70c2f484f132c044097f03d65cac3b24, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a9a46cc70d953a54184e325c329d75d3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b3d881e962d099f4a8eb492ef7e9a8c0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2705215ac5b84b70bacc50632be6e391, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ab2114bdc8544297b417dfefe9f1e410, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 54d21f6ece3b46479f0c328f8c6007e0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_2048.png
+- Assets/Import/Battlehub/MeshDeformer2/Spline/Shaders/Resources/SSBillboard.shader
+- Assets/Resources/OvrAvatarSettings.asset
+- Assets/Resources/FluentDialogue/Example/Resources/UI/OptionItemUI.prefab
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/MoveCursor.png
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Sprite Assets/Default Sprite
+  Asset.asset
+- Assets/Import/Battlehub/MeshDeformer2/Spline/Shaders/Resources/Spline.shader
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_256.png
+- Assets/Resources/FluentDialogue/Example/Images/speechbubble.png
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface-Mobile.shader
+- Assets/Import/TextMesh Pro/Resources/LineBreaking Leading Characters.txt
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+  SDF Glow.mat
+- Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_PC_SingleComponent.shader
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Rotate.png
+- Assets/Oculus/VR/Resources/OVRMRUnlitTransparent.shader
+- Assets/Import/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_2048.png
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/Shape.shader
+- Assets/Oculus/VR/Resources/OVRMRChromaKey.cginc
+- Assets/Resources/FluentDialogue/Example/Resources/Materials/Yellow.mat
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Global.png
+- Assets/Oculus/SampleFramework/Core/Video/Resources/Multiview Stereo.shader
+- Assets/Import/TextMesh Pro/Resources/Style Sheets/Default Style Sheet.asset
+- Assets/Import/NatureManufacture Assets/Additional Tools/Debug/Debug Materials/Debug
+  Textures/Resources/Debug_Arrow.png
+- Assets/Resources/FluentDialogue/Example/Images/FluentLogo.png
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Reset.png
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/VertexColorClip.shader
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/LiberationSans
+  SDF - Metalic Green.mat
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/Billboard.shader
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/DragDrop.png
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+  SDF.asset
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMPro_Properties.cginc
+- Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_Mobile_Loader.shader
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Move.png
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+  SDF - Outline.mat
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Oswald
+  Bold SDF.asset
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/Battlehub.RuntimeHandles.y.png
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Custom-Atlas.shader
+- Assets/Resources/FluentDialogue/Example/Resources/Materials/Blue.mat
+- Assets/Oculus/VR/Resources/Cubemap Blit.shader
+- Assets/Resources/FluentDialogue/Example/Resources/Sounds/yes.ogg
+- Assets/Resources/FluentDialogue/Example/Images/speechbubble2.png
+- Assets/Resources/FluentDialogue/Example/Resources/Sounds/byebye.ogg
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Color Gradient Presets/Dark
+  to Light Green - Vertical.asset
+- Assets/Oculus/VR/Resources/OVRMRUnlit.shader
+- Assets/Resources/FluentDialogue/Example/Images/fluent_head.png
+- Assets/Resources/FluentDialogue/ReadMe.txt
+- Assets/Resources/OculusPlatformSettings.asset
+- Assets/Resources/FluentDialogue/Example/Resources/UI/PlayerYellCanvas.prefab
+- Assets/Import/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop
+  Shadow.mat
+- Assets/Resources/FluentDialogue/Example/Resources/UI/OptionItemUIComplex.prefab
+- Assets/Resources/FluentDialogue/Example/Resources/Materials/Pink.mat
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/DragCursor.png
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/edit.png
+- Assets/Import/NatureManufacture Assets/Spline System/Resources/logoRAM.png
+- Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShaderSelfOccluding.shader
+- Assets/Oculus/VR/Resources/Unlit Transparent Color.shader
+- Assets/Resources/ONSPSettings.asset
+- Assets/Resources/FluentDialogue/Example/Resources/Materials/Grass.mat
+- Assets/Resources/FluentDialogue/Example/Resources/UI/YellCanvas.prefab
+- Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShaderPBS.shader
+- Assets/Import/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/LiberationSans
+  SDF - Soft Mask.mat
+- Assets/Oculus/VR/Resources/OVRMRCameraFrameLit.shader
+- Assets/Resources/FluentDialogue/Example/Images/radialMenu.png
+- Assets/Resources/FluentDialogue/Example/Resources/Materials/Red.mat
+- Assets/Resources/FluentDialogue/Example/Images/speech_bubble_borderless.png
+- Assets/Import/TextMesh Pro/Resources/LineBreaking Following Characters.txt
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Color Gradient Presets/Light
+  to Dark Green - Vertical.asset
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+  SDF - Drop Shadow.mat
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Hand.png
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+  SDF - Drop Shadow.mat
+- Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_Mobile_CombinedMesh.shader
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile Masking.shader
+- Assets/Resources/FluentDialogue/Example/Resources/Sounds/chainparallel.ogg
+- Assets/Oculus/Avatar/Resources/Materials/Expressive/Avatar_Mobile_CombinedMeshExpressive.shader
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+  SDF - Drop Shadow.mat
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Eye.png
+- Assets/Oculus/VR/Resources/Underlay Transparent Occluder.shader
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/LiberationSans
+  SDF - Overlay.mat
+- Assets/Oculus/VR/Resources/Texture2D Blit.shader
+- Assets/Oculus/Avatar/Resources/Materials/Expressive/Avatar_PC_SingleComponentExpressive.shader
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/Battlehub.RuntimeHandles.x.png
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+  SDF.asset
+- Assets/Oculus/Avatar/Resources/Materials/AvatarPBRV2Simple.shader
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Mobile.shader
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/VertexColorBillboard.shader
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Color Gradient Presets/Blue
+  to Purple - Vertical.asset
+- Assets/Resources/FluentDialogue/Example/Images/can_talk_icon.png
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Object.png
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_256.png
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+  SDF.asset
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_SDF Overlay.shader
+- Assets/Resources/FluentDialogue/Example/Resources/Sounds/hello.ogg
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMPro_Surface.cginc
+- Assets/Oculus/Avatar/Resources/Materials/Expressive/Avatar_Mobile_SingleComponentExpressive.shader
+- Assets/Import/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/Grid.shader
+- Assets/Oculus/VR/Resources/OVRMRCameraFrame.shader
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile Overlay.shader
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Sprite Assets/DropCap Numbers.asset
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+  SDF Logo.mat
+- Assets/Resources/FluentDialogue/Example/Images/CreatureHead.png
+- Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShaderPBSV2.shader
+- Assets/Resources/FluentDialogue/Example/Resources/Sounds/chaching.ogg
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+  SDF - Surface.mat
+- Assets/Resources/FluentDialogue/Example/Resources/UI/NewOptionItemUIComplex.prefab
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_Bitmap.shader
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_1024.png
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMPro.cginc
+- Assets/Resources/OVRBuildConfig.asset
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/Battlehub.RuntimeHandles.z.png
+- Assets/Resources/FluentDialogue/Example/Resources/UI/TextColorRedAnimation.controller
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Electronic
+  Highway Sign SDF.asset
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+  SDF - Sunny Days.mat
+- Assets/Resources/FluentDialogue/Example/Resources/UI/TextColorRedAnimation TMP.controller
+- Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_Mobile_SingleComponent.shader
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_SDF.shader
+- Assets/Oculus/Avatar/Resources/Materials/AvatarMaterialStateShader.cginc
+- Assets/Oculus/Avatar/Resources/Materials/Expressive/AvatarEyeLens.shader
+- Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShader.shader
+- Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_1024.tif
+- Assets/Oculus/VR/Resources/Underlay Impostor.shader
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+- Assets/Import/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Close.png
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_Sprite.shader
+- Assets/Import/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface.shader
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+  SDF - Outline.mat
+- Assets/Resources/FluentDialogue/Example/Images/bigRound.png
+- Assets/Import/TextMesh Pro/Examples & Extras/Resources/Color Gradient Presets/Yellow
+  to Orange - Vertical.asset
+- Assets/Import/Battlehub/RTEditor/Icons/Resources/Scale.png
+- Assets/Import/TextMesh Pro/Resources/TMP Settings.asset
+- Assets/Import/Battlehub/RTHandles/Shaders/Resources/VertexColor.shader
+Dependencies: []

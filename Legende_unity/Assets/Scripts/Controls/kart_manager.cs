@@ -73,8 +73,8 @@ public class kart_manager : MonoBehaviour
 
         if(right_stick_y < -0.2 || right_stick_y > 0.2){ // Rotate up/Down camera.
             float camera_Y = right_stick_y * camera_speed_rotation/2  * Time.deltaTime;
-            float angle = UnityEditor.TransformUtils.GetInspectorRotation(camera_container).x;
-            camera_Y = angle > 120 && right_stick_y > 0 ? 0 : angle < 60  && right_stick_y < 0?  0 : camera_Y;
+            //float angle = UnityEditor.TransformUtils.GetInspectorRotation(camera_container).x;
+           // camera_Y = angle > 120 && right_stick_y > 0 ? 0 : angle < 60  && right_stick_y < 0?  0 : camera_Y;
             camera_container.Rotate(-camera_Y, 0, 0, Space.Self);
         }
     }
