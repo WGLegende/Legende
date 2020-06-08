@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fluent;
 
 public class GamePad_manager : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class GamePad_manager : MonoBehaviour
     public enum game_pad_attribution{
         player,
         inventory,
-        kart
+        kart,
+        dialogue
     }
     public game_pad_attribution _game_pad_attribution = game_pad_attribution.player;
     public game_pad_attribution _last_game_pad_attribution = game_pad_attribution.player;
@@ -181,6 +183,10 @@ public class GamePad_manager : MonoBehaviour
                     if(hinput.anyGamepad.X.justPressed){
                         kart_manager.instance.kart_light();
                     }
+            break;
+
+            case game_pad_attribution.dialogue :
+
             break;
 
         }

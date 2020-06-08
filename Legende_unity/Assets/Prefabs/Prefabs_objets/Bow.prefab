@@ -45,13 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbab559f2c508b049948f452ba22453c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state_id: Xx6MCuNtON3N48vpPpH285ZAy
   nom: arc
   description: arc simple mais efficace
-  image: {fileID: 2800000, guid: 5d7061fc7da05ce44add317708ec7215, type: 3}
-  _type_inventory: 0
-  _type_object: 3
-  _type_consommable_player: 0
-  _type_consommable_ressource: 0
+  image: {fileID: 2800000, guid: 2f9a5d607efdae140b4bcb49b72cbfef, type: 3}
+  jetable: 1
+  max_stack: 1
+  _type_object: 1
+  _type_equipement: 2
+  _type_consommable: 0
+  _type_ressource: 0
+  _type_plan: 0
+  _type_carte: 0
+  _type_quete: 0
+  _type_savoir: 0
+  _type_relique: 0
   _type_effets_secondaire: 0
   vitesseCoup: 1
   degatsInfligesMin: 10
@@ -67,7 +75,6 @@ MonoBehaviour:
   armureSecondaireMax: 0
   quantite: 1
   is_equiped: 0
-  inventory_slot_yx: 0000000000000000
 --- !u!65 &4851858973174491814
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -79,8 +86,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.5246026, y: 2, z: 0.36473727}
+  m_Center: {x: 0.016392857, y: 0, z: 0.10039413}
 --- !u!1 &6066878031777621733
 GameObject:
   m_ObjectHideFlags: 0

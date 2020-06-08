@@ -45,13 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbab559f2c508b049948f452ba22453c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state_id: noJcmpHnpMLB1wRCRMYL1ulcZ
   nom: axe
   description: Hammer destructor
-  image: {fileID: 2800000, guid: 172774604c1bee84185a69041576525b, type: 3}
-  _type_inventory: 0
+  image: {fileID: 2800000, guid: 2bc1f1133b0f57e49b4737a8ff4e0b10, type: 3}
+  jetable: 1
+  max_stack: 1
   _type_object: 1
-  _type_consommable_player: 0
-  _type_consommable_ressource: 0
+  _type_equipement: 1
+  _type_consommable: 0
+  _type_ressource: 0
+  _type_plan: 0
+  _type_carte: 0
+  _type_quete: 0
+  _type_savoir: 0
+  _type_relique: 0
   _type_effets_secondaire: 0
   vitesseCoup: 5
   degatsInfligesMin: 10
@@ -67,7 +75,6 @@ MonoBehaviour:
   armureSecondaireMax: 0
   quantite: 1
   is_equiped: 0
-  inventory_slot_yx: 0000000000000000
 --- !u!65 &9116730208938239585
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -79,8 +86,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.8032882, y: 1.6393473, z: 0.6053517}
+  m_Center: {x: 0.008196831, y: -0.04917991, z: 0.15512764}
 --- !u!1 &7629525170364062696
 GameObject:
   m_ObjectHideFlags: 0
