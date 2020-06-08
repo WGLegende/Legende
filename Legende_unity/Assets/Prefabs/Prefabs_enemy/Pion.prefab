@@ -141,7 +141,7 @@ MonoBehaviour:
   altitude: 0
   newEnemy: {fileID: 1766584660062716387, guid: 3f83dd28dcd8e844395d44887fe25163,
     type: 3}
-  nbrEnemy: 0
+  nbrEnemy: 2
   cadence_enemy: 2
   goCreateEnemy: 1
   emplacement_caserne: {fileID: 0}

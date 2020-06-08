@@ -117,7 +117,7 @@ public class enemy : MonoBehaviour
     public void Initialize(){
 
         gameObject.SetActive(true); 
-        isAlive = true; 
+        isAlive = true;
         GetComponentInChildren<Animator>().SetBool("isAlive",true);  
         activate_enemy();
     }
@@ -252,6 +252,7 @@ public class enemy : MonoBehaviour
     public bool check_if_attack(){
         if (distancePlayer <= agent.stoppingDistance && !isDefense){
             StopCoroutine("horsZone");
+            print("attack");
             return true;
         }else{
             return false;

@@ -170,6 +170,7 @@ public class enemy_manager : MonoBehaviour
             yield return new  WaitForSeconds(0.02f); 
         } 
 
+        enemy.EnemyAttackScript.StopAllCoroutines(); 
         yield return null; 
     }
 

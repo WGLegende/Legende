@@ -75,10 +75,17 @@ namespace Fluent
             FluentScript closestGameAction = GetClosestAction(PlayerObject);
             if (ClosestActionUIText != null)
             {
-                if (closestGameAction != null)
+                if (closestGameAction != null){
                     ClosestActionUIText.GetComponent<TextMeshProUGUI>().text = closestGameAction.Description();
-                else
+                    ButtonAction.instance.Action("Parler");
+
+                }
+                else{
                     ClosestActionUIText.GetComponent<TextMeshProUGUI>().text = "";
+                    ButtonAction.instance.Hide();
+
+                }
+
             }
         }
 
@@ -96,9 +103,11 @@ namespace Fluent
 
                 if (distance < closestDistance)
                 {
+                   
                     closestDistance = distance;
                     closestGameAction = gameAction;
                 }
+               
             }
 
             return closestGameAction;
@@ -121,6 +130,7 @@ namespace Fluent
         private void ActionCompleted(FluentScript fluentScript)
         {
             FluentScripts.Remove(fluentScript);
+
             // The action just completed
             // The action initiator could have been stopped from adding this action as a viable action
             // TODO

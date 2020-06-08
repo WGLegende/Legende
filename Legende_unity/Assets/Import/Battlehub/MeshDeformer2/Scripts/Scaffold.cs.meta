@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Legende_unity/Assets/Import/Battlehub/MeshDeformer2/Scripts/Scaffold.cs.meta
 guid: b2985a7d3d908d94d86c71638a2344d9
+=======
+guid: d8022a5e11d475944a7c6e936f63126d
+>>>>>>> Ben:Legende_unity/Assets/Scripts/UI/inventaire/inventory_loot.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

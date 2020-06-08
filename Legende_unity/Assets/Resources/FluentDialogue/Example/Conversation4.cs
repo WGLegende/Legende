@@ -12,12 +12,12 @@ public class Conversation4 : MyFluentDialogue
     public override FluentNode Create()
     {
         return
-            Yell("I'm looking for my cat") *
-            Yell("Have you seen her ?") *
+            Yell("Je cherche ta maman") *
+            Yell("tu l'as vu ?") *
             Show() *
             Options
             (
-                Option("Nope") *
+                Option("Euh...") *
                     Hide() *
                     Yell(";-(") *
                     End() *

@@ -11,12 +11,6 @@ public class inventory_main : MonoBehaviour
 {
     public static inventory_main instance;
 
-    public enum inventory_main_parts{
-         equipement, 
-         inventaire,
-         reliques 
-    };
-
         public enum type_object{ 
             aucun,
             equipement,
@@ -58,7 +52,6 @@ public class inventory_main : MonoBehaviour
             };
 
 
-    public List<inventory_object> object_list = new List<inventory_object>();
 
 
     void Start(){
@@ -83,23 +76,6 @@ public class inventory_main : MonoBehaviour
     IEnumerator load_invetory_TEST(){
         yield return new WaitForSeconds(0.5f);
         load_inventory();
-    }
-
-    public void add_new_object(inventory_object new_obj){
-        inventory_object existing_object = object_list.LastOrDefault(o => o.nom == new_obj.nom);
-
-        if(existing_object != null){
-            if(new_obj.quantite + existing_object.quantite > new_obj.max_stack){
-                int new_stack_quantity = new_obj.quantite + existing_object.quantite-new_obj.max_stack;
-                existing_object.quantite = existing_object.max_stack;
-                new_obj.quantite = new_stack_quantity;
-                object_list.Add(new_obj);
-            }else{
-                existing_object.quantite += new_obj.quantite;
-            }
-        }else{
-            object_list.Add(new_obj);
-        }
     }
 
 

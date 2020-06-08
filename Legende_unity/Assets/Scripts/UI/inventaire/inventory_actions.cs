@@ -19,11 +19,11 @@ public class inventory_actions : MonoBehaviour
         if(slot.object_in_slot.jetable){
 
             // Check if it is an equiped object
-            inventory_object currently_equiped = inventory_main.instance.object_list.FirstOrDefault(o => o.state_id == slot.object_in_slot.state_id && o.is_equiped);
+            inventory_object currently_equiped = inventory_objects_manager.instance.object_list.FirstOrDefault(o => o.state_id == slot.object_in_slot.state_id && o.is_equiped);
             if(currently_equiped != null){
                 currently_equiped.is_equiped = false;
             }
-            inventory_main.instance.object_list.Remove(inventory_main.instance.object_list.First(o => o.state_id == slot.object_in_slot.state_id));
+            inventory_objects_manager.instance.object_list.Remove(inventory_objects_manager.instance.object_list.First(o => o.state_id == slot.object_in_slot.state_id));
             
             slot_master.empty_slots();
             slot_master.update_equipement_slots();
@@ -56,7 +56,7 @@ public class inventory_actions : MonoBehaviour
         Debug.Log("J'equipe l'objet " + obj.nom);
 
         // Unequiped current equiped object
-        inventory_object currently_equiped = inventory_main.instance.object_list.FirstOrDefault(o => o._type_object == obj._type_object && o._type_equipement == obj._type_equipement && o.is_equiped);
+        inventory_object currently_equiped = inventory_objects_manager.instance.object_list.FirstOrDefault(o => o._type_object == obj._type_object && o._type_equipement == obj._type_equipement && o.is_equiped);
         if(currently_equiped != null){
             currently_equiped.is_equiped = false;
         }

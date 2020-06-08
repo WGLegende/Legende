@@ -31,12 +31,11 @@ public class saveEnemy : MonoBehaviour
   
                 }
 
-                if(enemy.currentPv < enemy.maxPv){
-
+                else{
                     enemy.current_comportement = enemy_manager.comportement.retour_base;
                     enemy.gameObject.transform.position = enemy.startPosition;
                     enemy.gameObject.transform.rotation = enemy.startRotation;
-                    enemy.CharacteristicEnemyPv(enemy.maxPv);
+                    enemy.CharacteristicEnemyPv(enemy.maxPv);  
                 }
             }
         }

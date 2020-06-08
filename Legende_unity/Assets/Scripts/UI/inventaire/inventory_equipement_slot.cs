@@ -17,7 +17,16 @@ public class inventory_equipement_slot : MonoBehaviour
 
     public inventory_object getEquipedObject()
     {
-        inventory_object obj = inventory_main.instance.object_list.FirstOrDefault(o => o._type_object == inventory_main.type_object.equipement && o._type_equipement == type_equipement && o.is_equiped);
+        
+        // inventory_object test = new inventory_object();
+
+        // foreach(inventory_object o in inventory_objects_manager.instance.object_list){
+        //     if(o._type_object == inventory_main.type_object.equipement && o._type_equipement == type_equipement && o.is_equiped){
+        //         GetComponent<_Slot>().set_slot(o);
+        //         test =  o;
+        //     }
+        // }
+        inventory_object obj = inventory_objects_manager.instance.object_list.FirstOrDefault(o => o._type_object == inventory_main.type_object.equipement && o._type_equipement == type_equipement && o.is_equiped);
         GetComponent<_Slot>().set_slot(obj);
         return obj;
     }
