@@ -19,13 +19,13 @@ public class Conversation4 : MyFluentDialogue
             (
                 Option("Euh...") *
                     Hide() *
-                    Yell(";-(") *
+                    Yell("stp !!!!") *
                     End() *
 
-                Option("Should I go find her ?") *
+                Option("Veux tu que je la cherche ?") *
                     Hide() *
-                    Yell("Yes please!") *
-                    Yell("I'd prefer a persian!") *
+                    Yell("OUi oui oui!") *
+                    Yell("tu es adorable") *
                     End()
              );
     }

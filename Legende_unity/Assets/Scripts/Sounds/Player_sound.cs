@@ -55,7 +55,8 @@ public class Player_sound : MonoBehaviour
 
         if(marcheAudio.isPlaying)
         return;
-        marcheAudio.Play();   
+        marcheAudio.Play(); 
+       
     }
 
 
