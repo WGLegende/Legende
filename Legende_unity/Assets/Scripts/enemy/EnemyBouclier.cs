@@ -27,7 +27,7 @@ public class EnemyBouclier : MonoBehaviour
 
             if(resistance_Shield > 0){
 
-                resistance_Shield -= 5; // a voir pour les degats
+                resistance_Shield -= 5; // todo a voir pour les degats
                 anim.SetTrigger("getHitShield");
                 EnemyDefenseScript.enemyScript.PlaySound(4);
             }

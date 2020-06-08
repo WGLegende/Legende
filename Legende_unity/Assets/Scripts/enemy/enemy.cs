@@ -380,15 +380,20 @@ public class enemy : MonoBehaviour
         switch (_race){ //enum type son
             case race.robot: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Robot[i]); 
                              break;
-            case race.human: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Human[i]); break;
+
+            case race.human: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Human[i]);
+                             break;
         }
     }
 
     public void StopSound(int i){
 
         switch (_race){
-            case race.robot: Enemy_sound.instance.StopSound(gameObject,Enemy_sound.instance.Robot[i]); break;
-            case race.human: Enemy_sound.instance.StopSound(gameObject,Enemy_sound.instance.Human[i]); break;
+            case race.robot: Enemy_sound.instance.StopSound(gameObject,Enemy_sound.instance.Robot[i]);
+                             break;
+                             
+            case race.human: Enemy_sound.instance.StopSound(gameObject,Enemy_sound.instance.Human[i]);
+                             break;
         }
     }
 
