@@ -3,27 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class Inventaire : MonoBehaviour
 {
-    public bool activationUI;
     public static int cleTrouve;
     public static string InfoText;
-
-    GameObject PanelInventaire;
-    public GameObject SlotInventaire;
-    public int[] slot;
+    public static Inventaire instance;
 
 
     void Start()
     {
-      activationUI = true;
-      cleTrouve = 0;
-      InfoText = "";
-      PanelInventaire = transform.GetChild(0).gameObject; 
+        instance = this;
+        cleTrouve = 0;
+        InfoText = "";
     }
-
-    
 
     public void compteurCle(){
 
@@ -33,7 +25,7 @@ public class Inventaire : MonoBehaviour
             GameObject.Find ("PanelInfo").GetComponent<Animator>().SetTrigger("panelInfo");
         }
         else{
-            GameObject.Find ("PanelKey").GetComponent<Animator>().SetBool("panelKeyIsOpen", false); // affichage ui clé
+           GameObject.Find ("PanelKey").GetComponent<Animator>().SetBool("panelKeyIsOpen", false); // affichage ui clé
         }
         
     }

@@ -6,11 +6,11 @@ public class cle : MonoBehaviour
 {
   
     public string type;
-    Inventaire UIInventaire;
+    Inventaire Varinventaire;
 
   void Start(){
 
-       UIInventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
+       Varinventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
 
     }
 
@@ -18,10 +18,9 @@ public class cle : MonoBehaviour
     void OnTriggerEnter(){
 
         Destroy(gameObject);
-        Inventaire.cleTrouve += 1;
-        UIInventaire.compteurCle(); // Affichage UI
-        UIInventaire.afficheInfoText(type);
-               
+        Inventaire.cleTrouve += 1; // var cleTrouve dans le script Inventaire
+        Inventaire.instance.compteurCle(); // Affichage UI
+        Inventaire.instance.afficheInfoText(type);          
     }
 
     

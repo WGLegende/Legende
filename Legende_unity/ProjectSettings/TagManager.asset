@@ -4,9 +4,20 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Shadow
-  - Collide
-  - Ground
+  - Rails
+  - TurnoutRails
+  - Cible_chariot
+  - CollisionRails
+  - Interactable
+  - degatPlayer
+  - degatEnemy
+  - Enemy
+  - wood
+  - gravel
+  - metal
+  - water
+  - stone
+  - snow
   layers:
   - Default
   - TransparentFX
@@ -16,11 +27,11 @@ TagManager:
   - UI
   - 
   - 
-  - TempCast
-  - Walkable
-  - SOL
-  - 
-  - 
+  - RailGuide
+  - TrainWheels
+  - Ground
+  - Player
+  - degat
   - 
   - 
   - 

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 
 
 public class Porte : MonoBehaviour
@@ -17,13 +17,12 @@ public class Porte : MonoBehaviour
  public bool OpenChute;
 
  Animator animPorte;
- public Animator textPorte;
  public GameObject Switch; // on attache le switch sol voulu
  switchSol SwitchScript; // variable pour recuperer la bool dnas le script switchSol
  Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
 
  bool OneShot; // on affiche qu'une fois "porte verrouilée"
- 
+ public bool AutoClosed;
 
     void Start(){
 
@@ -51,7 +50,14 @@ public class Porte : MonoBehaviour
             }
 
             if(keysList.Where(a => a != null).Count() > 0){
-                UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clés");
+
+                if (keysList.Length > 1){
+                    UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clés");
+                }
+                 else{
+                    UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clé");
+                }
+
             }  
         }
 
@@ -59,14 +65,17 @@ public class Porte : MonoBehaviour
 
             if( SwitchScript.switchSolIsPressed == false){
                 UIInventaire.afficheInfoText("Trouvez l'interrupteur !");
-                textPorte.SetBool("textPorte", true); 
+               
             }
 
-            if(SwitchScript.switchSolIsPressed == true && OneShot == true){
-                UIInventaire.afficheInfoText("Vous avez déverrouillé la Porte !");  
-                textPorte.SetBool("textPorte", false); 
+            if(SwitchScript.switchSolIsPressed == true){
                 animPorte.SetBool(typeAnimation, true);
-                OneShot = false;
+
+                if(OneShot){
+                UIInventaire.afficheInfoText("Vous avez déverrouillé la Porte !");
+                OneShot = false;  
+                }
+              
             }
         }
 
@@ -75,10 +84,8 @@ public class Porte : MonoBehaviour
 
     void OnTriggerExit(){
 
-        if (Switch == null){
-            if (keysList.Where(a => a != null).Count() == 0){
-                animPorte.SetBool(typeAnimation, false);
-            }
+        if(AutoClosed){
+            animPorte.SetBool(typeAnimation, false);          
         }
     }
     
