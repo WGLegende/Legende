@@ -7,7 +7,7 @@ using Fluent;
 /// </summary>
 public class Conversation2 : MyFluentDialogue
 {
-    FluentString[] sentences = FluentString.FromStringArray(new string[] { "I love ...", "CAKE!", "And chained responses!" });
+    FluentString[] sentences = FluentString.FromStringArray(new string[] { "Passe le Bonjour", "a ta petite Maman", "allez bouge !" });
 
     public override FluentNode Create()
     {

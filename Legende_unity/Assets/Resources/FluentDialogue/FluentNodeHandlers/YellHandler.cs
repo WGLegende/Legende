@@ -41,7 +41,7 @@ namespace Fluent
             }));
 
             // Focus the button so that keypresses work
-            EventSystem.current.SetSelectedGameObject(go);
+           // EventSystem.current.SetSelectedGameObject(go);
         }
 
         public override void HandleFluentNode(FluentNode fluentNode)

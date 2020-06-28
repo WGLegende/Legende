@@ -172,7 +172,7 @@ Transform:
   m_GameObject: {fileID: 2626164744199983840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.7, y: 2.71, z: 34}
-  m_LocalScale: {x: 0.78, y: 0.78, z: 0.78}
+  m_LocalScale: {x: 0.61130935, y: 1.5191145, z: 0.78}
   m_Children:
   - {fileID: 2626164744187464592}
   m_Father: {fileID: 0}
@@ -205,12 +205,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keysList:
   - {fileID: 0}
-  OpenPivot: 0
-  OpenUp: 0
-  OpenSlide: 1
-  OpenChute: 0
+  _type_ouverture: 1
   Switch: {fileID: 0}
   AutoClosed: 0
+  time_auto_closed: 3
 --- !u!1 &2626164744285187691
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +268,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 16ff2e7afc7a41443b56955d1e8e1653, type: 2}
+  - {fileID: 2100000, guid: 4f80e0771e4a88948aa196378ea7ef48, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

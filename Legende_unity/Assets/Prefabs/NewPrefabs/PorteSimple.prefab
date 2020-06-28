@@ -59,12 +59,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keysList: []
-  OpenPivot: 1
-  OpenUp: 0
-  OpenSlide: 0
-  OpenChute: 0
+  _type_ouverture: 0
   Switch: {fileID: 0}
   AutoClosed: 1
+  time_auto_closed: 3
 --- !u!1 &7127321081070757234
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class kart_manager : MonoBehaviour
     public float velocity_chariot;
 
     float vitesse_demandee;
-    float vitesse_actuelle;
+    public float vitesse_actuelle;
     public float vitesse_maximum;
   
     public Battlehub.MeshDeformer2.SplineFollow SplineFollow;
@@ -27,7 +27,7 @@ public class kart_manager : MonoBehaviour
     float valeur_vitesse_basique = 1f; // X = avance, -X = recule, 0 = sur place . X est limité par la valeur_vitesse_basique_max ci dessous
     public float valeur_vitesse_basique_max = 1f; // 1 = avance, -1 = recule, 0 = sur place
 
-    float valeur_frein = 1f; // 1 = en roue libre, 0 = a l'arret
+    public float valeur_frein = 1f; // 1 = en roue libre, 0 = a l'arret
     float valeur_boost = 0f; // 0 = pas de boost, x = boost
     public float valeur_boost_max = 20f; // permet de... limiter le boost...
         
@@ -53,6 +53,10 @@ public class kart_manager : MonoBehaviour
 
     public GameObject myBullet;
     public Transform CanonContainer;
+
+    public bool canMoveAvance = true;
+    public bool canMoveRecul = true;
+
     
 
     void Start(){
@@ -71,12 +75,12 @@ public class kart_manager : MonoBehaviour
     public void kart_movement(float right_stick_x, float right_stick_y, float left_stick_x, float left_stick_y){
         chariot_siege.Rotate(0, right_stick_x * camera_speed_rotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
 
-        if(right_stick_y < -0.2 || right_stick_y > 0.2){ // Rotate up/Down camera.
-            float camera_Y = right_stick_y * camera_speed_rotation/2  * Time.deltaTime;
+       //// if(right_stick_y < -0.2 || right_stick_y > 0.2){ // Rotate up/Down camera.
+          //  float camera_Y = right_stick_y * camera_speed_rotation/2  * Time.deltaTime;
             //float angle = UnityEditor.TransformUtils.GetInspectorRotation(camera_container).x;
            // camera_Y = angle > 120 && right_stick_y > 0 ? 0 : angle < 60  && right_stick_y < 0?  0 : camera_Y;
-            camera_container.Rotate(-camera_Y, 0, 0, Space.Self);
-        }
+           // camera_container.Rotate(-camera_Y, 0, 0, Space.Self);
+       // }
     }
 
     // GERE LE FREINAGE DU VEHICULE
@@ -84,18 +88,28 @@ public class kart_manager : MonoBehaviour
         if (is_frein_active){
             valeur_frein -= Time.deltaTime/resistance_au_freinage;
             valeur_frein = valeur_frein < 0f ? 0f : valeur_frein;
+            print("FREIN");
         }else{
             valeur_frein += Time.deltaTime;
-            valeur_frein = valeur_frein > 1f ? 1f : valeur_frein;
+            valeur_frein = valeur_frein > 1f ? 1f : valeur_frein; 
         }
     }
 
     // Gestion de la vitesse basique avec le joystick
     public void calcul_vitesse_basique(float left_stick_y){
-        if (left_stick_y > 0){ // Avance
+      
+        if (left_stick_y > 0 && canMoveAvance){ // Avance
             valeur_vitesse_basique = valeur_vitesse_basique_max;
-        }else if (left_stick_y < 0){ // Recul
+            if(SplineFollow.IsRunning == false){
+                SplineFollow.IsRunning = true; 
+            }
+
+        }else if (left_stick_y < 0 && canMoveRecul){ // Recul
             valeur_vitesse_basique = -valeur_vitesse_basique_max;
+            if(SplineFollow.IsRunning == false){
+                SplineFollow.IsRunning = true;
+            }
+
         }else {
             valeur_vitesse_basique = 0f;
         }
@@ -103,7 +117,7 @@ public class kart_manager : MonoBehaviour
 
     // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
     public void boost(bool boosting){
-        if (boosting && VapeurBar.instance.useVapeur(0.05f) ){
+        if (boosting && VapeurBar.instance.useVapeur(0.05f) && canMoveRecul && canMoveAvance){
             if(valeur_vitesse_basique > 0){
                 valeur_boost = valeur_boost_max;
                 if(!particle_vapeur_back.isPlaying){
@@ -147,18 +161,20 @@ public class kart_manager : MonoBehaviour
     public void kart_light(){
         if (equipement_light){  
             toggle_light_chariot = !toggle_light_chariot;
-            light_chariot.enabled = toggle_light_chariot;    
+            light_chariot.enabled = toggle_light_chariot; 
+            print("light");
         }
     }
 
     public void speed_and_move(){
+
         angleChariot = Chariot_ContainerRotation.localEulerAngles.x;
         angleChariot = angleChariot > 180 ? angleChariot - 360 : angleChariot;
         angleChariot = Mathf.Round(angleChariot * 100f) / 100f;
 
         vitesse_demandee = angleChariot + valeur_vitesse_basique + valeur_boost;
-
-        // Vérifie si on doit accélèrer OU décélerer
+       
+        // Vérifie si on doit accélèrer OU décélere
         vitesse_actuelle += vitesse_actuelle < vitesse_demandee ? 
                                     Time.deltaTime* velocity_chariot : 
                                    -(Time.deltaTime* velocity_chariot);
@@ -170,16 +186,25 @@ public class kart_manager : MonoBehaviour
         vitesse_actuelle = vitesse_actuelle > vitesse_maximum ? vitesse_maximum :
                            vitesse_actuelle < -vitesse_maximum ? -vitesse_maximum : 
                            vitesse_actuelle;
-
+        
+        if(vitesse_actuelle > 1 || vitesse_actuelle < -1){
         SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
+        }else{
+             SplineFollow.Speed = 0;
+        }
+ 
     }
+
+
 
     void Update(){
         if (Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
             VapeurBar.instance.fill_vapeur_stock();
         }
-
+        
         speed_and_move();
+       // chariot_siege.transform.rotation = camera_container.transform.rotation;
+        
 
         // Gestion des etincelles
         // if(SplineFollow.Speed >= 20){

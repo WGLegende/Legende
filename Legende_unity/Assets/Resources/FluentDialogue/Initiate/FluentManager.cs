@@ -73,20 +73,19 @@ namespace Fluent
         private void RecalculateUIActionText()
         {
             FluentScript closestGameAction = GetClosestAction(PlayerObject);
-            if (ClosestActionUIText != null)
-            {
+           
                 if (closestGameAction != null){
-                    ClosestActionUIText.GetComponent<TextMeshProUGUI>().text = closestGameAction.Description();
+                   // ClosestActionUIText.GetComponent<TextMeshProUGUI>().text = closestGameAction.Description();
                     ButtonAction.instance.Action("Parler");
 
                 }
                 else{
-                    ClosestActionUIText.GetComponent<TextMeshProUGUI>().text = "";
+                   // ClosestActionUIText.GetComponent<TextMeshProUGUI>().text = "";
                     ButtonAction.instance.Hide();
 
                 }
 
-            }
+            
         }
 
         private FluentScript GetClosestAction(GameObject playerObject)

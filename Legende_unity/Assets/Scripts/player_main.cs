@@ -6,16 +6,7 @@ using UnityEngine.UI;
 public class player_main : MonoBehaviour
 
 {
-    # region Singleton
-
     public static player_main instance;
-
-    void Awake()
-    {
-        instance = this;
-    }
-
-    #endregion
 
     public GameObject player;
     Animator anim;
@@ -24,29 +15,26 @@ public class player_main : MonoBehaviour
     public float player_current_pv;
     float player_max_pv = 100f;
 
-    Transform playerTransform;
-    Transform cam;
+    //Transform playerTransform;
+   
     Vector3 startPosition;
     Quaternion startRotation;
 
     public bool playerIsAlive = true;
-
 
     CharacterController controller;
     public float timeInAir = 0f;
     public float deathTimer = 3f;
 
  
-    void Start(){ 
+    void Awake(){ 
 
-        playerTransform = GameObject.Find("Player").GetComponent<Transform>(); 
+        instance = this;
         anim = player.GetComponent<Animator>();
         blackout = GameObject.Find("black").GetComponent<Animator>();
-        cam = GameObject.Find("cam_container").GetComponent<Transform>(); 
+        controller = GameObject.Find("Player").GetComponent<CharacterController>();
         startPosition = player.transform.position;
         startRotation = player.transform.rotation; 
-
-        controller = GameObject.Find("Player").GetComponent<CharacterController>();
     }
 
    
@@ -61,8 +49,7 @@ public class player_main : MonoBehaviour
             AddPlayerPv(100);
         }
 
-
-        checkIfPlayerIsFalling();
+        //checkIfPlayerIsFalling();
       
     }
 
@@ -106,8 +93,7 @@ public class player_main : MonoBehaviour
 
         timeInAir = 0f;
         
-
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(1f); // Black Ui
 
         saveEnemy.instance.restoreEnemy();
 
@@ -116,18 +102,18 @@ public class player_main : MonoBehaviour
         }
 
         else{
-            playerTransform.transform.position = startPosition;
-            playerTransform.transform.rotation = startRotation;
-            cam.transform.localEulerAngles = new Vector3(0f,0f,0f);
+            player.transform.position = startPosition;
+            player.transform.rotation = startRotation;
             player_main.instance.AddPlayerPv(100); 
         }
+        player_gamePad_manager.instance.put_camera_behind_player();
 
-        blackout.SetBool("blackout",false);
+        blackout.SetBool("blackout",false); // Back to game
 
         anim.SetBool("isDead",false);
         playerIsAlive = true;   
           
-        yield return new WaitForSeconds(2.5f); // durre anim recoverDie
+        yield return new WaitForSeconds(2.5f); // duree anim recoverDie
 
         player_gamePad_manager.canMove = true;
         player_gamePad_manager.canAttack = true;
@@ -145,7 +131,7 @@ public class player_main : MonoBehaviour
         }
 
         if (climbtest.instance.canClimb){
-             timeInAir = 0f;
+            timeInAir = 0f;
         }
     }
 

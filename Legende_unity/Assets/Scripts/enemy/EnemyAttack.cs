@@ -50,38 +50,28 @@ public class EnemyAttack : MonoBehaviour
 
         instance = this;
         anim = GetComponentInChildren<Animator>();
-        target = player_main.instance.player.transform;
-
         enemyScript = GetComponentInParent<enemy>();
-
+        target = player_main.instance.player.transform;
+      
         if(_type_attack == typeAttack.Cac){enemyScript.distance_attack = distance_C_a_C;} // on renseigne la distance d'attaque en fonction du type
         else if(_type_attack == typeAttack.Cac_et_distance){enemyScript.distance_attack = distance_shoot; tireur = true;}
         else if(_type_attack == typeAttack.distance){enemyScript.distance_attack = distance_shoot;}
-
-        
+   
         Pcent_gain_attackSpecial = Pcent_attackSpecial;  
     }
 
+
+
     // declenche par manager comportement alerte
     public void animAlerte(bool value){
-
-       StartCoroutine(positionAlerte(value));
-    }
-
-    IEnumerator positionAlerte(bool value){
-
-        anim.SetBool("eye_alerte",value);
-
+       anim.SetBool("eye_alerte",value);
         if(_type_attack != typeAttack.Cac){ // on passe en mode distance 
             anim.SetBool("mode_shoot",value);
         }  
-        yield return null;
     }
-
-
+    
     // declenchee par manager on rebascule en shooter si mode tireur
     public void FinAlerte(){
-
         if(tireur){
             _type_attack = typeAttack.Cac_et_distance;
             enemyScript.distance_attack = distance_shoot;
@@ -104,14 +94,14 @@ public class EnemyAttack : MonoBehaviour
     }
 
 
-    // Tout se passe ici
+    // Tout se passe ici declecnhe par manager
     public IEnumerator attackTarget(){
 
         if(tireur){
             StartCoroutine(checkPositionPlayer());
         }
 
-       yield return new WaitForSeconds(0.5f);  // tempo pour eviter permuation trop rapide a tester
+        yield return new WaitForSeconds(0.5f);  // tempo pour eviter permuation trop rapide a tester
 
         while(enemyScript.current_comportement == enemy_manager.comportement.attack){
 
@@ -120,6 +110,7 @@ public class EnemyAttack : MonoBehaviour
                 if(_type_attack == typeAttack.Cac){ // attack Cac
 
                     float i = Random.value*100;
+                    //print("chance special"+ i);
 
                     if(i < Pcent_attackSecondaire){ 
                         attackSecondaire(); 
@@ -145,8 +136,8 @@ public class EnemyAttack : MonoBehaviour
                     attackPrincipal();
                 }
             }
-
             yield return new WaitForSeconds(cadence_de_frappe); 
+
         } 
     }
 
@@ -160,7 +151,8 @@ public class EnemyAttack : MonoBehaviour
         if(_type_attack != typeAttack.distance){  
         enemyScript.PlaySound(0);
         }
-        enemy_manager.instance.degatForPlayer = Random.Range(degatMin,degatMax);    
+        enemy_manager.instance.degatForPlayer = Random.Range(degatMin,degatMax);   
+        player_gamePad_manager.instance.force_degat_recul = 3f; 
     }
 
 
@@ -170,7 +162,9 @@ public class EnemyAttack : MonoBehaviour
 
         anim.SetTrigger("attack2");
         enemyScript.PlaySound(1);
-        enemy_manager.instance.degatForPlayer = Random.Range(degatMin,degatMax);    
+        enemy_manager.instance.degatForPlayer = Random.Range(degatMin,degatMax);   
+        player_gamePad_manager.instance.force_degat_recul = 2f; 
+
     }
 
 
@@ -186,7 +180,9 @@ public class EnemyAttack : MonoBehaviour
             ProjectileClone.GetComponent<Rigidbody>().AddForce(OriginProjectile.right *power_projectile, ForceMode.Impulse);
         }
         Destroy(ProjectileClone,3);
-        enemy_manager.instance.degatForPlayer = Random.Range(degatMin, degatMax);   
+        enemy_manager.instance.degatForPlayer = Random.Range(degatMin, degatMax); 
+        player_gamePad_manager.instance.force_degat_recul = 6f; 
+
     }
 
     public void attackBowman(){ //declenche par anim bowman
@@ -231,6 +227,7 @@ public class EnemyAttack : MonoBehaviour
             if(Vector3.Distance(target.position, transform.position) >= 2){
 
                 target.transform.position = Vector3.MoveTowards(target.transform.position,transform.position, force_aspiration * Time.deltaTime);
+                print("dpt player");
             } 
             yield return new WaitForSeconds(0.02f);    
         }     
@@ -241,15 +238,22 @@ public class EnemyAttack : MonoBehaviour
      // temps d'aspiration
     IEnumerator timerAspiration(){ 
 
+        
         yield return new WaitForSeconds(2f); // le temps de se tourner
 
         int i = duree_aspiration;
+         print("start timer");
+          print("i = "+i);
 
         while( i > 0){  
             i--;   
-            yield return new WaitForSeconds(1); 
+            print("timer en cours");
+            print(i);
+            yield return new WaitForSeconds(1f); 
+             
         }  
         anim.SetBool("attack3",false); // arret ventilateur
+        print("stop helice");
         anim.SetBool("mode_attack3",false); // enemy se retourne
         particule_attackSpecial.Stop();
         enemyScript.StopSound(2);
@@ -263,9 +267,6 @@ public class EnemyAttack : MonoBehaviour
 
 
     IEnumerator CircleAttack(){
-
-
-
 
         yield return null;
     }

@@ -9,5 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SceneVR.unity
     guid: 137e0ef34d53aec49a817b3a03feb93b
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: d2b3eaec694f7534a9d5c9626571a396,
+      type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 7e869d00f8e655d41a1557bf34669bb6,
       type: 2}

@@ -6,7 +6,7 @@ public class regenerePv : MonoBehaviour
 {
    
 
-public float speed;
+public float vitesse_de_recharge;
 
 
     void OnTriggerEnter(Collider collider){
@@ -31,7 +31,7 @@ public float speed;
 
         while(true){
 
-            player_main.instance.AddPlayerPv(Time.deltaTime * speed);
+            player_main.instance.AddPlayerPv(Time.deltaTime * vitesse_de_recharge);
             yield return null;
         }
     }

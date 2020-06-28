@@ -110,6 +110,7 @@ namespace Fluent
             // Hide
             Hide();
 
+
             // Call done on it
             highestOptionsNode.Done();
         }
@@ -163,11 +164,17 @@ namespace Fluent
         public virtual void Show()
         {
             DialogUI.SetActive(true);
+            Debug.Log("Start conversation");
+            player_gamePad_manager.canMove = false;
+
         }
 
         public virtual void Hide()
         {
             DialogUI.SetActive(false);
+            Debug.Log("End conversation");
+            player_gamePad_manager.canMove = true;
+
         }
 
     }

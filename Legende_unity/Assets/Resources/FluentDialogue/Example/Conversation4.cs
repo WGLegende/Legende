@@ -12,21 +12,21 @@ public class Conversation4 : MyFluentDialogue
     public override FluentNode Create()
     {
         return
-            Yell("Je cherche ta maman") *
-            Yell("tu l'as vu ?") *
+            Yell("Salut !") *
+            Yell("Besoin de quelque chose ?") *
             Show() *
             Options
             (
-                Option("Euh...") *
+                Option("ouai une arme pour combattre") *
                     Hide() *
-                    Yell("stp !!!!") *
+                    Yell("desole je suis pacifiste") *
                     End() *
 
-                Option("Veux tu que je la cherche ?") *
+                Option("non ca va je me ballade") *
                     Hide() *
-                    Yell("OUi oui oui!") *
-                    Yell("tu es adorable") *
+                    Yell("comme tu veux") *
+                    Yell("a tres vite !") *
                     End()
-             );
+            );
     }
 }

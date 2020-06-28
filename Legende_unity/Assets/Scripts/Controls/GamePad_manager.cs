@@ -7,13 +7,10 @@ public class GamePad_manager : MonoBehaviour
 {
     public static GamePad_manager instance;
 
-
-
     float right_stick_x;
     float right_stick_y;
     float left_stick_x;
     float left_stick_y;
-
 
     public enum game_pad_attribution{
         player,
@@ -25,6 +22,9 @@ public class GamePad_manager : MonoBehaviour
     public game_pad_attribution _last_game_pad_attribution = game_pad_attribution.player;
 
     bool currently_navigate_in_inventory;
+
+    bool gameIsPaused;
+    GameObject interaction;
 
     void Start()
     {
@@ -38,12 +38,16 @@ public class GamePad_manager : MonoBehaviour
         if(is_open){
             if(_game_pad_attribution != game_pad_attribution.inventory){
                 _last_game_pad_attribution = _game_pad_attribution;
+                Time.timeScale = 0; // gamePaused
             }
             _game_pad_attribution = game_pad_attribution.inventory;
         }else{
             _game_pad_attribution = _last_game_pad_attribution;
+            Time.timeScale = 1; // Back to game
+             
         }
     }
+
 
     void Update()
     {
@@ -62,8 +66,7 @@ public class GamePad_manager : MonoBehaviour
             case game_pad_attribution.player :
 
                 player_gamePad_manager.instance.player_is_moving = left_stick_x < 0 || left_stick_x > 0 || left_stick_y < 0 || left_stick_y > 0;
-                player_gamePad_manager.instance.camera_is_turning = right_stick_x < 0 || right_stick_x > 0 || right_stick_y < 0 || right_stick_y > 0;
-
+              
                 player_gamePad_manager.instance.player_velocity_calculation();
 
                 // Gestion du mouvement du player
@@ -71,24 +74,35 @@ public class GamePad_manager : MonoBehaviour
                     player_gamePad_manager.instance.player_movement(left_stick_x, left_stick_y);
                 }
 
-                // Gestion du mouvement de la camera autour du player
-                if(player_gamePad_manager.instance.camera_is_turning){ 
-                    player_gamePad_manager.instance.player_camera(right_stick_x, right_stick_y);
+                // Met la camera derriere le joueur
+               if(hinput.anyGamepad.leftTrigger.justPressed){
+                   player_gamePad_manager.instance.put_camera_behind_player();
+                   lockTarget.instance.detection_collider.enabled = true;
                 }
 
-                // Met la camera derriere le joueur
-                if(hinput.anyGamepad.leftTrigger.justPressed){
-                    player_gamePad_manager.instance.put_camera_behind_player();
+                // lock Target
+                if(hinput.anyGamepad.leftTrigger.pressed){
+                    lockTarget.instance.PlayerFaceToTarget();
+                    lockTarget.instance.ChangeTarget();
+                }
+
+                //Unlock Target
+                if(hinput.anyGamepad.leftTrigger.released){
+                    lockTarget.instance.EndTargetLock();
                 }
 
                 // Gestion du saut du player
-                if(hinput.anyGamepad.Y.justPressed){
+                if(Input.GetKeyDown("joystick button 3")){ // Y
                     player_gamePad_manager.instance.player_jump();
                 }
 
-                // Gestion du saut du player
-                if(hinput.anyGamepad.B.justPressed){
+                // Attack Player
+                if(Input.GetKeyDown("joystick button 1")){ // B
                     player_gamePad_manager.instance.player_attack();
+                }
+
+                 if(Input.GetKeyDown("joystick button 0")){
+                    Debug.Log("Bouton A");
                 }
 
                 // Utilise des shortcuts
@@ -101,9 +115,9 @@ public class GamePad_manager : MonoBehaviour
                 }else if(hinput.anyGamepad.dPad.left.justPressed){
                     inventory_shortcuts.instance.use_shortcut(3);
                 }
-
-
             break;
+
+
             case game_pad_attribution.inventory :
                 if(hinput.anyGamepad.A.justPressed){
                     Debug.Log("Test A");
@@ -151,9 +165,9 @@ public class GamePad_manager : MonoBehaviour
                 if(hinput.anyGamepad.B.justPressed){
                     inventory_navigation.instance.action_Back();
                 }
-
-
             break;
+
+
             case game_pad_attribution.kart :
                     // Gere le mouvement de camera et la rotation du siege
                     if(right_stick_x != 0 || right_stick_y != 0){ 
@@ -167,26 +181,31 @@ public class GamePad_manager : MonoBehaviour
                     kart_manager.instance.calcul_vitesse_basique(left_stick_y);
 
                     // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
-                    kart_manager.instance.boost(hinput.anyGamepad.rightTrigger.pressed);
+                    if(hinput.anyGamepad.rightTrigger.pressed && left_stick_y != 0){
+                        kart_manager.instance.boost(true);
+                    }
+                    if(hinput.anyGamepad.rightTrigger.released || left_stick_y == 0){
+                        kart_manager.instance.boost(false);
+                    }
 
                     // Gestion du saut du kart
-                    if(hinput.anyGamepad.Y.justPressed){
+                    if(Input.GetKeyDown("joystick button 3")){ // Y
                         kart_manager.instance.kart_jump();
                     }
 
                     // Gestion attaque du kart
-                    if(hinput.anyGamepad.B.justPressed){
+                    if(Input.GetKeyDown("joystick button 1")){ // B
                         kart_manager.instance.kart_attaque();
                     }
 
                     // Allume lumiere du kart
-                    if(hinput.anyGamepad.X.justPressed){
+                    if(Input.GetKeyDown("joystick button 2")){ // X
                         kart_manager.instance.kart_light();
                     }
             break;
 
-            case game_pad_attribution.dialogue :
 
+            case game_pad_attribution.dialogue :
             break;
 
         }
@@ -195,10 +214,12 @@ public class GamePad_manager : MonoBehaviour
 
 
     IEnumerator navigate_in_inventory(string direction){
+
         currently_navigate_in_inventory = true;
         inventory_navigation.instance.navigate_in_slots(direction);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
         currently_navigate_in_inventory = false;
     }
+
 
 }
