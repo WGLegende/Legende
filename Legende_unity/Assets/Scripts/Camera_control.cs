@@ -8,7 +8,7 @@ using Cinemachine.Utility;
 public class Camera_control : MonoBehaviour
 {
     public static Camera_control instance;
-    CinemachineFreeLook Cm_cam;
+    public CinemachineFreeLook player_camera;
 
     float right_stick_x;
     float right_stick_y;
@@ -16,11 +16,9 @@ public class Camera_control : MonoBehaviour
     void Start(){ 
 
         instance = this;   
-        Cm_cam = GetComponent<CinemachineFreeLook>();
     }
 
    
- 
     public void CameraBehindPlayer(){
 
         right_stick_x = hinput.anyGamepad.rightStick.position.x;
@@ -35,13 +33,13 @@ public class Camera_control : MonoBehaviour
     
     public IEnumerator RecenterCamera(){
 
-        Cm_cam.m_RecenterToTargetHeading.m_enabled = true;
-        Cm_cam.m_YAxisRecentering.m_enabled = true;
+        player_camera.m_RecenterToTargetHeading.m_enabled = true;
+        player_camera.m_YAxisRecentering.m_enabled = true;
        
         yield return new WaitForSeconds(0.5f);
 
-        Cm_cam.m_RecenterToTargetHeading.m_enabled = false;
-        Cm_cam.m_YAxisRecentering.m_enabled = false;
+        player_camera.m_RecenterToTargetHeading.m_enabled = false;
+        player_camera.m_YAxisRecentering.m_enabled = false;
         
         yield return null;
     }

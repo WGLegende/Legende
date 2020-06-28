@@ -48,7 +48,7 @@ public class player_gamePad_manager : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     Transform cam;
-    CinemachineFreeLook playerFreeLookVCam;
+    //CinemachineFreeLook kart_camera_controller;
 
     public float force_degat_recul = 3f;
 
@@ -58,7 +58,7 @@ public class player_gamePad_manager : MonoBehaviour
             instance = this;
         }
 
-        playerFreeLookVCam = GameObject.Find("CM_FreeLook1").GetComponent<CinemachineFreeLook>();
+       // kart_camera_controller = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();
         cam = GameObject.Find("Camera").GetComponent<Transform>();
 
         Player_Animator = GetComponent<Animator>();  

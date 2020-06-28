@@ -8,11 +8,10 @@ public class lockTarget : MonoBehaviour
 {
     public static lockTarget instance;
 
-    CinemachineFreeLook freelookcam;
     CinemachineTargetGroup targetGroup;
-    public SphereCollider detection_collider;
     Transform player;
-
+    [HideInInspector] public SphereCollider detection_collider;
+    
     Transform TargetViewCamera;
 
     public float distance = 10f;
@@ -28,9 +27,9 @@ public class lockTarget : MonoBehaviour
 
         instance = this;
         targetGroup = GameObject.Find("TargetGroup").GetComponent<CinemachineTargetGroup>();
-        freelookcam = GameObject.Find("CM_FreeLook1").GetComponent<CinemachineFreeLook>();
         player = GameObject.Find("Player").GetComponent<Transform>();
         detection_collider = GetComponent<SphereCollider>();
+      
     }
 
   
