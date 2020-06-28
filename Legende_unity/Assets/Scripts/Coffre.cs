@@ -5,66 +5,40 @@ using UnityEngine;
 public class Coffre : MonoBehaviour
 {
 
-    Animator anim;
-    bool isOpen;
+    [HideInInspector] public Animator anim;
+    [HideInInspector] public bool isOpen;
     public bool petit_coffre;
     public BoxCollider Object;
   
     void Start(){
 
         anim = GetComponent<Animator>(); 
-     
     }
 
     void OnTriggerEnter(Collider collider){ 
 
-        if(collider.tag == "Player" && !isOpen){
-            ButtonAction.instance.Action("Ouvrir"); 
+        if(!isOpen){
+            player_actions.instance.display_actions(this,collider);  
         }
     }
   
-    void OnTriggerStay(){
-
-        if(hinput.anyGamepad.A.justPressed && !isOpen){
-
-            isOpen = true;
-            ButtonAction.instance.Hide(); 
-
-            if(!petit_coffre){
-
-                anim.SetTrigger("OpenCoffre");
-                player_gamePad_manager.canMove = false;
-                player_gamePad_manager.canAttack = false;
-                player_gamePad_manager.canJump = false;
-                Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[0]); 
-                StartCoroutine(FadeMixer.StartFade(Music_sound.instance.MusicMaster, "musicMasterVolume", 2f , 0f)); // cut zic
-            }
-            else{
-                anim.SetTrigger("OpenPetitCoffre");
-                Invoke("activeObject",0.5f);
-            }
-        }
-    }
-
+   
     void OnTriggerExit(Collider collider){
-        if(collider.tag == "Player"){
-          ButtonAction.instance.Hide(); 
-        }
+
+        player_actions.instance.clear_action(collider.tag == "Player");  
     }
 
 
 
     void finAnim(){ // declenchee en fin anim Grand Coffre
 
-    
         player_gamePad_manager.canMove = true;
         player_gamePad_manager.canAttack = true;
         player_gamePad_manager.canJump = true;
-        StartCoroutine(FadeMixer.StartFade(Music_sound.instance.MusicMaster, "musicMasterVolume", 2f , 20f)); // remove zic
-        
+        StartCoroutine(FadeMixer.StartFade(Music_sound.instance.MusicMaster, "musicMasterVolume", 2f , 20f)); // remove zic  
     }
 
-    void activeObject(){
+    public void activeObject(){
 
         Object.enabled = true;
     }

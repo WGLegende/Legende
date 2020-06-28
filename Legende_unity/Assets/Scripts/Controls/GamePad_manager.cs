@@ -16,7 +16,8 @@ public class GamePad_manager : MonoBehaviour
         player,
         inventory,
         kart,
-        dialogue
+        dialogue,
+        actionDisplay
     }
     public game_pad_attribution _game_pad_attribution = game_pad_attribution.player;
     public game_pad_attribution _last_game_pad_attribution = game_pad_attribution.player;
@@ -63,7 +64,7 @@ public class GamePad_manager : MonoBehaviour
 
         switch(_game_pad_attribution){
 
-            case game_pad_attribution.player :
+            case game_pad_attribution.player : case  game_pad_attribution.actionDisplay :
 
                 player_gamePad_manager.instance.player_is_moving = left_stick_x < 0 || left_stick_x > 0 || left_stick_y < 0 || left_stick_y > 0;
               
@@ -101,9 +102,15 @@ public class GamePad_manager : MonoBehaviour
                     player_gamePad_manager.instance.player_attack();
                 }
 
-                 if(Input.GetKeyDown("joystick button 0")){
+                if(hinput.anyGamepad.A.justPressed){
+                    if(_game_pad_attribution == game_pad_attribution.actionDisplay){
+                        player_actions.instance.do_action();
+                          Debug.Log("Bouton A do action");
+                    }
                     Debug.Log("Bouton A");
                 }
+
+                
 
                 // Utilise des shortcuts
                 if(hinput.anyGamepad.dPad.up.justPressed){
@@ -115,6 +122,7 @@ public class GamePad_manager : MonoBehaviour
                 }else if(hinput.anyGamepad.dPad.left.justPressed){
                     inventory_shortcuts.instance.use_shortcut(3);
                 }
+
             break;
 
 

@@ -10,7 +10,7 @@ public class Porte : MonoBehaviour
 
  public GameObject[] keysList;
 
- string typeAnimation;
+ public string typeAnimation;
  
  public typeOuverture _type_ouverture;
     public enum typeOuverture{
@@ -20,15 +20,16 @@ public class Porte : MonoBehaviour
         chute     
     }
 
- Animator animPorte;
+ public Animator animPorte;
  public GameObject Switch; // on attache le switch sol voulu
- switchSol SwitchScript; // variable pour recuperer la bool dnas le script switchSol
- Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
+ public switchSol SwitchScript; // variable pour recuperer la bool dnas le script switchSol
+ public Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
 
- bool OneShot; // on affiche qu'une fois "porte verrouilée"
+ public bool OneShot; // on affiche qu'une fois "porte verrouilée"
  public bool AutoClosed;
  public int time_auto_closed = 3;
- bool isOpen;
+ public bool isOpen;
+ public string nom_de_la_porte = "Porte du Boss";
 
     void Start(){
 
@@ -50,72 +51,26 @@ public class Porte : MonoBehaviour
     } 
 
     void OnTriggerEnter(Collider collider){ 
-        if(collider.tag == "Player" && !isOpen){
-            ButtonAction.instance.Action("Ouvrir"); 
-           
+
+        if(!isOpen){
+            player_actions.instance.display_actions(this,collider); 
         }
         StopCoroutine("fermeture");
     }
 
 
-    void OnTriggerStay(){
-
-        if(hinput.anyGamepad.A.justPressed){
-
-            if (Switch == null){
-            
-                if (keysList.Where(a => a != null).Count() == 0){
-                    animPorte.SetBool(typeAnimation, true);
-                    isOpen = true;
-                    Inventaire.cleTrouve = 0;
-                    UIInventaire.compteurCle();
-                }
-                if(keysList.Where(a => a != null).Count() > 0){
-
-                    if (keysList.Length > 1){
-                        UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clés");
-                    }
-                    else{
-                        UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clé");
-                    }
-                }  
-            }
-
-            if (Switch != null){
-
-                if( SwitchScript.switchSolIsPressed == false){
-                    UIInventaire.afficheInfoText("Trouvez l'interrupteur !");  
-                }
-                if(SwitchScript.switchSolIsPressed == true){
-                    animPorte.SetBool(typeAnimation, true);
-
-                    if(OneShot){
-                        UIInventaire.afficheInfoText("Vous avez déverrouillé la Porte !");
-                        OneShot = false; 
-                        isOpen = true;
-                    }
-                
-                }
-            }
-            ButtonAction.instance.Hide(); 
-        }  
-    }
 
     void OnTriggerExit(Collider collider){
 
-        if(collider.tag == "Player"){
-
-            if(AutoClosed){
-               StartCoroutine("fermeture");
-            }
-            ButtonAction.instance.Hide(); 
+        if(AutoClosed && collider.tag =="Player"){
+            StartCoroutine("fermeture");
         }
+        player_actions.instance.clear_action(collider.tag == "Player");      
     }
 
     IEnumerator fermeture(){
 
-        yield return new WaitForSeconds(time_auto_closed);
-         
+        yield return new WaitForSeconds(time_auto_closed);   
         animPorte.SetBool(typeAnimation, false);      
         isOpen = false;    
     }

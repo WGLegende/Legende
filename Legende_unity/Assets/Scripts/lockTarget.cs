@@ -25,7 +25,10 @@ public class lockTarget : MonoBehaviour
    
     void Start(){
 
-        instance = this;
+        if(instance == null){
+            instance = this;
+        }
+        
         targetGroup = GameObject.Find("TargetGroup").GetComponent<CinemachineTargetGroup>();
         player = GameObject.Find("Player").GetComponent<Transform>();
         detection_collider = GetComponent<SphereCollider>();
