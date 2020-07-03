@@ -93,21 +93,20 @@ public class GamePad_manager : MonoBehaviour
                 }
 
                 // Gestion du saut du player
-                if(Input.GetKeyDown("joystick button 3")){ // Y
+                if(hinput.anyGamepad.Y.justPressed){
                     player_gamePad_manager.instance.player_jump();
                 }
 
                 // Attack Player
-                if(Input.GetKeyDown("joystick button 1")){ // B
+                if(hinput.anyGamepad.B.justPressed){ // B
                     player_gamePad_manager.instance.player_attack();
                 }
 
                 if(hinput.anyGamepad.A.justPressed){
                     if(_game_pad_attribution == game_pad_attribution.actionDisplay){
                         player_actions.instance.do_action();
-                          Debug.Log("Bouton A do action");
+                        Debug.Log("Bouton A do action");
                     }
-                    Debug.Log("Bouton A");
                 }
 
                 
@@ -209,6 +208,13 @@ public class GamePad_manager : MonoBehaviour
                     // Allume lumiere du kart
                     if(Input.GetKeyDown("joystick button 2")){ // X
                         kart_manager.instance.kart_light();
+                    }
+
+                    if(hinput.anyGamepad.A.justPressed){
+                        if(_game_pad_attribution == game_pad_attribution.actionDisplay){
+                            player_actions.instance.do_action();
+                            Debug.Log("Bouton A do action");
+                        }
                     }
             break;
 

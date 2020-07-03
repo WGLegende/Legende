@@ -46,7 +46,6 @@ public class kart_manager : MonoBehaviour
     bool toggle_light_chariot;
 
     public float camera_speed_rotation;
-    public Transform camera_container;
     public Transform chariot_siege;
 
     Text SpeedUI;
@@ -57,38 +56,36 @@ public class kart_manager : MonoBehaviour
     public bool canMoveAvance = true;
     public bool canMoveRecul = true;
 
-    
+    public BoxCollider offset_trigger;
+    bool change_center_collider;
 
+    
     void Start(){
         if(instance == null){
             instance = this;
-        }
-        
+        }   
         anim = gameObject.GetComponent<Animation>(); // Pour le Saut
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
         SpeedUI = GameObject.Find("speedValue").GetComponent<Text>(); 
+
         StartCoroutine(refreshSpeedUI());
     }
 
-    // Gere le mouvement de camera et la rotation du siege
-    public void kart_movement(float right_stick_x, float right_stick_y, float left_stick_x, float left_stick_y){
-        chariot_siege.Rotate(0, right_stick_x * camera_speed_rotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
 
-       //// if(right_stick_y < -0.2 || right_stick_y > 0.2){ // Rotate up/Down camera.
-          //  float camera_Y = right_stick_y * camera_speed_rotation/2  * Time.deltaTime;
-            //float angle = UnityEditor.TransformUtils.GetInspectorRotation(camera_container).x;
-           // camera_Y = angle > 120 && right_stick_y > 0 ? 0 : angle < 60  && right_stick_y < 0?  0 : camera_Y;
-           // camera_container.Rotate(-camera_Y, 0, 0, Space.Self);
-       // }
+
+    // Gere la rotation du siege
+    public void kart_movement(float right_stick_x, float right_stick_y, float left_stick_x, float left_stick_y){
+        chariot_siege.Rotate(0,0, right_stick_x * camera_speed_rotation  * Time.deltaTime, Space.Self); // rotate right/left character.
     }
+
+
 
     // GERE LE FREINAGE DU VEHICULE
     public void frein(bool is_frein_active){
         if (is_frein_active){
             valeur_frein -= Time.deltaTime/resistance_au_freinage;
             valeur_frein = valeur_frein < 0f ? 0f : valeur_frein;
-            print("FREIN");
         }else{
             valeur_frein += Time.deltaTime;
             valeur_frein = valeur_frein > 1f ? 1f : valeur_frein; 
@@ -101,7 +98,7 @@ public class kart_manager : MonoBehaviour
         if (left_stick_y > 0 && canMoveAvance){ // Avance
             valeur_vitesse_basique = valeur_vitesse_basique_max;
             if(SplineFollow.IsRunning == false){
-                SplineFollow.IsRunning = true; 
+                SplineFollow.IsRunning = true;
             }
 
         }else if (left_stick_y < 0 && canMoveRecul){ // Recul
@@ -110,10 +107,12 @@ public class kart_manager : MonoBehaviour
                 SplineFollow.IsRunning = true;
             }
 
-        }else {
+        }else{
             valeur_vitesse_basique = 0f;
         }
     }
+
+
 
     // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
     public void boost(bool boosting){
@@ -138,6 +137,8 @@ public class kart_manager : MonoBehaviour
         }
     }
 
+
+
     // Gestion du saut du kart
     public void kart_jump(){
         if(VapeurBar.instance.useVapeur(10f)){ // Jump 
@@ -145,6 +146,8 @@ public class kart_manager : MonoBehaviour
             particle_vapeur_under.Play();
         }
     }
+
+
 
     // Gestion attaque du kart
     public void kart_attaque(){
@@ -157,6 +160,8 @@ public class kart_manager : MonoBehaviour
         }
     }
 
+
+
     // Allume lumiere du kart
     public void kart_light(){
         if (equipement_light){  
@@ -166,14 +171,19 @@ public class kart_manager : MonoBehaviour
         }
     }
 
+
+
     public void speed_and_move(){
 
         angleChariot = Chariot_ContainerRotation.localEulerAngles.x;
         angleChariot = angleChariot > 180 ? angleChariot - 360 : angleChariot;
         angleChariot = Mathf.Round(angleChariot * 100f) / 100f;
+        if(angleChariot < 1){
+            angleChariot = 0;
+        }
 
         vitesse_demandee = angleChariot + valeur_vitesse_basique + valeur_boost;
-       
+
         // Vérifie si on doit accélèrer OU décélere
         vitesse_actuelle += vitesse_actuelle < vitesse_demandee ? 
                                     Time.deltaTime* velocity_chariot : 
@@ -186,11 +196,15 @@ public class kart_manager : MonoBehaviour
         vitesse_actuelle = vitesse_actuelle > vitesse_maximum ? vitesse_maximum :
                            vitesse_actuelle < -vitesse_maximum ? -vitesse_maximum : 
                            vitesse_actuelle;
-        
-        if(vitesse_actuelle > 1 || vitesse_actuelle < -1){
+
+
+        if(vitesse_actuelle > 0.5 || vitesse_actuelle < -0.5){
         SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
+        Player_sound.instance.PlayKart(Mathf.Abs(vitesse_actuelle));
         }else{
-             SplineFollow.Speed = 0;
+            SplineFollow.Speed = 0f;
+        Player_sound.instance.StopKart();
+
         }
  
     }
@@ -203,21 +217,26 @@ public class kart_manager : MonoBehaviour
         }
         
         speed_and_move();
-       // chariot_siege.transform.rotation = camera_container.transform.rotation;
+       
         
 
-        // Gestion des etincelles
-        // if(SplineFollow.Speed >= 20){
-        //     particle_etincelle_left_back.Play();
-        //     particle_etincelle_right_back.Play();
-        //     particle_etincelle_left_front.Stop();
-        //     particle_etincelle_right_front.Stop();
-        //  }else if (SplineFollow.Speed < -20){
-        //     particle_etincelle_left_back.Stop();
-        //     particle_etincelle_right_back.Stop();
-        //     particle_etincelle_left_front.Play();
-        //     particle_etincelle_right_front.Play();
-        // }
+        //Gestion des etincelles
+        if(vitesse_actuelle >= 20){
+            particle_etincelle_left_back.Play();
+            particle_etincelle_right_back.Play();
+            particle_etincelle_left_front.Stop();
+            particle_etincelle_right_front.Stop();
+         }else if (vitesse_actuelle < -20){
+            particle_etincelle_left_back.Stop();
+            particle_etincelle_right_back.Stop();
+            particle_etincelle_left_front.Play();
+            particle_etincelle_right_front.Play();
+        }else{
+            particle_etincelle_left_front.Stop();
+            particle_etincelle_right_front.Stop();
+            particle_etincelle_left_back.Stop();
+            particle_etincelle_right_back.Stop();
+        }
     } 
 
    
@@ -229,8 +248,11 @@ public class kart_manager : MonoBehaviour
    
 
     void OnTriggerEnter(Collider collider){
-        if(collider.gameObject.tag == "CollisionRails"){ 
-            collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
+
+        if(collider.gameObject.tag == "CollisionRails" && !equipement_Belier){ 
+           SplineFollow.IsRunning =false;
+           canMoveAvance = false;
+        //collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
         }
     }
 
@@ -238,8 +260,9 @@ public class kart_manager : MonoBehaviour
 
     }
     void OnTriggerExit(Collider collider){
-        if(collider.gameObject.layer == 10){
-            
+        if(collider.gameObject.tag == "CollisionRails"){ 
+           canMoveAvance = true;
+       
         }
     }
 

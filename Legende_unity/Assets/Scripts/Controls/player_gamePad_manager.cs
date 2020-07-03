@@ -31,9 +31,9 @@ public class player_gamePad_manager : MonoBehaviour
     public Animator Player_Animator;
     public bool player_is_moving;
   
-    public static bool canAttack;
-    public static bool canMove;
-    public static bool canJump;
+    public bool canAttack;
+    public bool canMove;
+    public bool canJump;
 
     public bool PlayerIsAttack;
 
@@ -48,30 +48,27 @@ public class player_gamePad_manager : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     Transform cam;
-    //CinemachineFreeLook kart_camera_controller;
-
+    
     public float force_degat_recul = 3f;
 
 
     void Start(){
+
         if(instance == null){
             instance = this;
         }
 
-       // kart_camera_controller = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();
         cam = GameObject.Find("Camera").GetComponent<Transform>();
-
         Player_Animator = GetComponent<Animator>();  
         canAttack = true;
         canMove = true;
         canJump = true;
-      
         characterController = GetComponent<CharacterController>();
         player_gravity/=10f;
         jumpForce/=10f;   
 
-        Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
-        Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
+        //Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
+       // Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
        
         changeEquipement();
     }
@@ -181,6 +178,13 @@ public class player_gamePad_manager : MonoBehaviour
         }
         if(EnemyDefense.instance != null)
             enemy_manager.instance.playerAttack();
+    }
+
+    public void PlayerCanMove(bool value){
+
+        canMove = value;
+        canAttack = value;
+        canJump = value;
     }
 
 

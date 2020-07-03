@@ -14,8 +14,6 @@ public class player_main : MonoBehaviour
 
     public float player_current_pv;
     float player_max_pv = 100f;
-
-    //Transform playerTransform;
    
     Vector3 startPosition;
     Quaternion startRotation;
@@ -48,8 +46,9 @@ public class player_main : MonoBehaviour
 
             AddPlayerPv(100);
         }
-
-        //checkIfPlayerIsFalling();
+        if(player.activeSelf){
+            checkIfPlayerIsFalling();
+        }
       
     }
 
@@ -83,9 +82,8 @@ public class player_main : MonoBehaviour
         if (timeInAir < deathTimer){
 
             anim.SetBool("isDead",true);
-            player_gamePad_manager.canMove = false;
-            player_gamePad_manager.canAttack = false;
-
+            player_gamePad_manager.instance.PlayerCanMove(false);
+           
             yield return new WaitForSeconds(1.7f); // duree anim die
         }
 
@@ -115,8 +113,7 @@ public class player_main : MonoBehaviour
           
         yield return new WaitForSeconds(2.5f); // duree anim recoverDie
 
-        player_gamePad_manager.canMove = true;
-        player_gamePad_manager.canAttack = true;
+        player_gamePad_manager.instance.PlayerCanMove(true);
     }
 
 
@@ -130,9 +127,9 @@ public class player_main : MonoBehaviour
             playerIsAlive = false;
         }
 
-        if (climbtest.instance.canClimb){
-            timeInAir = 0f;
-        }
+        // if (climbtest.instance.canClimb){
+        //     timeInAir = 0f;
+        // }
     }
 
 }

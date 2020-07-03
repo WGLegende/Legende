@@ -15,8 +15,9 @@ public class Coffre : MonoBehaviour
         anim = GetComponent<Animator>(); 
     }
 
-    void OnTriggerEnter(Collider collider){ 
 
+
+    void OnTriggerEnter(Collider collider){ 
         if(!isOpen){
             player_actions.instance.display_actions(this,collider);  
         }
@@ -24,7 +25,6 @@ public class Coffre : MonoBehaviour
   
    
     void OnTriggerExit(Collider collider){
-
         player_actions.instance.clear_action(collider.tag == "Player");  
     }
 
@@ -32,14 +32,12 @@ public class Coffre : MonoBehaviour
 
     void finAnim(){ // declenchee en fin anim Grand Coffre
 
-        player_gamePad_manager.canMove = true;
-        player_gamePad_manager.canAttack = true;
-        player_gamePad_manager.canJump = true;
+        player_gamePad_manager.instance.PlayerCanMove(true);
         StartCoroutine(FadeMixer.StartFade(Music_sound.instance.MusicMaster, "musicMasterVolume", 2f , 20f)); // remove zic  
     }
 
-    public void activeObject(){
 
+    public void activeObject(){
         Object.enabled = true;
     }
 

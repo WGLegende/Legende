@@ -13,6 +13,7 @@ public class ButtonAction : MonoBehaviour
     void Start(){
 
         instance = this; 
+        cam = GameObject.Find("Camera").GetComponent<Transform>();
 
     } 
 

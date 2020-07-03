@@ -53,7 +53,7 @@ public class climbtest : MonoBehaviour{
             if (hinput.gamepad[0].leftStick.position.y < 0){
 
                 canClimb = false;
-                player_gamePad_manager.canMove = true;
+                player_gamePad_manager.instance.canMove = true;
                 controller.enabled = true;
                 animator.SetBool("climb",false);
             }
@@ -86,7 +86,7 @@ public class climbtest : MonoBehaviour{
 
         canClimb = true;
         animator.SetBool("climb",true);
-        player_gamePad_manager.canMove = false;
+        player_gamePad_manager.instance.canMove = false;
         controller.enabled = false;
 
         float timer = 1;
@@ -107,7 +107,7 @@ public class climbtest : MonoBehaviour{
 
         yield return new WaitForSeconds(1f);
 
-        player_gamePad_manager.canMove = true;
+        player_gamePad_manager.instance.canMove = true;
         controller.enabled = true;   
         yield return null;
     }

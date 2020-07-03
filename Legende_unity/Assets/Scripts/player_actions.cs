@@ -16,55 +16,133 @@ public class player_actions : MonoBehaviour
     }
 
    
-
+    // On affiche l'action a faire
     public void display_actions(object action_init, Collider collider){
 
-        if(collider.tag != "Player")
-        return;
+        if(collider.tag == "Player"){
+            currently_displayed_action = action_init;
 
-        currently_displayed_action = action_init;
+            if(action_init.GetType() == typeof(inventory_loot)){
+                ButtonAction.instance.Action("Ramasser"); 
+            }
 
-        if(action_init.GetType() == typeof(Porte)){
-            ButtonAction.instance.Action("Ouvrir"); 
+            if(action_init.GetType() == typeof(Porte)){
+                ButtonAction.instance.Action("Ouvrir"); 
+            }
+            
+            if(action_init.GetType() == typeof(Coffre)){
+                ButtonAction.instance.Action("Ouvrir"); 
+            }
+
+            if(action_init.GetType() == typeof(Ascenseur)){
+                ButtonAction.instance.Action("Activer"); 
+            }
+
+            if(action_init.GetType() == typeof(EnterChariot)){
+                ButtonAction.instance.Action("Monter A Bord");   
+            }
         }
         
-        if(action_init.GetType() == typeof(Coffre)){
-            ButtonAction.instance.Action("Ouvrir"); 
+        else if(collider.tag == "PlayerKart"){
+            currently_displayed_action = action_init;
+
+            if(action_init.GetType() == typeof(GareKart)){
+                ButtonAction.instance.Action("Descendre");
+               
+            }
         }
-         
-
-
-
-
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionDisplay;
     }
 
-    public void do_action(){
 
+    // on declenche l'action avec bouton A via gamepad manager
+    public void do_action(){
+       
         if(currently_displayed_action.GetType() == typeof(Porte)){ 
             do_action_porte((Porte)currently_displayed_action);
+            clear_action(true);
         } 
 
-        if(currently_displayed_action.GetType() == typeof(Coffre)){ 
+        else if(currently_displayed_action.GetType() == typeof(Coffre)){ 
             do_action_coffre((Coffre)currently_displayed_action);
+            clear_action(true);
+        }
+
+        else if(currently_displayed_action.GetType() == typeof(Ascenseur)){ 
+            do_action_activer((Ascenseur)currently_displayed_action);
+            clear_action(true);
+        }  
+
+        else if(currently_displayed_action.GetType() == typeof(inventory_loot)){ 
+            do_action_loot((inventory_loot)currently_displayed_action);
+            clear_action(true);
+        }
+
+        else if(currently_displayed_action.GetType() == typeof(EnterChariot)){ 
+            do_action_enter_kart((EnterChariot)currently_displayed_action);
+            clear_action(false);
+        }
+
+        else if(currently_displayed_action.GetType() == typeof(GareKart)){ 
+            do_action_exit_kart((GareKart)currently_displayed_action);
+            clear_action(true);
         } 
 
-
-        clear_action(true);
+       
     }
 
-
-
+   
     public void clear_action(bool isPlayer){
 
         if(isPlayer){
             ButtonAction.instance.Hide(); 
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; // TODO attention avec kart
-            currently_displayed_action = null;
+            currently_displayed_action = null; 
         }
-
+        else if(!isPlayer){
+            ButtonAction.instance.Hide(); 
+            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; // TODO attention avec kart
+            currently_displayed_action = null; 
+        }
     }
+
+
+
+    public void do_action_enter_kart(EnterChariot _enter_kart){
+
+        Player_sound.instance.StopMove();
+
+        Camera_control.instance.player_kart_camera.m_XAxis.Value = 0f;// recentre la cam
+        Camera_control.instance.player_kart_camera.m_YAxis.Value = 0.5f;
+        Camera_control.instance.player_kart_camera.Priority = 11;
+
+        player_gamePad_manager.instance.PlayerCanMove(false);
+        _enter_kart.player_foot.SetActive(false); 
+        _enter_kart.player_kart.SetActive(true);
+    
+        _enter_kart.ui_chariot.scaleFactor = 0.8f; // affichage ui kart
+        _enter_kart.script_kart_manager.enabled = true; 
+        _enter_kart.chariot_siege.transform.localRotation = Quaternion.Euler(270,90,-90); // on recentre le player dans le kart
+    
+        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;    
+    }
+
+    public void do_action_exit_kart(GareKart _exit_kart){
+   
+        _exit_kart.ExitKart();   
+    }
+
+    public void do_action_loot(inventory_loot _inventory_loot){
+
+       Debug.Log("Loot ramasse");
+    }
+
+    public void do_action_activer(Ascenseur _ascenseur){
+
+       _ascenseur.isPositionUp = _ascenseur.isPositionUp ?  _ascenseur.anim.Play("elevator_down") : _ascenseur.anim.Play("elevator_up");
+    }
+      
 
 
     public void do_action_coffre(Coffre _coffre){
@@ -77,9 +155,7 @@ public class player_actions : MonoBehaviour
             if(!_coffre.petit_coffre){
 
                 _coffre.anim.SetTrigger("OpenCoffre");
-                player_gamePad_manager.canMove = false;
-                player_gamePad_manager.canAttack = false;
-                player_gamePad_manager.canJump = false;
+                player_gamePad_manager.instance.PlayerCanMove(false);
                 Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[0]); 
                 StartCoroutine(FadeMixer.StartFade(Music_sound.instance.MusicMaster, "musicMasterVolume", 2f , 0f)); // cut zic
             }

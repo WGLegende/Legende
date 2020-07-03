@@ -165,7 +165,7 @@ namespace Fluent
         {
             DialogUI.SetActive(true);
             Debug.Log("Start conversation");
-            player_gamePad_manager.canMove = false;
+            player_gamePad_manager.instance.PlayerCanMove(false);
 
         }
 
@@ -173,7 +173,8 @@ namespace Fluent
         {
             DialogUI.SetActive(false);
             Debug.Log("End conversation");
-            player_gamePad_manager.canMove = true;
+            player_gamePad_manager.instance.PlayerCanMove(true);
+
 
         }
 

@@ -7,22 +7,20 @@ public class tests_manager : MonoBehaviour
 {
     public bool destroyPlayerPrefs;
     public bool player_never_die;
-    public Transform Player;
-    public Transform Playerkart;
- 
+    public GameObject Player;
+    public GameObject Playerkart;
+    
+
     void Start() {
+
+       
         if(destroyPlayerPrefs){
             PlayerPrefs.DeleteAll();
         }
         if(player_never_die){
            InvokeRepeating("PlayerInfinityPv",0, 2.0f);
-        }
-
-
-       
+        } 
     }
-
-
 
     void Update(){
 

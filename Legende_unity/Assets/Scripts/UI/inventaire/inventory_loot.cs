@@ -25,11 +25,12 @@ public class inventory_loot : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider collider)
-    {
-        
-        // Faire ici la logique pour afficher ce qu'il y a a l'interieur...
+    void OnTriggerEnter(Collider collider){
+        player_actions.instance.display_actions(this,collider); 
+    }
 
+    void OnTriggerExit(Collider collider){  
+        player_actions.instance.clear_action(collider.tag == "Player");  
     }
 
 
