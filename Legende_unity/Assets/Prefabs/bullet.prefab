@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3172179894263464782}
   m_Layer: 0
   m_Name: bullet
-  m_TagString: Untagged
+  m_TagString: degatEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   particule_lava: {fileID: 282133846117760003, guid: 6ec96343356ee834083f2e1cc234da54,
     type: 3}
   rayon_explosion: 5
-  force: 5
+  force_explosion: 5
 --- !u!135 &3172179894263464782
 SphereCollider:
   m_ObjectHideFlags: 0

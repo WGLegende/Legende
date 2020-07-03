@@ -6,14 +6,21 @@ using UnityEngine;
 public class tests_manager : MonoBehaviour
 {
     public bool destroyPlayerPrefs;
- 
+    public bool player_never_die;
+    public GameObject Player;
+    public GameObject Playerkart;
+    
+
     void Start() {
+
+       
         if(destroyPlayerPrefs){
             PlayerPrefs.DeleteAll();
         }
+        if(player_never_die){
+           InvokeRepeating("PlayerInfinityPv",0, 2.0f);
+        } 
     }
-
-
 
     void Update(){
 
@@ -22,9 +29,12 @@ public class tests_manager : MonoBehaviour
             foreach(enemy enemy in enemy_manager.instance.mesEnemyList){
                 enemy.current_comportement = enemy_manager.comportement.dead;
             }
-
         }
+    }
 
 
+    void PlayerInfinityPv(){
+
+        player_main.instance.AddPlayerPv(100);
     }
 }

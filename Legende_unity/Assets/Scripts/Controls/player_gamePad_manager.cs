@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+using Cinemachine.Utility;
 
 public class player_gamePad_manager : MonoBehaviour
 {
@@ -23,22 +25,17 @@ public class player_gamePad_manager : MonoBehaviour
     public string modePlayer = "sword";
 
     public int SpeedMove;
-    public int speedRotation;
-    public GameObject camera_container;
+   
 
     Rigidbody player_rigidBody;
     public Animator Player_Animator;
     public bool player_is_moving;
-    public bool camera_is_turning;
-    bool cameraIsBehind;
-
-    public static bool canAttack;
-    public static bool canMove;
-    public static bool canJump;
+  
+    public bool canAttack;
+    public bool canMove;
+    public bool canJump;
 
     public bool PlayerIsAttack;
-
-    
 
     private CharacterController characterController;
 
@@ -47,36 +44,56 @@ public class player_gamePad_manager : MonoBehaviour
     public float jumpForce = 0.2f;
     private bool hasJump = false;
 
-   
+
+    public float turnSmoothTime = 0.1f;
+    float turnSmoothVelocity;
+    Transform cam;
+    
+    public float force_degat_recul = 3f;
+
 
     void Start(){
+
         if(instance == null){
             instance = this;
         }
 
+        cam = GameObject.Find("Camera").GetComponent<Transform>();
         Player_Animator = GetComponent<Animator>();  
         canAttack = true;
         canMove = true;
         canJump = true;
-        cameraIsBehind = true;
         characterController = GetComponent<CharacterController>();
         player_gravity/=10f;
         jumpForce/=10f;   
 
-        Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
-        Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
-        // Bow.SetActive(false);
-        // Arrow.SetActive(false);
-        // Sword.SetActive(false);
-        // Shield.SetActive(false);
-        changeEquipement(modePlayer);
+        //Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
+       // Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
        
+        changeEquipement();
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown("i")){
+
+            StartCoroutine(ImpactPlayer(force_degat_recul));
+            print("go");
+        }
+    }
+
+    IEnumerator ImpactPlayer(float force){
+        float timer = 1;
+        while(timer < 2){
+            characterController.Move(Vector3.forward * Time.deltaTime * force);
+            timer += timer * Time.deltaTime * 2;
+            yield return null;
+        }
     }
 
 
-
-
     public void player_velocity_calculation(){
+
         if(characterController.isGrounded && canMove){
             verticalVelocity = -player_gravity * Time.deltaTime;
         }else{
@@ -88,75 +105,65 @@ public class player_gamePad_manager : MonoBehaviour
         }
         characterController.Move(new Vector3(0f, verticalVelocity, 0f));
 
+
         if(!player_is_moving || !canMove){
+
             Player_Animator.SetFloat("SpeedMove", 0);
-
+            Player_Animator.SetFloat("walkSide", 0);  
             Player_sound.instance.StopMove(); // Sound Player
-        }
-       
-           
+        }   
     }
 
 
+    public void player_movement(float left_stick_x, float left_stick_y){
 
-
-    public void player_movement(float right_stick_x, float right_stick_y){
         if(canMove){
-            Player_Animator.SetFloat("SpeedMove", (right_stick_y));
-
-           // Son bruitage step
-            if(characterController.isGrounded){ 
             
-                if(right_stick_y > 0 && right_stick_y <= 0.7){ Player_sound.instance.Walk();}
-                else if(right_stick_y > 0.7 ){ Player_sound.instance.Run();}
-                else if(right_stick_y < 0 ){ Player_sound.instance.Run();}
+            Vector3 direction = new Vector3(left_stick_x,0f,left_stick_y);
+            float targetAngle  = Mathf.Atan2(direction.x, direction.z)* Mathf.Rad2Deg + cam.eulerAngles.y;
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
+
+
+            // Deplacement XY sans rotation
+            if(lockTarget.instance.target_lock){
+
+                Player_Animator.SetFloat("SpeedMove", left_stick_y);
+                Player_Animator.SetFloat("walkSide", left_stick_x); 
             }
-                
-            if(!cameraIsBehind){
-                transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y + camera_container.transform.localEulerAngles.y, 0f);
-                camera_container.transform.localEulerAngles = new Vector3(camera_container.transform.localEulerAngles.x,0f,0f);
+            // deplacement libre
+            else{
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f,angle,0f);
+                Player_Animator.SetFloat("SpeedMove", direction.magnitude); 
+                Player_Animator.SetFloat("walkSide", 0);   
             }
-            transform.Rotate(0, right_stick_x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
-            transform.Translate(new Vector3(0f, 0f, right_stick_y) * SpeedMove  * Time.deltaTime * (right_stick_y < 0 ? 0.5f : 1f), Space.Self);
-        }
 
-        if(!camera_is_turning){ // to delete ?
-            if(camera_container.transform.localEulerAngles.y >= 0.5f || camera_container.transform.localEulerAngles.y <= -0.5f){
-                float diff = camera_container.transform.localEulerAngles.y;     
-                diff -= diff > 180f ? 360f : 0f;
-                camera_container.transform.localEulerAngles = new Vector3(0f,diff/1.02f,0f);
-
-            }else if(camera_container.transform.localEulerAngles.y != 0f){
-                cameraIsBehind = true;
-                camera_container.transform.localEulerAngles = new Vector3(camera_container.transform.localEulerAngles.x,0f,0f);
+            // Son bruitage step
+            if(characterController.isGrounded){ 
+                if(direction.magnitude > 0 && direction.magnitude <= 0.7){
+                    Player_sound.instance.Walk();
+                }
+                else if(direction.magnitude > 0.7 ){
+                    Player_sound.instance.Run();
+                } 
             }
-        }
-    }
-
-
-
-    public void player_camera(float left_stick_x, float left_stick_y){
-        camera_container.transform.Rotate(0, left_stick_x * speedRotation  * Time.deltaTime, 0, Space.World); // rotate right/left character.
-        cameraIsBehind = false;
-        if(left_stick_y < -0.2 || left_stick_y > 0.2){ // Rotate up/Down camera.
-            float camera_Y = left_stick_y * speedRotation/5  * Time.deltaTime;
-            float angle = camera_container.transform.localEulerAngles.x;
-            angle = (angle > 180) ? angle - 360 : angle;
-            camera_Y = angle < -40 && left_stick_y > 0 ? 0 : angle > 20 && left_stick_y < 0?  0 : camera_Y;
-            camera_container.transform.Rotate(-camera_Y, 0, 0, Space.Self);
         }
     }
-
+    
     public void put_camera_behind_player(){
-        camera_container.transform.localEulerAngles = new Vector3(0f,0f,0f);
+
+        Camera_control.instance.CameraBehindPlayer();
+        lockTarget.instance.target_lock = true; 
     }
+
 
     public void player_jump(){
         if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canJump){
             hasJump = true;
             Player_Animator.SetBool("Grounded", false);
             Player_Animator.SetBool("initiate_jump", true); 
-            // Player_sound.instance.StopMove(); // Sound Player
+            Player_sound.instance.StopMove(); // Sound Player
         }
     }
 
@@ -173,6 +180,13 @@ public class player_gamePad_manager : MonoBehaviour
             enemy_manager.instance.playerAttack();
     }
 
+    public void PlayerCanMove(bool value){
+
+        canMove = value;
+        canAttack = value;
+        canJump = value;
+    }
+
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {  
@@ -187,6 +201,7 @@ public class player_gamePad_manager : MonoBehaviour
         if(collider.gameObject.tag == "degatPlayer"){
 
             Player_Animator.SetTrigger("getHit");
+            //StartCoroutine(ImpactPlayer(force_degat_recul));
             float value = enemy_manager.instance.degatForPlayer;
             player_main.instance.DegatPlayerPv(value);   
            
@@ -197,7 +212,7 @@ public class player_gamePad_manager : MonoBehaviour
         }
     }
 
-     void OnTriggerStay(Collider collider){
+    void OnTriggerStay(Collider collider){
        // Debug.Log("stay : " + collider.gameObject.name);
 
         // if(!Player_Animator.GetBool("Grounded") && collider.gameObject.layer == 10){ 
@@ -222,6 +237,7 @@ public class player_gamePad_manager : MonoBehaviour
         if(other.gameObject.tag == "degatPlayer"){
 
             Player_Animator.SetTrigger("getHit");
+            StartCoroutine(ImpactPlayer(force_degat_recul));
             float value = enemy_manager.instance.degatForPlayer;
             player_main.instance.DegatPlayerPv(value);      
         }
@@ -232,7 +248,7 @@ public class player_gamePad_manager : MonoBehaviour
     // declenchee par anim
     void ShootArrow(){
 
-        Player_sound.instance.PlayFightFx(gameObject,Player_sound.instance.FightFx[1]);
+        //Player_sound.instance.PlayFightFx(gameObject,Player_sound.instance.FightFx[1]);
         GameObject ProjectileClone = Instantiate(projectile,originArrow.position, originArrow.rotation);
         ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right *puissance_de_tir, ForceMode.Impulse);
         Destroy(ProjectileClone,5);    
@@ -240,9 +256,9 @@ public class player_gamePad_manager : MonoBehaviour
 
 
    // declenchee par anim
-    public void changeEquipement(string value){ 
+    public void changeEquipement(){ 
        
-        if(value == "noweapon"){ 
+        if(modePlayer == "noweapon"){ 
             Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
             Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
             Bow.SetActive(false);
@@ -252,7 +268,7 @@ public class player_gamePad_manager : MonoBehaviour
             isBowman = false;
         }
 
-        if(value == "sword"){  // 1 layer Sword, weight pour la priorite
+        if(modePlayer == "sword"){  // 1 layer Sword, weight pour la priorite
             Player_Animator.SetLayerWeight (1, 1); // layer 1 Sword
             Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
             Bow.SetActive(false);
@@ -262,7 +278,7 @@ public class player_gamePad_manager : MonoBehaviour
             isBowman = false;
         }
 
-        if(value == "bow"){ // 1 layer Sword, weight pour la priorite 
+        if(modePlayer == "bow"){ // 1 layer Sword, weight pour la priorite 
             Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
             Player_Animator.SetLayerWeight (2, 1); // layer 2 Bow
             Bow.SetActive(true);

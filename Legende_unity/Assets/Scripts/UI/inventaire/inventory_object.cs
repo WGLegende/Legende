@@ -4,7 +4,7 @@
  using UnityEngine.UI;
  using System.Collections;
  
- public class inventory_object : MonoBehaviour {
+public class inventory_object : MonoBehaviour{
 
     public string state_id;
 
@@ -65,8 +65,8 @@
 
     void OnTriggerEnter(Collider collider){ // A modifier avec la logique d'interactable
         if(collider.tag == "Player"){
-            Debug.Log("add " + nom + " to inventory");
-            addObject();
+
+          ButtonAction.instance.Action("Prendre"); 
         }
     }
 
@@ -81,13 +81,23 @@
           // Destroy(gameObject);
     }
 
+    void OnTriggerExit(Collider collider){
+        if(collider.tag == "Player"){
+          ButtonAction.instance.Hide(); 
+        }
+    }
+
+    void OnTriggerStay(Collider collider){
+
+      if(hinput.anyGamepad.A.justPressed){
+          Debug.Log("add " + nom + " to inventory");
+          addObject();
+          ButtonAction.instance.Hide();
+      } 
+    }
 
 
-
-
-
-
- }
+}
 
 
 

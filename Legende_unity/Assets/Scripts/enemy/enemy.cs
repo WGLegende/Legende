@@ -108,7 +108,7 @@ public class enemy : MonoBehaviour
     void Start(){
 
         startPosition = new Vector3(transform.position.x,transform.position.y,transform.position.z); // on stocke la position intiale
-        startRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w); // on stocke la position intiale
+        startRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w); // on stocke la rotation intiale
         enemy_manager.instance.mesEnemyList.Add(GetComponent<enemy>());
         saveEnemy.instance.SaveEnemyList.Add(GetComponent<enemy>()); 
         Initialize();
@@ -165,10 +165,8 @@ public class enemy : MonoBehaviour
             agent.baseOffset = altitude;
         }
         
-                  
         agent.stoppingDistance = distance_attack;
 
-    
         switch(_deplacement){
             case deplacement.Patrouille :
                 current_comportement = enemy_manager.comportement.patrouille;
@@ -184,6 +182,11 @@ public class enemy : MonoBehaviour
 
 
     void Update(){
+
+        if(Input.GetKeyDown("q")){
+          StartCoroutine(ImpactEnemyRecul(5));
+
+        }
 
         if(enemy_ready){
 
@@ -252,7 +255,6 @@ public class enemy : MonoBehaviour
     public bool check_if_attack(){
         if (distancePlayer <= agent.stoppingDistance && !isDefense){
             StopCoroutine("horsZone");
-            print("attack");
             return true;
         }else{
             return false;
@@ -321,6 +323,7 @@ public class enemy : MonoBehaviour
     public void DegatEnemy(){
 
             currentPv -= 5; // a adapter
+           // StartCoroutine(ImpactEnemyRecul(5));
 
         if (currentPv > 0){
 
@@ -350,6 +353,7 @@ public class enemy : MonoBehaviour
             current_comportement = enemy_manager.comportement.dead;
             HealthBar.GetComponent<Canvas>().enabled = false;
             hinput.gamepad[0].StopVibration();
+            lockTarget.instance.EndTargetLock();
         }  
          
     }
@@ -369,6 +373,7 @@ public class enemy : MonoBehaviour
 
             case race.human: PlaySound(9);
                              anim.SetBool("isAlive",false);
+                             poids_enemy.detectCollisions = false; // pour desactiver lockTarget sur cadavre
                              this.enabled = false;
             break;
         }
@@ -379,8 +384,7 @@ public class enemy : MonoBehaviour
     public void PlaySound(int i){
 
         switch (_race){ //enum type son
-            case race.robot: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Robot[i]); 
-                             break;
+            case race.robot: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Robot[i]); break;
             case race.human: Enemy_sound.instance.PlaySound(gameObject,Enemy_sound.instance.Human[i]); break;
         }
     }
@@ -391,6 +395,16 @@ public class enemy : MonoBehaviour
             case race.robot: Enemy_sound.instance.StopSound(gameObject,Enemy_sound.instance.Robot[i]); break;
             case race.human: Enemy_sound.instance.StopSound(gameObject,Enemy_sound.instance.Human[i]); break;
         }
+    }
+
+
+    IEnumerator ImpactEnemyRecul(float force){
+
+        poids_enemy.isKinematic = false;
+        poids_enemy.AddForce(-transform.forward * 10, ForceMode.Impulse);
+        yield return new WaitForSeconds(1f);
+        poids_enemy.isKinematic = true;
+        yield return null;
     }
 
 

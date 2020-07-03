@@ -10,83 +10,69 @@ public class Porte : MonoBehaviour
 
  public GameObject[] keysList;
 
- string typeAnimation;
- public bool OpenPivot;
- public bool OpenUp;
- public bool OpenSlide;
- public bool OpenChute;
+ public string typeAnimation;
+ 
+ public typeOuverture _type_ouverture;
+    public enum typeOuverture{
+        classique,
+        coulissant,
+        slideUp,
+        chute     
+    }
 
- Animator animPorte;
+ public Animator animPorte;
  public GameObject Switch; // on attache le switch sol voulu
- switchSol SwitchScript; // variable pour recuperer la bool dnas le script switchSol
- Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
+ public switchSol SwitchScript; // variable pour recuperer la bool dnas le script switchSol
+ public Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
 
- bool OneShot; // on affiche qu'une fois "porte verrouilée"
+ public bool OneShot; // on affiche qu'une fois "porte verrouilée"
  public bool AutoClosed;
+ public int time_auto_closed = 3;
+ public bool isOpen;
+ public string nom_de_la_porte = "Porte du Boss";
 
     void Start(){
 
-        UIInventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
+        UIInventaire = GameObject.Find("UI_Main").GetComponent<Inventaire>();
         OneShot = true;
         animPorte = GetComponentInChildren<Animator>(); 
-       
-        if (OpenPivot){typeAnimation = "isOpenPivot";};
-        if (OpenUp){typeAnimation = "isOpenUp";};
-        if (OpenSlide){typeAnimation = "isOpenSlide";};
-        if (OpenChute){typeAnimation = "isChute";};
 
+        switch (_type_ouverture){
+
+            case typeOuverture.classique : typeAnimation = "isOpenPivot"; break;
+            case typeOuverture.coulissant : typeAnimation = "isOpenSlide"; break;
+            case typeOuverture.slideUp : typeAnimation = "isOpenUp"; break;
+            case typeOuverture.chute : typeAnimation = "isChute"; break;
+        }
+     
         if (Switch != null){
             SwitchScript = Switch.GetComponent<switchSol>(); // On recupere la bool dans le script
         }    
     } 
-   void OnTriggerEnter(){
 
-        if (Switch == null){
-           
-            if (keysList.Where(a => a != null).Count() == 0){
-                animPorte.SetBool(typeAnimation, true);
-                Inventaire.cleTrouve = 0;
-                UIInventaire.compteurCle();
-            }
+    void OnTriggerEnter(Collider collider){ 
 
-            if(keysList.Where(a => a != null).Count() > 0){
-
-                if (keysList.Length > 1){
-                    UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clés");
-                }
-                 else{
-                    UIInventaire.afficheInfoText("Il vous faut "+keysList.Length+" clé");
-                }
-
-            }  
+        if(!isOpen){
+            player_actions.instance.display_actions(this,collider); 
         }
-
-        if (Switch != null){
-
-            if( SwitchScript.switchSolIsPressed == false){
-                UIInventaire.afficheInfoText("Trouvez l'interrupteur !");
-               
-            }
-
-            if(SwitchScript.switchSolIsPressed == true){
-                animPorte.SetBool(typeAnimation, true);
-
-                if(OneShot){
-                UIInventaire.afficheInfoText("Vous avez déverrouillé la Porte !");
-                OneShot = false;  
-                }
-              
-            }
-        }
-
-        
+        StopCoroutine("fermeture");
     }
 
-    void OnTriggerExit(){
 
-        if(AutoClosed){
-            animPorte.SetBool(typeAnimation, false);          
+
+    void OnTriggerExit(Collider collider){
+
+        if(AutoClosed && collider.tag =="Player"){
+            StartCoroutine("fermeture");
         }
+        player_actions.instance.clear_action(collider.tag == "Player");      
+    }
+
+    IEnumerator fermeture(){
+
+        yield return new WaitForSeconds(time_auto_closed);   
+        animPorte.SetBool(typeAnimation, false);      
+        isOpen = false;    
     }
     
 

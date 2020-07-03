@@ -4,8 +4,14 @@ using System.Collections;
 public class player_foot_step: MonoBehaviour{
 
 
-    public CharacterController controller;
+    CharacterController controller;
 
+    void Awake(){
+
+        controller = GameObject.Find("Player").GetComponent<CharacterController>();   
+    }
+    
+        
     IEnumerator Start() {
 
         while(true){

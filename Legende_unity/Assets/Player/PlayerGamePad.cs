@@ -93,6 +93,8 @@ public class PlayerGamePad : MonoBehaviour
         controls.Gameplay.RightStick.canceled += ctx => rotate = Vector2.zero; 
 
         controls.Gameplay.buttonLT.started += ctx => behindPlayer();
+
+         
     }
 
     void behindPlayer(){
@@ -105,6 +107,10 @@ public class PlayerGamePad : MonoBehaviour
         // stick.x 1 = right
         // stick.y -1 = down
         // stick.y 1 = up
+
+        if(hinput.anyGamepad.A.justPressed){
+                    Debug.Log("Test A");
+         }
 
           if(Input.GetKeyDown("p") && modePlayer != "noweapon"){
             modePlayer = "noweapon";
@@ -166,7 +172,7 @@ public class PlayerGamePad : MonoBehaviour
                 camera_container.transform.Rotate(-camera_Y, 0, 0, Space.Self);
             }
         }else if(playerIsMoving){
-            // StopAllCoroutines();
+                StopAllCoroutines();
 
             if(camera_container.transform.localEulerAngles.y >= 0.5f || camera_container.transform.localEulerAngles.y <= -0.5f){
                 float diff = camera_container.transform.localEulerAngles.y;     

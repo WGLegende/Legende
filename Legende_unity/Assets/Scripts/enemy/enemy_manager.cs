@@ -132,33 +132,23 @@ public class enemy_manager : MonoBehaviour
             StartCoroutine(nest(enemy));
             boolAppelSoutien = true;
         }
-
-       // yield return new WaitForSeconds(0.5f);// test pour eviter permutation trop rapide
-      
+        //yield return new WaitForSeconds(0.5f);// test pour eviter permutation trop rapide
         while(enemy.current_comportement == enemy_manager.comportement.cible_detectee){
-
-                     
+          
             enemy.agent.SetDestination(enemy.target.position);
             enemy.agent.stoppingDistance = enemy.distance_attack; 
-          
-            if(enemy.isFlying){// on descend pour attaquer
-                float levelPlayer = enemy.target.position.y;
-                if(enemy.agent.baseOffset >= levelPlayer+1) { enemy.agent.baseOffset -= Time.deltaTime * 8f;} 
-            }  
             yield return null; 
         } 
+
         yield return null; 
     }
-
-
-
 
 
     //on attaque la cible
     IEnumerator enemy_attack(enemy enemy){ 
 
-        enemy.EnemyAttackScript.StartCoroutine(enemy.EnemyAttackScript.attackTarget()); // on declenche attack dans script enemyAttack
-     
+        enemy.EnemyAttackScript.StartCoroutine("attackTarget"); // on declenche attack dans script enemyAttack
+        
         while(enemy.current_comportement == enemy_manager.comportement.attack){
             
             enemy.FaceTarget();
@@ -166,13 +156,13 @@ public class enemy_manager : MonoBehaviour
             enemy.agent.stoppingDistance = enemy.distance_attack; 
             yield return new  WaitForSeconds(0.02f); 
         } 
-
-        enemy.EnemyAttackScript.StopAllCoroutines(); 
+        enemy.EnemyAttackScript.StopCoroutine("attackTarget");
+     
         yield return null; 
     }
 
 
-     //en defense
+    //en defense
     IEnumerator mode_defense(enemy enemy){ 
 
         player_is_attack = false;

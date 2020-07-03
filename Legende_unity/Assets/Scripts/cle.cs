@@ -10,7 +10,7 @@ public class cle : MonoBehaviour
 
   void Start(){
 
-       Varinventaire = GameObject.Find("Inventaire").GetComponent<Inventaire>();
+       Varinventaire = GameObject.Find("UI_Main").GetComponent<Inventaire>();
 
     }
 

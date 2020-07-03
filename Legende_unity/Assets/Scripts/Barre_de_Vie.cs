@@ -15,15 +15,15 @@ public class Barre_de_Vie : MonoBehaviour
 	void Start(){ 
 
         instance = this;  
-        //RefreshPvPlayerUI(player_main.instance.player_current_pv);
-        
+        RefreshPvPlayerUI(player_main.instance.player_current_pv);   
     }
+
 
     public void RefreshPvPlayerUI(float val){
 
         slider.value = val;
         TX_PvText.text = val.ToString("f0");
-        TX_PvText.color = val < 20 ? TX_PvText.color = Color.red : TX_PvText.color = Color.black;
+        //TX_PvText.color = val < 20 ? TX_PvText.color = Color.red : TX_PvText.color = Color.black;
     }
 
 

@@ -6,18 +6,15 @@ using UnityEngine.UI;
 public class ButtonAction : MonoBehaviour
 {
     public static ButtonAction instance;
-    Animator anim;
-    
-
     public Transform cam;
+    public Text text_button_action;
+    public GameObject container;
    
-
-
     void Start(){
 
-        instance = this;
-        anim = GetComponent<Animator>();
-       
+        instance = this; 
+        cam = GameObject.Find("Camera").GetComponent<Transform>();
+
     } 
 
 
@@ -29,14 +26,15 @@ public class ButtonAction : MonoBehaviour
   
     public void Action(string value){
        
-        anim.SetBool("afficheButtonAction",true);
-        GameObject.Find("ButtonTextAction").GetComponent<Text>().text = value;
+        text_button_action.text = value;
+        container.SetActive(true);
         
     }
 
     public void Hide(){
        
-        anim.SetBool("afficheButtonAction",false);
+        container.SetActive(false);
+
         
     }
 

@@ -9,12 +9,15 @@ public class Player_sound : MonoBehaviour
     public static Player_sound instance;
 
     public AudioSource marcheAudio;
+    public AudioSource kartAudio;
+
     public AudioSource music_event_player;
 
     public string TypeSol; // maj par script Player_foot_step
 
     public AudioClip[] MarcheFx;
     public AudioClip[] FightFx;
+    public AudioClip[] KartFx;
     public AudioClip[] MusicEventPlayer;
    
 
@@ -26,17 +29,36 @@ public class Player_sound : MonoBehaviour
 
 
     public void PlayFightFx(GameObject gameObj, AudioClip audioclip){ // on recupere l'audiosource attache au player
-        
         gameObj.GetComponent<AudioSource>().PlayOneShot(audioclip);
     }
 
-    public void PlayMusicEventPlayer(AudioClip audioclip){ 
-        
+    public void PlayMusicEventPlayer(AudioClip audioclip){   
         music_event_player.PlayOneShot(audioclip);
     }
 
 
+    public void PlayKart(float speed){
+        
+        if(speed < 10){
+            kartAudio.pitch = 0.8f;
+        }
+        else if(speed == 10){
+            kartAudio.pitch = 1f;
+        }
+        else if(speed > 10){
+            kartAudio.pitch = 1.6f;
+        }
 
+        kartAudio.clip = KartFx[0];
+        if(kartAudio.isPlaying)
+        return;
+        kartAudio.Play();
+    }
+
+     public void StopKart(){
+
+        kartAudio.clip = null;
+    }
 
     // Son Marche Player
     public void Walk(){
@@ -90,6 +112,8 @@ public class Player_sound : MonoBehaviour
         marcheAudio.clip = null;
 
     }
+
+    
 
     
 }

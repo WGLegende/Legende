@@ -22,7 +22,7 @@ public class Inventaire : MonoBehaviour
         if(cleTrouve > 0){
             GameObject.Find("nbrKey").GetComponent<Text>().text = cleTrouve.ToString(); // maj du text
             GameObject.Find ("PanelKey").GetComponent<Animator>().SetBool("panelKeyIsOpen", true); // affichage ui clé
-            GameObject.Find ("PanelInfo").GetComponent<Animator>().SetTrigger("panelInfo");
+            GameObject.Find ("Player_Info").GetComponent<Animator>().SetTrigger("panelInfo");
         }
         else{
            GameObject.Find ("PanelKey").GetComponent<Animator>().SetBool("panelKeyIsOpen", false); // affichage ui clé
@@ -35,7 +35,7 @@ public class Inventaire : MonoBehaviour
     public void afficheInfoText(string Montext){
 
         GameObject.Find ("TextInfo").GetComponent<Text>().text = Montext;
-        GameObject.Find ("PanelInfo").GetComponent<Animator>().SetTrigger("panelInfo");
+        GameObject.Find ("Player_Info").GetComponent<Animator>().SetTrigger("panelInfo");
         
     }
 

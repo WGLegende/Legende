@@ -8,33 +8,24 @@ public class BarHealthEnemy : MonoBehaviour
   public static  BarHealthEnemy instance;
   Transform cam;
 
-    void Start()
-    {
-        cam = GameObject.Find("Camera").GetComponent<Transform>();
-        instance=this;
-    }
+  void Start(){
 
-    void Update()
-    {
-        
-    }
+    cam = GameObject.Find("Camera").GetComponent<Transform>();
+    instance=this;
+  }
 
-      void LateUpdate()
-    {
-        transform.LookAt(transform.position + cam.forward);
-    }
+  void LateUpdate(){
+    transform.LookAt(transform.position + cam.forward);
+  }
     
+  public void Hide(){
 
+    gameObject.GetComponent<Canvas>().enabled = false; 
+    print("hide bar");
+  }
 
+  public void Show(){
 
-    public void Hide(){
-
-      gameObject.GetComponent<Canvas>().enabled = false; 
-      print("hide bar")                ;
-    }
-
-    public void Show(){
-
-      gameObject.GetComponent<Canvas>().enabled = true;                 
-    }
+    gameObject.GetComponent<Canvas>().enabled = true;                 
+  }
 }

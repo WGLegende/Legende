@@ -18,6 +18,8 @@ TagManager:
   - water
   - stone
   - snow
+  - GareKart
+  - PlayerKart
   layers:
   - Default
   - TransparentFX

@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
             FluentManager.Instance.ExecuteClosestAction(gameObject);
         }
 
-        transform.position += new Vector3(-Input.GetAxis("Horizontal") * Time.deltaTime * MoveSpeed, 0, -Input.GetAxis("Vertical") * Time.deltaTime * MoveSpeed);
+       // transform.position += new Vector3(-Input.GetAxis("Horizontal") * Time.deltaTime * MoveSpeed, 0, -Input.GetAxis("Vertical") * Time.deltaTime * MoveSpeed);
 	
 	}
 }

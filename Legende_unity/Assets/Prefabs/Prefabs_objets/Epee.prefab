@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbab559f2c508b049948f452ba22453c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state_id: eD6g9KsgGZhalPSfnvv9HQfT9
+  state_id: SPHWLFaKNdvP9y5yC5QZ9wFMD
   nom: Epee d'acier
-  description: Super epee de ouf
+  description: Eppe forgee par les artisants de Bourg De Givre
   image: {fileID: 2800000, guid: a2d8f4450389d6545bc13ed6224a6ed7, type: 3}
   jetable: 1
   max_stack: 1
@@ -86,8 +86,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.44263506, y: 1.5409875, z: 0.346339}
-  m_Center: {x: 0.0081961155, y: -0.5081928, z: 0.10758817}
+  m_Size: {x: 1.4263153, y: 1.9828644, z: 0.86212707}
+  m_Center: {x: 0.00046539307, y: -0.51474, z: 0.05359924}
 --- !u!1 &5531035160559342049
 GameObject:
   m_ObjectHideFlags: 0
