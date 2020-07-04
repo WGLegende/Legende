@@ -8,11 +8,19 @@ public class Coffre : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isOpen;
     public bool petit_coffre;
-    public BoxCollider Object;
+    BoxCollider object_collider;
+    inventory_object object_a_recuperer;
   
     void Start(){
 
         anim = GetComponent<Animator>(); 
+        object_a_recuperer = GetComponentInChildren<inventory_object>();
+        if(object_a_recuperer == null){
+            Debug.Log("Pas d'object dans le coffre !");
+        }else
+        object_collider = object_a_recuperer.GetComponent<BoxCollider>();
+        object_a_recuperer.transform.localPosition = new Vector3(0f,0.07f,0f);
+        
     }
 
 
@@ -38,7 +46,7 @@ public class Coffre : MonoBehaviour
 
 
     public void activeObject(){
-        Object.enabled = true;
+        object_collider.enabled = true;
     }
 
     

@@ -4,36 +4,18 @@ using UnityEngine;
 
 public class Ascenseur : MonoBehaviour{
 
-    public bool isPositionUp = true;
-    public Animation anim;
+    [HideInInspector] public bool isPositionUp = true;
+    [HideInInspector] public Animator anim_elevator;
+    public float vitesse = 2f;
 
 
     void Start(){
 
-        anim = GetComponent<Animation>();
-        isPositionUp = true;
+        anim_elevator = GetComponent<Animator>();
+        anim_elevator.SetFloat("vitesse_deplacement",vitesse);
+          
     }
    
-
-    void OnTriggerEnter(Collider collider){ 
-
-        player_actions.instance.display_actions(this,collider);  
-        
-    }
-  
-   
-    void OnTriggerExit(Collider collider){
-
-        player_actions.instance.clear_action(collider.tag == "Player");  
-    }
-
-
-
-
-
-
-
-
     void elevatorPositionDown(){ // on appelle la fonction en fin d'amim
         isPositionUp = false;   
     }
@@ -41,4 +23,5 @@ public class Ascenseur : MonoBehaviour{
     void elevatorPositionUp(){
         isPositionUp = true;  
     }
+
 }
