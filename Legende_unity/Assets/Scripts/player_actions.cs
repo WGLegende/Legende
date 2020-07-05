@@ -34,7 +34,7 @@ public class player_actions : MonoBehaviour
                 ButtonAction.instance.Action("Ouvrir"); 
             }
 
-            if(action_init.GetType() == typeof(Ascenseur)){
+            if(action_init.GetType() == typeof(AscenseurSwitch)){
                 ButtonAction.instance.Action("Activer"); 
             }
 
@@ -69,8 +69,8 @@ public class player_actions : MonoBehaviour
             clear_action(true);
         }
 
-        else if(currently_displayed_action.GetType() == typeof(Ascenseur)){ 
-            do_action_activer((Ascenseur)currently_displayed_action);
+        else if(currently_displayed_action.GetType() == typeof(AscenseurSwitch)){ 
+            do_action_activer((AscenseurSwitch)currently_displayed_action);
             clear_action(true);
         }  
 
@@ -128,30 +128,44 @@ public class player_actions : MonoBehaviour
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;    
     }
 
+
+
+    
+    // Logique Sortie Kart
     public void do_action_exit_kart(GareKart _exit_kart){
    
         _exit_kart.ExitKart();   
     }
 
+
+    // Logique Loot
     public void do_action_loot(inventory_loot _inventory_loot){
 
        Debug.Log("Loot ramasse");
     }
 
-    public void do_action_activer(Ascenseur _ascenseur){
 
-       _ascenseur.isPositionUp = _ascenseur.isPositionUp ?  _ascenseur.anim.Play("elevator_down") : _ascenseur.anim.Play("elevator_up");
+    // Logique Ascenseur
+    public void do_action_activer(AscenseurSwitch _ascenseur_switch){
+
+        _ascenseur_switch.toggle_levier = !_ascenseur_switch.toggle_levier;
+        _ascenseur_switch.anim_levier.SetBool("active_levier",_ascenseur_switch.toggle_levier);
+
+        if(_ascenseur_switch.elevator_script.isPositionUp){
+            _ascenseur_switch.anim_elevator.SetBool("position_up",false);
+        }
+        else{
+            _ascenseur_switch.anim_elevator.SetBool("position_up",true);
+        } 
     }
       
-
-
+    // Logique Coffre
     public void do_action_coffre(Coffre _coffre){
 
         if(!_coffre.isOpen){
 
             _coffre.isOpen = true;
           
-
             if(!_coffre.petit_coffre){
 
                 _coffre.anim.SetTrigger("OpenCoffre");
@@ -166,12 +180,7 @@ public class player_actions : MonoBehaviour
         }
     }
 
-    
-
-
-
-
-
+    // Logique Porte
     public void do_action_porte(Porte _porte){
 
         if (_porte.Switch == null){

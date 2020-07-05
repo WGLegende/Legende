@@ -175,6 +175,7 @@ public class GareKart : MonoBehaviour
 
         Camera_control.instance.CameraBehindPlayer();
         Camera_control.instance.player_kart_camera.Priority = 9;
+        kart_manager.instance.vitesse_actuelle = 0f;
         kart_manager.instance.SplineFollow.IsRunning = false;
 
         player_foot.transform.position = kart_manager.instance.chariot_siege.transform.position + offset_exit_chariot; // on deplace le player en dehors du kart

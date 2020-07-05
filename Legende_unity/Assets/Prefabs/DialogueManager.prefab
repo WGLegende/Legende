@@ -43,5 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 129d326d3e86e5b47a089ca565e84b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ClosestActionUIText: {fileID: 0}
   PlayerObject: {fileID: 0}
   FluentScripts: []

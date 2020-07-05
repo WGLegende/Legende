@@ -19793,7 +19793,7 @@ MonoBehaviour:
   distance_attack: 0
   poids_enemy: {fileID: 1766584660062716397}
   isDefense: 0
-  _deplacement: 2
+  _deplacement: 0
   _parcours: 0
   _race: 0
   speed_sentinelle: 2

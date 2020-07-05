@@ -178,9 +178,9 @@ public class kart_manager : MonoBehaviour
         angleChariot = Chariot_ContainerRotation.localEulerAngles.x;
         angleChariot = angleChariot > 180 ? angleChariot - 360 : angleChariot;
         angleChariot = Mathf.Round(angleChariot * 100f) / 100f;
-        if(angleChariot < 1){
-            angleChariot = 0;
-        }
+       // if(angleChariot < 1){
+           // angleChariot = 0;
+        //}
 
         vitesse_demandee = angleChariot + valeur_vitesse_basique + valeur_boost;
 
