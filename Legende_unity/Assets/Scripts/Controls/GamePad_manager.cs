@@ -196,17 +196,17 @@ public class GamePad_manager : MonoBehaviour
                     }
 
                     // Gestion du saut du kart
-                    if(Input.GetKeyDown("joystick button 3")){ // Y
+                    if(hinput.anyGamepad.Y.justPressed){ // Y
                         kart_manager.instance.kart_jump();
                     }
 
                     // Gestion attaque du kart
-                    if(Input.GetKeyDown("joystick button 1")){ // B
+                    if(hinput.anyGamepad.B.justPressed){ // B
                         kart_manager.instance.kart_attaque();
                     }
 
                     // Allume lumiere du kart
-                    if(Input.GetKeyDown("joystick button 2")){ // X
+                    if(hinput.anyGamepad.X.justPressed){ // X
                         kart_manager.instance.kart_light();
                     }
 
