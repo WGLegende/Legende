@@ -94,7 +94,17 @@ public class enemy_manager : MonoBehaviour
 
                 enemy.old_comportement = enemy.current_comportement;
             }
+
         }      
+        
+        if(Input.GetKeyDown("q")){
+        foreach (enemy enemy in mesEnemyList){
+            enemy.GetComponent<Rigidbody>().AddForce(0f, 3f, 0f,ForceMode.Impulse);
+            print("chck");
+        }
+        }
+
+
     }
 
     public void playerAttack(){ // declenche par player manager

@@ -64,7 +64,7 @@ public class GamePad_manager : MonoBehaviour
 
         switch(_game_pad_attribution){
 
-            case game_pad_attribution.player : case  game_pad_attribution.actionDisplay :
+            case game_pad_attribution.player : case game_pad_attribution.actionDisplay :
 
                 player_gamePad_manager.instance.player_is_moving = left_stick_x < 0 || left_stick_x > 0 || left_stick_y < 0 || left_stick_y > 0;
               
@@ -105,7 +105,6 @@ public class GamePad_manager : MonoBehaviour
                 if(hinput.anyGamepad.A.justPressed){
                     if(_game_pad_attribution == game_pad_attribution.actionDisplay){
                         player_actions.instance.do_action();
-                        Debug.Log("Bouton A do action");
                     }
                 }
 

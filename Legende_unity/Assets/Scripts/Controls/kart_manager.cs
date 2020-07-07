@@ -56,17 +56,16 @@ public class kart_manager : MonoBehaviour
     public bool canMoveAvance = true;
     public bool canMoveRecul = true;
 
-    public BoxCollider offset_trigger;
-    bool change_center_collider;
 
-    
     void Start(){
+
         if(instance == null){
             instance = this;
         }   
         anim = gameObject.GetComponent<Animation>(); // Pour le Saut
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
+        chariot_siege = GameObject.Find("chariot_siege_container").GetComponent<Transform>();
         SpeedUI = GameObject.Find("speedValue").GetComponent<Text>(); 
 
         StartCoroutine(refreshSpeedUI());
@@ -97,16 +96,16 @@ public class kart_manager : MonoBehaviour
       
         if (left_stick_y > 0 && canMoveAvance){ // Avance
             valeur_vitesse_basique = valeur_vitesse_basique_max;
-            if(SplineFollow.IsRunning == false){
+            if(!SplineFollow.IsRunning){
                 SplineFollow.IsRunning = true;
             }
 
         }else if (left_stick_y < 0 && canMoveRecul){ // Recul
             valeur_vitesse_basique = -valeur_vitesse_basique_max;
-            if(SplineFollow.IsRunning == false){
+              if(!SplineFollow.IsRunning){
                 SplineFollow.IsRunning = true;
             }
-
+           
         }else{
             valeur_vitesse_basique = 0f;
         }
@@ -198,13 +197,22 @@ public class kart_manager : MonoBehaviour
                            vitesse_actuelle;
 
 
+        // Gestion du son 
         if(vitesse_actuelle > 0.5 || vitesse_actuelle < -0.5){
-        SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
-        Player_sound.instance.PlayKart(Mathf.Abs(vitesse_actuelle));
+            SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
+            Player_sound.instance.PlayKart(Mathf.Abs(vitesse_actuelle));
         }else{
             SplineFollow.Speed = 0f;
-        Player_sound.instance.StopKart();
+            Player_sound.instance.StopKart();
 
+        }
+
+        // Gestion aiguillage
+        if(SplineFollow.T >= 0.99999 && vitesse_actuelle > 0){// fin circuit;
+            AiguillageManager.instance.switchRails();
+        }
+        if(SplineFollow.T <= 0.00009 && vitesse_actuelle < 0 && AiguillageManager.instance.position_trajet > 0){ // fin back circuit
+            AiguillageManager.instance.switchRailsBack();
         }
  
     }

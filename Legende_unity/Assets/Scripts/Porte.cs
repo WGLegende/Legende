@@ -24,6 +24,7 @@ public class Porte : MonoBehaviour
  public GameObject Switch; // on attache le switch sol voulu
  public switchSol SwitchScript; // variable pour recuperer la bool dnas le script switchSol
  public Inventaire UIInventaire; // variable pour recuperer les animations de l'UI
+ public AudioSource soundFx;
 
  public bool OneShot; // on affiche qu'une fois "porte verrouilée"
  public bool AutoClosed;
@@ -36,6 +37,7 @@ public class Porte : MonoBehaviour
         UIInventaire = GameObject.Find("UI_Main").GetComponent<Inventaire>();
         OneShot = true;
         animPorte = GetComponentInChildren<Animator>(); 
+        soundFx = GetComponent<AudioSource>();
 
         switch (_type_ouverture){
 

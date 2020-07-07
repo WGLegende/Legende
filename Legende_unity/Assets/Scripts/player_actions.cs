@@ -47,9 +47,13 @@ public class player_actions : MonoBehaviour
             currently_displayed_action = action_init;
 
             if(action_init.GetType() == typeof(GareKart)){
-                ButtonAction.instance.Action("Descendre");
-               
+                ButtonActionKart.instance.Action("Descendre");  
             }
+            if(action_init.GetType() == typeof(aiguillage_kart)){
+                ButtonActionKart.instance.Action("Bifurquer");  
+                print("hello");
+            }
+
         }
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionDisplay;
@@ -70,7 +74,7 @@ public class player_actions : MonoBehaviour
         }
 
         else if(currently_displayed_action.GetType() == typeof(AscenseurSwitch)){ 
-            do_action_activer((AscenseurSwitch)currently_displayed_action);
+            do_action_ascenseur((AscenseurSwitch)currently_displayed_action);
             clear_action(true);
         }  
 
@@ -84,9 +88,9 @@ public class player_actions : MonoBehaviour
             clear_action(false);
         }
 
-        else if(currently_displayed_action.GetType() == typeof(GareKart)){ 
-            do_action_exit_kart((GareKart)currently_displayed_action);
-            clear_action(true);
+        else if(currently_displayed_action.GetType() == typeof(aiguillage_kart)){ 
+            do_action_switch_rails((aiguillage_kart)currently_displayed_action);
+            clear_action(false);
         } 
 
        
@@ -101,7 +105,7 @@ public class player_actions : MonoBehaviour
             currently_displayed_action = null; 
         }
         else if(!isPlayer){
-            ButtonAction.instance.Hide(); 
+            //ButtonActionKart.instance.Hide(); 
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; // TODO attention avec kart
             currently_displayed_action = null; 
         }
@@ -114,7 +118,7 @@ public class player_actions : MonoBehaviour
         Player_sound.instance.StopMove();
 
         Camera_control.instance.player_kart_camera.m_XAxis.Value = 0f;// recentre la cam
-        Camera_control.instance.player_kart_camera.m_YAxis.Value = 0.5f;
+        Camera_control.instance.player_kart_camera.m_YAxis.Value = 0.3f;
         Camera_control.instance.player_kart_camera.Priority = 11;
 
         player_gamePad_manager.instance.PlayerCanMove(false);
@@ -125,16 +129,28 @@ public class player_actions : MonoBehaviour
         _enter_kart.script_kart_manager.enabled = true; 
         _enter_kart.chariot_siege.transform.localRotation = Quaternion.Euler(270,90,-90); // on recentre le player dans le kart
     
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;    
+        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;   
+        _enter_kart.script_kart_manager.SplineFollow.IsRunning = true; 
     }
 
 
 
     
-    // Logique Sortie Kart
-    public void do_action_exit_kart(GareKart _exit_kart){
+    // Logique aiguillage
+    public void do_action_switch_rails(aiguillage_kart _aiguillage_kart){
    
-        _exit_kart.ExitKart();   
+        _aiguillage_kart.toggle = !_aiguillage_kart.toggle;
+
+        if(_aiguillage_kart.toggle){
+            _aiguillage_kart._choix_circuit = aiguillage_kart.ChoixCircuit.Gauche;
+            AiguillageManager.instance.next_rails = _aiguillage_kart.left_rails;
+            _aiguillage_kart.anim.SetBool("switch",true);
+        }
+        else{
+            _aiguillage_kart._choix_circuit = aiguillage_kart.ChoixCircuit.Droite;
+            AiguillageManager.instance.next_rails = _aiguillage_kart.right_rails;
+            _aiguillage_kart.anim.SetBool("switch",false);
+        }  
     }
 
 
@@ -146,7 +162,7 @@ public class player_actions : MonoBehaviour
 
 
     // Logique Ascenseur
-    public void do_action_activer(AscenseurSwitch _ascenseur_switch){
+    public void do_action_ascenseur(AscenseurSwitch _ascenseur_switch){
 
         _ascenseur_switch.toggle_levier = !_ascenseur_switch.toggle_levier;
         _ascenseur_switch.anim_levier.SetBool("active_levier",_ascenseur_switch.toggle_levier);
@@ -187,6 +203,7 @@ public class player_actions : MonoBehaviour
         
             if (_porte.keysList.Where(a => a != null).Count() == 0){
                 _porte.animPorte.SetBool(_porte.typeAnimation, true);
+                _porte.soundFx.Play(0);
                 _porte.isOpen = true;
                 Inventaire.cleTrouve = 0;
                 _porte.UIInventaire.compteurCle();
