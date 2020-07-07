@@ -13,8 +13,7 @@ public class GareKart : MonoBehaviour
     public enum typeGare{
         Depart,
         Station,
-        Terminus,
-        Aiguillage       
+        Terminus       
     }
 
     public SensSortie _sens_sortie;
@@ -23,54 +22,31 @@ public class GareKart : MonoBehaviour
         Gauche         
     }
 
-    public CircuitActuel _type_rails;
-    public enum CircuitActuel{
-        Principal,
-        Secondaire         
-    }
-
     public bool kart_in_station;
-    
+
     public GameObject player_foot;
     public GameObject player_kart;
-    public Transform chariot_siege;
     public Transform chariot_container;
-
-    public GameObject rails_principal;
-    public GameObject rails_aiguillage;
-    Battlehub.MeshDeformer2.SplineBase rails;
-    Battlehub.MeshDeformer2.SplineBase new_rails;
-    [HideInInspector] public float position_save_kart; 
-    [HideInInspector] public bool switch_rails;
 
     [HideInInspector] public Vector3 offset_exit_chariot;
     
     [HideInInspector] public CanvasScaler ui_chariot;
 
-    CinemachineVirtualCamera cam_panneau;
-    
-    public Animator signaletique;
     
     void Start(){
          
         if(instance == null){
             instance = this;
         }
-
-        ui_chariot = GameObject.Find("UI_Chariot").GetComponent<CanvasScaler>();
-        cam_panneau = GetComponentInChildren<CinemachineVirtualCamera>(); // test
-
-        if(rails_aiguillage != null){
-            new_rails = rails_aiguillage.GetComponent<Battlehub.MeshDeformer2.SplineBase>();
-        }
-        if(rails_principal != null){
-            rails = rails_principal.GetComponent<Battlehub.MeshDeformer2.SplineBase>();
-        }
   
+        player_foot = GameObject.Find("Player");
+        chariot_container = GameObject.Find("Chariot_Container").GetComponent<Transform>();
+        ui_chariot = GameObject.Find("UI_Chariot").GetComponent<CanvasScaler>();
+        
         if(_sens_sortie == SensSortie.Droite){
-            offset_exit_chariot = new Vector3(0f,-1f,-2.5f);
+            offset_exit_chariot = new Vector3(0f, 0f,0f);
         }else{
-            offset_exit_chariot = new Vector3(0f,-1f,2.5f);
+            offset_exit_chariot = new Vector3(0f,0f, 0f);
         }  
     }
 
@@ -79,25 +55,6 @@ public class GareKart : MonoBehaviour
 
         if(collider.gameObject.tag == "PlayerKart"){
 
-            if(_type_gare == typeGare.Aiguillage && kart_manager.instance.SplineFollow.Speed < 0){
-
-                if(_type_rails == CircuitActuel.Secondaire){
-                   
-                    kart_manager.instance.SplineFollow.Spline = rails;// on load le circuit principale
-                    kart_manager.instance.SplineFollow.Restart();
-                    kart_manager.instance.SplineFollow.m_t = position_save_kart; // on recupere la dernier position du kart
-                }   
-            }
-
-            else if( _type_gare == typeGare.Aiguillage && kart_manager.instance.SplineFollow.Speed > 0){
-    
-                if(_type_rails == CircuitActuel.Secondaire){
-                   
-                    kart_manager.instance.SplineFollow.Spline = new_rails;// on load le nouveau circuit
-                    kart_manager.instance.SplineFollow.Restart(); 
-                } 
-               
-            }
         }   
     }
 
@@ -105,16 +62,17 @@ public class GareKart : MonoBehaviour
 
         if(collider.gameObject.tag == "PlayerKart"){
             
-            if(Mathf.Abs(kart_manager.instance.vitesse_actuelle) > 1 && _type_gare != typeGare.Terminus) 
+            if(Mathf.Abs(kart_manager.instance.vitesse_actuelle) > 1 && _type_gare == typeGare.Station) 
             return; // si trop vite a une station, on fait rien
 
             if(!kart_in_station){
                 kart_in_station = true;
-                if(cam_panneau != null){ cam_panneau.Priority = 12;} // test
-
+               
                 switch (_type_gare){ 
-                    case typeGare.Depart :  kart_manager.instance.canMoveRecul = false; 
-                                            ButtonActionKart.instance.Action("Descendre");                                      
+
+                    case typeGare.Depart :  kart_manager.instance.canMoveRecul = false;
+                                            kart_manager.instance.SplineFollow.IsRunning = false; 
+                                            ButtonActionKart.instance.Action("Descendre");                                                       
                     break;
 
                     case typeGare.Terminus: kart_manager.instance.canMoveAvance = false;
@@ -124,36 +82,12 @@ public class GareKart : MonoBehaviour
 
                     case typeGare.Station: ButtonActionKart.instance.Action("Descendre");                         
                     break;
-
-                    case typeGare.Aiguillage :  ButtonActionKart.instance.Action("Bifurquer");                                                                              
-                    break;
                 }
             }
 
             if(Input.GetKeyDown("joystick button 0")){ // A
 
-                if(_type_gare == typeGare.Aiguillage){
-
-                    if(!switch_rails){
-                        switch_rails = true;
-                        position_save_kart = kart_manager.instance.SplineFollow.m_t; // on save la position du circuit principal
-                        kart_manager.instance.SplineFollow.Spline = new_rails;// on load le nouveau circuit
-                        kart_manager.instance.SplineFollow.Restart(); // on restart le nouveau circuit
-                        _type_rails = CircuitActuel.Secondaire; 
-                        signaletique.SetBool("principal",false);
-                    } 
-                    else{
-                        kart_manager.instance.SplineFollow.Spline = rails; // on load le circuit principal
-                        kart_manager.instance.SplineFollow.Restart(); // on restart le nouveau circuit
-                        kart_manager.instance.SplineFollow.m_t = position_save_kart; // on recupere la derniere position du circuit principale
-                        switch_rails = false;
-                        _type_rails = CircuitActuel.Principal;
-                        signaletique.SetBool("principal",true);
-                    } 
-                }
-                else{
-                    ExitKart();
-                }
+                ExitKart();
                 ButtonAction.instance.Hide();
             }
         }
@@ -165,11 +99,17 @@ public class GareKart : MonoBehaviour
             kart_in_station = false;  
             kart_manager.instance.canMoveAvance = true; 
             kart_manager.instance.canMoveRecul = true;
-            ButtonActionKart.instance.Hide();
-            if(cam_panneau != null){ cam_panneau.Priority = 8;} // test
-           
+            ButtonActionKart.instance.Hide(); 
         }
     } 
+
+
+
+
+
+
+
+
 
     public void ExitKart(){ // Bascule sur player
 
@@ -178,9 +118,9 @@ public class GareKart : MonoBehaviour
         kart_manager.instance.vitesse_actuelle = 0f;
         kart_manager.instance.SplineFollow.IsRunning = false;
 
-        player_foot.transform.position = kart_manager.instance.chariot_siege.transform.position + offset_exit_chariot; // on deplace le player en dehors du kart
-        Vector3 rotationPlayer = new Vector3(0,chariot_container.transform.eulerAngles.y,0); // on le tourne dans le meme sens que le kart
+        Vector3 rotationPlayer = new Vector3(0,player_kart.transform.eulerAngles.y,0); // on le tourne dans le meme sens que player_kart
         player_foot.transform.rotation = Quaternion.Euler(rotationPlayer);
+        player_foot.transform.localPosition =  chariot_container.transform.position + offset_exit_chariot;
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
 

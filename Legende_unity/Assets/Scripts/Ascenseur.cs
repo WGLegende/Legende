@@ -12,8 +12,7 @@ public class Ascenseur : MonoBehaviour{
     void Start(){
 
         anim_elevator = GetComponent<Animator>();
-        anim_elevator.SetFloat("vitesse_deplacement",vitesse);
-          
+        anim_elevator.SetFloat("vitesse_deplacement",vitesse);     
     }
    
     void elevatorPositionDown(){ // on appelle la fonction en fin d'amim
