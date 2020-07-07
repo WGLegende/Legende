@@ -22,12 +22,12 @@ public class testMute : MonoBehaviour
     void Start()
     {
         instance = this;
+        musicMix.SetFloat("volumeMusic",musicVolume);
+        masterMix.SetFloat("sfxVol",sfxVolume);
         
     }
     void Update(){
 
-        // musicMix.SetFloat("volumeMusic",musicVolume);
-        // masterMix.SetFloat("sfxVol",sfxVolume);
     }
 
 

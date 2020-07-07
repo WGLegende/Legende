@@ -13,7 +13,7 @@ public class AiguillageManager : MonoBehaviour
     public int position_trajet;
 
 
-    void Start(){
+    void Awake(){
 
         if(instance == null){
             instance = this;

@@ -23,7 +23,13 @@ public class aiguillage_kart : MonoBehaviour{
         if(instance == null){
             instance = this;
         } 
+
         anim = GetComponent<Animator>();
+
+        if(_choix_circuit == ChoixCircuit.Gauche){ 
+            AiguillageManager.instance.next_rails = left_rails;
+            anim.SetBool("switch",true);    
+        }    
     }
    
   
@@ -63,7 +69,7 @@ public class aiguillage_kart : MonoBehaviour{
 
         if(collider.gameObject.tag == "PlayerKart"){
 
-            if(Input.GetKeyDown("joystick button 0")){ // A
+            if(hinput.anyGamepad.A.justPressed){ 
                 toggle = !toggle;
 
                 if(toggle){

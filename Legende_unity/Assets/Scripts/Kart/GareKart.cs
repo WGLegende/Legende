@@ -85,7 +85,7 @@ public class GareKart : MonoBehaviour
                 }
             }
 
-            if(Input.GetKeyDown("joystick button 0")){ // A
+            if(hinput.anyGamepad.A.justPressed){ // A
 
                 ExitKart();
                 ButtonAction.instance.Hide();
