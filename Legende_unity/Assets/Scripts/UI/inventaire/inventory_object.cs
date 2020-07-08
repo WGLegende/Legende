@@ -62,13 +62,16 @@ public class inventory_object : MonoBehaviour{
     }
 
 
-
     void OnTriggerEnter(Collider collider){ // A modifier avec la logique d'interactable
-        if(collider.tag == "Player"){
-
-          ButtonAction.instance.Action("Prendre"); 
-        }
+      player_actions.instance.display_actions(this,collider);   
     }
+
+    void OnTriggerExit(Collider collider){
+      player_actions.instance.clear_action(collider.tag == "Player");  
+    }
+
+
+
 
     public void addObject(){
           if(!inventory_objects_manager.instance.object_list.Any(o => o._type_equipement == _type_equipement && o._type_equipement != 0 && o.is_equiped)){
@@ -81,20 +84,9 @@ public class inventory_object : MonoBehaviour{
           // Destroy(gameObject);
     }
 
-    void OnTriggerExit(Collider collider){
-        if(collider.tag == "Player"){
-          ButtonAction.instance.Hide(); 
-        }
-    }
+   
 
-    void OnTriggerStay(Collider collider){
-
-      if(hinput.anyGamepad.A.justPressed){
-          Debug.Log("add " + nom + " to inventory");
-          addObject();
-          ButtonAction.instance.Hide();
-      } 
-    }
+    
 
 
 }

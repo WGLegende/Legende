@@ -9,7 +9,8 @@ public class Player_sound : MonoBehaviour
     public static Player_sound instance;
 
     public AudioSource marcheAudio;
-    public AudioSource kartAudio;
+    public AudioSource kart_audio_rails;
+    public AudioSource kart_audio_fx;
 
     public AudioSource music_event_player;
 
@@ -22,9 +23,9 @@ public class Player_sound : MonoBehaviour
    
 
     void Start(){
-
-        instance = this;  
-       
+        if(instance == null){
+            instance = this; 
+        }  
     }
 
 
@@ -37,28 +38,43 @@ public class Player_sound : MonoBehaviour
     }
 
 
+
+
+
+    // Sound Kart Rails
     public void PlayKart(float speed){
         
         if(speed < 10){
-            kartAudio.pitch = 0.8f;
+            kart_audio_rails.pitch = 0.8f;
         }
         else if(speed == 10){
-            kartAudio.pitch = 1f;
+            kart_audio_rails.pitch = 1f;
         }
         else if(speed > 10){
-            kartAudio.pitch = 1.6f;
+            kart_audio_rails.pitch = 1.6f;
         }
-
-        kartAudio.clip = KartFx[0];
-        if(kartAudio.isPlaying)
+        kart_audio_rails.clip = KartFx[0];
+        if(kart_audio_rails.isPlaying)
         return;
-        kartAudio.Play();
+        kart_audio_rails.Play();
+    }
+    // Stop Sound KartRails
+    public void StopKart(){
+        kart_audio_rails.clip = null;
+    }
+    
+
+    // Sound Fx Kart
+    public void PlayKartFx(int i){
+
+       kart_audio_fx.clip = KartFx[i];
+       if(kart_audio_fx.isPlaying)
+       return;
+       kart_audio_fx.Play();
     }
 
-     public void StopKart(){
 
-        kartAudio.clip = null;
-    }
+
 
     // Son Marche Player
     public void Walk(){
@@ -81,14 +97,11 @@ public class Player_sound : MonoBehaviour
        
     }
 
-
-
     // Son Run Player
     public void Run(){
 
         marcheAudio.pitch = 0.8f;
         marcheAudio.volume = 1f;
-
 
         switch (TypeSol){
 
@@ -104,13 +117,9 @@ public class Player_sound : MonoBehaviour
         marcheAudio.Play();   
     }
 
-
-
     // Stop Son FootStep
     public void StopMove(){
-
         marcheAudio.clip = null;
-
     }
 
     

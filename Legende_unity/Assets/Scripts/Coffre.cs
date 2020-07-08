@@ -7,6 +7,8 @@ public class Coffre : MonoBehaviour
 
     [HideInInspector] public Animator anim;
     [HideInInspector] public bool isOpen;
+    public AudioSource sound;
+    public AudioClip[] audio_clip;
     public bool petit_coffre;
     BoxCollider object_collider;
     inventory_object object_a_recuperer;
@@ -14,6 +16,7 @@ public class Coffre : MonoBehaviour
     void Start(){
 
         anim = GetComponent<Animator>(); 
+        sound = GetComponent<AudioSource>();
         object_a_recuperer = GetComponentInChildren<inventory_object>();
         if(object_a_recuperer == null){
             Debug.Log("Pas d'object dans le coffre !");

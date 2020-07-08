@@ -26,6 +26,11 @@ public class player_actions : MonoBehaviour
                 ButtonAction.instance.Action("Ramasser"); 
             }
 
+             if(action_init.GetType() == typeof(inventory_object)){
+                ButtonAction.instance.Action("Prendre"); 
+            }
+
+
             if(action_init.GetType() == typeof(Porte)){
                 ButtonAction.instance.Action("Ouvrir"); 
             }
@@ -51,7 +56,6 @@ public class player_actions : MonoBehaviour
             }
             if(action_init.GetType() == typeof(aiguillage_kart)){
                 ButtonActionKart.instance.Action("Bifurquer");  
-                print("hello");
             }
 
         }
@@ -83,6 +87,11 @@ public class player_actions : MonoBehaviour
             clear_action(true);
         }
 
+        else if(currently_displayed_action.GetType() == typeof(inventory_object)){ 
+            do_action_objet((inventory_object)currently_displayed_action);
+            clear_action(true);
+        }
+
         else if(currently_displayed_action.GetType() == typeof(EnterChariot)){ 
             do_action_enter_kart((EnterChariot)currently_displayed_action);
             clear_action(false);
@@ -105,7 +114,7 @@ public class player_actions : MonoBehaviour
             currently_displayed_action = null; 
         }
         else if(!isPlayer){
-            //ButtonActionKart.instance.Hide(); 
+           // ButtonActionKart.instance.Hide(); 
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; // TODO attention avec kart
             currently_displayed_action = null; 
         }
@@ -125,7 +134,7 @@ public class player_actions : MonoBehaviour
         _enter_kart.player_foot.SetActive(false); 
         _enter_kart.player_kart.SetActive(true);
     
-        _enter_kart.ui_chariot.scaleFactor = 0.8f; // affichage ui kart
+        _enter_kart.ui_chariot.scaleFactor = 0.8f; // affichage ui kart todo
         _enter_kart.script_kart_manager.enabled = true; 
         _enter_kart.chariot_siege.transform.localRotation = Quaternion.Euler(270,90,-90); // on recentre le player dans le kart
     
@@ -160,12 +169,21 @@ public class player_actions : MonoBehaviour
        Debug.Log("Loot ramasse");
     }
 
+    // Logique pick up objet
+    public void do_action_objet(inventory_object _inventory_loot){
+
+        Debug.Log("add " + _inventory_loot.nom + " to inventory");
+        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[1]); 
+        _inventory_loot.addObject();
+    }
+
 
     // Logique Ascenseur
     public void do_action_ascenseur(AscenseurSwitch _ascenseur_switch){
 
         _ascenseur_switch.toggle_levier = !_ascenseur_switch.toggle_levier;
         _ascenseur_switch.anim_levier.SetBool("active_levier",_ascenseur_switch.toggle_levier);
+        _ascenseur_switch.sound.Play();
 
         if(_ascenseur_switch.elevator_script.isPositionUp){
             _ascenseur_switch.anim_elevator.SetBool("position_up",false);
@@ -191,6 +209,8 @@ public class player_actions : MonoBehaviour
             }
             else{
                 _coffre.anim.SetTrigger("OpenPetitCoffre");
+                _coffre.sound.clip = _coffre.audio_clip[Random.Range(0,_coffre.audio_clip.Length)];
+                _coffre.sound.Play();
                 _coffre.Invoke("activeObject",0.5f);
             }
         }

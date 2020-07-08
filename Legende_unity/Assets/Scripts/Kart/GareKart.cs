@@ -71,13 +71,13 @@ public class GareKart : MonoBehaviour
                 switch (_type_gare){ 
 
                     case typeGare.Depart :  kart_manager.instance.canMoveRecul = false;
-                                            kart_manager.instance.SplineFollow.IsRunning = false; 
-                                            ButtonActionKart.instance.Action("Descendre");                                                       
+                                            ButtonActionKart.instance.Action("Descendre");
+                                            StartCoroutine(auto_freinage());                                                                       
                     break;
 
                     case typeGare.Terminus: kart_manager.instance.canMoveAvance = false;
-                                            kart_manager.instance.SplineFollow.IsRunning = false; // todo pour un arret smooth
-                                            ButtonActionKart.instance.Action("Descendre");                                  
+                                            ButtonActionKart.instance.Action("Descendre");
+                                            StartCoroutine(auto_freinage());                                                                      
                     break;
 
                     case typeGare.Station: ButtonActionKart.instance.Action("Descendre");                         
@@ -86,7 +86,6 @@ public class GareKart : MonoBehaviour
             }
 
             if(hinput.anyGamepad.A.justPressed){ // A
-
                 ExitKart();
                 ButtonAction.instance.Hide();
             }
@@ -103,10 +102,21 @@ public class GareKart : MonoBehaviour
         }
     } 
 
+    IEnumerator auto_freinage(){
 
+        kart_manager.instance.frein_auto = true;
+        kart_manager.instance.vitesse_demandee = 0f;
 
+        while(kart_manager.instance.SplineFollow.Speed > 0f){
+            kart_manager.instance.SplineFollow.Speed -= Time.deltaTime;
+        }
 
+        kart_manager.instance.frein_auto = false;
+        kart_manager.instance.vitesse_actuelle = 0f;
+        kart_manager.instance.SplineFollow.Speed = 0f;
 
+        yield return null;
+    }
 
 
 

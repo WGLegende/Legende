@@ -88,6 +88,8 @@ public class Camera_control : MonoBehaviour
             yield return null;
         } 
         // duree de l'effet
+        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[2]); 
+
         while(elapsed < duration){
             for(int i = 0; i < 3; i++){
                 current_camera.GetRig(i).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = magnitude; 
@@ -108,8 +110,6 @@ public class Camera_control : MonoBehaviour
         for(int i = 0; i < 3; i++){
             current_camera.GetRig(i).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f; 
         }
-
-
     }
      
 }

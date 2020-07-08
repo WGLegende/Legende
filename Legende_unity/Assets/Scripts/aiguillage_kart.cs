@@ -16,6 +16,7 @@ public class aiguillage_kart : MonoBehaviour{
 
     [HideInInspector] public bool toggle;
     [HideInInspector] public Animator anim;
+    [HideInInspector] public AudioSource aiguillage_audio;
 
 
 
@@ -25,9 +26,11 @@ public class aiguillage_kart : MonoBehaviour{
         } 
 
         anim = GetComponent<Animator>();
+        aiguillage_audio = GetComponentInChildren<AudioSource>();
 
         if(_choix_circuit == ChoixCircuit.Gauche){ 
             AiguillageManager.instance.next_rails = left_rails;
+            toggle = true;
             anim.SetBool("switch",true);    
         }    
     }
@@ -71,6 +74,7 @@ public class aiguillage_kart : MonoBehaviour{
 
             if(hinput.anyGamepad.A.justPressed){ 
                 toggle = !toggle;
+                aiguillage_audio.Play();
 
                 if(toggle){
                     _choix_circuit = ChoixCircuit.Gauche;
