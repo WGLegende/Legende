@@ -23,8 +23,6 @@ public class Enemy_sound : MonoBehaviour
         }
     }
 
-
-
     // Lecture du son
     public void PlaySound(GameObject gameObj, AudioClip audioclip){
 
@@ -36,11 +34,8 @@ public class Enemy_sound : MonoBehaviour
     }
 
 
-
-
     // Stop le son
     public void StopSound(GameObject gameObj, AudioClip audioclip){
-
         gameObj.GetComponent<AudioSource>().Stop();
     }
 

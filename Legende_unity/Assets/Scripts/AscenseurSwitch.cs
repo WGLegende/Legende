@@ -13,6 +13,9 @@ public class AscenseurSwitch : MonoBehaviour{
     [HideInInspector] public Ascenseur elevator_script;
     [HideInInspector] public Animator anim_elevator;
 
+    public AudioSource sound;
+
+
    
 
     void Start(){
@@ -21,6 +24,7 @@ public class AscenseurSwitch : MonoBehaviour{
         collider_is_disable = GetComponent<BoxCollider>();
         elevator_script = elevator.GetComponent<Ascenseur>();
         anim_elevator = elevator.GetComponent<Animator>();
+        sound = GetComponent<AudioSource>();
     }
    
 

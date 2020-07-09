@@ -48,9 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322a9c9532173a34ea626d815dc0e8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterMix: {fileID: 24100000, guid: af5a60199d06a374dbdfa2ee2a64cdaf, type: 2}
   musicMix: {fileID: 24100000, guid: b206dea16fa21e74ab4025705b737782, type: 2}
-  musicVolume: -9
+  soundMix: {fileID: 24100000, guid: af5a60199d06a374dbdfa2ee2a64cdaf, type: 2}
+  musicVolume: -80
   sfxVolume: 0
 --- !u!114 &42023375483930676
 MonoBehaviour:
@@ -129,7 +129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marcheAudio: {fileID: 42023375483930634}
-  kartAudio: {fileID: 0}
+  kart_audio_rails: {fileID: 0}
+  kart_audio_fx: {fileID: 0}
   music_event_player: {fileID: 42023375483930633}
   TypeSol: 
   MarcheFx:
@@ -149,8 +150,12 @@ MonoBehaviour:
   KartFx:
   - {fileID: 8300000, guid: d79c6cdaf9d3be84e941a1f375609bdc, type: 3}
   - {fileID: 8300000, guid: 9c8749c2500683948a5bc4743a4c2f35, type: 3}
+  - {fileID: 8300000, guid: 4f4a1451325fb0a469ea79a22602a198, type: 3}
+  - {fileID: 8300000, guid: 0ec886e9c9be3be4aa0c2bf87c0545fe, type: 3}
   MusicEventPlayer:
   - {fileID: 8300000, guid: 74620f49f10428e4fbe2a2211a530cb1, type: 3}
+  - {fileID: 8300000, guid: a5124de15a0f39b41b1683d641625ec4, type: 3}
+  - {fileID: 8300000, guid: 401f101b6c14d134890f395d988ccd74, type: 3}
 --- !u!82 &42023375483930634
 AudioSource:
   m_ObjectHideFlags: 0

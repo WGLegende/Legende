@@ -195,17 +195,17 @@ public class GamePad_manager : MonoBehaviour
                     }
 
                     // Gestion du saut du kart
-                    if(hinput.anyGamepad.Y.justPressed){ // Y
+                    if(hinput.anyGamepad.Y.justPressed){ 
                         kart_manager.instance.kart_jump();
                     }
 
                     // Gestion attaque du kart
-                    if(hinput.anyGamepad.B.justPressed){ // B
+                    if(hinput.anyGamepad.B.justPressed){ 
                         kart_manager.instance.kart_attaque();
                     }
 
                     // Allume lumiere du kart
-                    if(hinput.anyGamepad.X.justPressed){ // X
+                    if(hinput.anyGamepad.X.justPressed){ 
                         kart_manager.instance.kart_light();
                     }
 

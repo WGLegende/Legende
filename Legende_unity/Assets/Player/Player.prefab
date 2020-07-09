@@ -2734,8 +2734,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2709162908013509398}
-  m_LocalRotation: {x: -0.104323246, y: 0.69936866, z: 0.27383795, w: 0.65193015}
-  m_LocalPosition: {x: -0.080398574, y: -0.029136717, z: 0.5351516}
+  m_LocalRotation: {x: -0.104323275, y: 0.69936866, z: 0.2738379, w: 0.6519301}
+  m_LocalPosition: {x: -0.08039873, y: -0.029132187, z: 0.53515154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2705631793160357316}
@@ -2864,8 +2864,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2709225354977085286}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.050605774}
+  m_LocalRotation: {x: -0.7071068, y: -2.3283064e-10, z: 9.313226e-10, w: 0.7071068}
+  m_LocalPosition: {x: -0.0000034058758, y: 0.00000003396417, z: -0.050601155}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2707742519182302784}
@@ -9624,10 +9624,13 @@ MonoBehaviour:
   SpeedMove: 8
   Player_Animator: {fileID: 2652620007957598660}
   player_is_moving: 0
+  canAttack: 0
+  canMove: 0
+  canJump: 0
   PlayerIsAttack: 0
   player_gravity: 5
   jumpForce: 2
-  turnSmoothTime: 0.1
+  turnSmoothTime: 0.12
   force_degat_recul: 4
 --- !u!136 &2710029459206797045
 CapsuleCollider:

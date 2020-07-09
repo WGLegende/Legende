@@ -10,7 +10,8 @@ public class CheckPoint : MonoBehaviour
     ParticleSystem particule;
     Transform checkPointPosition;
     bool justOnce;
-    
+
+
     void Start(){
         
         instance = this;
@@ -21,16 +22,15 @@ public class CheckPoint : MonoBehaviour
     void OnTriggerEnter(Collider other){
 
         if (other.name == "Player"){
+            print("save player");
 
             if(!justOnce){
 
                 particule.startColor = Color.green;
                 level_main.instance.CheckpointSavePosition(checkPointPosition);
                 justOnce = true; 
-            }
-            
-        }
-         
+            } 
+        }    
     }
 
 

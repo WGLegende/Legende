@@ -20,6 +20,8 @@ TagManager:
   - snow
   - GareKart
   - PlayerKart
+  - collision_lateral_right
+  - collision_lateral_left
   layers:
   - Default
   - TransparentFX
