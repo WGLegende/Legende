@@ -13,7 +13,7 @@ public class AscenseurSwitch : MonoBehaviour{
     [HideInInspector] public Ascenseur elevator_script;
     [HideInInspector] public Animator anim_elevator;
 
-    public AudioSource sound;
+     [HideInInspector]public AudioSource sound;
 
 
    

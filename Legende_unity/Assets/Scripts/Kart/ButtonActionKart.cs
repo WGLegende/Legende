@@ -9,33 +9,28 @@ public class ButtonActionKart : MonoBehaviour
    
     public Transform cam;
     public Text text_button_action;
-     public GameObject container;
+    public GameObject container;
    
+
+
     void Start(){
-
         instance = this; 
-
+        cam = GameObject.Find("Camera").GetComponent<Transform>();
     } 
 
 
-    void LateUpdate()
-    {
+    void LateUpdate(){
         transform.LookAt(transform.position + cam.forward);
     }
 
   
     public void Action(string value){
-       
-         text_button_action.text = value;
-        container.SetActive(true);
-        
+        text_button_action.text = value;
+        container.SetActive(true);   
     }
 
-    public void Hide(){
-       
-         container.SetActive(false);
-
-        
+    public void Hide(){ 
+        container.SetActive(false);   
     }
 
 

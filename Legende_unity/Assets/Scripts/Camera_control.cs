@@ -10,6 +10,7 @@ public class Camera_control : MonoBehaviour
     public CinemachineFreeLook player_camera;
     public CinemachineFreeLook player_kart_camera;
     public CinemachineFreeLook current_camera;
+    public CinemachineVirtualCamera cam_crash;
     GameObject player;
     CharacterController player_controller;
     
@@ -29,11 +30,21 @@ public class Camera_control : MonoBehaviour
             instance = this; 
         }  
 
-        player_camera = GameObject.Find("PlayerCameraController").GetComponent<CinemachineFreeLook>();
-        player_kart_camera = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();
-        player_controller = GameObject.Find("Player").GetComponent<CharacterController>();
         player = GameObject.Find("Player");
+        player_controller = player.GetComponent<CharacterController>();
 
+        player_camera = GameObject.Find("PlayerCameraController").GetComponent<CinemachineFreeLook>();
+        player_camera.LookAt = player.GetComponent<Transform>();
+        player_camera.Follow = player.GetComponent<Transform>();
+
+        player_kart_camera = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();
+        player_kart_camera.LookAt = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
+        player_kart_camera.Follow = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
+
+        cam_crash = GameObject.Find("cam_crash").GetComponent<CinemachineVirtualCamera>();
+
+        
+        
         if(activate_earthquake_effect){
             StartCoroutine(start_earthquake());
         }
@@ -111,5 +122,5 @@ public class Camera_control : MonoBehaviour
             current_camera.GetRig(i).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f; 
         }
     }
-     
+ 
 }

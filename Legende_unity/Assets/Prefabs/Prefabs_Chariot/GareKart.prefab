@@ -47,15 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78ca83ef14b2994788cfc419b544082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type_gare: 1
+  _type_gare: 0
   _sens_sortie: 0
   kart_in_station: 0
   player_foot: {fileID: 0}
   player_kart: {fileID: 0}
-  chariot_siege: {fileID: 0}
   chariot_container: {fileID: 0}
   offset_exit_chariot: {x: 0, y: 0, z: 0}
-  camKart: {fileID: 0}
   ui_chariot: {fileID: 0}
 --- !u!65 &3297694195057866115
 BoxCollider:
@@ -283,8 +281,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3297694196846113384}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.08, y: -1.12, z: 1.2}
-  m_LocalScale: {x: 3.08314, y: 0.07226775, z: 3.2386968}
+  m_LocalPosition: {x: 0, y: -1.05, z: 1.2}
+  m_LocalScale: {x: 3.08314, y: 0.36368367, z: 2.7544045}
   m_Children: []
   m_Father: {fileID: 3297694195057866113}
   m_RootOrder: 2
@@ -315,7 +313,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 03825d117cc73934593af86164f84ff0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

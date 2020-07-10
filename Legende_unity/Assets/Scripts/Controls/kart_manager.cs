@@ -63,6 +63,9 @@ public class kart_manager : MonoBehaviour
     public AudioSource audio_kart;
     public AudioClip[] clip_fx;
 
+    public ParticleSystem impact_left;
+    public Rigidbody rb;
+
 
 
 
@@ -80,6 +83,9 @@ public class kart_manager : MonoBehaviour
         audio_sparkle = GameObject.Find("SoundFx_etincelle").GetComponent<AudioSource>();
         audio_vapeur = GameObject.Find("SoundFx_vapeur").GetComponent<AudioSource>();
         audio_kart = GameObject.Find("SoundFx").GetComponent<AudioSource>();
+        rb = GameObject.Find("kart").GetComponent<Rigidbody>();
+
+       // SplineFollow.m_t = 0.01f;
 
         StartCoroutine(refreshSpeedUI());
     }
@@ -213,9 +219,9 @@ public class kart_manager : MonoBehaviour
         
 
         
-        if(!frein_auto && (vitesse_actuelle > 0.5 || vitesse_actuelle < -0.5)){
+        if(!frein_auto && (vitesse_actuelle > 0.8 || vitesse_actuelle < -0.8)){
             SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
-            Player_sound.instance.PlayKart(Mathf.Abs(vitesse_actuelle));// Gestion du son 
+            Player_sound.instance.PlayKart(Mathf.Abs(SplineFollow.Speed));// Gestion du son 
          }else{
             SplineFollow.Speed = 0f;
             Player_sound.instance.StopKart();// Gestion du son 
@@ -237,19 +243,6 @@ public class kart_manager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
             VapeurBar.instance.fill_vapeur_stock();
-        }
-
-         if(Input.GetKeyDown("a")){   // Rempli la jauge vapeur TRICHE todo
-
-           GameObject kart = GameObject.Find("kart"); 
-           Rigidbody rb = kart.GetComponent<Rigidbody>();
-            
-            rb.isKinematic = false;
-            rb.useGravity = true;
-            rb.mass = 0.05f;
-            rb.AddForce(Vector3.back,ForceMode.Impulse);
-            kart_manager.instance.canMoveRecul = false;
-            kart_manager.instance.canMoveAvance = false;
         }
 
         speed_and_move();
@@ -298,24 +291,29 @@ public class kart_manager : MonoBehaviour
 
         if(collider.gameObject.tag == "collision_lateral_left"){
 
-            Rigidbody rb = GameObject.Find("kart").GetComponent<Rigidbody>();
+            impact_left.Play();
+            audio_kart.clip = clip_fx[3];
+            audio_kart.Play();
+            Camera_control.instance.cam_crash.Priority = 12;
+            freezeEffect.instance.Freeze();
             rb.isKinematic = false;
             rb.useGravity = true;
             rb.mass = 0.05f;
             rb.AddForce(Vector3.back,ForceMode.Impulse);
             kart_manager.instance.canMoveRecul = false;
             kart_manager.instance.canMoveAvance = false;
+            Invoke("repositionkart",2f);
         }
 
          if(collider.gameObject.tag == "collision_lateral_right"){
 
-            Rigidbody rb = GameObject.Find("kart").GetComponent<Rigidbody>();
             rb.isKinematic = false;
             rb.useGravity = true;
             rb.mass = 0.05f;
             rb.AddForce(-Vector3.back,ForceMode.Impulse);
             kart_manager.instance.canMoveRecul = false;
             kart_manager.instance.canMoveAvance = false;
+            Invoke("repositionkart",2f);
         }
     }
 
@@ -327,6 +325,15 @@ public class kart_manager : MonoBehaviour
            canMoveAvance = true;
        
         }
+    }
+
+    void repositionkart(){
+
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        level_main.instance.MoveKartToCheckpoint();
+        Camera_control.instance.cam_crash.Priority = 8;
+
     }
 
 

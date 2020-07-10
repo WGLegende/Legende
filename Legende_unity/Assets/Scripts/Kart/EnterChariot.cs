@@ -20,6 +20,7 @@ public class EnterChariot : MonoBehaviour
     instance = this;
     ui_chariot = GameObject.Find("UI_Chariot").GetComponent<CanvasScaler>();
     script_kart_manager = GetComponentInChildren<kart_manager>(); 
+    player_foot = GameObject.Find("Player");
    
   }
 

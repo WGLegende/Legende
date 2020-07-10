@@ -6,22 +6,27 @@ public class AttachPlayerMove : MonoBehaviour
 {
 
     public GameObject Player;
+
+
+    void Start(){
+        Player = GameObject.Find("Player");
+    }
    
+
+
     private void OnTriggerEnter(Collider other){
         
         if(other.gameObject == Player){
-
             Player.transform.parent = transform;
         }
     }
     
-        
-    
 
+     
+        
     private void OnTriggerExit(Collider other){
         
         if(other.gameObject == Player){
-
             Player.transform.parent = null;
         }
     }

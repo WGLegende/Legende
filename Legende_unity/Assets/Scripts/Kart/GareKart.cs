@@ -16,20 +16,18 @@ public class GareKart : MonoBehaviour
         Terminus       
     }
 
-    public SensSortie _sens_sortie;
-    public enum SensSortie{
-        Droite,
-        Gauche         
-    }
+    // public SensSortie _sens_sortie;
+    // public enum SensSortie{
+    //     Droite,
+    //     Gauche         
+    // }
+    [HideInInspector] public Vector3 offset_exit_chariot;
 
+    public GameObject player_kart;
     public bool kart_in_station;
 
-    public GameObject player_foot;
-    public GameObject player_kart;
-    public Transform chariot_container;
-
-    [HideInInspector] public Vector3 offset_exit_chariot;
-    
+    [HideInInspector] public GameObject player_foot;
+    [HideInInspector] public Transform chariot_container;
     [HideInInspector] public CanvasScaler ui_chariot;
 
     
@@ -43,11 +41,11 @@ public class GareKart : MonoBehaviour
         chariot_container = GameObject.Find("Chariot_Container").GetComponent<Transform>();
         ui_chariot = GameObject.Find("UI_Chariot").GetComponent<CanvasScaler>();
         
-        if(_sens_sortie == SensSortie.Droite){
-            offset_exit_chariot = new Vector3(0f, 0f,0f);
-        }else{
-            offset_exit_chariot = new Vector3(0f,0f, 0f);
-        }  
+        // if(_sens_sortie == SensSortie.Droite){
+        //     offset_exit_chariot = new Vector3(0f, 0f,0f);
+        // }else{
+        //     offset_exit_chariot = new Vector3(0f,0f, 0f);
+        // }  
     }
 
 
