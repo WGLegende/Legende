@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using Cinemachine;
 
 
-public class GareKart : MonoBehaviour
-{
+public class GareKart : MonoBehaviour{
+
     public static GareKart instance;
 
     public typeGare _type_gare;
@@ -16,17 +16,8 @@ public class GareKart : MonoBehaviour
         Terminus       
     }
 
-    // public SensSortie _sens_sortie;
-    // public enum SensSortie{
-    //     Droite,
-    //     Gauche         
-    // }
-    [HideInInspector] public Vector3 offset_exit_chariot;
-
-    public GameObject player_kart;
     public bool kart_in_station;
 
-    [HideInInspector] public GameObject player_foot;
     [HideInInspector] public Transform chariot_container;
     [HideInInspector] public CanvasScaler ui_chariot;
 
@@ -36,23 +27,16 @@ public class GareKart : MonoBehaviour
         if(instance == null){
             instance = this;
         }
-  
-        player_foot = GameObject.Find("Player");
+    
         chariot_container = GameObject.Find("Chariot_Container").GetComponent<Transform>();
         ui_chariot = GameObject.Find("UI_Chariot").GetComponent<CanvasScaler>();
-        
-        // if(_sens_sortie == SensSortie.Droite){
-        //     offset_exit_chariot = new Vector3(0f, 0f,0f);
-        // }else{
-        //     offset_exit_chariot = new Vector3(0f,0f, 0f);
-        // }  
     }
 
 
     void OnTriggerEnter(Collider collider){
 
-        if(collider.gameObject.tag == "PlayerKart"){
-
+        if(collider.gameObject.tag == "PlayerKart" && Mathf.Abs(kart_manager.instance.vitesse_actuelle) <= 1){
+            player_actions.instance.display_actions(this,collider);   
         }   
     }
 
@@ -64,28 +48,19 @@ public class GareKart : MonoBehaviour
             return; // si trop vite a une station, on fait rien
 
             if(!kart_in_station){
+
                 kart_in_station = true;
-               
-                switch (_type_gare){ 
+                player_actions.instance.display_actions(this,collider);   
 
-                    case typeGare.Depart :  kart_manager.instance.canMoveRecul = false;
-                                            ButtonActionKart.instance.Action("Descendre");
-                                            StartCoroutine(auto_freinage());                                                                       
-                    break;
-
-                    case typeGare.Terminus: kart_manager.instance.canMoveAvance = false;
-                                            ButtonActionKart.instance.Action("Descendre");
-                                            StartCoroutine(auto_freinage());                                                                      
-                    break;
-
-                    case typeGare.Station: ButtonActionKart.instance.Action("Descendre");                         
-                    break;
+                if(_type_gare == typeGare.Depart){
+                    kart_manager.instance.canMoveRecul = false;
+                    StartCoroutine(auto_freinage());  
                 }
-            }
-
-            if(hinput.anyGamepad.A.justPressed){ // A
-                ExitKart();
-                ButtonAction.instance.Hide();
+                else if (_type_gare == typeGare.Terminus){
+                    kart_manager.instance.canMoveAvance = false;
+                    StartCoroutine(auto_freinage());   
+                }
+               
             }
         }
     }
@@ -96,17 +71,17 @@ public class GareKart : MonoBehaviour
             kart_in_station = false;  
             kart_manager.instance.canMoveAvance = true; 
             kart_manager.instance.canMoveRecul = true;
-            ButtonActionKart.instance.Hide(); 
+            player_actions.instance.clear_action_kart(true);  
         }
     } 
 
-    IEnumerator auto_freinage(){
+    public IEnumerator auto_freinage(){
 
         kart_manager.instance.frein_auto = true;
         kart_manager.instance.vitesse_demandee = 0f;
 
         while(kart_manager.instance.SplineFollow.Speed > 0f){
-            kart_manager.instance.SplineFollow.Speed -= Time.deltaTime;
+            kart_manager.instance.SplineFollow.Speed -= Time.deltaTime * 0.2f;
         }
 
         kart_manager.instance.frein_auto = false;
@@ -115,29 +90,4 @@ public class GareKart : MonoBehaviour
 
         yield return null;
     }
-
-
-
-
-    public void ExitKart(){ // Bascule sur player
-
-        Camera_control.instance.CameraBehindPlayer();
-        Camera_control.instance.player_kart_camera.Priority = 9;
-        kart_manager.instance.vitesse_actuelle = 0f;
-        kart_manager.instance.SplineFollow.IsRunning = false;
-
-        Vector3 rotationPlayer = new Vector3(0,player_kart.transform.eulerAngles.y,0); // on le tourne dans le meme sens que player_kart
-        player_foot.transform.rotation = Quaternion.Euler(rotationPlayer);
-        player_foot.transform.localPosition =  chariot_container.transform.position + offset_exit_chariot;
-
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
-
-        player_kart.SetActive(false);
-        ui_chariot.scaleFactor = 0f; //todo hide ui kart
-
-        player_foot.SetActive(true); 
-        player_gamePad_manager.instance.PlayerCanMove(true);
-        player_gamePad_manager.instance.changeEquipement(); 
-    }
-
 }

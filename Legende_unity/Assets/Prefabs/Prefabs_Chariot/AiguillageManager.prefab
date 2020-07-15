@@ -46,3 +46,4 @@ MonoBehaviour:
   next_rails: {fileID: 0}
   SaveTrajetKart: []
   position_trajet: 0
+  kart: {fileID: 0}

@@ -38,7 +38,6 @@ public class Music_sound : MonoBehaviour
             s.source.outputAudioMixerGroup = MusicMix;
         }
 
-      
     }
 
     void Update(){

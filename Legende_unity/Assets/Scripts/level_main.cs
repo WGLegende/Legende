@@ -22,8 +22,11 @@ public class level_main : MonoBehaviour
             instance = this;
         }
 
-        player = player_main.instance.player.transform; 
-        kart = GameObject.Find("kart").GetComponent<Transform>();  
+        player = player_main.instance.player.transform;
+        
+        if(player_main.instance.kart != null){
+        kart = player_main.instance.kart.GetComponent<Transform>(); 
+        }
     }
 
 
@@ -53,7 +56,7 @@ public class level_main : MonoBehaviour
         hasCheckPointKart = true;    
     }
 
-    // On lod le dernier checkpoint du kart 
+    // On load le dernier checkpoint du kart 
     public void MoveKartToCheckpoint(){ 
         kart_manager.instance.SplineFollow.Spline = AiguillageManager.instance.SaveTrajetKart[AiguillageManager.instance.position_trajet];
         kart_manager.instance.SplineFollow.Restart();

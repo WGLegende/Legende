@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state_id: SPHWLFaKNdvP9y5yC5QZ9wFMD
   nom: Epee d'acier
-  description: Eppe forgee par les artisants de Bourg De Givre
+  description: Epee forgee par les artisants de Bourg De Givre
   image: {fileID: 2800000, guid: a2d8f4450389d6545bc13ed6224a6ed7, type: 3}
   jetable: 1
   max_stack: 1

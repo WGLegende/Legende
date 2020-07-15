@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4514419369796735872}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: CheckPointKart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,8 +45,7 @@ GameObject:
   - component: {fileID: 4514419370609839905}
   - component: {fileID: 4514419370609839907}
   - component: {fileID: 4514419370609839933}
-  - component: {fileID: 4514419370609839935}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,13 +59,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4514419370609839934}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.26188, y: 0.61931, z: -0.43565}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.26, y: 0.54, z: -0.86}
   m_LocalScale: {x: 1.6045, y: 1.6045, z: 1.6045}
   m_Children: []
   m_Father: {fileID: 4514419369796735872}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &4514419370609839928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4833,16 +4832,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!65 &4514419370609839935
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4514419370609839934}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.2600007, y: 4.2599998, z: 4.5100007}
-  m_Center: {x: 0.0000019073486, y: 0, z: 0.12500003}
