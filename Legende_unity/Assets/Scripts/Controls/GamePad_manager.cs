@@ -17,7 +17,9 @@ public class GamePad_manager : MonoBehaviour
         inventory,
         kart,
         dialogue,
-        actionDisplay
+        actionDisplay,
+        actionDisplayKart,
+        actionNavy
     }
     public game_pad_attribution _game_pad_attribution = game_pad_attribution.player;
     public game_pad_attribution _last_game_pad_attribution = game_pad_attribution.player;
@@ -64,7 +66,7 @@ public class GamePad_manager : MonoBehaviour
 
         switch(_game_pad_attribution){
 
-            case game_pad_attribution.player : case game_pad_attribution.actionDisplay :
+            case game_pad_attribution.player : case game_pad_attribution.actionDisplay : case game_pad_attribution.actionNavy :
 
                 player_gamePad_manager.instance.player_is_moving = left_stick_x < 0 || left_stick_x > 0 || left_stick_y < 0 || left_stick_y > 0;
               
@@ -105,6 +107,9 @@ public class GamePad_manager : MonoBehaviour
                 if(hinput.anyGamepad.A.justPressed){
                     if(_game_pad_attribution == game_pad_attribution.actionDisplay){
                         player_actions.instance.do_action();
+                    }
+                    else if(_game_pad_attribution == game_pad_attribution.actionNavy){
+                        ame_player.instance.nextTextNavySpeak();
                     }
                 }
 
@@ -174,7 +179,8 @@ public class GamePad_manager : MonoBehaviour
             break;
 
 
-            case game_pad_attribution.kart :
+            case game_pad_attribution.kart : case game_pad_attribution.actionDisplayKart :
+            
                     // Gere le mouvement de camera et la rotation du siege
                     if(right_stick_x != 0 || right_stick_y != 0){ 
                         kart_manager.instance.kart_movement(right_stick_x, right_stick_y, left_stick_x, left_stick_y);
@@ -210,9 +216,8 @@ public class GamePad_manager : MonoBehaviour
                     }
 
                     if(hinput.anyGamepad.A.justPressed){
-                        if(_game_pad_attribution == game_pad_attribution.actionDisplay){
-                            player_actions.instance.do_action();
-                            Debug.Log("Bouton A do action");
+                        if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
+                            player_actions.instance.do_action_kart();
                         }
                     }
             break;

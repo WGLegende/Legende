@@ -13,6 +13,8 @@ public class level_main : MonoBehaviour
     public float save_position_kart;
    
     public bool hasCheckPoint;
+    public bool hasCheckPointKart;
+
 
     void Start(){
 
@@ -21,7 +23,10 @@ public class level_main : MonoBehaviour
         }
 
         player = player_main.instance.player.transform;
-        kart = GameObject.Find("kart").GetComponent<Transform>();
+        
+        if(player_main.instance.kart != null){
+        kart = player_main.instance.kart.GetComponent<Transform>(); 
+        }
     }
 
 
@@ -48,10 +53,10 @@ public class level_main : MonoBehaviour
         save_position_kart = value;
         GameObject.Find ("TextInfo").GetComponent<Text>().text = "CheckPoint Save";
         GameObject.Find ("Player_Info").GetComponent<Animator>().SetTrigger("panelInfo");
-        hasCheckPoint = true;    
+        hasCheckPointKart = true;    
     }
 
-    // On lod le dernier checkpoint du kart 
+    // On load le dernier checkpoint du kart 
     public void MoveKartToCheckpoint(){ 
         kart_manager.instance.SplineFollow.Spline = AiguillageManager.instance.SaveTrajetKart[AiguillageManager.instance.position_trajet];
         kart_manager.instance.SplineFollow.Restart();

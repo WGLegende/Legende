@@ -6,13 +6,11 @@ public class player_foot_step: MonoBehaviour{
 
     CharacterController controller;
 
-    void Awake(){
-
-        controller = GameObject.Find("Player").GetComponent<CharacterController>();   
-    }
     
-        
+    
     IEnumerator Start() {
+
+        controller = player_main.instance.player.GetComponent<CharacterController>(); 
 
         while(true){
 

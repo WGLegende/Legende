@@ -78,7 +78,7 @@ public class player_gamePad_manager : MonoBehaviour
         if(Input.GetKeyDown("i")){
 
             StartCoroutine(ImpactPlayer(force_degat_recul));
-            print("go");
+            print("test impact recul");
         }
     }
 

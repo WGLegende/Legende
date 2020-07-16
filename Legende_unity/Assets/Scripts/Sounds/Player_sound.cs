@@ -11,7 +11,6 @@ public class Player_sound : MonoBehaviour
     public AudioSource marcheAudio;
     public AudioSource kart_audio_rails;
     public AudioSource kart_audio_fx;
-
     public AudioSource music_event_player;
 
     public string TypeSol; // maj par script Player_foot_step
@@ -22,7 +21,7 @@ public class Player_sound : MonoBehaviour
     public AudioClip[] MusicEventPlayer;
    
 
-    void Start(){
+    void Awake(){
         if(instance == null){
             instance = this; 
         }  
@@ -120,6 +119,25 @@ public class Player_sound : MonoBehaviour
     // Stop Son FootStep
     public void StopMove(){
         marcheAudio.clip = null;
+    }
+
+
+     public void FadeOutAndStopEvent(float time_fade){
+        StartCoroutine(FadeOutZicAndStop (time_fade));
+    }
+
+
+    public IEnumerator FadeOutZicAndStop(float FadeTime) {
+
+        float startVolume =  music_event_player.volume;
+       
+        while (music_event_player.volume > 0) {
+
+            music_event_player.volume -= startVolume * Time.deltaTime / FadeTime;
+            yield return null;
+        }
+        music_event_player.Stop();
+        music_event_player.volume = startVolume;
     }
 
     

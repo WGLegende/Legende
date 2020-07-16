@@ -6,12 +6,14 @@ public class tests_manager : MonoBehaviour
 {
     public bool destroyPlayerPrefs;
     public bool player_never_die;
+    public bool test_player_kart;
+    public bool always_vapeur;
+
     public GameObject Player;
     public GameObject Playerkart;
-    public bool test_player_kart;
-    
 
-    void Start() {
+
+    void Start(){
 
        
         if(destroyPlayerPrefs){
@@ -20,11 +22,19 @@ public class tests_manager : MonoBehaviour
         if(player_never_die){
            InvokeRepeating("PlayerInfinityPv",0, 2.0f);
         } 
-          if(test_player_kart){
-               Invoke("switchKart",0.1f);
-           
+
+         if(always_vapeur){
+           InvokeRepeating("AlwaysVapeur",0, 5f);
         } 
+        if(test_player_kart){
+            Invoke("switchKart",0.1f);  
+        } 
+
+        if(Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
+            VapeurBar.instance.fill_vapeur_stock();
+        }
     }
+
 
     void Update(){
 
@@ -40,8 +50,13 @@ public class tests_manager : MonoBehaviour
         player_main.instance.AddPlayerPv(100);
     }
 
+    void AlwaysVapeur(){
+        
+        VapeurBar.instance.fill_vapeur_stock();
+    }
 
-     void switchKart(){
+
+    void switchKart(){
        player_actions.instance.do_action_enter_kart(EnterChariot.instance);
     }
 }

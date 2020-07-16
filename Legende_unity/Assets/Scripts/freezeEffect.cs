@@ -26,8 +26,8 @@ public class freezeEffect : MonoBehaviour
             StartCoroutine(doFreeze()); 
         }
 
-        // Time.timeScale +=  (1f / slowDownFactorLenght) * Time.unscaledDeltaTime;
-        // Time.timeScale = Mathf.Clamp(Time.timeScale, 0f,1f);
+        Time.timeScale +=  (1f / slowDownFactorLenght) * Time.unscaledDeltaTime;
+        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f,1f);
     }
 
     public void Freeze(){

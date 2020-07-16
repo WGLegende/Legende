@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class kart_manager : MonoBehaviour
 {
     public static kart_manager instance;
-    public bool equipement_Bouteille;
-    public bool equipement_Belier;
+    public bool equipement_bouteille;
+    public bool equipement_belier;
     public bool equipement_light;
     public bool equipement_canon;
       
@@ -18,12 +18,12 @@ public class kart_manager : MonoBehaviour
     public float vitesse_maximum;
   
     public Battlehub.MeshDeformer2.SplineFollow SplineFollow;
-    public Battlehub.MeshDeformer2.SplineBase rails_start;
-   
+  
     Transform Chariot_ContainerRotation;
     float angleChariot;
 
     Animation anim;
+    Animator anim_kart;
 
     float valeur_vitesse_basique = 1f; // X = avance, -X = recule, 0 = sur place . X est limité par la valeur_vitesse_basique_max ci dessous
     public float valeur_vitesse_basique_max = 1f; // 1 = avance, -1 = recule, 0 = sur place
@@ -63,8 +63,15 @@ public class kart_manager : MonoBehaviour
     public AudioSource audio_kart;
     public AudioClip[] clip_fx;
 
+    public ParticleSystem impact_left;
+    public Rigidbody rb;
 
+    public  float reverse_pad = 1f;
+    public bool kart_is_reverse;
+    [HideInInspector] public BoxCollider collider_enter_chariot;
 
+    float turnKart;
+  
 
     void Start(){
 
@@ -72,6 +79,7 @@ public class kart_manager : MonoBehaviour
             instance = this;
         }   
         anim = gameObject.GetComponent<Animation>(); // Pour le Saut
+        anim_kart = GetComponent<Animator>();
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
         chariot_siege = GameObject.Find("chariot_siege_container").GetComponent<Transform>();
@@ -80,8 +88,40 @@ public class kart_manager : MonoBehaviour
         audio_sparkle = GameObject.Find("SoundFx_etincelle").GetComponent<AudioSource>();
         audio_vapeur = GameObject.Find("SoundFx_vapeur").GetComponent<AudioSource>();
         audio_kart = GameObject.Find("SoundFx").GetComponent<AudioSource>();
+        rb = player_main.instance.kart.GetComponent<Rigidbody>();
 
+        frein_auto = true;
+
+        collider_enter_chariot = GameObject.Find("Chariot_Container").GetComponent<BoxCollider>();
         StartCoroutine(refreshSpeedUI());
+
+        StartCoroutine(checkRotationKart());
+    }
+
+    IEnumerator checkRotationKart(){
+
+        while(true){
+
+            float angle_rotation = turnKart;
+            
+            yield return new WaitForSeconds(0.1f);
+
+                if(angle_rotation - turnKart < (-10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
+                    anim_kart.SetBool("turn_right",true);
+                }
+                else{
+                    anim_kart.SetBool("turn_right",false);
+                }
+
+                
+                if( angle_rotation - turnKart > (10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
+                    anim_kart.SetBool("turn_left",true);
+                }
+                else{
+                    anim_kart.SetBool("turn_left",false);
+                }
+            yield return new WaitForSeconds(0.02f);
+        }
     }
 
 
@@ -108,13 +148,13 @@ public class kart_manager : MonoBehaviour
     // Gestion de la vitesse basique avec le joystick
     public void calcul_vitesse_basique(float left_stick_y){
       
-        if (left_stick_y > 0 && canMoveAvance){ // Avance
+        if (reverse_pad * left_stick_y > 0 && canMoveAvance){ // Avance
             valeur_vitesse_basique = valeur_vitesse_basique_max;
             if(!SplineFollow.IsRunning){
                 SplineFollow.IsRunning = true;
             }
 
-        }else if (left_stick_y < 0 && canMoveRecul){ // Recul
+        }else if (reverse_pad * left_stick_y < 0 && canMoveRecul){ // Recul
             valeur_vitesse_basique = -valeur_vitesse_basique_max;
               if(!SplineFollow.IsRunning){
                 SplineFollow.IsRunning = true;
@@ -129,19 +169,19 @@ public class kart_manager : MonoBehaviour
 
     // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
     public void boost(bool boosting){
-        if (boosting && VapeurBar.instance.useVapeur(0.05f) && canMoveRecul && canMoveAvance){
+        if (boosting && VapeurBar.instance.useVapeur(0.05f) && equipement_bouteille && canMoveRecul && canMoveAvance ){
             if(!audio_vapeur.isPlaying){
                 audio_vapeur.Play();
             }
 
-            if(valeur_vitesse_basique > 0){
-                valeur_boost = valeur_boost_max;
+            if(valeur_vitesse_basique * reverse_pad > 0){
+                valeur_boost = valeur_boost_max * reverse_pad;
                 if(!particle_vapeur_back.isPlaying){
                     particle_vapeur_front.Stop();
                     particle_vapeur_back.Play();
                 }
             }else {
-                valeur_boost = -valeur_boost_max;
+                valeur_boost = -valeur_boost_max * reverse_pad;
                 if(!particle_vapeur_front.isPlaying){
                     particle_vapeur_back.Stop();
                     particle_vapeur_front.Play();
@@ -160,7 +200,7 @@ public class kart_manager : MonoBehaviour
         if(VapeurBar.instance.useVapeur(10f)){ // Jump 
             anim.Play("JumpChariot");
             particle_vapeur_under.Play();
-             audio_kart.clip = clip_fx[1];
+            audio_kart.clip = clip_fx[1];
             audio_kart.Play();
         }
     }
@@ -193,11 +233,16 @@ public class kart_manager : MonoBehaviour
         angleChariot = Chariot_ContainerRotation.localEulerAngles.x;
         angleChariot = angleChariot > 180 ? angleChariot - 360 : angleChariot;
         angleChariot = Mathf.Round(angleChariot * 100f) / 100f;
+
+        turnKart = Chariot_ContainerRotation.localEulerAngles.y;
+        turnKart = turnKart > 180 ? turnKart - 360 : turnKart;
+        turnKart = Mathf.Round(turnKart * 100f) / 100f;
+
+
       
         vitesse_demandee = angleChariot + valeur_vitesse_basique + valeur_boost;
 
         // Vérifie si on doit accélèrer OU décélere
-        
         vitesse_actuelle += vitesse_actuelle < vitesse_demandee ? 
                                     Time.deltaTime* velocity_chariot : 
                                    -(Time.deltaTime* velocity_chariot);
@@ -213,12 +258,12 @@ public class kart_manager : MonoBehaviour
         
 
         
-        if(!frein_auto && (vitesse_actuelle > 0.5 || vitesse_actuelle < -0.5)){
+        if(!frein_auto && (vitesse_actuelle > 0.8 || vitesse_actuelle < -0.8)){
             SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
-            Player_sound.instance.PlayKart(Mathf.Abs(vitesse_actuelle));// Gestion du son 
+            Player_sound.instance.PlayKart(Mathf.Abs(SplineFollow.Speed));// Gestion du son rails
          }else{
             SplineFollow.Speed = 0f;
-            Player_sound.instance.StopKart();// Gestion du son 
+            Player_sound.instance.StopKart();// Gestion du son rails
         }
        
         // Gestion aiguillage
@@ -235,27 +280,10 @@ public class kart_manager : MonoBehaviour
 
     void Update(){
 
-        if(Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
-            VapeurBar.instance.fill_vapeur_stock();
-        }
-
-         if(Input.GetKeyDown("a")){   // Rempli la jauge vapeur TRICHE todo
-
-           GameObject kart = GameObject.Find("kart"); 
-           Rigidbody rb = kart.GetComponent<Rigidbody>();
-            
-            rb.isKinematic = false;
-            rb.useGravity = true;
-            rb.mass = 0.05f;
-            rb.AddForce(Vector3.back,ForceMode.Impulse);
-            kart_manager.instance.canMoveRecul = false;
-            kart_manager.instance.canMoveAvance = false;
-        }
-
         speed_and_move();
        
         //Gestion des etincelles
-        if(vitesse_actuelle >= 20){
+        if(vitesse_actuelle * reverse_pad >= 20){
             particle_etincelle_left_back.Play();
             particle_etincelle_right_back.Play();
             particle_etincelle_left_front.Stop();
@@ -263,7 +291,8 @@ public class kart_manager : MonoBehaviour
             if(!audio_sparkle.isPlaying){
                 audio_sparkle.Play();
             }
-         }else if (vitesse_actuelle < -20){
+        }
+        else if (vitesse_actuelle * reverse_pad < -20){
             particle_etincelle_left_back.Stop();
             particle_etincelle_right_back.Stop();
             particle_etincelle_left_front.Play();
@@ -271,7 +300,9 @@ public class kart_manager : MonoBehaviour
             if(!audio_sparkle.isPlaying){
                 audio_sparkle.Play();
             }
-        }else{
+        }
+        
+        else{
             particle_etincelle_left_front.Stop();
             particle_etincelle_right_front.Stop();
             particle_etincelle_left_back.Stop();
@@ -290,43 +321,65 @@ public class kart_manager : MonoBehaviour
 
     void OnTriggerEnter(Collider collider){
 
-        if(collider.gameObject.tag == "CollisionRails" && !equipement_Belier){ 
-           SplineFollow.IsRunning =false;
-           canMoveAvance = false;
-        //collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
+        if(collider.gameObject.tag == "CollisionRails" && !equipement_belier){ 
+            SplineFollow.IsRunning = false ;
+            canMoveAvance = false;
+            //collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
         }
 
         if(collider.gameObject.tag == "collision_lateral_left"){
 
-            Rigidbody rb = GameObject.Find("kart").GetComponent<Rigidbody>();
+            anim_kart.enabled = false;
+            impact_left.Play();
+            audio_kart.clip = clip_fx[3];
+            audio_kart.Play();
+            Camera_control.instance.cam_crash.Priority = 12;
             rb.isKinematic = false;
             rb.useGravity = true;
             rb.mass = 0.05f;
             rb.AddForce(Vector3.back,ForceMode.Impulse);
             kart_manager.instance.canMoveRecul = false;
             kart_manager.instance.canMoveAvance = false;
+            Invoke("repositionkart",2f);
         }
 
-         if(collider.gameObject.tag == "collision_lateral_right"){
+        if(collider.gameObject.tag == "collision_lateral_right"){
 
-            Rigidbody rb = GameObject.Find("kart").GetComponent<Rigidbody>();
             rb.isKinematic = false;
             rb.useGravity = true;
             rb.mass = 0.05f;
             rb.AddForce(-Vector3.back,ForceMode.Impulse);
             kart_manager.instance.canMoveRecul = false;
             kart_manager.instance.canMoveAvance = false;
+            Invoke("repositionkart",2f);
         }
     }
 
     void OnTriggerStay(Collider collider){
 
     }
+
+    
     void OnTriggerExit(Collider collider){
         if(collider.gameObject.tag == "CollisionRails"){ 
            canMoveAvance = true;
        
         }
+    }
+
+    void repositionkart(){
+
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        anim_kart.enabled = true;
+        level_main.instance.MoveKartToCheckpoint();
+        Camera_control.instance.cam_crash.Priority = 8;
+
+    }
+
+    void endAnimRotation(){ // on reactive le collider aprs la rotation du kart pour monter dedans
+
+        collider_enter_chariot.enabled = true;
     }
 
 

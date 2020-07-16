@@ -10,6 +10,8 @@ public class Camera_control : MonoBehaviour
     public CinemachineFreeLook player_camera;
     public CinemachineFreeLook player_kart_camera;
     public CinemachineFreeLook current_camera;
+    public CinemachineVirtualCamera cam_crash;
+    public CinemachineVirtualCamera cam_ame;
     GameObject player;
     CharacterController player_controller;
     
@@ -29,10 +31,25 @@ public class Camera_control : MonoBehaviour
             instance = this; 
         }  
 
+        player =  player_main.instance.player;
+        player_controller = player_main.instance.player.GetComponent<CharacterController>();
         player_camera = GameObject.Find("PlayerCameraController").GetComponent<CinemachineFreeLook>();
-        player_kart_camera = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();
-        player_controller = GameObject.Find("Player").GetComponent<CharacterController>();
-        player = GameObject.Find("Player");
+        player_camera.LookAt = player_main.instance.player.GetComponent<Transform>();
+        player_camera.Follow = player_main.instance.player.GetComponent<Transform>();
+
+        cam_ame = GameObject.Find("cam_navy").GetComponent<CinemachineVirtualCamera>();
+
+
+        if(player_main.instance.playerKart != null){
+
+            player_kart_camera = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();
+            player_kart_camera.LookAt = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
+            player_kart_camera.Follow = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
+            cam_crash = GameObject.Find("cam_crash").GetComponent<CinemachineVirtualCamera>();
+         }else{
+            Debug.Log("Glisser le playerKart dans le script player_main !");
+        }
+
 
         if(activate_earthquake_effect){
             StartCoroutine(start_earthquake());
@@ -65,7 +82,6 @@ public class Camera_control : MonoBehaviour
             float _duree_max = Random.Range(1,duree_max);
             float _force_max = Random.Range(0.5f,force_max);
             float _cycle = Random.Range(frequence_min,frequence_max);
-
             StartCoroutine(shake_camera(_duree_max,_force_max));
             yield return new WaitForSeconds(_cycle);
         }  
@@ -79,6 +95,8 @@ public class Camera_control : MonoBehaviour
         float elapsed = 0.0f;
         float value = 0f;
 
+        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[2]); 
+
         // fade in de la force
         while(value < magnitude){
             for(int i = 0; i < 3; i++){
@@ -87,17 +105,18 @@ public class Camera_control : MonoBehaviour
             value += Time.deltaTime;
             yield return null;
         } 
+      
         // duree de l'effet
-        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[2]); 
-
         while(elapsed < duration){
             for(int i = 0; i < 3; i++){
                 current_camera.GetRig(i).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = magnitude; 
             }
             elapsed += Time.deltaTime;
-            player_controller.Move(Vector3.up * Time.deltaTime * 6f);
+            player_controller.Move(Vector3.up * Time.deltaTime * 6f);  // on fait sauter le player
             yield return null;
         } 
+
+        Player_sound.instance.FadeOutAndStopEvent(3f);
         // fade out de la force
         while(magnitude > 0){
             for(int i = 0; i < 3; i++){
@@ -111,5 +130,5 @@ public class Camera_control : MonoBehaviour
             current_camera.GetRig(i).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f; 
         }
     }
-     
+ 
 }

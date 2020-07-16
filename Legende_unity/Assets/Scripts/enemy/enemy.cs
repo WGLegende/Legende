@@ -322,7 +322,7 @@ public class enemy : MonoBehaviour
     //degat inflige a enemy
     public void DegatEnemy(){
 
-            currentPv -= 5; // a adapter
+            currentPv -= 5; // a adapter todo
            // StartCoroutine(ImpactEnemyRecul(5));
 
         if (currentPv > 0){
