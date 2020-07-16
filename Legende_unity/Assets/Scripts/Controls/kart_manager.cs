@@ -22,7 +22,6 @@ public class kart_manager : MonoBehaviour
     Transform Chariot_ContainerRotation;
     float angleChariot;
 
-    Animation anim;
     Animator anim_kart;
 
     float valeur_vitesse_basique = 1f; // X = avance, -X = recule, 0 = sur place . X est limité par la valeur_vitesse_basique_max ci dessous
@@ -78,7 +77,7 @@ public class kart_manager : MonoBehaviour
         if(instance == null){
             instance = this;
         }   
-        anim = gameObject.GetComponent<Animation>(); // Pour le Saut
+
         anim_kart = GetComponent<Animator>();
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
@@ -95,10 +94,10 @@ public class kart_manager : MonoBehaviour
         collider_enter_chariot = GameObject.Find("Chariot_Container").GetComponent<BoxCollider>();
         StartCoroutine(refreshSpeedUI());
 
-        StartCoroutine(checkRotationKart());
+       StartCoroutine(checkVirageKart());
     }
 
-    IEnumerator checkRotationKart(){
+    IEnumerator checkVirageKart(){
 
         while(true){
 
@@ -109,17 +108,14 @@ public class kart_manager : MonoBehaviour
                 if(angle_rotation - turnKart < (-10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
                     anim_kart.SetBool("turn_right",true);
                 }
-                else{
-                    anim_kart.SetBool("turn_right",false);
-                }
-
-                
-                if( angle_rotation - turnKart > (10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
+                else if(angle_rotation - turnKart > (10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
                     anim_kart.SetBool("turn_left",true);
                 }
-                else{
+                else if((angle_rotation - turnKart) > -10 && (angle_rotation - turnKart < 10)){
+                    anim_kart.SetBool("turn_right",false);
                     anim_kart.SetBool("turn_left",false);
                 }
+
             yield return new WaitForSeconds(0.02f);
         }
     }
@@ -198,7 +194,7 @@ public class kart_manager : MonoBehaviour
     // Gestion du saut du kart
     public void kart_jump(){
         if(VapeurBar.instance.useVapeur(10f)){ // Jump 
-            anim.Play("JumpChariot");
+            anim_kart.SetTrigger("jump");
             particle_vapeur_under.Play();
             audio_kart.clip = clip_fx[1];
             audio_kart.Play();
