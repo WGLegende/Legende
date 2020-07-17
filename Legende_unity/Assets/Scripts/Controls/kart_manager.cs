@@ -69,7 +69,8 @@ public class kart_manager : MonoBehaviour
     public bool kart_is_reverse;
     [HideInInspector] public BoxCollider collider_enter_chariot;
 
-    float turnKart;
+    public float turnKart;
+    public float angle_rotation_Y;
   
 
     void Start(){
@@ -101,17 +102,17 @@ public class kart_manager : MonoBehaviour
 
         while(true){
 
-            float angle_rotation = turnKart;
+            angle_rotation_Y = turnKart;
             
             yield return new WaitForSeconds(0.1f);
-
-                if(angle_rotation - turnKart < (-10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
+                
+                if(angle_rotation_Y - turnKart < (-10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
                     anim_kart.SetBool("turn_right",true);
                 }
-                else if(angle_rotation - turnKart > (10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
+                else if(angle_rotation_Y - turnKart > (10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
                     anim_kart.SetBool("turn_left",true);
                 }
-                else if((angle_rotation - turnKart) > -10 && (angle_rotation - turnKart < 10)){
+                else if((angle_rotation_Y - turnKart) > -10 && (angle_rotation_Y - turnKart < 10)){
                     anim_kart.SetBool("turn_right",false);
                     anim_kart.SetBool("turn_left",false);
                 }

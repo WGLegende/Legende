@@ -23,7 +23,7 @@ public static ame_player instance;
 
     bool animTextRunning;
     float speed_anim_text = 0.04f;
-    int countChar = 0;
+    
 
 
     public string[] text_switch_no_vapeur_elevator = new string[]  {"Cette ascenseur fonctionne à la vapeur.",
@@ -103,7 +103,7 @@ public static ame_player instance;
     // declenche par gamepad manager bouton A
     public void nextTextNavySpeak(){ 
 
-        if(animTextRunning){ // si on reappuie on accelere
+        if(animTextRunning){ // si on reappuie on accelere le text
            speed_anim_text = 0.01f;
            return;
         }
@@ -126,8 +126,7 @@ public static ame_player instance;
     IEnumerator AnimateText(){
 
         animTextRunning = true;
-        countChar = 0;
-
+      
         foreach(char c in text_de_navy_container[id_text]){
             text_navy_UI.text += c;
             yield return new WaitForSeconds(speed_anim_text);

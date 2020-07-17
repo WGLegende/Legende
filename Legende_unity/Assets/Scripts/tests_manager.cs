@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+using UnityEngine.UI;
 
 public class tests_manager : MonoBehaviour
 {
@@ -12,10 +14,16 @@ public class tests_manager : MonoBehaviour
     public GameObject Player;
     public GameObject Playerkart;
 
+    public CinemachineVirtualCamera testCamKart;
+
+    public Text debugText4;
+    public Text debugText5;
+    public Text debugText6;
+    public Text debugText7;
+
 
     void Start(){
 
-       
         if(destroyPlayerPrefs){
             PlayerPrefs.DeleteAll();
         }
@@ -33,6 +41,8 @@ public class tests_manager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
             VapeurBar.instance.fill_vapeur_stock();
         }
+
+        StartCoroutine(angleYkart());
     }
 
 
@@ -42,6 +52,21 @@ public class tests_manager : MonoBehaviour
             foreach(enemy enemy in enemy_manager.instance.mesEnemyList){
                 enemy.current_comportement = enemy_manager.comportement.dead;
             }
+        }
+        if(Input.GetKeyDown("c")){  
+            if(testCamKart.Priority < 12){
+                testCamKart.Priority = 12;
+            }else
+                testCamKart.Priority = 6;
+        }
+
+    }
+
+    IEnumerator angleYkart(){
+
+        while(true){
+        debugText4.text = "angle_Y_kart :"+ Mathf.Abs(kart_manager.instance.angle_rotation_Y - kart_manager.instance.turnKart).ToString("f0");    
+        yield return new WaitForSeconds(0.2f);
         }
     }
 
