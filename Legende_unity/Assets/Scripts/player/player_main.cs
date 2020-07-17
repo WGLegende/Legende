@@ -128,9 +128,9 @@ public class player_main : MonoBehaviour
 
         timeInAir = controller.isGrounded ? timeInAir = 0f : timeInAir += Time.deltaTime;
 
-        if(timeInAir > 0.3f){ // todo test anim lorsque player quitte le sol sans sauter
-            anim.SetBool("Grounded", false);
-            Player_sound.instance.StopMove(); // Sound Player
+        if(timeInAir > 0.7f){ // todo test anim lorsque player quitte le sol sans sauter
+          // anim.SetTrigger("is_falling");
+           Player_sound.instance.StopMove(); // Sound Player
         }
 
         if (timeInAir >= deathTimer){

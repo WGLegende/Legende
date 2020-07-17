@@ -196,8 +196,7 @@ public class kart_manager : MonoBehaviour
         if(VapeurBar.instance.useVapeur(10f)){ // Jump 
             anim_kart.SetTrigger("jump");
             particle_vapeur_under.Play();
-            audio_kart.clip = clip_fx[1];
-            audio_kart.Play();
+            audio_kart.PlayOneShot(clip_fx[1]);
         }
     }
 
@@ -209,8 +208,7 @@ public class kart_manager : MonoBehaviour
             bullet.shoot(CanonContainer);
             VapeurBar.instance.useVapeur(1f);  // consommation de vapeur
             StockBullet.instance.update_stock_bullet(-1); // maj du stock bullet
-            audio_kart.clip = clip_fx[2];
-            audio_kart.Play();
+            audio_kart.PlayOneShot(clip_fx[2]);
         }
     }
 
@@ -219,8 +217,7 @@ public class kart_manager : MonoBehaviour
         if (equipement_light){  
             toggle_light_chariot = !toggle_light_chariot;
             light_chariot.enabled = toggle_light_chariot; 
-            audio_kart.clip = clip_fx[0];
-            audio_kart.Play();
+            audio_kart.PlayOneShot(clip_fx[0]);
         }
     }
 

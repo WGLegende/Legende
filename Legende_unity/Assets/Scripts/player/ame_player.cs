@@ -11,6 +11,7 @@ public static ame_player instance;
     
    CinemachineDollyCart dollyCart;
    ParticleSystem ame_particule;
+   ParticleSystem.MainModule psmain;
 
    [HideInInspector] public GameObject navy_panel;
    [HideInInspector] public Animator panel_navy_anim;
@@ -19,8 +20,10 @@ public static ame_player instance;
 
     [HideInInspector] public string[] text_de_navy_container;
     [HideInInspector] public int id_text;
+
     bool animTextRunning;
     float speed_anim_text = 0.04f;
+    int countChar = 0;
 
 
     public string[] text_switch_no_vapeur_elevator = new string[]  {"Cette ascenseur fonctionne à la vapeur.",
@@ -42,6 +45,25 @@ public static ame_player instance;
         panel_navy_anim = navy_panel.GetComponent<Animator>();
         text_navy_UI = GameObject.Find("text_navy_panel").GetComponent<Text>();
         text_button_navy_UI = GameObject.Find("text_button_navy").GetComponent<Text>();
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown("y")){
+
+            string dialog = "       ";
+            int i=0;
+
+           
+            foreach(char c in dialog){
+
+                i++;
+            }
+            print("nbr char = "+(i));
+
+           
+        }
+        
     }
 
 
@@ -104,6 +126,7 @@ public static ame_player instance;
     IEnumerator AnimateText(){
 
         animTextRunning = true;
+        countChar = 0;
 
         foreach(char c in text_de_navy_container[id_text]){
             text_navy_UI.text += c;
@@ -125,10 +148,22 @@ public static ame_player instance;
         Camera_control.instance.cam_ame.Priority = 8;
         yield return new WaitForSeconds(0.7f);
         player_gamePad_manager.instance.PlayerCanMove(true);   
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         dollyCart.m_Position = 0f;
         dollyCart.m_Speed = -30f;
-        ame_particule.Stop(); 
+    }
+
+    IEnumerator NavyTalk(){
+
+        psmain = ame_particule.main;
+           psmain.startSize = new ParticleSystem.MinMaxCurve(10f, 12f);
+         
+        while(true){
+
+          
+
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
            
