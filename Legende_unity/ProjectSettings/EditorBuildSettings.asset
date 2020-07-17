@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SceneVR.unity
-    guid: 137e0ef34d53aec49a817b3a03feb93b
+    path: Assets/Scenes/mine_des_laves/mine_des_laves.unity
+    guid: c1c649805cbb04f428fd354506bc9567
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: d2b3eaec694f7534a9d5c9626571a396,
       type: 2}

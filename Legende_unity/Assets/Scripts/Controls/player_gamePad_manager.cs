@@ -123,9 +123,8 @@ public class player_gamePad_manager : MonoBehaviour
             float targetAngle  = Mathf.Atan2(direction.x, direction.z)* Mathf.Rad2Deg + cam.eulerAngles.y;
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
-
-
-            // Deplacement XY sans rotation
+        
+            // Animations Deplacement XY sans rotation
             if(lockTarget.instance.target_lock){
 
                 Player_Animator.SetFloat("SpeedMove", left_stick_y);
@@ -162,6 +161,7 @@ public class player_gamePad_manager : MonoBehaviour
         if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canJump){
             hasJump = true;
             Player_Animator.SetBool("Grounded", false);
+             Player_Animator.SetTrigger("jump"); // test
             Player_Animator.SetBool("initiate_jump", true); 
             Player_sound.instance.StopMove(); // Sound Player
         }

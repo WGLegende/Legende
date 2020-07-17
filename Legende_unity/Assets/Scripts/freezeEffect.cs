@@ -19,16 +19,16 @@ public class freezeEffect : MonoBehaviour
     }
 
    
-    void Update()
-    {
-        if(pending_duration > 0 && !is_frozen){
+    // void Update()
+    // {
+    //     if(pending_duration > 0 && !is_frozen){
 
-            StartCoroutine(doFreeze()); 
-        }
+    //         StartCoroutine(doFreeze()); 
+    //     }
 
-        Time.timeScale +=  (1f / slowDownFactorLenght) * Time.unscaledDeltaTime;
-        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f,1f);
-    }
+    //     Time.timeScale +=  (1f / slowDownFactorLenght) * Time.unscaledDeltaTime;
+    //     Time.timeScale = Mathf.Clamp(Time.timeScale, 0f,1f);
+    // }
 
     public void Freeze(){
 
