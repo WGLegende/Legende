@@ -10,6 +10,7 @@ public class tests_manager : MonoBehaviour
     public bool player_never_die;
     public bool test_player_kart;
     public bool always_vapeur;
+    public bool EarthQuakeEffect;
 
     public GameObject Player;
     public GameObject Playerkart;
@@ -41,8 +42,11 @@ public class tests_manager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
             VapeurBar.instance.fill_vapeur_stock();
         }
+        if(EarthQuakeEffect){
+            StartCoroutine(Camera_control.instance.start_earthquake());
+        }
 
-        StartCoroutine(angleYkart());
+        StartCoroutine(angleYkart());   
     }
 
 
@@ -53,35 +57,46 @@ public class tests_manager : MonoBehaviour
                 enemy.current_comportement = enemy_manager.comportement.dead;
             }
         }
-        if(Input.GetKeyDown("c")){  
-            if(testCamKart.Priority < 12){
-                testCamKart.Priority = 12;
-            }else
-                testCamKart.Priority = 6;
+        if(Input.GetKeyDown("c")){  // test cam Auto kart
+            if(testCamKart.Priority < 15){
+                testCamKart.Priority = 15;
+            }
+            else{
+                testCamKart.Priority = 0;
+            }
+        }
+
+         if(kart_manager.instance.danger_kart){
+            debugText5.color = Color.yellow;
+            debugText5.text = "DANGER !";
+        }else{
+            debugText5.text = "";
         }
 
     }
 
-    IEnumerator angleYkart(){
+    IEnumerator angleYkart(){ // angle turn kart
+
+        yield return new WaitForSeconds(0.2f);
 
         while(true){
-        debugText4.text = "angle_Y_kart :"+ Mathf.Abs(kart_manager.instance.angle_rotation_Y - kart_manager.instance.turnKart).ToString("f0");    
+        debugText4.text = "angle_Y_kart :"+ Mathf.Abs(kart_manager.instance.angle_rotation_Y).ToString("f0");    
         yield return new WaitForSeconds(0.2f);
         }
     }
+
 
 
     void PlayerInfinityPv(){
         player_main.instance.AddPlayerPv(100);
     }
 
-    void AlwaysVapeur(){
-        
+    void AlwaysVapeur(){  
         VapeurBar.instance.fill_vapeur_stock();
     }
-
 
     void switchKart(){
        player_actions.instance.do_action_enter_kart(EnterChariot.instance);
     }
+
 }

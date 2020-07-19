@@ -172,8 +172,7 @@ public class player_actions : MonoBehaviour
 
         Player_sound.instance.StopMove();
 
-        Camera_control.instance.player_kart_camera.m_XAxis.Value = 0f;// recentre la cam
-        Camera_control.instance.player_kart_camera.m_YAxis.Value = 0.3f;
+        Camera_control.instance.CameraBehindKart();
         Camera_control.instance.player_kart_camera.Priority = 11;
 
         player_gamePad_manager.instance.PlayerCanMove(false);

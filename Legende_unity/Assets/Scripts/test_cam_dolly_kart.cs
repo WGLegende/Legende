@@ -9,6 +9,7 @@ public class test_cam_dolly_kart : MonoBehaviour
     CinemachineVirtualCamera cinemachine;
     CinemachineTrackedDolly dolly;
     public bool switchCamAuto_manuel;
+    bool haschange;
    
     void Start(){
         cinemachine = GetComponent<CinemachineVirtualCamera>();

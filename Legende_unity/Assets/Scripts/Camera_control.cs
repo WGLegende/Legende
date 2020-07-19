@@ -66,6 +66,16 @@ public class Camera_control : MonoBehaviour
         }
     }
 
+    public IEnumerator CameraBehindKart(){
+        
+        player_kart_camera.m_RecenterToTargetHeading.m_enabled = true;
+        player_kart_camera.m_YAxisRecentering.m_enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        player_kart_camera.m_RecenterToTargetHeading.m_enabled = false;
+        player_kart_camera.m_YAxisRecentering.m_enabled = false;
+        yield return null;
+    }
+
     public IEnumerator RecenterCamera(){ 
         player_camera.m_RecenterToTargetHeading.m_enabled = true;
         player_camera.m_YAxisRecentering.m_enabled = true;
@@ -80,7 +90,7 @@ public class Camera_control : MonoBehaviour
     public IEnumerator start_earthquake(){
 
         while(true){
-
+            
             float _duree_max = Random.Range(1,duree_max);
             float _force_max = Random.Range(0.5f,force_max);
             float _cycle = Random.Range(frequence_min,frequence_max);

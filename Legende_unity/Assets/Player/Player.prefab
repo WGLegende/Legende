@@ -11156,6 +11156,7 @@ GameObject:
   - component: {fileID: 3439678544666011948}
   - component: {fileID: 3439678544666011949}
   - component: {fileID: 3439678544666011950}
+  - component: {fileID: 80144160}
   m_Layer: 0
   m_Name: ame
   m_TagString: Untagged
@@ -15901,6 +15902,25 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!95 &80144160
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3439678544666011951}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9c0c97dd9fc580544a4c6517d2e946d5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3439678544977182556
 GameObject:
   m_ObjectHideFlags: 0
@@ -16016,7 +16036,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -16865,7 +16885,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.7410072
+          value: 0.77177656
           inSlope: -0.0000004443255
           outSlope: -0.0000004443255
           tangentMode: 0
@@ -26168,15 +26188,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f0d7a0f7d525454eb522dc56efe605d, type: 3}
---- !u!4 &2607180689588110672 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 429248, guid: 3f0d7a0f7d525454eb522dc56efe605d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2607180689588537744}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2607180689588574818 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 103410, guid: 3f0d7a0f7d525454eb522dc56efe605d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2607180689588537744}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2607180689588110672 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 429248, guid: 3f0d7a0f7d525454eb522dc56efe605d,
     type: 3}
   m_PrefabInstance: {fileID: 2607180689588537744}
   m_PrefabAsset: {fileID: 0}

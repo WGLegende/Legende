@@ -104,7 +104,7 @@ public static ame_player instance;
     public void nextTextNavySpeak(){ 
 
         if(animTextRunning){ // si on reappuie on accelere le text
-           speed_anim_text = 0.01f;
+           speed_anim_text = 0.005f;
            return;
         }
 
@@ -142,6 +142,7 @@ public static ame_player instance;
 
         player_actions.instance.clear_action(true);
         ame_particule.Stop(); 
+        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[4]); 
         panel_navy_anim.SetBool("show_navy_ui",false);
         yield return new WaitForSeconds(0.5f);
         Camera_control.instance.cam_ame.Priority = 8;
@@ -152,20 +153,4 @@ public static ame_player instance;
         dollyCart.m_Speed = -30f;
     }
 
-    IEnumerator NavyTalk(){
-
-        psmain = ame_particule.main;
-           psmain.startSize = new ParticleSystem.MinMaxCurve(10f, 12f);
-         
-        while(true){
-
-          
-
-            yield return new WaitForSeconds(0.2f);
-        }
-    }
-
-           
-        
-    
 }

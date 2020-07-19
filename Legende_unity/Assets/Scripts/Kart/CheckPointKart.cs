@@ -8,10 +8,8 @@ public class CheckPointKart : MonoBehaviour
     public static CheckPointKart instance;
 
     ParticleSystem particule;
-   
     bool justOnce;
-   // public float save_positon_kart;
-    
+
     void Start(){
         
         instance = this;
@@ -25,9 +23,10 @@ public class CheckPointKart : MonoBehaviour
 
             if(!justOnce){
 
-                particule.startColor = Color.green;
+                ParticleSystem.MainModule psmain;
+                psmain = particule.main;
+                psmain.startColor = Color.green;
                 justOnce = true; 
-               // save_positon_kart = kart_manager.instance.SplineFollow.T;
                 level_main.instance.CheckpointSavePositionKart(kart_manager.instance.SplineFollow.T);
             }   
         }   

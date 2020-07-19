@@ -60,8 +60,8 @@ public class aiguillage_kart : MonoBehaviour{
                     StartCoroutine(moveParticuleView(particule_container,view_right_rails.transform.position, 0.4f));
                 }
           
-            if(!AiguillageManager.instance.SaveTrajetKart.Contains(rails)){ // on save d'ou on vient
-                AiguillageManager.instance.SaveTrajetKart.Add(rails); 
+            if(!AiguillageManager.instance.List_spline_rails.Contains(rails)){ // on save d'ou on vient
+                AiguillageManager.instance.List_spline_rails.Add(rails); 
             }
         }   
     }
