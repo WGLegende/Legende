@@ -61,7 +61,7 @@ public class Camera_control : MonoBehaviour
 
 
     public void CameraBehindPlayer(){
-        if( hinput.anyGamepad.rightStick.position.x == 0 &&  hinput.anyGamepad.rightStick.position.y == 0){ // si pas de rotation camera avec joystick, on recentre
+        if(Hinput.anyGamepad.rightStick.position.x == 0 &&  Hinput.anyGamepad.rightStick.position.y == 0){ // si pas de rotation camera avec joystick, on recentre
             StartCoroutine(RecenterCamera());
         }
     }

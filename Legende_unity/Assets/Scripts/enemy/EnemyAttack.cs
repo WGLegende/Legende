@@ -218,7 +218,7 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(1f); // le temps de se tourner (anim)
         
         anim.SetBool("attack3",true);
-        hinput.gamepad[0].VibrateAdvanced(0.4f, 0.4f);
+        Hinput.gamepad[0].VibrateAdvanced(0.4f, 0.4f);
         particule_attackSpecial.Play();
 
          
@@ -262,7 +262,7 @@ public class EnemyAttack : MonoBehaviour
         StopCoroutine("aspirePlayer");
        // StopCoroutine("timerAspiration");  
         attack_special_is_active = false;
-        hinput.gamepad[0].StopVibration();
+        Hinput.gamepad[0].StopVibration();
     }
 
 
