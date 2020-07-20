@@ -77,7 +77,7 @@ public class player_main : MonoBehaviour
                 
                 StartCoroutine(playerDie());  
                 playerIsAlive = false;   
-                hinput.gamepad[0].StopVibration();       
+                Hinput.gamepad[0].StopVibration();       
             }
         }
     }

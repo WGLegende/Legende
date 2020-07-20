@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         if (!CanMove)
             return;
 
-        if(hinput.anyGamepad.A.justPressed || Input.GetKeyDown("e"))
+        if(Hinput.anyGamepad.A.justPressed || Input.GetKeyDown("e"))
         {
             FluentManager.Instance.ExecuteClosestAction(gameObject);
         }

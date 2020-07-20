@@ -37,7 +37,7 @@ public class lockTarget : MonoBehaviour
   
     public void ChangeTarget(){
 
-        if(hinput.anyGamepad.rightTrigger.justPressed){
+        if(Hinput.anyGamepad.rightTrigger.justPressed){
 
             if(TargetLock != null){
 

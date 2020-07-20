@@ -108,7 +108,7 @@ public class PlayerGamePad : MonoBehaviour
         // stick.y -1 = down
         // stick.y 1 = up
 
-        if(hinput.anyGamepad.A.justPressed){
+        if(Hinput.anyGamepad.A.justPressed){
                     Debug.Log("Test A");
          }
 
