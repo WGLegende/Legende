@@ -97,7 +97,7 @@ public class kart_manager : MonoBehaviour
         collider_enter_chariot = GameObject.Find("Chariot_Container").GetComponent<BoxCollider>();
         StartCoroutine(refreshSpeedUI());
 
-       StartCoroutine(checkVirageKart());
+        //StartCoroutine(checkVirageKart());
     }
 
     IEnumerator checkVirageKart(){
@@ -110,12 +110,12 @@ public class kart_manager : MonoBehaviour
 
                 angle_rotation_Y = turnKart_bis - turnKart;
                 
-                if(angle_rotation_Y  < -10 * reverse_pad && Mathf.Abs(SplineFollow.Speed) >= 20){
+                if(angle_rotation_Y  < -10  && Mathf.Abs(SplineFollow.Speed) >= 20){
                     anim_kart.SetBool("turn_right",true);
                     particle_etincelle_right_back.Stop();
                     particle_etincelle_right_front.Stop();
                 }
-                else if(angle_rotation_Y > 10 * reverse_pad && Mathf.Abs(SplineFollow.Speed) >= 20){
+                else if(angle_rotation_Y > 10  && Mathf.Abs(SplineFollow.Speed) >= 20){
                     anim_kart.SetBool("turn_left",true);
                      particle_etincelle_left_back.Stop();
                     particle_etincelle_left_front.Stop();
@@ -134,7 +134,17 @@ public class kart_manager : MonoBehaviour
             }
         }
     }
+    
 
+    public void up_kart(){
+
+        anim_kart.SetBool("up_kart",true);
+    }
+
+     public void down_kart(){
+
+        anim_kart.SetBool("up_kart",false);
+    }
 
 
     // Gere la rotation du siege

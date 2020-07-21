@@ -30,18 +30,19 @@ public class Camera_control : MonoBehaviour
         if(instance == null){
             instance = this; 
         }  
-
-        player =  player_main.instance.player;
+        // Camera Player
+        player = player_main.instance.player;
         player_controller = player_main.instance.player.GetComponent<CharacterController>();
         player_camera = GameObject.Find("PlayerCameraController").GetComponent<CinemachineFreeLook>();
         player_camera.LookAt = player_main.instance.player.GetComponent<Transform>();
         player_camera.Follow = player_main.instance.player.GetComponent<Transform>();
 
+        // Camera Navy
         cam_ame = GameObject.Find("cam_navy").GetComponent<CinemachineVirtualCamera>();
         cam_ame.LookAt = GameObject.Find("ame_container").GetComponent<Transform>();
         cam_ame.Follow = player_main.instance.player.GetComponent<Transform>();
 
-
+        // Camera Kart si besoin
         if(player_main.instance.playerKart != null){
 
             player_kart_camera = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();
@@ -49,9 +50,8 @@ public class Camera_control : MonoBehaviour
             player_kart_camera.Follow = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
             cam_crash = GameObject.Find("cam_crash").GetComponent<CinemachineVirtualCamera>();
          }else{
-            Debug.Log("PlayerKart introuvable !");
+            Debug.Log("Pas de playerKart dans cette scene ?");
         }
-
 
         if(activate_earthquake_effect){
             StartCoroutine(start_earthquake());

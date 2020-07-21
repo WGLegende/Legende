@@ -219,7 +219,16 @@ public class GamePad_manager : MonoBehaviour
                         if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
                             player_actions.instance.do_action_kart();
                         }
+                        else {
+                            kart_manager.instance.up_kart();
+                        }
                     }
+
+                    if(Hinput.anyGamepad.A.justReleased){
+                        kart_manager.instance.down_kart();
+                    }
+
+
             break;
 
 

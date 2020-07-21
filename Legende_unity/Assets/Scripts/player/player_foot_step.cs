@@ -3,12 +3,19 @@ using System.Collections;
   
 public class player_foot_step: MonoBehaviour{
 
-
+    public static player_foot_step instance;
     CharacterController controller;
 
-    
-    
-    IEnumerator Start() {
+    void Start(){
+
+        if(instance == null){
+            instance = this;
+        }
+        StartCoroutine(checkTypeGround());
+    }
+
+
+    public IEnumerator checkTypeGround() {
 
         controller = player_main.instance.player.GetComponent<CharacterController>(); 
 

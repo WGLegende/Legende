@@ -161,7 +161,7 @@ public class player_gamePad_manager : MonoBehaviour
         if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canJump){
             hasJump = true;
             Player_Animator.SetBool("Grounded", false);
-             Player_Animator.SetTrigger("jump"); // test
+            Player_Animator.SetTrigger("jump"); // test
             Player_Animator.SetBool("initiate_jump", true); 
             Player_sound.instance.StopMove(); // Sound Player
         }
@@ -181,15 +181,13 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
     public void PlayerCanMove(bool value){
-
         canMove = value;
         canAttack = value;
         canJump = value;
     }
 
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {  
+    void OnControllerColliderHit(ControllerColliderHit hit){  
         if(hit.gameObject.layer == 10 && !Player_Animator.GetBool("Grounded")){
             Player_Animator.SetBool("Grounded", true);
         }

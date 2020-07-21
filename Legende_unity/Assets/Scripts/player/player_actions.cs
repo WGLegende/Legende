@@ -176,13 +176,12 @@ public class player_actions : MonoBehaviour
         player_main.instance.player.SetActive(false);
 
         // en rapport avec le playerKart
-        _enter_kart.chariot_siege.transform.localRotation = Quaternion.Euler(270,90,-90); // on recentre le player dans le kart
+        _enter_kart.chariot_siege.transform.localRotation = Quaternion.Euler(270f,90f,-90f); // on recentre le player dans le kart
         player_main.instance.playerKart.SetActive(true);
         kart_manager.instance.frein_auto = false;
         _enter_kart.script_kart_manager.SplineFollow.IsRunning = true; 
-
         _enter_kart.ui_chariot.scaleFactor = 0.8f; // affichage ui kart todo
-    
+
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;   
 
         StartCoroutine(Camera_control.instance.CameraBehindKart());
@@ -193,32 +192,33 @@ public class player_actions : MonoBehaviour
 
     public void do_action_exit_kart(GareKart _gare_kart){
 
-        Camera_control.instance.CameraBehindPlayer();
-        Camera_control.instance.player_kart_camera.Priority = 9;
-       
+        // en rapport avec le playerKart
         kart_manager.instance.SplineFollow.IsRunning = false;
         kart_manager.instance.particle_vapeur_front.Stop();
         kart_manager.instance.particle_vapeur_back.Stop();
         kart_manager.instance.audio_vapeur.Stop();
         Player_sound.instance.StopKart();// Gestion du son rails
+        player_main.instance.playerKart.SetActive(false);
+        _gare_kart.ui_chariot.scaleFactor = 0f; //todo hide ui kart
 
+
+        // en rapport avec le player
         Vector3 rotationPlayer = new Vector3(0,player_main.instance.playerKart.transform.eulerAngles.y,0); // on le tourne dans le meme sens que player_kart
         player_main.instance.player.transform.rotation = Quaternion.Euler(rotationPlayer);
         player_main.instance.player.transform.localPosition = _gare_kart.chariot_container.transform.position;
-        player_main.instance.playerKart.SetActive(false);
         player_main.instance.player.SetActive(true);
-
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
-
-        _gare_kart.ui_chariot.scaleFactor = 0f; //todo hide ui kart
-
         player_gamePad_manager.instance.PlayerCanMove(true);
         player_gamePad_manager.instance.changeEquipement(); // maj de l'animator
+
+        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
 
         if(!kart_manager.instance.equipement_bouteille){
             ButtonAction.instance.Hide();
             ame_player.instance.StartCoroutine(ame_player.instance.navy_start_speak(ame_player.instance.text_bouteille_kart,3f));
         }
+
+        Camera_control.instance.CameraBehindPlayer();
+        Camera_control.instance.player_kart_camera.Priority = 9;
     }
 
 
