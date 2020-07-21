@@ -43,11 +43,11 @@ public class MainInteractable : MonoBehaviour
 
     void Update()
     {
-        if (hinput.anyGamepad.A.justPressed && !mesInteractables.Any(i => i.isInteracting)){
+        if (Hinput.anyGamepad.A.justPressed && !mesInteractables.Any(i => i.isInteracting)){
             animPlayer.SetTrigger("attack01");
         }
 
-        if (hinput.anyGamepad.A.justPressed && mesInteractables.Any(i => i.isInteracting)){
+        if (Hinput.anyGamepad.A.justPressed && mesInteractables.Any(i => i.isInteracting)){
             Action();
         }
 

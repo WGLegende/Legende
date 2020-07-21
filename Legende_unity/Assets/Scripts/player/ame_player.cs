@@ -23,7 +23,7 @@ public static ame_player instance;
 
     bool animTextRunning;
     float speed_anim_text = 0.04f;
-    int countChar = 0;
+    
 
 
     public string[] text_switch_no_vapeur_elevator = new string[]  {"Cette ascenseur fonctionne à la vapeur.",
@@ -103,8 +103,8 @@ public static ame_player instance;
     // declenche par gamepad manager bouton A
     public void nextTextNavySpeak(){ 
 
-        if(animTextRunning){ // si on reappuie on accelere
-           speed_anim_text = 0.01f;
+        if(animTextRunning){ // si on reappuie on accelere le text
+           speed_anim_text = 0.005f;
            return;
         }
 
@@ -126,8 +126,7 @@ public static ame_player instance;
     IEnumerator AnimateText(){
 
         animTextRunning = true;
-        countChar = 0;
-
+      
         foreach(char c in text_de_navy_container[id_text]){
             text_navy_UI.text += c;
             yield return new WaitForSeconds(speed_anim_text);
@@ -143,6 +142,7 @@ public static ame_player instance;
 
         player_actions.instance.clear_action(true);
         ame_particule.Stop(); 
+        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[4]); 
         panel_navy_anim.SetBool("show_navy_ui",false);
         yield return new WaitForSeconds(0.5f);
         Camera_control.instance.cam_ame.Priority = 8;
@@ -153,20 +153,4 @@ public static ame_player instance;
         dollyCart.m_Speed = -30f;
     }
 
-    IEnumerator NavyTalk(){
-
-        psmain = ame_particule.main;
-           psmain.startSize = new ParticleSystem.MinMaxCurve(10f, 12f);
-         
-        while(true){
-
-          
-
-            yield return new WaitForSeconds(0.2f);
-        }
-    }
-
-           
-        
-    
 }

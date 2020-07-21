@@ -170,24 +170,23 @@ public class player_actions : MonoBehaviour
 
     public void do_action_enter_kart(EnterChariot _enter_kart){
 
+        // en rapport avec le player
         Player_sound.instance.StopMove();
-
-        Camera_control.instance.player_kart_camera.m_XAxis.Value = 0f;// recentre la cam
-        Camera_control.instance.player_kart_camera.m_YAxis.Value = 0.3f;
-        Camera_control.instance.player_kart_camera.Priority = 11;
-
         player_gamePad_manager.instance.PlayerCanMove(false);
-
-        _enter_kart.chariot_siege.transform.localRotation = Quaternion.Euler(270,90,-90); // on recentre le player dans le kart
         player_main.instance.player.SetActive(false);
+
+        // en rapport avec le playerKart
+        _enter_kart.chariot_siege.transform.localRotation = Quaternion.Euler(270,90,-90); // on recentre le player dans le kart
         player_main.instance.playerKart.SetActive(true);
-       
         kart_manager.instance.frein_auto = false;
-    
+        _enter_kart.script_kart_manager.SplineFollow.IsRunning = true; 
+
         _enter_kart.ui_chariot.scaleFactor = 0.8f; // affichage ui kart todo
     
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;   
-        _enter_kart.script_kart_manager.SplineFollow.IsRunning = true; 
+
+        StartCoroutine(Camera_control.instance.CameraBehindKart());
+        Camera_control.instance.player_kart_camera.Priority = 11;
     }
 
 
@@ -198,7 +197,6 @@ public class player_actions : MonoBehaviour
         Camera_control.instance.player_kart_camera.Priority = 9;
        
         kart_manager.instance.SplineFollow.IsRunning = false;
-
         kart_manager.instance.particle_vapeur_front.Stop();
         kart_manager.instance.particle_vapeur_back.Stop();
         kart_manager.instance.audio_vapeur.Stop();
@@ -211,7 +209,6 @@ public class player_actions : MonoBehaviour
         player_main.instance.player.SetActive(true);
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
-
 
         _gare_kart.ui_chariot.scaleFactor = 0f; //todo hide ui kart
 

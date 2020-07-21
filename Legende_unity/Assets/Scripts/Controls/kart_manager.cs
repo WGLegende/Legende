@@ -22,7 +22,7 @@ public class kart_manager : MonoBehaviour
     Transform Chariot_ContainerRotation;
     float angleChariot;
 
-    Animator anim_kart;
+    public Animator anim_kart;
 
     float valeur_vitesse_basique = 1f; // X = avance, -X = recule, 0 = sur place . X est limité par la valeur_vitesse_basique_max ci dessous
     public float valeur_vitesse_basique_max = 1f; // 1 = avance, -1 = recule, 0 = sur place
@@ -69,7 +69,10 @@ public class kart_manager : MonoBehaviour
     public bool kart_is_reverse;
     [HideInInspector] public BoxCollider collider_enter_chariot;
 
-    float turnKart;
+    public float turnKart;
+    public float turnKart_bis;
+    public float angle_rotation_Y;
+    public bool danger_kart;
   
 
     void Start(){
@@ -101,22 +104,34 @@ public class kart_manager : MonoBehaviour
 
         while(true){
 
-            float angle_rotation = turnKart;
+            turnKart_bis = turnKart;
             
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
 
-                if(angle_rotation - turnKart < (-10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
+                angle_rotation_Y = turnKart_bis - turnKart;
+                
+                if(angle_rotation_Y  < -10 * reverse_pad && Mathf.Abs(SplineFollow.Speed) >= 20){
                     anim_kart.SetBool("turn_right",true);
+                    particle_etincelle_right_back.Stop();
+                    particle_etincelle_right_front.Stop();
                 }
-                else if(angle_rotation - turnKart > (10 * reverse_pad) && Mathf.Abs(SplineFollow.Speed) >= 20){
+                else if(angle_rotation_Y > 10 * reverse_pad && Mathf.Abs(SplineFollow.Speed) >= 20){
                     anim_kart.SetBool("turn_left",true);
+                     particle_etincelle_left_back.Stop();
+                    particle_etincelle_left_front.Stop();
                 }
-                else if((angle_rotation - turnKart) > -10 && (angle_rotation - turnKart < 10)){
+                else if(angle_rotation_Y > -10 && angle_rotation_Y < 10){
                     anim_kart.SetBool("turn_right",false);
                     anim_kart.SetBool("turn_left",false);
                 }
 
-            yield return new WaitForSeconds(0.02f);
+            if(Mathf.Abs(angle_rotation_Y) > 10 && Mathf.Abs(SplineFollow.Speed) > 10){
+                danger_kart = true;
+                yield return new WaitForSeconds(0.3f);
+            }
+            else{
+                danger_kart = false;
+            }
         }
     }
 
@@ -193,11 +208,41 @@ public class kart_manager : MonoBehaviour
 
     // Gestion du saut du kart
     public void kart_jump(){
+
         if(VapeurBar.instance.useVapeur(10f)){ // Jump 
+
             anim_kart.SetTrigger("jump");
             particle_vapeur_under.Play();
+            Invoke("stop_particule_under",0.6f);
             audio_kart.PlayOneShot(clip_fx[1]);
+
+            if(danger_kart){
+               Invoke("chuteKart",0.4f);
+            }
         }
+    }
+
+    public void stop_particule_under(){
+        particle_vapeur_under.Stop();
+    }
+
+    public void chuteKart(){
+
+        anim_kart.enabled = false;
+        vitesse_demandee = 0;
+        Camera_control.instance.cam_crash.Priority = 12;
+        rb.isKinematic = false;
+        rb.useGravity = true;
+        rb.mass = 0.05f;
+        if(angle_rotation_Y > 0){
+            rb.AddForce(Vector3.right,ForceMode.Impulse);
+         }else{
+            rb.AddForce(Vector3.left,ForceMode.Impulse);
+        }
+        kart_manager.instance.canMoveRecul = false;
+        kart_manager.instance.canMoveAvance = false;
+        StartCoroutine(level_main.instance.MoveKartToCheckpoint()); // delai au start
+
     }
 
     // Gestion attaque du kart
@@ -250,7 +295,7 @@ public class kart_manager : MonoBehaviour
                            vitesse_actuelle;
         
 
-        
+        // Maj de la vitesse du spline
         if(!frein_auto && (vitesse_actuelle > 0.8 || vitesse_actuelle < -0.8)){
             SplineFollow.Speed = Mathf.RoundToInt(vitesse_actuelle);
             Player_sound.instance.PlayKart(Mathf.Abs(SplineFollow.Speed));// Gestion du son rails
@@ -263,7 +308,7 @@ public class kart_manager : MonoBehaviour
         if(SplineFollow.T >= 0.99999 && vitesse_actuelle > 0){// fin circuit;
             AiguillageManager.instance.switchRails();
         }
-        if(SplineFollow.T <= 0.0009 && vitesse_actuelle < 0 && AiguillageManager.instance.position_trajet > 0){ // fin back circuit
+        if(SplineFollow.T <= 0.0009 && vitesse_actuelle < 0 && AiguillageManager.instance.id_rails > 0){ // fin back circuit
             AiguillageManager.instance.switchRailsBack();
         }
  
@@ -276,31 +321,34 @@ public class kart_manager : MonoBehaviour
         speed_and_move();
        
         //Gestion des etincelles
-        if(vitesse_actuelle * reverse_pad >= 20){
-            particle_etincelle_left_back.Play();
-            particle_etincelle_right_back.Play();
-            particle_etincelle_left_front.Stop();
-            particle_etincelle_right_front.Stop();
-            if(!audio_sparkle.isPlaying){
-                audio_sparkle.Play();
+
+        if(!danger_kart){
+            if(vitesse_actuelle * reverse_pad >= 20){
+                particle_etincelle_left_back.Play();
+                particle_etincelle_right_back.Play();
+                particle_etincelle_left_front.Stop();
+                particle_etincelle_right_front.Stop();
+                if(!audio_sparkle.isPlaying){
+                    audio_sparkle.Play();
+                }
             }
-        }
-        else if (vitesse_actuelle * reverse_pad < -20){
-            particle_etincelle_left_back.Stop();
-            particle_etincelle_right_back.Stop();
-            particle_etincelle_left_front.Play();
-            particle_etincelle_right_front.Play();
-            if(!audio_sparkle.isPlaying){
-                audio_sparkle.Play();
+            else if (vitesse_actuelle * reverse_pad < -20){
+                particle_etincelle_left_back.Stop();
+                particle_etincelle_right_back.Stop();
+                particle_etincelle_left_front.Play();
+                particle_etincelle_right_front.Play();
+                if(!audio_sparkle.isPlaying){
+                    audio_sparkle.Play();
+                }
             }
-        }
-        
-        else{
-            particle_etincelle_left_front.Stop();
-            particle_etincelle_right_front.Stop();
-            particle_etincelle_left_back.Stop();
-            particle_etincelle_right_back.Stop();
-            audio_sparkle.Stop();
+            
+            else{
+                particle_etincelle_left_front.Stop();
+                particle_etincelle_right_front.Stop();
+                particle_etincelle_left_back.Stop();
+                particle_etincelle_right_back.Stop();
+                audio_sparkle.Stop();
+            }
         }
     } 
 
@@ -333,7 +381,7 @@ public class kart_manager : MonoBehaviour
             rb.AddForce(Vector3.back,ForceMode.Impulse);
             kart_manager.instance.canMoveRecul = false;
             kart_manager.instance.canMoveAvance = false;
-            Invoke("repositionkart",2f);
+            StartCoroutine(level_main.instance.MoveKartToCheckpoint()); // delai au start
         }
 
         if(collider.gameObject.tag == "collision_lateral_right"){
@@ -344,7 +392,8 @@ public class kart_manager : MonoBehaviour
             rb.AddForce(-Vector3.back,ForceMode.Impulse);
             kart_manager.instance.canMoveRecul = false;
             kart_manager.instance.canMoveAvance = false;
-            Invoke("repositionkart",2f);
+            StartCoroutine(level_main.instance.MoveKartToCheckpoint()); // delai au start
+           
         }
     }
 
@@ -356,22 +405,11 @@ public class kart_manager : MonoBehaviour
     void OnTriggerExit(Collider collider){
         if(collider.gameObject.tag == "CollisionRails"){ 
            canMoveAvance = true;
-       
         }
     }
 
-    void repositionkart(){
-
-        rb.isKinematic = true;
-        rb.useGravity = false;
-        anim_kart.enabled = true;
-        level_main.instance.MoveKartToCheckpoint();
-        Camera_control.instance.cam_crash.Priority = 8;
-
-    }
-
+    
     void endAnimRotation(){ // on reactive le collider aprs la rotation du kart pour monter dedans
-
         collider_enter_chariot.enabled = true;
     }
 

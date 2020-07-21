@@ -106,10 +106,10 @@ MonoBehaviour:
   isPositionUp: 1
   toggle_levier: 0
   anim_levier: {fileID: 0}
-  sound: {fileID: 0}
   elevator: {fileID: 0}
   elevator_script: {fileID: 0}
   anim_elevator: {fileID: 0}
+  sound_levier: {fileID: 0}
 --- !u!65 &3384920272481673973
 BoxCollider:
   m_ObjectHideFlags: 0

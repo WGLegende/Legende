@@ -25,19 +25,19 @@ public class climbtest : MonoBehaviour{
 
             if(canClimb){
 
-                if (hinput.gamepad[0].leftStick.position.y > 0) {
+                if (Hinput.gamepad[0].leftStick.position.y > 0) {
                     playerObject.transform.Translate(Vector3.up * Time.deltaTime*speed);
                     animator.SetBool("stopClimb",false);
                     animator.SetBool("climb",true);
                 }
 
-                else if (hinput.gamepad[0].leftStick.position.y < 0 ) {
+                else if (Hinput.gamepad[0].leftStick.position.y < 0 ) {
                     playerObject.transform.Translate(Vector3.down * Time.deltaTime*speed);
                     animator.SetBool("stopClimb",false);
                     animator.SetBool("climb",true);
                 }
 
-                if(hinput.gamepad[0].leftStick.position.y == 0 ){
+                if(Hinput.gamepad[0].leftStick.position.y == 0 ){
                     animator.SetBool("stopClimb",true);
                     controller.enabled = false;
                 }
@@ -50,7 +50,7 @@ public class climbtest : MonoBehaviour{
 
         if (other.name == "Player"){
 
-            if (hinput.gamepad[0].leftStick.position.y < 0){
+            if (Hinput.gamepad[0].leftStick.position.y < 0){
 
                 canClimb = false;
                 player_gamePad_manager.instance.canMove = true;
@@ -69,7 +69,7 @@ public class climbtest : MonoBehaviour{
 
            
 
-            if (hinput.gamepad[0].leftStick.position.y > 0 ) {
+            if (Hinput.gamepad[0].leftStick.position.y > 0 ) {
 
                 StartCoroutine(EndClimb());
                 playerObject.transform.Translate(Vector3.forward);

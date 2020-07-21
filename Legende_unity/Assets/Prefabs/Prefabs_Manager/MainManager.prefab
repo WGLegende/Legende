@@ -54,8 +54,14 @@ MonoBehaviour:
   player_never_die: 0
   test_player_kart: 0
   always_vapeur: 1
+  EarthQuakeEffect: 0
   Player: {fileID: 0}
   Playerkart: {fileID: 0}
+  testCamKart: {fileID: 0}
+  debugText4: {fileID: 0}
+  debugText5: {fileID: 0}
+  debugText6: {fileID: 0}
+  debugText7: {fileID: 0}
 --- !u!114 &5323553135682891860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  playerKart: {fileID: 0}
+  kart: {fileID: 0}
   player_current_pv: 50
   playerIsAlive: 1
   timeInAir: 0
@@ -100,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   save_position_kart: 0
+  save_spline_actuelle: 0
   hasCheckPoint: 0
   hasCheckPointKart: 0
 --- !u!114 &5323553135682891856

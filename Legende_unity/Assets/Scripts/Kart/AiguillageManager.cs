@@ -10,12 +10,8 @@ public class AiguillageManager : MonoBehaviour
     Battlehub.MeshDeformer2.SplineFollow SplineFollow;
     public Battlehub.MeshDeformer2.SplineBase next_rails;
 
-    public List<Battlehub.MeshDeformer2.SplineBase> SaveTrajetKart = new List<Battlehub.MeshDeformer2.SplineBase>();
-    public int position_trajet;
-
-    //[HideInInspector] public Transform kart;
-
-    float pos;
+    public List<Battlehub.MeshDeformer2.SplineBase> List_spline_rails = new List<Battlehub.MeshDeformer2.SplineBase>();
+    public int id_rails;
 
 
     void Awake(){
@@ -25,14 +21,13 @@ public class AiguillageManager : MonoBehaviour
         }
 
         SplineFollow = GameObject.Find("Chariot_Container").GetComponent<Battlehub.MeshDeformer2.SplineFollow>();
-        //kart = player_main.instance.kart.transform;
-        SaveTrajetKart.Add(SplineFollow.Spline);   
+        List_spline_rails.Add(SplineFollow.Spline);   
     }
 
 
     // appelee par kart manager
     public void switchRails(){ 
-        position_trajet++; 
+        id_rails++; 
         SplineFollow.Spline = next_rails; // on load le prochain circuit
         SplineFollow.Restart(); 
     }
@@ -40,8 +35,8 @@ public class AiguillageManager : MonoBehaviour
 
     // appelee par kart manager
     public void switchRailsBack(){
-        SplineFollow.Spline = SaveTrajetKart[position_trajet-1];
-        position_trajet--;
+        SplineFollow.Spline = List_spline_rails[id_rails-1];
+        id_rails--;
         SplineFollow.Restart();
         SplineFollow.m_t = 0.9999999f;  // on replace le kart
     }

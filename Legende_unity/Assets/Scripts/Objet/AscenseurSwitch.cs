@@ -14,7 +14,7 @@ public class AscenseurSwitch : MonoBehaviour{
     [HideInInspector] public Animator anim_elevator;
 
     [HideInInspector]public AudioSource sound_levier;
-
+   
   
     void Start(){
 
@@ -35,7 +35,7 @@ public class AscenseurSwitch : MonoBehaviour{
         player_actions.instance.clear_action(collider.tag == "Player");  
     }
 
-
+    
    
 
 }
