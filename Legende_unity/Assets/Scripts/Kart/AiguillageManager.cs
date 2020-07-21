@@ -14,7 +14,7 @@ public class AiguillageManager : MonoBehaviour
     public List<Battlehub.MeshDeformer2.SplineBase> List_spline_rails = new List<Battlehub.MeshDeformer2.SplineBase>();
     public int id_rails;
 
-    public Slider[] jauge_aiguillage;
+    public GameObject[] rail_map_ui;
     public Battlehub.MeshDeformer2.SplineBase[] spline_rails;
     
     void Start(){
@@ -56,11 +56,15 @@ public class AiguillageManager : MonoBehaviour
             for (i = 0; i < spline_rails.Length; i++){
 
                 if (spline_rails[i] == SplineFollow.Spline){
-                    jauge_aiguillage[i].value = Mathf.Round(SplineFollow.T* 100f)/100f;
+
+                    rail_map_ui[i].SetActive(true);
+                    rail_map_ui[i].GetComponentInChildren<Slider>().value =  Mathf.Round(SplineFollow.T* 100f)/100f;
                 }
             }
 
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+    
 }
