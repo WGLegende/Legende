@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AiguillageManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class AiguillageManager : MonoBehaviour
     public List<Battlehub.MeshDeformer2.SplineBase> List_spline_rails = new List<Battlehub.MeshDeformer2.SplineBase>();
     public int id_rails;
 
+    public Slider jauge_aiguillage;
+
 
     void Awake(){
 
@@ -21,7 +24,10 @@ public class AiguillageManager : MonoBehaviour
         }
 
         SplineFollow = GameObject.Find("Chariot_Container").GetComponent<Battlehub.MeshDeformer2.SplineFollow>();
-        List_spline_rails.Add(SplineFollow.Spline);   
+        jauge_aiguillage =GameObject.Find("jauge_container").GetComponent<Slider>();
+        List_spline_rails.Add(SplineFollow.Spline);  
+
+        StartCoroutine(refresk_ui_position()); 
     }
 
 
@@ -39,5 +45,17 @@ public class AiguillageManager : MonoBehaviour
         id_rails--;
         SplineFollow.Restart();
         SplineFollow.m_t = 0.9999999f;  // on replace le kart
+    }
+
+
+    IEnumerator refresk_ui_position(){
+
+        while(true){
+
+
+            jauge_aiguillage.value = SplineFollow.T;
+
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 }

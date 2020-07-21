@@ -19,7 +19,7 @@ public class GareKart : MonoBehaviour{
     public bool kart_in_station;
 
     [HideInInspector] public Transform chariot_container;
-    [HideInInspector] public CanvasScaler ui_chariot;
+    [HideInInspector] public Animator ui_chariot;
 
     
     void Start(){
@@ -29,7 +29,7 @@ public class GareKart : MonoBehaviour{
         }
     
         chariot_container = GameObject.Find("Chariot_Container").GetComponent<Transform>();
-        ui_chariot = GameObject.Find("UI_Chariot").GetComponent<CanvasScaler>();
+        ui_chariot = GameObject.Find("UI_Chariot").GetComponent<Animator>();
     }
 
 

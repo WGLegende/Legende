@@ -97,7 +97,7 @@ public class kart_manager : MonoBehaviour
         collider_enter_chariot = GameObject.Find("Chariot_Container").GetComponent<BoxCollider>();
         StartCoroutine(refreshSpeedUI());
 
-        //StartCoroutine(checkVirageKart());
+        StartCoroutine(checkVirageKart());
     }
 
     IEnumerator checkVirageKart(){
