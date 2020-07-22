@@ -180,7 +180,7 @@ public class player_actions : MonoBehaviour
         player_main.instance.playerKart.SetActive(true);
         kart_manager.instance.frein_auto = false;
         _enter_kart.script_kart_manager.SplineFollow.IsRunning = true; 
-        _enter_kart.ui_chariot.scaleFactor = 0.8f; // affichage ui kart todo
+        EnterChariot.instance.ui_chariot.SetBool("uiKartShow",true);
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;   
 
@@ -199,7 +199,7 @@ public class player_actions : MonoBehaviour
         kart_manager.instance.audio_vapeur.Stop();
         Player_sound.instance.StopKart();// Gestion du son rails
         player_main.instance.playerKart.SetActive(false);
-        _gare_kart.ui_chariot.scaleFactor = 0f; //todo hide ui kart
+        EnterChariot.instance.ui_chariot.SetBool("uiKartShow",false);
 
 
         // en rapport avec le player

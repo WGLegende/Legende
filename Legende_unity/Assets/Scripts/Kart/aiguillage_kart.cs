@@ -6,23 +6,23 @@ public class aiguillage_kart : MonoBehaviour{
 
     public static aiguillage_kart instance; 
 
-    public Battlehub.MeshDeformer2.SplineBase rails, right_rails, left_rails;
-   
     public ChoixCircuit _choix_circuit;
     public enum ChoixCircuit{
         Droite,
         Gauche        
     }
 
+    public Battlehub.MeshDeformer2.SplineBase rails, right_rails, left_rails;
+   
     [HideInInspector] public bool toggle;
     [HideInInspector] public Animator anim;
     [HideInInspector] public AudioSource aiguillage_audio;
 
-    public ParticleSystem indicator_particule;
+    [HideInInspector]public ParticleSystem indicator_particule;
     public GameObject particule_container;
     public Transform view_right_rails;
     public Transform view_left_rails;
-
+   
 
 
     void Start(){
@@ -34,12 +34,12 @@ public class aiguillage_kart : MonoBehaviour{
         aiguillage_audio = GetComponentInChildren<AudioSource>();
         indicator_particule = GetComponentInChildren<ParticleSystem>();
 
-        if(_choix_circuit == ChoixCircuit.Gauche){ 
+        if(_choix_circuit == ChoixCircuit.Gauche){ // on initialise si chg de rail au demarrage
             AiguillageManager.instance.next_rails = left_rails;
             toggle = true;
             anim.SetBool("switch",true);
             StartCoroutine(moveParticuleView(particule_container,view_left_rails.transform.position, 0f));    
-        }    
+        }   
     }
 
 
