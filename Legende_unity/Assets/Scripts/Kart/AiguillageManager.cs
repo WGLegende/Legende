@@ -15,6 +15,7 @@ public class AiguillageManager : MonoBehaviour
     public int id_rails;
 
     public GameObject[] rail_map_ui;
+    int save_last_rail_ui = 1;
     CanvasGroup display;
     public Battlehub.MeshDeformer2.SplineBase[] spline_rails;
     
@@ -51,15 +52,21 @@ public class AiguillageManager : MonoBehaviour
     IEnumerator refresk_ui_position(){
 
         int i = 0;
-
+      
         while(true){
 
             for (i = 0; i < spline_rails.Length; i++){
 
                 if (spline_rails[i] == SplineFollow.Spline){
 
-                    display = rail_map_ui[i].GetComponent<CanvasGroup>();
+                    if(save_last_rail_ui != i){
+                        rail_map_ui[save_last_rail_ui].transform.GetChild(2).gameObject.SetActive(false);
+                        save_last_rail_ui = i;
+                    }
 
+                    rail_map_ui[i].transform.GetChild(2).gameObject.SetActive(true);
+                    display = rail_map_ui[i].GetComponent<CanvasGroup>();
+                    
                     if(display.alpha == 0){
                         StartCoroutine(fadein());
                     }
@@ -76,11 +83,12 @@ public class AiguillageManager : MonoBehaviour
     IEnumerator fadein(){
 
         float timer = 0;
+        float duree = 1f;
     
-        while (timer < 2){
+        while (timer < duree){
 
             timer += Time.deltaTime;
-            float newAlpha = Mathf.Lerp(0, 1, timer / 2);
+            float newAlpha = Mathf.Lerp(0, 1, timer / duree);
             display.alpha = newAlpha;
             yield return null;
         }
