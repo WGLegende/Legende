@@ -49,8 +49,9 @@ public class tests_manager : MonoBehaviour
         if(EarthQuakeEffect){
             StartCoroutine(Camera_control.instance.start_earthquake());
         }
-
-        StartCoroutine(angleYkart());   
+        if(Playerkart != null){
+            StartCoroutine(angleYkart()); 
+        }  
     }
 
 
@@ -70,11 +71,15 @@ public class tests_manager : MonoBehaviour
             }
         }
 
-         if(kart_manager.instance.danger_kart){
-            debugText5.color = Color.yellow;
-            debugText5.text = "DANGER !";
-        }else{
-            debugText5.text = "";
+        
+        if(Playerkart != null){
+            if(kart_manager.instance.danger_kart){
+                debugText5.color = Color.yellow;
+                debugText5.text = "DANGER !";
+            }
+            else{
+                debugText5.text = "";
+            }
         }
 
     }
