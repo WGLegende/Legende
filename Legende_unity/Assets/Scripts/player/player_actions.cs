@@ -180,7 +180,11 @@ public class player_actions : MonoBehaviour
         player_main.instance.playerKart.SetActive(true);
         kart_manager.instance.frein_auto = false;
         _enter_kart.script_kart_manager.SplineFollow.IsRunning = true; 
+
+        // en rapport avec UI
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",true);
+        EnterChariot.instance.img_kart_minimap.SetActive(true);
+        camera_mini_map.instance.target = player_main.instance.playerKart.transform;
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;   
 
@@ -199,7 +203,6 @@ public class player_actions : MonoBehaviour
         kart_manager.instance.audio_vapeur.Stop();
         Player_sound.instance.StopKart();// Gestion du son rails
         player_main.instance.playerKart.SetActive(false);
-        EnterChariot.instance.ui_chariot.SetBool("uiKartShow",false);
 
 
         // en rapport avec le player
@@ -209,6 +212,11 @@ public class player_actions : MonoBehaviour
         player_main.instance.player.SetActive(true);
         player_gamePad_manager.instance.PlayerCanMove(true);
         player_gamePad_manager.instance.changeEquipement(); // maj de l'animator
+
+         // en rapport avec UI
+        EnterChariot.instance.ui_chariot.SetBool("uiKartShow",false);
+        EnterChariot.instance.img_kart_minimap.SetActive(false);
+        camera_mini_map.instance.target = player_main.instance.player.transform;
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
 

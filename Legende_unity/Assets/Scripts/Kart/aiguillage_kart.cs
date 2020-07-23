@@ -22,14 +22,15 @@ public class aiguillage_kart : MonoBehaviour{
     public GameObject particule_container;
     public Transform view_right_rails;
     public Transform view_left_rails;
-   
+    public Transform img_minimap;
 
 
     void Start(){
         if(instance == null){
             instance = this;
         } 
-
+        camera_mini_map.instance.list_img_minimap.Add(img_minimap); 
+         
         anim = GetComponent<Animator>();
         aiguillage_audio = GetComponentInChildren<AudioSource>();
         indicator_particule = GetComponentInChildren<ParticleSystem>();

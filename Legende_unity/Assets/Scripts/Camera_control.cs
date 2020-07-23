@@ -49,6 +49,8 @@ public class Camera_control : MonoBehaviour
             player_kart_camera.LookAt = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
             player_kart_camera.Follow = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
             cam_crash = GameObject.Find("cam_crash").GetComponent<CinemachineVirtualCamera>();
+            cam_crash.LookAt = GameObject.Find("kart").GetComponent<Transform>();
+            cam_crash.Follow = GameObject.Find("Chariot_Container").GetComponent<Transform>();
          }else{
             Debug.Log("Pas de playerKart dans cette scene ?");
         }

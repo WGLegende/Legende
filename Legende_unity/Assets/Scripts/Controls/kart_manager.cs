@@ -79,6 +79,8 @@ public class kart_manager : MonoBehaviour
     public float speed_down = 5f;
     public float hauteur_kart_max = 5f;
     Transform chariot_structure;
+
+    
   
 
     void Start(){
@@ -148,20 +150,20 @@ public class kart_manager : MonoBehaviour
 
         if(equipement_bouteille){
 
-            if(left_trigger > 0.3f){
+            if(left_trigger > 0.3f){ // si appuie gachette
                 particle_vapeur_under.Play();
                 if(!audio_vapeur.isPlaying){
                     audio_vapeur.Play();
                 }
 
-                if(chariot_structure.transform.position.y < hauteur_kart_max){
+                if(chariot_structure.transform.localPosition.z < hauteur_kart_max){
                     chariot_structure.transform.Translate(Vector3.forward * Time.deltaTime * left_trigger * speed_up);
                 }
             }
             
             else if(left_trigger <= 0.3f){
 
-                if(chariot_structure.transform.position.y > 0.8f){
+                if(chariot_structure.transform.localPosition.z > -0.03f){
                     particle_vapeur_under.Stop();
                     audio_vapeur.Stop();
                     chariot_structure.transform.Translate(Vector3.back * Time.deltaTime * speed_down);

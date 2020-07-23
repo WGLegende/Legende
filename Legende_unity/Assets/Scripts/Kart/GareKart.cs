@@ -21,6 +21,8 @@ public class GareKart : MonoBehaviour{
     [HideInInspector] public Transform chariot_container;
     [HideInInspector] public Animator ui_chariot;
 
+    public Transform img_minimap;
+
     
     void Start(){
          
@@ -30,6 +32,9 @@ public class GareKart : MonoBehaviour{
     
         chariot_container = GameObject.Find("Chariot_Container").GetComponent<Transform>();
         ui_chariot = GameObject.Find("UI_Chariot").GetComponent<Animator>();
+        
+        camera_mini_map.instance.list_img_minimap.Add(img_minimap); 
+
     }
 
 
@@ -43,7 +48,7 @@ public class GareKart : MonoBehaviour{
     void OnTriggerStay(Collider collider){ 
 
         if(collider.gameObject.tag == "PlayerKart"){
-            
+
             if(Mathf.Abs(kart_manager.instance.vitesse_actuelle) > 1 && _type_gare == typeGare.Station) 
             return; // si trop vite a une station, on fait rien
 
