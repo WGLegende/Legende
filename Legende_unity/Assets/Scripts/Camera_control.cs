@@ -42,7 +42,7 @@ public class Camera_control : MonoBehaviour
         cam_ame.LookAt = GameObject.Find("ame_container").GetComponent<Transform>();
         cam_ame.Follow = player_main.instance.player.GetComponent<Transform>();
 
-        // Camera Kart si besoin
+        // Camera Kart si playerKArt attache au player_main
         if(player_main.instance.playerKart != null){
 
             player_kart_camera = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();

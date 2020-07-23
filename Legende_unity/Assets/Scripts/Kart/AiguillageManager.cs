@@ -17,6 +17,8 @@ public class AiguillageManager : MonoBehaviour
     public GameObject[] rail_map_ui;
     int save_last_rail_ui = 1;
     CanvasGroup display;
+    Scrollbar scroll_up_down;
+    Scrollbar scroll_right_left;
     public Battlehub.MeshDeformer2.SplineBase[] spline_rails;
     
     void Start(){
@@ -27,6 +29,12 @@ public class AiguillageManager : MonoBehaviour
 
         SplineFollow = GameObject.Find("Chariot_Container").GetComponent<Battlehub.MeshDeformer2.SplineFollow>();
         List_spline_rails.Add(SplineFollow.Spline);  
+
+
+        foreach(GameObject cg in rail_map_ui){ // on cache toute la map ui
+            CanvasGroup display = cg.GetComponent<CanvasGroup>();
+            display.alpha = 0;
+        }
 
         StartCoroutine(refresk_ui_position()); 
     }
@@ -66,11 +74,15 @@ public class AiguillageManager : MonoBehaviour
 
                     rail_map_ui[i].transform.GetChild(2).gameObject.SetActive(true);
                     display = rail_map_ui[i].GetComponent<CanvasGroup>();
+                   //scroll_up_down = rail_map_ui[i].GetComponentInChildren<Scrollbar>();
+                   // scroll_right_left = scroll_up_down.GetComponentInChildren<Scrollbar>();
                     
                     if(display.alpha == 0){
                         StartCoroutine(fadein());
                     }
 
+
+                   // scroll_up_down.value = Mathf.Round(SplineFollow.T* 100f)/100f;
                     rail_map_ui[i].GetComponentInChildren<Slider>().value = Mathf.Round(SplineFollow.T* 100f)/100f;
                 }
             }
@@ -81,6 +93,20 @@ public class AiguillageManager : MonoBehaviour
 
 
     IEnumerator fadein(){
+
+        float timer = 0;
+        float duree = 1f;
+    
+        while (timer < duree){
+
+            timer += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(0, 1, timer / duree);
+            display.alpha = newAlpha;
+            yield return null;
+        }
+    }
+
+    IEnumerator moveleftRight(){
 
         float timer = 0;
         float duree = 1f;

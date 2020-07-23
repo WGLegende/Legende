@@ -65,17 +65,13 @@ public class climbtest : MonoBehaviour{
 
     void OnTriggerExit(Collider other){
 
-        if (other.name == "Player"){
-
-           
+        if(other.name == "Player"){
 
             if (Hinput.gamepad[0].leftStick.position.y > 0 ) {
-
                 StartCoroutine(EndClimb());
                 playerObject.transform.Translate(Vector3.forward);
             }
             else{
-
                 StartCoroutine(EndClimb());
                 playerObject.transform.Translate(Vector3.back);
             }
