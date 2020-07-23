@@ -21,7 +21,7 @@ public class AiguillageManager : MonoBehaviour
     Scrollbar scroll_right_left;
     public Battlehub.MeshDeformer2.SplineBase[] spline_rails;
     
-    void Start(){
+    void Awake(){
 
         if(instance == null){
             instance = this;
@@ -36,7 +36,7 @@ public class AiguillageManager : MonoBehaviour
             display.alpha = 0;
         }
 
-        StartCoroutine(refresk_ui_position()); 
+        StartCoroutine(refresh_ui_position()); 
     }
 
 
@@ -57,7 +57,7 @@ public class AiguillageManager : MonoBehaviour
     }
 
 
-    IEnumerator refresk_ui_position(){
+    IEnumerator refresh_ui_position(){
 
         int i = 0;
       
@@ -74,15 +74,14 @@ public class AiguillageManager : MonoBehaviour
 
                     rail_map_ui[i].transform.GetChild(2).gameObject.SetActive(true);
                     display = rail_map_ui[i].GetComponent<CanvasGroup>();
-                   //scroll_up_down = rail_map_ui[i].GetComponentInChildren<Scrollbar>();
-                   // scroll_right_left = scroll_up_down.GetComponentInChildren<Scrollbar>();
+                    //scroll_up_down = rail_map_ui[i].GetComponentInChildren<Scrollbar>();
+                    //scroll_right_left = scroll_up_down.GetComponentInChildren<Scrollbar>();
                     
                     if(display.alpha == 0){
                         StartCoroutine(fadein());
                     }
 
-
-                   // scroll_up_down.value = Mathf.Round(SplineFollow.T* 100f)/100f;
+                    //scroll_up_down.value = Mathf.Round(SplineFollow.T* 100f)/100f;
                     rail_map_ui[i].GetComponentInChildren<Slider>().value = Mathf.Round(SplineFollow.T* 100f)/100f;
                 }
             }
