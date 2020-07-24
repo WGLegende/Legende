@@ -183,7 +183,6 @@ public class player_actions : MonoBehaviour
 
         // en rapport avec UI
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",true);
-        EnterChariot.instance.img_kart_minimap.SetActive(true);
         camera_mini_map.instance.target = player_main.instance.playerKart.transform;
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;   
@@ -215,7 +214,6 @@ public class player_actions : MonoBehaviour
 
          // en rapport avec UI
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",false);
-        EnterChariot.instance.img_kart_minimap.SetActive(false);
         camera_mini_map.instance.target = player_main.instance.player.transform;
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 

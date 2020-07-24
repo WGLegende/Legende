@@ -5,11 +5,14 @@ using UnityEngine;
 public class camera_mini_map : MonoBehaviour
 {
     public static camera_mini_map instance;
+
     public Transform target;
-    public Transform cam_target;
     public bool rotation;
-    public Transform player_img_minimap;
-   // public Transform playerkart_img_minimap;
+
+    Transform main_camera;
+    Transform player_img_minimap;
+    RectTransform cam_view_minimap;
+  
 
     public List<Transform> list_img_minimap = new List<Transform>();
     
@@ -20,26 +23,31 @@ public class camera_mini_map : MonoBehaviour
             instance = this;
         }
         player_img_minimap = GameObject.Find("player_img_minimap").GetComponent<Transform>();
+        cam_view_minimap = GameObject.Find("pivot_view").GetComponent<RectTransform>();
         target = GameObject.Find("Player").GetComponent<Transform>();
+        main_camera = GameObject.Find("Camera").GetComponent<Transform>();
     }
 
 
     void LateUpdate(){
-        
+
+        // Gere le tracking de la target
         Vector3 newPosition = target.position;
         newPosition.y = transform.position.y;
         transform.position = newPosition;
 
-        //playerkart_img_minimap.rotation = Quaternion.Euler(90f,cam_target.eulerAngles.y,0f);
+        // Gere la rotation de la vue camera
+        if(!rotation){
+            Vector3 compassRotation = cam_view_minimap.transform.eulerAngles;
+            compassRotation.z = main_camera.eulerAngles.y;
+            cam_view_minimap.transform.eulerAngles = -compassRotation;
+        }
 
-
+        // gere la rotation de toutes les imgs
         if(rotation){
-
-            transform.rotation = Quaternion.Euler(90f,cam_target.eulerAngles.y,0f);
-
+            transform.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
             foreach(Transform img in list_img_minimap){
-
-                img.rotation = Quaternion.Euler(90f,cam_target.eulerAngles.y,0f);
+                img.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
             }
         }
         

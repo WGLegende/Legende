@@ -163,7 +163,7 @@ public class kart_manager : MonoBehaviour
             
             else if(left_trigger <= 0.3f){
 
-                if(chariot_structure.transform.localPosition.z > -0.03f){
+                if(chariot_structure.transform.localPosition.z > 0f){
                     particle_vapeur_under.Stop();
                     audio_vapeur.Stop();
                     chariot_structure.transform.Translate(Vector3.back * Time.deltaTime * speed_down);
