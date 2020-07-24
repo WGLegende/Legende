@@ -24,7 +24,6 @@ public class Camera_control : MonoBehaviour
     public float frequence_max = 60f;
 
     
-  
     void Start(){ 
 
         if(instance == null){
@@ -42,13 +41,15 @@ public class Camera_control : MonoBehaviour
         cam_ame.LookAt = GameObject.Find("ame_container").GetComponent<Transform>();
         cam_ame.Follow = player_main.instance.player.GetComponent<Transform>();
 
-        // Camera Kart si besoin
+        // Camera Kart si playerKArt attache au player_main
         if(player_main.instance.playerKart != null){
 
             player_kart_camera = GameObject.Find("KartCameraController").GetComponent<CinemachineFreeLook>();
             player_kart_camera.LookAt = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
             player_kart_camera.Follow = GameObject.Find("PlayerKart_container").GetComponent<Transform>();
             cam_crash = GameObject.Find("cam_crash").GetComponent<CinemachineVirtualCamera>();
+            cam_crash.LookAt = GameObject.Find("kart").GetComponent<Transform>();
+            cam_crash.Follow = GameObject.Find("Chariot_Container").GetComponent<Transform>();
          }else{
             Debug.Log("Pas de playerKart dans cette scene ?");
         }

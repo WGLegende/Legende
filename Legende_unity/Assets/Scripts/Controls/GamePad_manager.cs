@@ -11,6 +11,7 @@ public class GamePad_manager : MonoBehaviour
     float right_stick_y;
     float left_stick_x;
     float left_stick_y;
+    float left_trigger;
 
     public enum game_pad_attribution{
         player,
@@ -63,6 +64,10 @@ public class GamePad_manager : MonoBehaviour
 
         left_stick_x = Hinput.anyGamepad.leftStick.position.x;
         left_stick_y = Hinput.anyGamepad.leftStick.position.y;
+
+        left_trigger = Hinput.anyGamepad.leftTrigger.position;
+
+      
 
         switch(_game_pad_attribution){
 
@@ -187,7 +192,11 @@ public class GamePad_manager : MonoBehaviour
                     }
 
                     // GERE LE FREINAGE DU VEHICULE
-                    kart_manager.instance.frein(Hinput.anyGamepad.leftTrigger.pressed);
+                    if(Hinput.anyGamepad.B.pressed)
+                    kart_manager.instance.frein(true);
+
+                    if(Hinput.anyGamepad.B.released)
+                    kart_manager.instance.frein(false);
 
                     // Gestion de la vitesse basique avec le joystick
                     kart_manager.instance.calcul_vitesse_basique(left_stick_y);
@@ -201,12 +210,12 @@ public class GamePad_manager : MonoBehaviour
                     }
 
                     // Gestion du saut du kart
-                    if(Hinput.anyGamepad.Y.justPressed){ 
-                        kart_manager.instance.kart_jump();
-                    }
+                    // if(Hinput.anyGamepad.Y.justPressed){ 
+                    //     kart_manager.instance.kart_jump();
+                    // }
 
                     // Gestion attaque du kart
-                    if(Hinput.anyGamepad.B.justPressed){ 
+                    if(Hinput.anyGamepad.Y.justPressed){ 
                         kart_manager.instance.kart_attaque();
                     }
 
@@ -218,15 +227,12 @@ public class GamePad_manager : MonoBehaviour
                     if(Hinput.anyGamepad.A.justPressed){
                         if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
                             player_actions.instance.do_action_kart();
-                        }
-                        else {
-                            kart_manager.instance.up_kart();
-                        }
+                        }  
                     }
-
-                    if(Hinput.anyGamepad.A.justReleased){
-                        kart_manager.instance.down_kart();
-                    }
+                    // Gestion Hauteur Kart
+                    kart_manager.instance.up_kart(left_trigger);
+                    
+                  
 
 
             break;

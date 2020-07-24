@@ -44,6 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   next_rails: {fileID: 0}
-  SaveTrajetKart: []
-  position_trajet: 0
-  kart: {fileID: 0}
+  List_spline_rails: []
+  id_rails: 0

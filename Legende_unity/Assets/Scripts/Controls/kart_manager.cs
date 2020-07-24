@@ -73,6 +73,17 @@ public class kart_manager : MonoBehaviour
     public float turnKart_bis;
     public float angle_rotation_Y;
     public bool danger_kart;
+
+    public Transform kart_img_minimap;
+
+    [Header("Reglages Elevator")]
+    public float speed_up = 10f;
+    public float speed_down = 5f;
+    public float hauteur_kart_max = 5f;
+    Transform chariot_structure;
+    
+
+    
   
 
     void Start(){
@@ -85,7 +96,9 @@ public class kart_manager : MonoBehaviour
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
         chariot_siege = GameObject.Find("chariot_siege_container").GetComponent<Transform>();
+        chariot_structure = GameObject.Find("chariot_structure").GetComponent<Transform>();
         SpeedUI = GameObject.Find("speedValue").GetComponent<Text>(); 
+        camera_mini_map.instance.list_img_minimap.Add(kart_img_minimap); 
 
         audio_sparkle = GameObject.Find("SoundFx_etincelle").GetComponent<AudioSource>();
         audio_vapeur = GameObject.Find("SoundFx_vapeur").GetComponent<AudioSource>();
@@ -97,7 +110,8 @@ public class kart_manager : MonoBehaviour
         collider_enter_chariot = GameObject.Find("Chariot_Container").GetComponent<BoxCollider>();
         StartCoroutine(refreshSpeedUI());
 
-        StartCoroutine(checkVirageKart());
+       // StartCoroutine(checkVirageKart());
+       
     }
 
     IEnumerator checkVirageKart(){
@@ -136,17 +150,33 @@ public class kart_manager : MonoBehaviour
     }
     
 
-    public void up_kart(){
+    public void up_kart(float left_trigger){
 
-        anim_kart.SetBool("up_kart",true);
+        if(equipement_bouteille){
+
+            if(left_trigger > 0.3f){ // si appuie gachette
+                particle_vapeur_under.Play();
+                if(!audio_vapeur.isPlaying){
+                    audio_vapeur.Play();
+                }
+
+                if(chariot_structure.transform.localPosition.z < hauteur_kart_max){
+                    chariot_structure.transform.Translate(Vector3.forward * Time.deltaTime * left_trigger * speed_up);
+                }
+            }
+            
+            else if(left_trigger <= 0.3f){
+
+                if(chariot_structure.transform.localPosition.z > -0.3f){
+                    particle_vapeur_under.Stop();
+                    audio_vapeur.Stop();
+                    chariot_structure.transform.Translate(Vector3.back * Time.deltaTime * speed_down);
+                }
+            }
+        }
     }
 
-     public void down_kart(){
-
-        anim_kart.SetBool("up_kart",false);
-    }
-
-
+    
     // Gere la rotation du siege
     public void kart_movement(float right_stick_x, float right_stick_y, float left_stick_x, float left_stick_y){
         chariot_siege.Rotate(0,0, right_stick_x * camera_speed_rotation  * Time.deltaTime, Space.Self); // rotate right/left character.
@@ -216,26 +246,7 @@ public class kart_manager : MonoBehaviour
         }
     }
 
-    // Gestion du saut du kart
-    public void kart_jump(){
-
-        if(VapeurBar.instance.useVapeur(10f)){ // Jump 
-
-            anim_kart.SetTrigger("jump");
-            particle_vapeur_under.Play();
-            Invoke("stop_particule_under",0.6f);
-            audio_kart.PlayOneShot(clip_fx[1]);
-
-            if(danger_kart){
-               Invoke("chuteKart",0.4f);
-            }
-        }
-    }
-
-    public void stop_particule_under(){
-        particle_vapeur_under.Stop();
-    }
-
+  
     public void chuteKart(){
 
         anim_kart.enabled = false;
@@ -324,14 +335,12 @@ public class kart_manager : MonoBehaviour
  
     }
 
-
-
+    
     void Update(){
 
         speed_and_move();
        
         //Gestion des etincelles
-
         if(!danger_kart){
             if(vitesse_actuelle * reverse_pad >= 20){
                 particle_etincelle_left_back.Play();

@@ -14,21 +14,15 @@ public class AiguillageManager : MonoBehaviour
     public List<Battlehub.MeshDeformer2.SplineBase> List_spline_rails = new List<Battlehub.MeshDeformer2.SplineBase>();
     public int id_rails;
 
-    public GameObject[] rail_map_ui;
-    int save_last_rail_ui = 1;
-    CanvasGroup display;
-    public Battlehub.MeshDeformer2.SplineBase[] spline_rails;
     
-    void Start(){
+    void Awake(){
 
         if(instance == null){
             instance = this;
         }
 
         SplineFollow = GameObject.Find("Chariot_Container").GetComponent<Battlehub.MeshDeformer2.SplineFollow>();
-        List_spline_rails.Add(SplineFollow.Spline);  
-
-        StartCoroutine(refresk_ui_position()); 
+        List_spline_rails.Add(SplineFollow.Spline); // on ajoute le rail de depart affecte au kart
     }
 
 
@@ -49,50 +43,20 @@ public class AiguillageManager : MonoBehaviour
     }
 
 
-    IEnumerator refresk_ui_position(){
+   
+    // IEnumerator moveleftRight(){
 
-        int i = 0;
-      
-        while(true){
-
-            for (i = 0; i < spline_rails.Length; i++){
-
-                if (spline_rails[i] == SplineFollow.Spline){
-
-                    if(save_last_rail_ui != i){
-                        rail_map_ui[save_last_rail_ui].transform.GetChild(2).gameObject.SetActive(false);
-                        save_last_rail_ui = i;
-                    }
-
-                    rail_map_ui[i].transform.GetChild(2).gameObject.SetActive(true);
-                    display = rail_map_ui[i].GetComponent<CanvasGroup>();
-                    
-                    if(display.alpha == 0){
-                        StartCoroutine(fadein());
-                    }
-
-                    rail_map_ui[i].GetComponentInChildren<Slider>().value = Mathf.Round(SplineFollow.T* 100f)/100f;
-                }
-            }
-
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
-
-    IEnumerator fadein(){
-
-        float timer = 0;
-        float duree = 1f;
+    //     float timer = 0;
+    //     float duree = 1f;
     
-        while (timer < duree){
+    //     while (timer < duree){
 
-            timer += Time.deltaTime;
-            float newAlpha = Mathf.Lerp(0, 1, timer / duree);
-            display.alpha = newAlpha;
-            yield return null;
-        }
-    }
+    //         timer += Time.deltaTime;
+    //         float newAlpha = Mathf.Lerp(0, 1, timer / duree);
+    //         display.alpha = newAlpha;
+    //         yield return null;
+    //     }
+    // }
 
         
     
