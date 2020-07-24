@@ -26,6 +26,11 @@ public class camera_mini_map : MonoBehaviour
         cam_view_minimap = GameObject.Find("pivot_view").GetComponent<RectTransform>();
         target = GameObject.Find("Player").GetComponent<Transform>();
         main_camera = GameObject.Find("Camera").GetComponent<Transform>();
+
+         transform.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
+            foreach(Transform img in list_img_minimap){
+                img.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
+            }
     }
 
 
@@ -36,11 +41,11 @@ public class camera_mini_map : MonoBehaviour
         newPosition.y = transform.position.y;
         transform.position = newPosition;
 
-        // Gere la rotation de la vue camera
+        // Gere la rotation de img vue camera
         if(!rotation){
             Vector3 compassRotation = cam_view_minimap.transform.eulerAngles;
             compassRotation.z = main_camera.eulerAngles.y;
-            cam_view_minimap.transform.eulerAngles = -compassRotation;
+            cam_view_minimap.transform.eulerAngles = compassRotation;
         }
 
         // gere la rotation de toutes les imgs

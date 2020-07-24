@@ -24,7 +24,6 @@ public class Camera_control : MonoBehaviour
     public float frequence_max = 60f;
 
     
-  
     void Start(){ 
 
         if(instance == null){

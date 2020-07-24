@@ -74,11 +74,14 @@ public class kart_manager : MonoBehaviour
     public float angle_rotation_Y;
     public bool danger_kart;
 
+    public Transform kart_img_minimap;
+
     [Header("Reglages Elevator")]
     public float speed_up = 10f;
     public float speed_down = 5f;
     public float hauteur_kart_max = 5f;
     Transform chariot_structure;
+    
 
     
   
@@ -95,6 +98,7 @@ public class kart_manager : MonoBehaviour
         chariot_siege = GameObject.Find("chariot_siege_container").GetComponent<Transform>();
         chariot_structure = GameObject.Find("chariot_structure").GetComponent<Transform>();
         SpeedUI = GameObject.Find("speedValue").GetComponent<Text>(); 
+        camera_mini_map.instance.list_img_minimap.Add(kart_img_minimap); 
 
         audio_sparkle = GameObject.Find("SoundFx_etincelle").GetComponent<AudioSource>();
         audio_vapeur = GameObject.Find("SoundFx_vapeur").GetComponent<AudioSource>();
@@ -163,7 +167,7 @@ public class kart_manager : MonoBehaviour
             
             else if(left_trigger <= 0.3f){
 
-                if(chariot_structure.transform.localPosition.z > 0f){
+                if(chariot_structure.transform.localPosition.z > -0.3f){
                     particle_vapeur_under.Stop();
                     audio_vapeur.Stop();
                     chariot_structure.transform.Translate(Vector3.back * Time.deltaTime * speed_down);
