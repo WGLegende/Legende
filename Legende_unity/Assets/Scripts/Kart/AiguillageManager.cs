@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AiguillageManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class AiguillageManager : MonoBehaviour
     public List<Battlehub.MeshDeformer2.SplineBase> List_spline_rails = new List<Battlehub.MeshDeformer2.SplineBase>();
     public int id_rails;
 
-
+    
     void Awake(){
 
         if(instance == null){
@@ -21,7 +22,7 @@ public class AiguillageManager : MonoBehaviour
         }
 
         SplineFollow = GameObject.Find("Chariot_Container").GetComponent<Battlehub.MeshDeformer2.SplineFollow>();
-        List_spline_rails.Add(SplineFollow.Spline);   
+        List_spline_rails.Add(SplineFollow.Spline); // on ajoute le rail de depart affecte au kart
     }
 
 
@@ -40,4 +41,23 @@ public class AiguillageManager : MonoBehaviour
         SplineFollow.Restart();
         SplineFollow.m_t = 0.9999999f;  // on replace le kart
     }
+
+
+   
+    // IEnumerator moveleftRight(){
+
+    //     float timer = 0;
+    //     float duree = 1f;
+    
+    //     while (timer < duree){
+
+    //         timer += Time.deltaTime;
+    //         float newAlpha = Mathf.Lerp(0, 1, timer / duree);
+    //         display.alpha = newAlpha;
+    //         yield return null;
+    //     }
+    // }
+
+        
+    
 }

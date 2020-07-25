@@ -29,11 +29,15 @@ public class tests_manager : MonoBehaviour
             PlayerPrefs.DeleteAll();
         }
         if(player_never_die){
-           InvokeRepeating("PlayerInfinityPv",0, 2.0f);
+           InvokeRepeating("PlayerInfinityPv",0,2.0f);
+            debugText6.color = Color.green;
+            debugText6.text = "Unlimited Pv";
         } 
 
          if(always_vapeur){
-           InvokeRepeating("AlwaysVapeur",0, 5f);
+           InvokeRepeating("AlwaysVapeur",0,5f);
+            debugText7.color = Color.green;
+            debugText7.text = "Unlimited Vapeur";
         } 
         if(test_player_kart){
             Invoke("switchKart",0.1f);  
@@ -45,8 +49,9 @@ public class tests_manager : MonoBehaviour
         if(EarthQuakeEffect){
             StartCoroutine(Camera_control.instance.start_earthquake());
         }
-
-        StartCoroutine(angleYkart());   
+        if(Playerkart != null){
+            StartCoroutine(angleYkart()); 
+        }  
     }
 
 
@@ -66,11 +71,15 @@ public class tests_manager : MonoBehaviour
             }
         }
 
-         if(kart_manager.instance.danger_kart){
-            debugText5.color = Color.yellow;
-            debugText5.text = "DANGER !";
-        }else{
-            debugText5.text = "";
+        
+        if(Playerkart != null){
+            if(kart_manager.instance.danger_kart){
+                debugText5.color = Color.yellow;
+                debugText5.text = "DANGER !";
+            }
+            else{
+                debugText5.text = "";
+            }
         }
 
     }

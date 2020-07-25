@@ -71,7 +71,7 @@ public class level_main : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        kart_manager.instance.anim_kart.enabled = true; 
+       // kart_manager.instance.anim_kart.enabled = true; 
         kart.transform.localPosition = new Vector3(-0.04f,0f,0f);
         kart.transform.localRotation = Quaternion.Euler(0,0,0);
         kart_manager.instance.chariot_siege.transform.localRotation = Quaternion.Euler(270f,90f,-90f); 
