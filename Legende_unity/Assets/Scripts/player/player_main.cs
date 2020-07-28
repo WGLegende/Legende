@@ -50,7 +50,7 @@ public class player_main : MonoBehaviour
             AddPlayerPv(100);
         }
         if(player.activeSelf){
-            checkIfPlayerIsFalling();
+           // checkIfPlayerIsFalling();
         }
         
       

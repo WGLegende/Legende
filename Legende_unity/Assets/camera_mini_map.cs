@@ -12,11 +12,11 @@ public class camera_mini_map : MonoBehaviour
     Transform main_camera;
     Transform player_img_minimap;
     RectTransform cam_view_minimap;
-  
 
     public List<Transform> list_img_minimap = new List<Transform>();
-    
 
+  
+    
     void Awake(){
 
         if(instance == null){
@@ -25,12 +25,7 @@ public class camera_mini_map : MonoBehaviour
         player_img_minimap = GameObject.Find("player_img_minimap").GetComponent<Transform>();
         cam_view_minimap = GameObject.Find("pivot_view").GetComponent<RectTransform>();
         target = GameObject.Find("Player").GetComponent<Transform>();
-        main_camera = GameObject.Find("Camera").GetComponent<Transform>();
-
-         transform.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
-            foreach(Transform img in list_img_minimap){
-                img.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
-            }
+        main_camera = GameObject.Find("Camera").GetComponent<Transform>();  
     }
 
 
@@ -55,6 +50,11 @@ public class camera_mini_map : MonoBehaviour
                 img.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
             }
         }
-        
+    
     }
+
+
+   
+
+   
 }
