@@ -31,6 +31,7 @@ public class player_main : MonoBehaviour
     void Awake(){ 
 
         instance = this;
+        player = GameObject.Find("Player");
         anim = player.GetComponent<Animator>();
         blackout = GameObject.Find("black").GetComponent<Animator>();
         controller = GameObject.Find("Player").GetComponent<CharacterController>();
@@ -45,10 +46,7 @@ public class player_main : MonoBehaviour
 
             DegatPlayerPv(50);
         }
-        if(Input.GetKeyDown("space")){
-
-            AddPlayerPv(100);
-        }
+      
         if(player.activeSelf){
            // checkIfPlayerIsFalling();
         }
@@ -129,7 +127,7 @@ public class player_main : MonoBehaviour
         timeInAir = controller.isGrounded ? timeInAir = 0f : timeInAir += Time.deltaTime;
 
         if(timeInAir > 0.7f){ // todo test anim lorsque player quitte le sol sans sauter
-          // anim.SetTrigger("is_falling");
+           anim.SetTrigger("is_falling");
            Player_sound.instance.StopMove(); // Sound Player
         }
 
@@ -138,9 +136,9 @@ public class player_main : MonoBehaviour
             playerIsAlive = false;
         }
 
-        // if (climbtest.instance.canClimb){
-        //     timeInAir = 0f;
-        // }
+        if (climbtest.instance.canClimb){
+            timeInAir = 0f;
+        }
     }
 
 }

@@ -74,7 +74,7 @@ public static ame_player instance;
     public IEnumerator navy_start_speak(string[] value,float delai){ // declenche par player_action
 
         text_de_navy_container = value; // on recupere l'array string envoyee
-        text_navy_UI.text = "";
+        text_navy_UI.text = ""; // on vide le text precedent
 
         yield return new WaitForSeconds(delai);
         player_gamePad_manager.instance.PlayerCanMove(false);
@@ -83,7 +83,7 @@ public static ame_player instance;
         Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[3]); 
 
         yield return new WaitForSeconds(0.5f);
-        Camera_control.instance.cam_ame.Priority = 12; 
+        Camera_control.instance.cam_ame.Priority = 12; // on active la cam de navy
 
         yield return new WaitForSeconds(0.5f);
         text_button_navy_UI.text = text_de_navy_container.Length > 1 ? text_button_navy_UI.text = "Passer" : text_button_navy_UI.text = "Terminer";
@@ -148,7 +148,7 @@ public static ame_player instance;
         Camera_control.instance.cam_ame.Priority = 8;
         yield return new WaitForSeconds(0.7f);
         player_gamePad_manager.instance.PlayerCanMove(true);   
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         dollyCart.m_Position = 0f;
         dollyCart.m_Speed = -30f;
     }

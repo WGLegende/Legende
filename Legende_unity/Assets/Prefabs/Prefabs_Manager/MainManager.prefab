@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5323553135682891858}
-  - component: {fileID: 5323553135682891863}
   - component: {fileID: 5323553135682891860}
   - component: {fileID: 5323553135682891857}
   - component: {fileID: 5323553135682891859}
@@ -17,6 +16,7 @@ GameObject:
   - component: {fileID: 5323553135682891861}
   - component: {fileID: 5323553135682891862}
   - component: {fileID: 5323553135682891848}
+  - component: {fileID: 1306113156554496266}
   m_Layer: 0
   m_Name: MainManager
   m_TagString: Untagged
@@ -38,30 +38,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5323553135682891863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5323553135682891871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e867ba54c2590444839a68d9896737c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyPlayerPrefs: 1
-  player_never_die: 0
-  test_player_kart: 0
-  always_vapeur: 1
-  EarthQuakeEffect: 0
-  Player: {fileID: 0}
-  Playerkart: {fileID: 0}
-  testCamKart: {fileID: 0}
-  debugText4: {fileID: 0}
-  debugText5: {fileID: 0}
-  debugText6: {fileID: 0}
-  debugText7: {fileID: 0}
 --- !u!114 &5323553135682891860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,3 +144,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animPlayer: {fileID: 0}
+--- !u!114 &1306113156554496266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5323553135682891871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b756ed87861874dbdb7c826af42c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list_nest_rails: []
