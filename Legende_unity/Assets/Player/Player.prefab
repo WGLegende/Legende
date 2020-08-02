@@ -9724,7 +9724,7 @@ MonoBehaviour:
   canMove: 0
   canJump: 0
   PlayerIsAttack: 0
-  player_gravity: 9
+  player_gravity: 7
   jumpForce: 2
   turnSmoothTime: 0.12
   force_degat_recul: 4
@@ -9775,7 +9775,7 @@ CharacterController:
   m_Height: 1.74
   m_Radius: 0.59
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.5
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: -0.08, y: 0.85, z: 0}

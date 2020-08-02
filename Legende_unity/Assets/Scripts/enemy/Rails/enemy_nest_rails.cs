@@ -6,6 +6,15 @@ public class enemy_nest_rails : MonoBehaviour
 {
     public static enemy_nest_rails instance;
 
+    [Header("Characteristic")]
+
+    public bool oneShot;
+    public float duree_de_vie;
+    public GameObject particle_death;
+    
+
+    [Header("")]
+
     public int nbr_cycle = 1;
     public float delai_cycle;
     
@@ -73,6 +82,10 @@ public class enemy_nest_rails : MonoBehaviour
                 enemy_clone.SplineFollowEnemy.IsRunning = true;
                 enemy_clone.SplineFollowEnemy.Restart();
                 enemy_clone.SplineFollowEnemy.m_t = position_kart;
+
+                enemy_clone.oneShot = oneShot;
+                enemy_clone.duree_de_vie = duree_de_vie;
+                enemy_clone.particule_death = particle_death;
 
                 yield return new WaitForSeconds(0.1f);
                 enemy_clone.gfx.SetActive(true);

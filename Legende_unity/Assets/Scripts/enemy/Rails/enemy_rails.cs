@@ -12,12 +12,17 @@ public class enemy_rails : MonoBehaviour{
     [HideInInspector] public GameObject gfx;
     [HideInInspector] public bool can_up;
 
+    [HideInInspector]  public bool oneShot;
     public float vitesse_dpl;
     public float vitesse_attack;
     public float vitesse_up = 6;
+    [HideInInspector] public float duree_de_vie;
   
     public AudioClip[] clips;
     AudioSource audio_source;
+
+    [HideInInspector] public GameObject particule_death;
+    Animation anim;
 
 
     void Start(){
@@ -30,7 +35,17 @@ public class enemy_rails : MonoBehaviour{
         SplineFollowEnemy = GetComponent<Battlehub.MeshDeformer2.SplineFollow>();
         SplineFollowKart = GameObject.Find("Chariot_Container").GetComponent<Battlehub.MeshDeformer2.SplineFollow>();
         audio_source = GetComponent<AudioSource>();
+        anim = GetComponent<Animation>();
+
  
+    }
+
+
+    private void Update() {
+        if(Input.GetKeyDown("f")){
+
+            StartCoroutine(auto_destroy());
+        }
     }
 
    
@@ -38,6 +53,7 @@ public class enemy_rails : MonoBehaviour{
 
         audio_source.clip = clips[0];
         audio_source.Play();
+        StartCoroutine(auto_destroy());
 
         if(can_up){
             StartCoroutine(up_enemy());
@@ -52,7 +68,7 @@ public class enemy_rails : MonoBehaviour{
 
             yield return new WaitForSeconds(2f);
     
-            if((SplineFollowEnemy.T > SplineFollowKart.T)){ 
+            if((SplineFollowEnemy.T > SplineFollowKart.T) && !oneShot){ 
                 SplineFollowEnemy.Speed = - vitesse_dpl - (vitesse_attack * Time.deltaTime);
             }
 
@@ -78,12 +94,26 @@ public class enemy_rails : MonoBehaviour{
 
       
         AudioSource.PlayClipAtPoint(clips[1], transform.position);
-        Destroy(this.gameObject,0f);
+        GameObject Particule = Instantiate(particule_death,gfx.transform.position,gfx.transform.rotation);
+        Destroy(gameObject,0f);
+        Destroy(Particule,4f);
            
     }
 
     public void destroyEnemy(){
 
-        Destroy(this.gameObject,0f); 
+        Destroy(gameObject,0f); 
+    }
+
+    IEnumerator auto_destroy(){
+
+        yield return new WaitForSeconds(duree_de_vie - 1.4f);
+        anim.Play("test_sphere_rails");
+
+        yield return new WaitForSeconds(1.4f);
+        AudioSource.PlayClipAtPoint(clips[1], transform.position);
+        GameObject Particule = Instantiate(particule_death,gfx.transform.position,gfx.transform.rotation);
+        Destroy(gameObject,0f); 
+        Destroy(Particule,4f);
     }
 }

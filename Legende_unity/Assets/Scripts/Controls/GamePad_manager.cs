@@ -20,8 +20,11 @@ public class GamePad_manager : MonoBehaviour
         dialogue,
         actionDisplay,
         actionDisplayKart,
-        actionNavy
+        startConversationNavy,
+        actionNavy,
+        nothing
     }
+
     public game_pad_attribution _game_pad_attribution = game_pad_attribution.player;
     public game_pad_attribution _last_game_pad_attribution = game_pad_attribution.player;
 
@@ -71,7 +74,7 @@ public class GamePad_manager : MonoBehaviour
 
         switch(_game_pad_attribution){
 
-            case game_pad_attribution.player : case game_pad_attribution.actionDisplay : case game_pad_attribution.actionNavy :
+            case game_pad_attribution.player : case game_pad_attribution.actionDisplay : case game_pad_attribution.actionNavy : case game_pad_attribution.startConversationNavy :
 
                 player_gamePad_manager.instance.player_is_moving = left_stick_x < 0 || left_stick_x > 0 || left_stick_y < 0 || left_stick_y > 0;
               
@@ -110,12 +113,24 @@ public class GamePad_manager : MonoBehaviour
                 }
 
                 if(Hinput.anyGamepad.A.justPressed){
+
+                    if(ame_player.instance.navy_en_attente){
+                        ame_player.instance.navy_en_attente =false;
+                        ame_player.instance.anim_button_navy.SetBool("display_navy_button",false);
+                        ame_player.instance.CancelInvoke();
+                    }
+
                     if(_game_pad_attribution == game_pad_attribution.actionDisplay){
                         player_actions.instance.do_action();
                     }
+
+                    else if(_game_pad_attribution == game_pad_attribution.startConversationNavy){
+                       StartCoroutine(ame_player.instance.navy_start_speak((0f)));
+                    }
+
                     else if(_game_pad_attribution == game_pad_attribution.actionNavy){
                         ame_player.instance.nextTextNavySpeak();
-                    }
+                    }   
                 }
 
                 
@@ -224,14 +239,16 @@ public class GamePad_manager : MonoBehaviour
                         kart_manager.instance.kart_light();
                     }
 
+                     // Gestion Hauteur Kart
+                    kart_manager.instance.up_kart(left_trigger);
+                    
+
                     if(Hinput.anyGamepad.A.justPressed){
                         if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
                             player_actions.instance.do_action_kart();
                         }  
                     }
-                    // Gestion Hauteur Kart
-                    kart_manager.instance.up_kart(left_trigger);
-                    
+                   
                   
 
 

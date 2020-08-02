@@ -7,16 +7,19 @@ using UnityEngine;
 
 public class script_test : MonoBehaviour{
 
-    [SerializeField]
+
+    public Transform objetToMove;
+
+   
     public Transform start;
-    [SerializeField]
+   
     public Transform end;
-    public Transform other;
-    [SerializeField]
+   
+   
    
     public float vitessekart = 10f;
 
-    public float speed = 0;
+    public float test = 0;
 
 
     void Start()
@@ -28,12 +31,10 @@ public class script_test : MonoBehaviour{
     void Update()
     {
        
-        // transform.position = Vector3.Lerp(start.position,end.position,test);
-        // transform.rotation = Quaternion.Lerp(start.rotation,end.rotation,test);
-       // speed = Mathf.Lerp(speed,vitessekart,Time.deltaTime);
-         speed += speed < vitessekart ? 
-                                    Time.deltaTime* 5 : 
-                                   -(Time.deltaTime* 5);
+       objetToMove.transform.position = Vector3.Lerp(start.position,end.position,test);
+        //transform.rotation = Quaternion.Lerp(start.rotation,end.rotation,test);
+      
+       
         
      
         

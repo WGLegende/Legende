@@ -33,4 +33,9 @@ public class RotateKartSwitch : MonoBehaviour{
         player_actions.instance.clear_action(collider.tag == "Player");  
     }
 
+    void enableCollider(){ // declenchee en fin anim
+
+
+    }
+
 }

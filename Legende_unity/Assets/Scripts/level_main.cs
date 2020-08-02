@@ -93,7 +93,6 @@ public class level_main : MonoBehaviour
         Camera_control.instance.cam_crash.Priority = 0;
 
         enemy_rails_manager.instance.reinitializeAllEnemy();
-
     }
 
 
