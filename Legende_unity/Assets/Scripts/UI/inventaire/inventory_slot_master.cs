@@ -116,7 +116,6 @@ public class inventory_slot_master : MonoBehaviour
 
     public void update_equipement_slots(){
         Debug.Log("update_equipement_slots");
-
         foreach(inventory_equipement_slot equipement_Slot in preExistingEquipementSlots){
             _Slot slot = equipement_Slot.GetComponent<_Slot>();
             inventory_object obj = equipement_Slot.getEquipedObject();

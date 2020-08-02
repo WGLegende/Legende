@@ -9,12 +9,9 @@ public class script_test : MonoBehaviour{
 
 
     public Transform objetToMove;
-
-   
     public Transform start;
-   
     public Transform end;
-   
+    public Transform PointSpline;
    
    
     public float vitessekart = 10f;
@@ -24,14 +21,16 @@ public class script_test : MonoBehaviour{
 
     void Start()
     {
-        
+        print("x :"+PointSpline.transform.position.x);
+        print("y :"+PointSpline.transform.position.y);
+        print("z :"+PointSpline.transform.position.z);
     }
 
     // Update is called once per frame
     void Update()
     {
        
-       objetToMove.transform.position = Vector3.Lerp(start.position,end.position,test);
+       //objetToMove.transform.position = Vector3.Lerp(start.position,end.position,test);
         //transform.rotation = Quaternion.Lerp(start.rotation,end.rotation,test);
       
        

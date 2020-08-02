@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.29803923}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.4392157}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -559,17 +559,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1269929901}
-  m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 471549324}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 33.75}
-  m_SizeDelta: {x: 80, y: 67.45}
+  m_AnchoredPosition: {x: 0, y: 20.29}
+  m_SizeDelta: {x: 80, y: 149.46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1269929904
 CanvasRenderer:
@@ -592,12 +592,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9622642, g: 0.9401545, b: 0, a: 0.15686275}
+  m_Color: {r: 0.70980394, g: 0.5764706, b: 0.17254902, a: 0.18431373}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 00e18cfb5936d2245a8652d9ea38a458, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3cd4f987bb2ec7a4380178b16036c684, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -828,7 +828,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.202, y: 0.110824406}
   m_AnchorMax: {x: 0.60943675, y: 0.9188957}
-  m_AnchoredPosition: {x: -2.000122, y: -34.999985}
+  m_AnchoredPosition: {x: -2.000183, y: -34.999985}
   m_SizeDelta: {x: 444, y: 92}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &585233765369751107

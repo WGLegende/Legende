@@ -185,7 +185,7 @@ public class ame_player : MonoBehaviour{
 
         startPosition = new Vector3(playerPosition.position.x,playerPosition.position.y,playerPosition.position.z); // on stocke la position
         
-        while(distance_parcourue < 20f){
+        while(distance_parcourue < 25f){
 
             distance_parcourue = Vector3.Distance(playerPosition.position, startPosition);
             yield return new WaitForSeconds(0.02f);

@@ -41,6 +41,8 @@ public class GamePad_manager : MonoBehaviour
     }
 
     public void open_close_inventory(bool is_open){
+
+        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[1]); 
         Debug.Log("open_close_inventory " + is_open);
         if(is_open){
             if(_game_pad_attribution != game_pad_attribution.inventory){
@@ -163,14 +165,23 @@ public class GamePad_manager : MonoBehaviour
 
                 // Navigue dans les slots
                 if(!currently_navigate_in_inventory){
+
                     if(Hinput.anyGamepad.leftStick.up){
                         StartCoroutine(navigate_in_inventory("up"));
+                        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[0]); 
+
                     }else if(Hinput.anyGamepad.leftStick.right){
                         StartCoroutine(navigate_in_inventory("right"));
+                        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[0]); 
+
                     }else if(Hinput.anyGamepad.leftStick.down){
                         StartCoroutine(navigate_in_inventory("down"));
+                        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[0]); 
+
                     }else if(Hinput.anyGamepad.leftStick.left){
                         StartCoroutine(navigate_in_inventory("left"));
+                        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[0]); 
+
                     } 
                 }
 

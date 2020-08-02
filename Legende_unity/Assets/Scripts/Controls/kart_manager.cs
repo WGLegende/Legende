@@ -327,10 +327,10 @@ public class kart_manager : MonoBehaviour
         }
        
         // Gestion aiguillage
-        if(SplineFollow.T >= 0.99999 && vitesse_actuelle > 0){// fin circuit;
+        if(SplineFollow.T >= 0.999 && vitesse_actuelle > 0){// fin circuit;
             AiguillageManager.instance.switchRails();
         }
-        if(SplineFollow.T <= 0.0009 && vitesse_actuelle < 0 && AiguillageManager.instance.id_rails > 0){ // fin back circuit
+        if(SplineFollow.T <= 0.001 && vitesse_actuelle < 0 && AiguillageManager.instance.id_rails > 0){ // fin back circuit
             AiguillageManager.instance.switchRailsBack();
         }
  
