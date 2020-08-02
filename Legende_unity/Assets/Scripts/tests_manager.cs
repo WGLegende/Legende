@@ -8,7 +8,6 @@ public class tests_manager : MonoBehaviour
 {
     public bool destroyPlayerPrefs;
     public bool player_never_die;
-    public bool test_player_kart;
     public bool always_vapeur;
     public bool EarthQuakeEffect;
 
@@ -17,41 +16,34 @@ public class tests_manager : MonoBehaviour
 
     public CinemachineVirtualCamera testCamKart;
 
-    public Text debugText4;
-    public Text debugText5;
-    public Text debugText6;
-    public Text debugText7;
+    [Header("Raccourci PLayer")]
+    public Transform touche_1;
+    public Transform touche_2;
+    public Transform touche_3;
+    public Transform touche_4;
+  
 
-
+   
+    
     void Start(){
 
         if(destroyPlayerPrefs){
             PlayerPrefs.DeleteAll();
         }
+
         if(player_never_die){
            InvokeRepeating("PlayerInfinityPv",0,2.0f);
-            debugText6.color = Color.green;
-            debugText6.text = "Unlimited Pv";
+           
         } 
 
-         if(always_vapeur){
-           InvokeRepeating("AlwaysVapeur",0,5f);
-            debugText7.color = Color.green;
-            debugText7.text = "Unlimited Vapeur";
-        } 
-        if(test_player_kart){
-            Invoke("switchKart",0.1f);  
+        if(always_vapeur){
+           InvokeRepeating("AlwaysVapeur",0,5f);   
         } 
 
-        if(Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
-            VapeurBar.instance.fill_vapeur_stock();
-        }
         if(EarthQuakeEffect){
             StartCoroutine(Camera_control.instance.start_earthquake());
         }
-        if(Playerkart != null){
-            StartCoroutine(angleYkart()); 
-        }  
+
     }
 
 
@@ -61,7 +53,19 @@ public class tests_manager : MonoBehaviour
             foreach(enemy enemy in enemy_manager.instance.mesEnemyList){
                 enemy.current_comportement = enemy_manager.comportement.dead;
             }
+            if(!Player.activeSelf){
+                enemy_rails_manager.instance.reinitializeAllEnemy();
+                print("destruction");
+            }
         }
+
+        if(Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
+            VapeurBar.instance.fill_vapeur_stock();
+            StockBullet.instance.update_stock_bullet(20); 
+            player_main.instance.AddPlayerPv(100);
+           
+        }
+
         if(Input.GetKeyDown("c")){  // test cam Auto kart
             if(testCamKart.Priority < 15){
                 testCamKart.Priority = 15;
@@ -71,30 +75,19 @@ public class tests_manager : MonoBehaviour
             }
         }
 
-        
-        if(Playerkart != null){
-            if(kart_manager.instance.danger_kart){
-                debugText5.color = Color.yellow;
-                debugText5.text = "DANGER !";
-            }
-            else{
-                debugText5.text = "";
-            }
+       
+        switch(Input.inputString){
+
+            case "1" : Player.transform.position = touche_1.transform.position; break;
+            case "2" : Player.transform.position = touche_2.transform.position; break;
+            case "3" : Player.transform.position = touche_3.transform.position; break;
+            case "4" : Player.transform.position = touche_4.transform.position; break;
+            case "5" : switchKart(); break;
         }
 
     }
 
-    IEnumerator angleYkart(){ // angle turn kart
-
-        yield return new WaitForSeconds(0.2f);
-
-        while(true){
-        debugText4.text = "angle_Y_kart :"+ Mathf.Abs(kart_manager.instance.angle_rotation_Y).ToString("f0");    
-        yield return new WaitForSeconds(0.2f);
-        }
-    }
-
-
+  
 
     void PlayerInfinityPv(){
         player_main.instance.AddPlayerPv(100);

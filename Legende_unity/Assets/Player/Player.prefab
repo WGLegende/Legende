@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760037109}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 1.71, z: -0}
+  m_LocalPosition: {x: 0, y: 0.07, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 734642352545248227}
@@ -3355,7 +3355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730937902245870545}
   m_LocalRotation: {x: -0.104323186, y: 0.69936866, z: 0.27383795, w: 0.65193015}
-  m_LocalPosition: {x: -0.080403596, y: -0.029134512, z: 0.5351516}
+  m_LocalPosition: {x: -0.080402374, y: -0.029134572, z: 0.5351525}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 734197437860103427}
@@ -4358,7 +4358,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731038286651377569}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.05060407}
+  m_LocalPosition: {x: 0, y: 0, z: -0.050604105}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 734056023633026695}
@@ -9664,6 +9664,7 @@ GameObject:
   - component: {fileID: 2217567229143785401}
   - component: {fileID: 5484618000372479778}
   - component: {fileID: 4666324231404758940}
+  - component: {fileID: 640194574}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -9723,8 +9724,8 @@ MonoBehaviour:
   canMove: 0
   canJump: 0
   PlayerIsAttack: 0
-  player_gravity: 12
-  jumpForce: 3.5
+  player_gravity: 9
+  jumpForce: 2
   turnSmoothTime: 0.12
   force_degat_recul: 4
 --- !u!136 &731768997408257586
@@ -9917,13 +9918,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731768997408257587}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f58d120e3c4c5e4e9fe015310c884ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 2
   CanMove: 1
+--- !u!54 &640194574
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731768997408257587}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &731784048805192203
 GameObject:
   m_ObjectHideFlags: 0
@@ -20456,7 +20473,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3439678546046943981}
   m_LocalRotation: {x: 0.00024095528, y: -0.08021515, z: 0.000019390749, w: 0.9967776}
-  m_LocalPosition: {x: -0.24097729, y: 1.021, z: 0.22091973}
+  m_LocalPosition: {x: -0.24097824, y: 1.0209999, z: 0.22091985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3439678545307817698}
@@ -25578,6 +25595,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonAction
       objectReference: {fileID: 0}
+    - target: {fileID: 4402370464924831530, guid: 90165363e41640a4e87da1d354468b86,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 0c08346903a2a1b408e9dff43a259dcd,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90165363e41640a4e87da1d354468b86, type: 3}
 --- !u!224 &3439678545549545275 stripped

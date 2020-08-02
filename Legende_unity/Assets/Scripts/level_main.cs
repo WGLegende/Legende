@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
 
+
 public class level_main : MonoBehaviour
 {
     public static level_main instance;
@@ -66,6 +67,9 @@ public class level_main : MonoBehaviour
         hasCheckPointKart = true;    
     }
 
+
+
+
     // On load le dernier checkpoint du kart 
     public IEnumerator MoveKartToCheckpoint(){ 
 
@@ -84,12 +88,11 @@ public class level_main : MonoBehaviour
         AiguillageManager.instance.id_rails = save_spline_actuelle; // maj de la position dans la liste 
         kart_manager.instance.SplineFollow.Restart();
         kart_manager.instance.SplineFollow.m_t = save_position_kart; 
-
-        //cam_brain.m_DefaultBlend.m_Time = 0;
        
         StartCoroutine(Camera_control.instance.CameraBehindKart());
         Camera_control.instance.cam_crash.Priority = 0;
 
+        enemy_rails_manager.instance.reinitializeAllEnemy();
 
     }
 

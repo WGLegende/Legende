@@ -154,8 +154,9 @@ public class kart_manager : MonoBehaviour
 
         if(equipement_bouteille){
 
-            if(left_trigger > 0.3f){ // si appuie gachette
+            if(left_trigger > 0.3f && VapeurBar.instance.useVapeur(0.05f)){ // si appuie gachette
                 particle_vapeur_under.Play();
+
                 if(!audio_vapeur.isPlaying){
                     audio_vapeur.Play();
                 }
@@ -165,7 +166,7 @@ public class kart_manager : MonoBehaviour
                 }
             }
             
-            else if(left_trigger <= 0.3f){
+            else if(left_trigger <= 0.3f || VapeurBar.instance.vapeur_stock == 0f){
 
                 if(chariot_structure.transform.localPosition.z > -0.3f){
                     particle_vapeur_under.Stop();
@@ -379,42 +380,57 @@ public class kart_manager : MonoBehaviour
     }
    
 
-    void OnTriggerEnter(Collider collider){
+    // void OnTriggerEnter(Collider collider){
 
-        if(collider.gameObject.tag == "CollisionRails" && !equipement_belier){ 
-            SplineFollow.IsRunning = false ;
-            canMoveAvance = false;
-            //collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
-        }
+    //     if(collider.gameObject.tag == "CollisionRails" && !equipement_belier){ 
+    //         SplineFollow.IsRunning = false ;
+    //         canMoveAvance = false;
+    //         //collider.gameObject.GetComponent<rails_triggers>().touching_chariot(GetComponent<ChariotPlayer>());
+    //     }
 
-        if(collider.gameObject.tag == "collision_lateral_left"){
+    //     if(collider.gameObject.tag == "collision_lateral_left"){
 
-            anim_kart.enabled = false;
-            impact_left.Play();
-            audio_kart.clip = clip_fx[3];
-            audio_kart.Play();
-            Camera_control.instance.cam_crash.Priority = 12;
-            rb.isKinematic = false;
-            rb.useGravity = true;
-            rb.mass = 0.05f;
-            rb.AddForce(Vector3.back,ForceMode.Impulse);
-            kart_manager.instance.canMoveRecul = false;
-            kart_manager.instance.canMoveAvance = false;
-            StartCoroutine(level_main.instance.MoveKartToCheckpoint()); // delai au start
-        }
+    //         anim_kart.enabled = false;
+    //         impact_left.Play();
+    //         audio_kart.clip = clip_fx[3];
+    //         audio_kart.Play();
+    //         Camera_control.instance.cam_crash.Priority = 12;
+    //         rb.isKinematic = false;
+    //         rb.useGravity = true;
+    //         rb.mass = 0.05f;
+    //         rb.AddForce(Vector3.back,ForceMode.Impulse);
+    //         kart_manager.instance.canMoveRecul = false;
+    //         kart_manager.instance.canMoveAvance = false;
+    //         StartCoroutine(level_main.instance.MoveKartToCheckpoint()); // delai au start
+    //     }
 
-        if(collider.gameObject.tag == "collision_lateral_right"){
+    //     if(collider.gameObject.tag == "collision_lateral_right"){
 
-            rb.isKinematic = false;
-            rb.useGravity = true;
-            rb.mass = 0.05f;
-            rb.AddForce(-Vector3.back,ForceMode.Impulse);
-            kart_manager.instance.canMoveRecul = false;
-            kart_manager.instance.canMoveAvance = false;
-            StartCoroutine(level_main.instance.MoveKartToCheckpoint()); // delai au start
+    //         rb.isKinematic = false;
+    //         rb.useGravity = true;
+    //         rb.mass = 0.05f;
+    //         rb.AddForce(-Vector3.back,ForceMode.Impulse);
+    //         kart_manager.instance.canMoveRecul = false;
+    //         kart_manager.instance.canMoveAvance = false;
+    //         StartCoroutine(level_main.instance.MoveKartToCheckpoint()); // delai au start
            
-        }
-    }
+    //     }
+
+    //     if(collider.gameObject.tag == "collision_under"){
+
+    //         anim_kart.enabled = false;
+    //         impact_left.Play();
+    //         audio_kart.clip = clip_fx[3];
+    //         audio_kart.Play();
+    //         rb.isKinematic = false;
+    //         rb.useGravity = true;
+    //         rb.mass = 0.1f;
+    //         rb.AddForce(Vector3.up,ForceMode.Impulse);
+    //         kart_manager.instance.canMoveRecul = false;
+    //         kart_manager.instance.canMoveAvance = false;
+    //         StartCoroutine(level_main.instance.MoveKartToCheckpoint()); // delai au start
+    //     }
+    // }
 
     void OnTriggerStay(Collider collider){
 

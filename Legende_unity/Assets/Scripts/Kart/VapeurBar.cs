@@ -11,7 +11,7 @@ public class VapeurBar : MonoBehaviour
     public Gradient gradient;
     public Image fill;
 
-    float vapeur_stock;
+    public float vapeur_stock;
 
     public float vapeur_stock_max;
 

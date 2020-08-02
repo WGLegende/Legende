@@ -16,7 +16,7 @@ public class saveEnemy : MonoBehaviour
     }
 
 
-    public void restoreEnemy(){
+    public void restoreEnemy(){// called par player_main
 
         Debug.Log(SaveEnemyList.Any(e => e.current_comportement != enemy_manager.comportement.dead) ? "Les enemis ne sont pas tous morts" : "Les ennemis sont tous morts");
 

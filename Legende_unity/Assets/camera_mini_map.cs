@@ -12,11 +12,12 @@ public class camera_mini_map : MonoBehaviour
     Transform main_camera;
     Transform player_img_minimap;
     RectTransform cam_view_minimap;
-  
+    RectTransform north_view_minimap;
 
     public List<Transform> list_img_minimap = new List<Transform>();
-    
 
+  
+    
     void Awake(){
 
         if(instance == null){
@@ -24,13 +25,9 @@ public class camera_mini_map : MonoBehaviour
         }
         player_img_minimap = GameObject.Find("player_img_minimap").GetComponent<Transform>();
         cam_view_minimap = GameObject.Find("pivot_view").GetComponent<RectTransform>();
+        north_view_minimap = GameObject.Find("pivot_north").GetComponent<RectTransform>();
         target = GameObject.Find("Player").GetComponent<Transform>();
-        main_camera = GameObject.Find("Camera").GetComponent<Transform>();
-
-         transform.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
-            foreach(Transform img in list_img_minimap){
-                img.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
-            }
+        main_camera = GameObject.Find("Camera").GetComponent<Transform>();  
     }
 
 
@@ -50,11 +47,22 @@ public class camera_mini_map : MonoBehaviour
 
         // gere la rotation de toutes les imgs
         if(rotation){
+
             transform.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
+
+            Vector3 compassRotation = north_view_minimap.transform.eulerAngles;
+            compassRotation.z = main_camera.eulerAngles.y;
+            north_view_minimap.transform.eulerAngles = -compassRotation;
+
             foreach(Transform img in list_img_minimap){
                 img.rotation = Quaternion.Euler(90f,main_camera.eulerAngles.y,0f);
             }
         }
-        
+    
     }
+
+
+   
+
+   
 }

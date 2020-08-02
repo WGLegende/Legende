@@ -23,6 +23,7 @@ TagManager:
   - collision_lateral_right
   - collision_lateral_left
   - chariot_cam
+  - collision_under
   layers:
   - Default
   - TransparentFX
