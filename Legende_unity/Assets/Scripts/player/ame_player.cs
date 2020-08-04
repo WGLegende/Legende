@@ -10,10 +10,18 @@ public class ame_player : MonoBehaviour{
     public static ame_player instance;
     
     CinemachineDollyCart dollyCart;
-    ParticleSystem ame_particule;
-    ParticleSystem.MainModule psmain;
+    public CinemachineDollyCart dollyCartChariot;
 
-    Transform playerPosition; 
+    public ParticleSystem ame_particule_kart;
+ 
+    ParticleSystem ame_particule;
+  
+    Transform playerPosition;
+    Transform ame_container;
+    public Transform playerKartPosition;
+    public Transform ame_container_kart;
+    public GameObject playerinKart;
+
     Vector3 startPosition;
     float distance_parcourue;
 
@@ -48,8 +56,10 @@ public class ame_player : MonoBehaviour{
         }
 
         playerPosition = player_main.instance.player.transform;
+        ame_container = GameObject.Find("ame_container").GetComponent<Transform>();
         
         dollyCart = GameObject.Find("DollyCart1").GetComponent<CinemachineDollyCart>();
+        
         ame_particule = GameObject.Find("ame").GetComponent<ParticleSystem>();
 
         navy_panel = GameObject.Find("panel_navy");
@@ -67,12 +77,12 @@ public class ame_player : MonoBehaviour{
         if(!navy_en_attente){
             
             navy_en_attente = true;
-           // yield return new WaitForSeconds(delai);
+            yield return new  WaitForSecondsRealtime(delai);
 
             anim_button_navy.SetBool("display_navy_button",true);
             InvokeRepeating("anim_attente_button",0.5f,5f);
 
-            yield return new WaitForSeconds(1f);
+            yield return new  WaitForSecondsRealtime(1f);
           
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.startConversationNavy;
         }
@@ -90,6 +100,8 @@ public class ame_player : MonoBehaviour{
     // declenche par player_action
     public IEnumerator navy_start_speak(float delai){ 
 
+
+
         if(!navy_speak){
 
             navy_speak = true;
@@ -100,24 +112,43 @@ public class ame_player : MonoBehaviour{
 
             text_navy_UI.text = ""; // on vide le text precedent
 
-            yield return new WaitForSeconds(delai);
+            yield return new  WaitForSecondsRealtime(delai);
             player_gamePad_manager.instance.PlayerCanMove(false);
-            dollyCart.m_Speed = 15f; // out navy
-            ame_particule.Play(); // out navy
+
+            if(playerinKart.activeSelf){ // on check quel player est en jeu
+                dollyCartChariot.m_Speed = 15f;
+                ame_particule_kart.Play();
+            }else{
+                dollyCart.m_Speed = 15f; // out navy
+                ame_particule.Play(); // out navy
+            }
+
+         
             Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[3]); 
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new  WaitForSecondsRealtime(0.5f);
+
+            if(playerinKart.activeSelf){ // on check quel player est en jeu
+                Camera_control.instance.cam_ame.Follow = playerKartPosition;
+                Camera_control.instance.cam_ame.LookAt = ame_container_kart;
+            }else{
+                Camera_control.instance.cam_ame.Follow = playerPosition;
+                Camera_control.instance.cam_ame.LookAt = ame_container;
+            }
+
             Camera_control.instance.cam_ame.Priority = 12; // on active la cam de navy
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new  WaitForSecondsRealtime(0.5f);
             text_button_navy_UI.text = text_de_navy_container.Length > 1 ? text_button_navy_UI.text = "Passer" : text_button_navy_UI.text = "Terminer";
             panel_navy_anim.SetBool("show_navy_ui",true);
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new  WaitForSecondsRealtime(0.5f);
             StartCoroutine(AnimateText());
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionNavy;
 
-            yield return new WaitForSeconds(0.5f);// on recentre pour retour player en fin de conversation
+            Time.timeScale = 0.0f;  
+
+            yield return new  WaitForSecondsRealtime(0.5f);// on recentre pour retour player en fin de conversation
             Camera_control.instance.CameraBehindPlayer();
         }
     }
@@ -154,7 +185,7 @@ public class ame_player : MonoBehaviour{
       
         foreach(char c in text_de_navy_container[id_text]){
             text_navy_UI.text += c;
-            yield return new WaitForSeconds(speed_anim_text);
+            yield return new  WaitForSecondsRealtime(speed_anim_text);
         }
 
         animTextRunning = false;
@@ -165,18 +196,33 @@ public class ame_player : MonoBehaviour{
 
     public IEnumerator backNavy(){ 
 
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.instance._last_game_pad_attribution;  
-        ame_particule.Stop(); 
+        if(playerinKart.activeSelf){ // on check quel player est en jeu
+            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;  
+            ame_particule_kart.Stop(); 
+        }else{
+            GamePad_manager.instance._game_pad_attribution = GamePad_manager.instance._last_game_pad_attribution;
+            ame_particule.Stop();   
+        }
+
+      
         Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[4]); 
         panel_navy_anim.SetBool("show_navy_ui",false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new  WaitForSecondsRealtime(0.5f);
         Camera_control.instance.cam_ame.Priority = 8;
-        yield return new WaitForSeconds(0.7f);
-        player_gamePad_manager.instance.PlayerCanMove(true);   
+        yield return new  WaitForSecondsRealtime(0.7f);
+        player_gamePad_manager.instance.PlayerCanMove(true);  
+        Time.timeScale = 1.0f;   
         navy_speak = false;
-        yield return new WaitForSeconds(2f);
-        dollyCart.m_Position = 0f;
-        dollyCart.m_Speed = -30f;
+        yield return new  WaitForSecondsRealtime(2f);
+
+        if(playerinKart.activeSelf){
+            dollyCartChariot.m_Position = 0f;
+            dollyCartChariot.m_Speed = -30f;
+        }else{
+        
+            dollyCart.m_Position = 0f;
+            dollyCart.m_Speed = -30f;
+        }
     }
 
 
@@ -188,7 +234,7 @@ public class ame_player : MonoBehaviour{
         while(distance_parcourue < 25f){
 
             distance_parcourue = Vector3.Distance(playerPosition.position, startPosition);
-            yield return new WaitForSeconds(0.02f);
+            yield return new  WaitForSecondsRealtime(0.02f);
         }
 
         distance_parcourue = 0;

@@ -7,35 +7,54 @@ using UnityEngine;
 
 public class script_test : MonoBehaviour{
 
-
-    public Transform objetToMove;
-    public Transform start;
-    public Transform end;
     public Transform PointSpline;
+    public static script_test instance;
    
+    // [System.Serializable]
+    // public struct MyStruct
+    // {
+    //     public enum MyEnum { hello, world }
+    //     public MyEnum m_MyEnum;
+    // }
+    
+    // public MyStruct[] m_MyStruct;
+
+
    
-    public float vitessekart = 10f;
+    public base_clip[] _clip_audio; 
+    AudioClip clip_play;
+    AudioSource source;
 
-    public float test = 0;
 
+     public AudioClip[] testasseclip;
+   // public string[] names = new string[] {"Matt", "Joanne", "Robert"};
+ 
+ 
 
-    void Start()
-    {
-        print("x :"+PointSpline.transform.position.x);
-        print("y :"+PointSpline.transform.position.y);
-        print("z :"+PointSpline.transform.position.z);
+    void Start(){
+
+        instance = this;
+
+        source = GetComponent<AudioSource>();
+
+        if(PointSpline != null){
+            print("x :"+PointSpline.transform.position.x);
+            print("y :"+PointSpline.transform.position.y);
+            print("z :"+PointSpline.transform.position.z);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-       //objetToMove.transform.position = Vector3.Lerp(start.position,end.position,test);
-        //transform.rotation = Quaternion.Lerp(start.rotation,end.rotation,test);
+    
+    void Update(){
+
+        if(Input.GetKeyDown("s")){
+
+           // clip_play = base_clip.sound_clip[0];
+
+           // source.clip =  base_clip._clip_audio.sound_clip[0];
+            source.Play();
+        }
       
        
-        
-     
-        
     }
 }

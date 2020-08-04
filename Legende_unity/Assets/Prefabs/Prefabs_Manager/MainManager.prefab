@@ -170,6 +170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ac62937c5548746bbbbdee491a97c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dollyCartChariot: {fileID: 0}
+  ame_particule_kart: {fileID: 0}
+  playerKartPosition: {fileID: 0}
+  ame_container_kart: {fileID: 0}
+  playerinKart: {fileID: 0}
   navy_panel: {fileID: 0}
   panel_navy_anim: {fileID: 0}
   text_navy_UI: {fileID: 0}

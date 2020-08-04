@@ -31,7 +31,7 @@ public class kart_chute_collider : MonoBehaviour
         }
     }
 
-    IEnumerator rotateKart(){
+    IEnumerator rotateKart(){ // on fait pencher le kart en fonction de sa vitesse lors d'une chute de fin de rail
 
         float diff = (kart_manager.instance.vitesse_maximum - kart_manager.instance.vitesse_actuelle) + 1;
 

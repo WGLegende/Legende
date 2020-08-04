@@ -202,6 +202,7 @@ public class player_actions : MonoBehaviour
 
         StartCoroutine(Camera_control.instance.CameraBehindKart());
         Camera_control.instance.player_kart_camera.Priority = 11;
+
     }
 
 
@@ -231,12 +232,12 @@ public class player_actions : MonoBehaviour
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
 
-        if(!kart_manager.instance.equipement_bouteille){
-            ButtonAction.instance.Hide();
+        // if(!kart_manager.instance.equipement_bouteille){
+        //     ButtonAction.instance.Hide();
 
-            ame_player.instance.text_de_navy_container = ame_player.instance.text_bouteille_kart;
-            StartCoroutine(ame_player.instance.navy_start_speak(3f));
-        }
+        //     ame_player.instance.text_de_navy_container = ame_player.instance.text_bouteille_kart;
+        //     StartCoroutine(ame_player.instance.navy_start_speak(3f));
+        // }
 
         Camera_control.instance.CameraBehindPlayer();
         Camera_control.instance.player_kart_camera.Priority = 9;
@@ -286,8 +287,9 @@ public class player_actions : MonoBehaviour
 
         if(_inventory_loot.nom == "Bouteille"){
             kart_manager.instance.equipement_bouteille = true;
+            VapeurBar.instance.show_vapeur_bar.alpha = 1f;
             Debug.Log("Equipement kart : bouteille");
-        };
+        }
     }
 
 

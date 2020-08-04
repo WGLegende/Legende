@@ -19,7 +19,7 @@ public class enemy_rails : MonoBehaviour{
     [HideInInspector] public float duree_de_vie;
   
     public AudioClip[] clips;
-    AudioSource audio_source;
+    [HideInInspector] public AudioSource audio_source;
 
     [HideInInspector] public GameObject particule_death;
     Animation anim;
@@ -59,7 +59,6 @@ public class enemy_rails : MonoBehaviour{
             StartCoroutine(up_enemy());
         }
 
-
         while(true){
 
             if(SplineFollowEnemy.T < SplineFollowKart.T){
@@ -92,7 +91,6 @@ public class enemy_rails : MonoBehaviour{
 
     public void Collision(){
 
-      
         AudioSource.PlayClipAtPoint(clips[1], transform.position);
         GameObject Particule = Instantiate(particule_death,gfx.transform.position,gfx.transform.rotation);
         Destroy(gameObject,0f);

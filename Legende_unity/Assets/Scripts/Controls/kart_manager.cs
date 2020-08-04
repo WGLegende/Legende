@@ -91,13 +91,14 @@ public class kart_manager : MonoBehaviour
         if(instance == null){
             instance = this;
         }   
-
         anim_kart = GetComponent<Animator>();
         vitesse_actuelle = 0;
         Chariot_ContainerRotation = GameObject.Find("Chariot_Container").GetComponent<Transform>(); // On recupere l'angle pour la gravite
         chariot_siege = GameObject.Find("chariot_siege_container").GetComponent<Transform>();
         chariot_structure = GameObject.Find("chariot_structure").GetComponent<Transform>();
+
         SpeedUI = GameObject.Find("speedValue").GetComponent<Text>(); 
+       
         camera_mini_map.instance.list_img_minimap.Add(kart_img_minimap); 
 
         audio_sparkle = GameObject.Find("SoundFx_etincelle").GetComponent<AudioSource>();
@@ -110,7 +111,9 @@ public class kart_manager : MonoBehaviour
         collider_enter_chariot = GameObject.Find("Chariot_Container").GetComponent<BoxCollider>();
         StartCoroutine(refreshSpeedUI());
 
-       // StartCoroutine(checkVirageKart());
+        if(!equipement_bouteille){
+            VapeurBar.instance.show_vapeur_bar.alpha = 0f;
+        }
        
     }
 
@@ -221,7 +224,10 @@ public class kart_manager : MonoBehaviour
 
     // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
     public void boost(bool boosting){
-        if (boosting && VapeurBar.instance.useVapeur(0.05f) && equipement_bouteille && canMoveRecul && canMoveAvance ){
+        if (boosting && equipement_bouteille && canMoveRecul && canMoveAvance ){
+
+            VapeurBar.instance.useVapeur(0.05f);
+            
             if(!audio_vapeur.isPlaying){
                 audio_vapeur.Play();
             }

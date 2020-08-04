@@ -7,33 +7,39 @@ public class enemy_nest_rails : MonoBehaviour
     public static enemy_nest_rails instance;
 
     [Header("Characteristic")]
-
     public bool oneShot;
-    public float duree_de_vie;
-    public GameObject particle_death;
-    
-
-    [Header("")]
-
+    public int min_duree_de_vie, max_duree_de_vie;
     public int nbr_cycle = 1;
     public float delai_cycle;
-    
+
     [Header("Check for Enemy Up")]
-    public bool[] shema;
+    [Space(20)]
+    public bool[] shema_du_cycle;
     public float frequence_apparition;
 
     [Header("Edition")]
+    [Space(20)]
     public GameObject enemy_rails;
     public Animation anim;
+    public GameObject particle_death;
+
+    [Header("Audio Nest")]
+    [Space(20)]
     public AudioClip[] clip_audio;
+    AudioSource audio_source;
+
+    [Header("Audio Enemy")]
+    public AudioClip[] clip_audio_enemy;
+
 
     [Header("Enemy en Jeu")]
+    [Space(20)]
     public List<enemy_rails> list_enemy = new List<enemy_rails>();
    
     [HideInInspector] public Battlehub.MeshDeformer2.SplineFollow SplineFollowKart;
     [HideInInspector] public bool justeOnce;
+
     float position_kart;
-    AudioSource audio_source;
    
 
     void Start(){
@@ -68,7 +74,7 @@ public class enemy_nest_rails : MonoBehaviour
 
         while (i < nbr_cycle){
 
-            for(int e = 0; e < shema.Length; e++){
+            for(int e = 0; e < shema_du_cycle.Length; e++){
 
                 enemy_rails enemy_clone = Instantiate(enemy_rails,this.transform.position,this.transform.rotation).GetComponent<enemy_rails>();
                 list_enemy.Add(enemy_clone); 
@@ -84,14 +90,16 @@ public class enemy_nest_rails : MonoBehaviour
                 enemy_clone.SplineFollowEnemy.m_t = position_kart;
 
                 enemy_clone.oneShot = oneShot;
-                enemy_clone.duree_de_vie = duree_de_vie;
+                enemy_clone.clips = clip_audio_enemy;
+                enemy_clone.duree_de_vie = Random.Range(min_duree_de_vie,max_duree_de_vie + 1);
                 enemy_clone.particule_death = particle_death;
 
                 yield return new WaitForSeconds(0.1f);
+
                 enemy_clone.gfx.SetActive(true);
                 audio_source.clip = clip_audio[1];
                 audio_source.Play();
-                enemy_clone.can_up = shema[e];
+                enemy_clone.can_up = shema_du_cycle[e];
 
                 StartCoroutine(enemy_clone.followKart());
                 yield return new WaitForSeconds(frequence_apparition);
@@ -103,7 +111,7 @@ public class enemy_nest_rails : MonoBehaviour
     }
 
 
-    public void destroyAllEnemy(){
+    public void destroyAllEnemy(){ // declenche par enemy_manger_rails
 
         list_enemy.RemoveAll(list_item => list_item == null);
 

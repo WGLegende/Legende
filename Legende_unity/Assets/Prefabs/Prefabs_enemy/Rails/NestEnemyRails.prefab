@@ -142,16 +142,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3242355d27cfa4fb758e5881b43cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneShot: 1
+  min_duree_de_vie: 5
+  max_duree_de_vie: 20
   nbr_cycle: 1
-  delai_cycle: 2
-  shema: 000000
-  frequence_apparition: 0.3
+  delai_cycle: 1
+  shema_du_cycle: 000000
+  frequence_apparition: 0.8
   enemy_rails: {fileID: 6774185259944297655, guid: 01542bc645514054992ee26d380f47e7,
     type: 3}
   anim: {fileID: 8641925093862416107}
+  particle_death: {fileID: 100000, guid: c7b7995a01f609d48b8c8f900ff07d5d, type: 3}
   clip_audio:
   - {fileID: 8300000, guid: d2e97e75b6a942a44af27d50e199016b, type: 3}
   - {fileID: 8300000, guid: 28a78b9294a181d43bdbb2a382661530, type: 3}
+  clip_audio_enemy:
+  - {fileID: 8300000, guid: f47116ae8eaa3c445943ea452ccef57e, type: 3}
+  - {fileID: 8300000, guid: a71230f77abb34a41b316d2591e06f85, type: 3}
   list_enemy: []
   SplineFollowKart: {fileID: 0}
   justeOnce: 0
