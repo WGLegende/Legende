@@ -100,8 +100,6 @@ public class ame_player : MonoBehaviour{
     // declenche par player_action
     public IEnumerator navy_start_speak(float delai){ 
 
-
-
         if(!navy_speak){
 
             navy_speak = true;
@@ -114,7 +112,9 @@ public class ame_player : MonoBehaviour{
 
             yield return new  WaitForSecondsRealtime(delai);
             player_gamePad_manager.instance.PlayerCanMove(false);
-
+            kart_manager.instance.frein_auto = true;
+          
+        
             if(playerinKart.activeSelf){ // on check quel player est en jeu
                 dollyCartChariot.m_Speed = 15f;
                 ame_particule_kart.Play();
@@ -123,10 +123,11 @@ public class ame_player : MonoBehaviour{
                 ame_particule.Play(); // out navy
             }
 
-         
             Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[3]); 
 
             yield return new  WaitForSecondsRealtime(0.5f);
+
+            Time.timeScale = 0.0f;  
 
             if(playerinKart.activeSelf){ // on check quel player est en jeu
                 Camera_control.instance.cam_ame.Follow = playerKartPosition;
@@ -146,7 +147,6 @@ public class ame_player : MonoBehaviour{
             StartCoroutine(AnimateText());
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionNavy;
 
-            Time.timeScale = 0.0f;  
 
             yield return new  WaitForSecondsRealtime(0.5f);// on recentre pour retour player en fin de conversation
             Camera_control.instance.CameraBehindPlayer();
@@ -160,8 +160,9 @@ public class ame_player : MonoBehaviour{
     public void nextTextNavySpeak(){ 
                 
         if(animTextRunning){ // si on reappuie on accelere le text
-           speed_anim_text = 0f;
-           return;
+            //speed_anim_text = 0f;
+            allText();
+            return;
         }
 
         id_text++;
@@ -180,17 +181,26 @@ public class ame_player : MonoBehaviour{
 
 
     IEnumerator AnimateText(){
-
         animTextRunning = true;
       
         foreach(char c in text_de_navy_container[id_text]){
             text_navy_UI.text += c;
             yield return new  WaitForSecondsRealtime(speed_anim_text);
         }
-
         animTextRunning = false;
         speed_anim_text = 0.04f;
         text_button_navy_UI.text = id_text == text_de_navy_container.Length -1 ? text_button_navy_UI.text = "Terminer" : text_button_navy_UI.text = "Suivant";
+    }
+
+    void allText(){
+
+        StopAllCoroutines();
+        text_navy_UI.text = "";
+        foreach(char c in text_de_navy_container[id_text]){
+            text_navy_UI.text += c;   
+        }
+        text_button_navy_UI.text = id_text == text_de_navy_container.Length -1 ? text_button_navy_UI.text = "Terminer" : text_button_navy_UI.text = "Suivant";
+        animTextRunning = false;
     }
 
 
@@ -210,7 +220,9 @@ public class ame_player : MonoBehaviour{
         yield return new  WaitForSecondsRealtime(0.5f);
         Camera_control.instance.cam_ame.Priority = 8;
         yield return new  WaitForSecondsRealtime(0.7f);
-        player_gamePad_manager.instance.PlayerCanMove(true);  
+        player_gamePad_manager.instance.PlayerCanMove(true);
+        kart_manager.instance.frein_auto = false;
+
         Time.timeScale = 1.0f;   
         navy_speak = false;
         yield return new  WaitForSecondsRealtime(2f);
