@@ -111,9 +111,18 @@ public class GamePad_manager : MonoBehaviour
                 }
 
                 // Attack Player
-                if(Hinput.anyGamepad.B.justPressed){ // B
+                if(Hinput.anyGamepad.B.justPressed){ 
                     player_gamePad_manager.instance.player_attack();
                 }
+                // Position Bow
+                if(Hinput.anyGamepad.rightTrigger.justPressed){ 
+                    player_gamePad_manager.instance.position_bowman(true);
+                }
+                // fin position
+                if(Hinput.anyGamepad.rightTrigger.justReleased){ 
+                    player_gamePad_manager.instance.position_bowman(false);
+                }
+               
 
                 if(Hinput.anyGamepad.A.justPressed){
 

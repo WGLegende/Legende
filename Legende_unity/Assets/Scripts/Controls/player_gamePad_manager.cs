@@ -183,10 +183,25 @@ public class player_gamePad_manager : MonoBehaviour
 
     public void player_attack(){
         if(canAttack){ 
-            Player_Animator.SetTrigger("attack");    
+            Player_Animator.SetTrigger("attack");  
         }
         if(EnemyDefense.instance != null)// on renseigne aux enemy si player attack
             enemy_manager.instance.playerAttack();
+    }
+
+    public void position_bowman(bool value){
+
+        if(player_equipement.instance.mode_player != 1) // si en mode bow
+        return;
+
+        if(value){
+            Player_Animator.SetBool("start_attack_bow",value);
+            Camera_control.instance.cam_bow.Priority = 11; 
+            Camera_control.instance.CameraBehindPlayer();
+        }else{
+            Player_Animator.SetBool("start_attack_bow",value);
+            Camera_control.instance.cam_bow.Priority = 0; 
+        } 
     }
 
     public void PlayerCanMove(bool value){
@@ -205,7 +220,6 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
     IEnumerator end_anim_Jump(){
-
         yield return new WaitForSeconds(0.4f);
         canJump = true;
     }
@@ -220,7 +234,6 @@ public class player_gamePad_manager : MonoBehaviour
             float value = enemy_manager.instance.degatForPlayer;
             player_main.instance.DegatPlayerPv(value);   
            
-
             if(collider.gameObject.name== "FlecheEnemy(Clone)"){
                 Destroy(collider.gameObject);
             }
@@ -228,8 +241,7 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
     void OnTriggerStay(Collider collider){
-       // Debug.Log("stay : " + collider.gameObject.name);
-
+        // Debug.Log("stay : " + collider.gameObject.name);
         // if(!Player_Animator.GetBool("Grounded") && collider.gameObject.layer == 10){ 
         //     Debug.Log("STAY");
         //     Player_Animator.SetBool("Grounded", true);
@@ -237,9 +249,7 @@ public class player_gamePad_manager : MonoBehaviour
     }
     
     void OnTriggerExit(Collider collider){
-
-       
-      //  Debug.Log("exit : " + collider.gameObject.name);
+        //  Debug.Log("exit : " + collider.gameObject.name);
         // if(collider.gameObject.layer == 10){
         //     Debug.Log("EXIT");
         //     Player_Animator.SetBool("Grounded", false);
@@ -264,9 +274,15 @@ public class player_gamePad_manager : MonoBehaviour
     void ShootArrow(){
 
         Player_sound.instance.PlayFightFx(gameObject,Player_sound.instance.FightFx[1]);
+        Arrow.SetActive(false);
         GameObject ProjectileClone = Instantiate(projectile,originArrow.position, originArrow.rotation);
         ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right * puissance_de_tir, ForceMode.Impulse);
-        Destroy(ProjectileClone,5);    
+        Destroy(ProjectileClone,5); 
+        Invoke("arrow_display",0.2f);
+    }
+
+    void arrow_display(){
+        Arrow.SetActive(true);
     }
 
 

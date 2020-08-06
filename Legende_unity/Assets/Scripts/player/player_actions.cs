@@ -160,7 +160,7 @@ public class player_actions : MonoBehaviour
             currently_displayed_action = null;
         }
 
-        else if(!isPlayer){
+        else{
             print("ici que ca bascule");
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;
             currently_displayed_action = null; 

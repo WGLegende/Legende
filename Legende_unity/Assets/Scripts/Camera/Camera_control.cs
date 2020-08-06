@@ -12,6 +12,7 @@ public class Camera_control : MonoBehaviour
     public CinemachineFreeLook current_camera;
     public CinemachineVirtualCamera cam_crash;
     public CinemachineVirtualCamera cam_ame;
+    public CinemachineVirtualCamera cam_bow;
     GameObject player;
     CharacterController player_controller;
     
@@ -35,6 +36,12 @@ public class Camera_control : MonoBehaviour
         player_camera = GameObject.Find("PlayerCameraController").GetComponent<CinemachineFreeLook>();
         player_camera.LookAt = player_main.instance.player.GetComponent<Transform>();
         player_camera.Follow = player_main.instance.player.GetComponent<Transform>();
+
+        // Camera bow
+        cam_bow = GameObject.Find("cam_bow").GetComponent<CinemachineVirtualCamera>();
+        cam_bow.LookAt = player_main.instance.player.GetComponent<Transform>();
+        cam_bow.Follow = player_main.instance.player.GetComponent<Transform>();
+
 
         // Camera Navy
         cam_ame = GameObject.Find("cam_navy").GetComponent<CinemachineVirtualCamera>();

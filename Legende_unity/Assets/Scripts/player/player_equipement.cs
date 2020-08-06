@@ -8,7 +8,7 @@ public class player_equipement : MonoBehaviour
 {
     public static player_equipement instance;
     Animator anim_player;
-    int mode;
+    [HideInInspector] public int mode_player;
 
 
     void Start(){
@@ -37,14 +37,14 @@ public class player_equipement : MonoBehaviour
 
     public IEnumerator equip_player_noweapon(){
 
-        if(mode != 0){
+        if(mode_player != 0){
 
             anim_player.SetTrigger("changeEquipement");
             player_gamePad_manager.instance.canAttack = false;
 
             yield return new WaitForSecondsRealtime(0.6f);
             Animator_overrider.instance.Player_animator.Set(0); // noweapon
-            mode = 0;
+            mode_player = 0;
             Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]); 
             player_gamePad_manager.instance.Bow.SetActive(false);
             player_gamePad_manager.instance.Arrow.SetActive(false);
@@ -56,7 +56,7 @@ public class player_equipement : MonoBehaviour
 
     public IEnumerator equip_player_arc(){
 
-        if(mode != 1){
+        if(mode_player != 1){
 
             anim_player.SetTrigger("changeEquipement");
             player_gamePad_manager.instance.canAttack = false;
@@ -64,7 +64,7 @@ public class player_equipement : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.6f);
             Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]);
             Animator_overrider.instance.Player_animator.Set(1); // bow
-            mode = 1; 
+            mode_player = 1; 
             player_gamePad_manager.instance.Arrow.SetActive(true);
             player_gamePad_manager.instance.Bow.SetActive(true);
             player_gamePad_manager.instance.Sword.SetActive(false);
@@ -75,14 +75,14 @@ public class player_equipement : MonoBehaviour
 
     public IEnumerator equip_player_cac(){
 
-        if(mode != 2){
+        if(mode_player != 2){
        
             anim_player.SetTrigger("changeEquipement");
             player_gamePad_manager.instance.canAttack = false;
 
             yield return new WaitForSecondsRealtime(0.6f);
             Animator_overrider.instance.Player_animator.Set(2); // sword
-            mode = 2; 
+            mode_player = 2; 
             Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]); 
             player_gamePad_manager.instance.Bow.SetActive(false);
             player_gamePad_manager.instance.Arrow.SetActive(false);
