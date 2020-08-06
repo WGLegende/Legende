@@ -16,7 +16,7 @@ public class tests_manager : MonoBehaviour
 
     public CinemachineVirtualCamera testCamKart;
 
-    [Header("Raccourci PLayer")]
+    [Header("Position Raccourci PLayer")]
     public Transform touche_1;
     public Transform touche_2;
     public Transform touche_3;
@@ -26,6 +26,8 @@ public class tests_manager : MonoBehaviour
    
     
     void Start(){
+
+        Player = player_main.instance.player;
 
         if(destroyPlayerPrefs){
             PlayerPrefs.DeleteAll();
@@ -55,7 +57,7 @@ public class tests_manager : MonoBehaviour
             }
             if(!Player.activeSelf){
                 enemy_rails_manager.instance.reinitializeAllEnemy();
-                print("destruction");
+                print("reinitialisation des enemy rails");
             }
         }
 

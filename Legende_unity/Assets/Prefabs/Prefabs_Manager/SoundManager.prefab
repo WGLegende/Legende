@@ -167,6 +167,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b329d17e40d70bb4dacdf7c79e4ad884, type: 3}
   - {fileID: 8300000, guid: b329d17e40d70bb4dacdf7c79e4ad884, type: 3}
   - {fileID: 8300000, guid: 358562bb56463a24685921b1aeed37ba, type: 3}
+  - {fileID: 8300000, guid: 79f48574cbf0be842b5c7133147f3f9f, type: 3}
   Inventory:
   - {fileID: 8300000, guid: e60e5c0f5b5f09b4eb44488f8fb9326b, type: 3}
   - {fileID: 8300000, guid: b1624cf23c610d04b84de85bfc54a0b9, type: 3}

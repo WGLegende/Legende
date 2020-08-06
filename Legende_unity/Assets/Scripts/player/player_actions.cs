@@ -61,7 +61,6 @@ public class player_actions : MonoBehaviour
             }
 
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionDisplay;
-
         }
         
         else if(collider.tag == "PlayerKart"){
@@ -83,7 +82,7 @@ public class player_actions : MonoBehaviour
 
     // on declenche l'action avec bouton A via gamepad manager pour le player
     public void do_action(){
-       
+
         if(currently_displayed_action.GetType() == typeof(Porte)){ 
             do_action_porte((Porte)currently_displayed_action);
             clear_action(true);
@@ -112,7 +111,7 @@ public class player_actions : MonoBehaviour
         else if(currently_displayed_action.GetType() == typeof(active_rails_switch)){ 
             do_action_put_rail((active_rails_switch)currently_displayed_action);
             clear_action(true);
-        }   
+        }
 
         else if(currently_displayed_action.GetType() == typeof(inventory_loot)){
             do_action_loot((inventory_loot)currently_displayed_action);
@@ -160,7 +159,9 @@ public class player_actions : MonoBehaviour
             }
             currently_displayed_action = null;
         }
+
         else if(!isPlayer){
+            print("ici que ca bascule");
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;
             currently_displayed_action = null; 
         }
@@ -173,7 +174,8 @@ public class player_actions : MonoBehaviour
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; 
             currently_displayed_action = null; 
         }
-         if(!isPlayerKart){ // pour sortie de gare
+
+        if(!isPlayerKart){ // pour sortie de gare
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
             currently_displayed_action = null; 
         }
@@ -198,7 +200,7 @@ public class player_actions : MonoBehaviour
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",true);
         camera_mini_map.instance.target = player_main.instance.playerKart.transform;
 
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;   
+        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; 
 
         StartCoroutine(Camera_control.instance.CameraBehindKart());
         Camera_control.instance.player_kart_camera.Priority = 11;
@@ -224,20 +226,13 @@ public class player_actions : MonoBehaviour
         player_main.instance.player.transform.localPosition = _gare_kart.chariot_container.transform.position;
         player_main.instance.player.SetActive(true);
         player_gamePad_manager.instance.PlayerCanMove(true);
-        player_gamePad_manager.instance.changeEquipement(); // maj de l'animator
+       // player_gamePad_manager.instance.changeEquipement(); // maj de l'animator
 
-         // en rapport avec UI
+        // en rapport avec UI
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",false);
         camera_mini_map.instance.target = player_main.instance.player.transform;
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
-
-        // if(!kart_manager.instance.equipement_bouteille){
-        //     ButtonAction.instance.Hide();
-
-        //     ame_player.instance.text_de_navy_container = ame_player.instance.text_bouteille_kart;
-        //     StartCoroutine(ame_player.instance.navy_start_speak(3f));
-        // }
 
         Camera_control.instance.CameraBehindPlayer();
         Camera_control.instance.player_kart_camera.Priority = 9;
@@ -273,21 +268,19 @@ public class player_actions : MonoBehaviour
     }
 
    
-
     // Logique pick up objet
     public IEnumerator do_action_objet(inventory_object _inventory_loot){
 
         animPlayer.SetTrigger("pick_up");
 
         yield return new WaitForSeconds(0.4f);
-
         Debug.Log("add " + _inventory_loot.nom + " to inventory");
         Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[1]); 
         _inventory_loot.addObject();
 
         if(_inventory_loot.nom == "Bouteille"){
             kart_manager.instance.equipement_bouteille = true;
-            VapeurBar.instance.show_vapeur_bar.alpha = 1f;
+            VapeurBar.instance.show_vapeur_bar.alpha = 1f; // on affiche la jauge dans UI
             Debug.Log("Equipement kart : bouteille");
         }
     }

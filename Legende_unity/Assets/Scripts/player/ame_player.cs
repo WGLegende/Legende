@@ -127,8 +127,6 @@ public class ame_player : MonoBehaviour{
 
             yield return new  WaitForSecondsRealtime(0.5f);
 
-            Time.timeScale = 0.0f;  
-
             if(playerinKart.activeSelf){ // on check quel player est en jeu
                 Camera_control.instance.cam_ame.Follow = playerKartPosition;
                 Camera_control.instance.cam_ame.LookAt = ame_container_kart;
@@ -142,6 +140,9 @@ public class ame_player : MonoBehaviour{
             yield return new  WaitForSecondsRealtime(0.5f);
             text_button_navy_UI.text = text_de_navy_container.Length > 1 ? text_button_navy_UI.text = "Passer" : text_button_navy_UI.text = "Terminer";
             panel_navy_anim.SetBool("show_navy_ui",true);
+
+            Time.timeScale = 0.0f;  
+
 
             yield return new  WaitForSecondsRealtime(0.5f);
             StartCoroutine(AnimateText());
@@ -207,6 +208,7 @@ public class ame_player : MonoBehaviour{
     public IEnumerator backNavy(){ 
 
         if(playerinKart.activeSelf){ // on check quel player est en jeu
+            print("playerkart active");
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;  
             ame_particule_kart.Stop(); 
         }else{
@@ -221,10 +223,14 @@ public class ame_player : MonoBehaviour{
         Camera_control.instance.cam_ame.Priority = 8;
         yield return new  WaitForSecondsRealtime(0.7f);
         player_gamePad_manager.instance.PlayerCanMove(true);
-        kart_manager.instance.frein_auto = false;
+        
+        if(playerinKart.activeSelf){
+            kart_manager.instance.frein_auto = false;
+        }
 
         Time.timeScale = 1.0f;   
         navy_speak = false;
+        
         yield return new  WaitForSecondsRealtime(2f);
 
         if(playerinKart.activeSelf){

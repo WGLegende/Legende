@@ -13,8 +13,6 @@ public class no_bouteille : MonoBehaviour
     }
 
     
-
-
     void OnTriggerExit(Collider other){
 
         if(other.gameObject.tag == "PlayerKart" && !kart_manager.instance.equipement_bouteille){

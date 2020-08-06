@@ -42,12 +42,13 @@ public class GamePad_manager : MonoBehaviour
 
     public void open_close_inventory(bool is_open){
 
-        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[1]); 
         Debug.Log("open_close_inventory " + is_open);
         if(is_open){
             if(_game_pad_attribution != game_pad_attribution.inventory){
                 _last_game_pad_attribution = _game_pad_attribution;
                 Time.timeScale = 0; // gamePaused
+                Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[1]); 
+
             }
             _game_pad_attribution = game_pad_attribution.inventory;
         }else{
@@ -136,16 +137,18 @@ public class GamePad_manager : MonoBehaviour
                 }
 
                 
-
                 // Utilise des shortcuts
                 if(Hinput.anyGamepad.dPad.up.justPressed){
                     inventory_shortcuts.instance.use_shortcut(0);
                 }else if(Hinput.anyGamepad.dPad.right.justPressed){
                     inventory_shortcuts.instance.use_shortcut(1);
+                    StartCoroutine(player_equipement.instance.equip_player_arc()); // pour test todo
                 }else if(Hinput.anyGamepad.dPad.down.justPressed){
                     inventory_shortcuts.instance.use_shortcut(2);
+                    StartCoroutine(player_equipement.instance.equip_player_noweapon()); // pour test todo
                 }else if(Hinput.anyGamepad.dPad.left.justPressed){
                     inventory_shortcuts.instance.use_shortcut(3);
+                    StartCoroutine(player_equipement.instance.equip_player_cac()); // pour test todo
                 }
 
             break;
@@ -212,56 +215,48 @@ public class GamePad_manager : MonoBehaviour
 
             case game_pad_attribution.kart : case game_pad_attribution.actionDisplayKart :
             
-                    // Gere le mouvement de camera et la rotation du siege
-                    if(right_stick_x != 0 || right_stick_y != 0){ 
-                        kart_manager.instance.kart_movement(right_stick_x, right_stick_y, left_stick_x, left_stick_y);
-                    }
+                // Gere le mouvement de camera et la rotation du siege
+                if(right_stick_x != 0 || right_stick_y != 0){ 
+                    kart_manager.instance.kart_movement(right_stick_x, right_stick_y, left_stick_x, left_stick_y);
+                }
 
-                    // GERE LE FREINAGE DU VEHICULE
-                    if(Hinput.anyGamepad.B.pressed)
-                    kart_manager.instance.frein(true);
+                // GERE LE FREINAGE DU VEHICULE
+                if(Hinput.anyGamepad.B.pressed)
+                kart_manager.instance.frein(true);
 
-                    if(Hinput.anyGamepad.B.released)
-                    kart_manager.instance.frein(false);
+                if(Hinput.anyGamepad.B.released)
+                kart_manager.instance.frein(false);
 
-                    // Gestion de la vitesse basique avec le joystick
-                    kart_manager.instance.calcul_vitesse_basique(left_stick_y);
+                // Gestion de la vitesse basique avec le joystick
+                kart_manager.instance.calcul_vitesse_basique(left_stick_y);
 
-                    // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
-                    if(Hinput.anyGamepad.rightTrigger.pressed && left_stick_y != 0){
-                        kart_manager.instance.boost(true);
-                    }
-                    if(Hinput.anyGamepad.rightTrigger.released || left_stick_y == 0){
-                        kart_manager.instance.boost(false);
-                    }
+                // Gestion Hauteur Kart
+                kart_manager.instance.up_kart(left_trigger);
 
-                    // Gestion du saut du kart
-                    // if(Hinput.anyGamepad.Y.justPressed){ 
-                    //     kart_manager.instance.kart_jump();
-                    // }
+                // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
+                if(Hinput.anyGamepad.rightTrigger.pressed && left_stick_y != 0){
+                    kart_manager.instance.boost(true);
+                }
+                if(Hinput.anyGamepad.rightTrigger.released || left_stick_y == 0){
+                    kart_manager.instance.boost(false);
+                }
 
-                    // Gestion attaque du kart
-                    if(Hinput.anyGamepad.Y.justPressed){ 
-                        kart_manager.instance.kart_attaque();
-                    }
+                // Gestion attaque du kart
+                if(Hinput.anyGamepad.Y.justPressed){ 
+                    kart_manager.instance.kart_attaque();
+                }
 
-                    // Allume lumiere du kart
-                    if(Hinput.anyGamepad.X.justPressed){ 
-                        kart_manager.instance.kart_light();
-                    }
+                // Allume lumiere du kart
+                if(Hinput.anyGamepad.X.justPressed){ 
+                    kart_manager.instance.kart_light();
+                }
 
-                     // Gestion Hauteur Kart
-                    kart_manager.instance.up_kart(left_trigger);
-                    
-
-                    if(Hinput.anyGamepad.A.justPressed){
-                        if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
-                            player_actions.instance.do_action_kart();
-                        }  
-                    }
-                   
-                  
-
+                
+                if(Hinput.anyGamepad.A.justPressed){
+                    if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
+                        player_actions.instance.do_action_kart();
+                    }  
+                }
 
             break;
 

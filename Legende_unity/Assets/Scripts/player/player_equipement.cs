@@ -7,40 +7,90 @@ using UnityEngine;
 public class player_equipement : MonoBehaviour
 {
     public static player_equipement instance;
+    Animator anim_player;
+    int mode;
 
 
+    void Start(){
 
-
-
-    void Start()
-    {
         if(instance == null){
             instance = this;
         }
-
-
+        anim_player = GameObject.Find("Player").GetComponent<Animator>();
     }
 
     public void equipe_un_objet(inventory_object obj){
 
-        switch(obj.nom){
+        print("Objet ramasse: "+ obj.nom);
 
-            case "arc": player_gamePad_manager.instance.modePlayer = "bow"; player_gamePad_manager.instance.Player_Animator.SetTrigger("changeEquipement");
-            break;
-            case "Epee d'acier": player_gamePad_manager.instance.modePlayer = "sword"; player_gamePad_manager.instance.Player_Animator.SetTrigger("changeEquipement");
-            break;
+        switch(obj.nom){    
         }
 
-        if(obj._type_equipement == inventory_main.equipement.arme_CaC){
-
-            //equipe epee
+        if(obj._type_equipement == inventory_main.equipement.arme_CaC){ 
+            StartCoroutine(equip_player_cac());   
         }
+
         else if(obj._type_equipement == inventory_main.equipement.arme_Distance){
-
-            //equipe arc
+            StartCoroutine(equip_player_arc());
         }
-        
-      
-
     }
+
+    public IEnumerator equip_player_noweapon(){
+
+        if(mode != 0){
+
+            anim_player.SetTrigger("changeEquipement");
+            player_gamePad_manager.instance.canAttack = false;
+
+            yield return new WaitForSecondsRealtime(0.6f);
+            Animator_overrider.instance.Player_animator.Set(0); // noweapon
+            mode = 0;
+            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]); 
+            player_gamePad_manager.instance.Bow.SetActive(false);
+            player_gamePad_manager.instance.Arrow.SetActive(false);
+            player_gamePad_manager.instance.Sword.SetActive(false);
+            player_gamePad_manager.instance.Shield.SetActive(false);
+            player_gamePad_manager.instance.canAttack = true;
+        }
+    }
+
+    public IEnumerator equip_player_arc(){
+
+        if(mode != 1){
+
+            anim_player.SetTrigger("changeEquipement");
+            player_gamePad_manager.instance.canAttack = false;
+
+            yield return new WaitForSecondsRealtime(0.6f);
+            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]);
+            Animator_overrider.instance.Player_animator.Set(1); // bow
+            mode = 1; 
+            player_gamePad_manager.instance.Arrow.SetActive(true);
+            player_gamePad_manager.instance.Bow.SetActive(true);
+            player_gamePad_manager.instance.Sword.SetActive(false);
+            player_gamePad_manager.instance.Shield.SetActive(false);
+            player_gamePad_manager.instance.canAttack = true;
+        }
+    }
+
+    public IEnumerator equip_player_cac(){
+
+        if(mode != 2){
+       
+            anim_player.SetTrigger("changeEquipement");
+            player_gamePad_manager.instance.canAttack = false;
+
+            yield return new WaitForSecondsRealtime(0.6f);
+            Animator_overrider.instance.Player_animator.Set(2); // sword
+            mode = 2; 
+            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]); 
+            player_gamePad_manager.instance.Bow.SetActive(false);
+            player_gamePad_manager.instance.Arrow.SetActive(false);
+            player_gamePad_manager.instance.Sword.SetActive(true);
+            player_gamePad_manager.instance.Shield.SetActive(true);
+            player_gamePad_manager.instance.canAttack = true;
+        }
+    }
+
+   
 }
