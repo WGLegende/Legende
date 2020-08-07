@@ -10,13 +10,15 @@ public class VapeurBar : MonoBehaviour
     public Slider slider;
     public Gradient gradient;
     public Image fill;
+    public CanvasGroup show_vapeur_bar;
 
     public float vapeur_stock;
 
     public float vapeur_stock_max;
 
-    public void Start(){
+    public void Awake(){
         instance = this;
+        show_vapeur_bar = GetComponent<CanvasGroup>();
         fill_vapeur_stock();
         StartCoroutine(update_vapeur_UI());
     }

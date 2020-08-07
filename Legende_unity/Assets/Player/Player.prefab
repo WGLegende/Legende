@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1760037109}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0.07, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9755556, y: 1.3811113, z: 1}
   m_Children: []
   m_Father: {fileID: 734642352545248227}
   m_RootOrder: 6
@@ -71,11 +71,11 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f4d712214a48fff47a1e056facf0d6a2, type: 3}
-  m_Color: {r: 0.7154879, g: 1, b: 0.6933962, a: 1}
+  m_Color: {r: 0.31764707, g: 0.85098046, b: 0.9058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 9, y: 9}
+  m_Size: {x: 8.78, y: 12.43}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -3355,7 +3355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730937902245870545}
   m_LocalRotation: {x: -0.104323186, y: 0.69936866, z: 0.27383795, w: 0.65193015}
-  m_LocalPosition: {x: -0.080402374, y: -0.029134572, z: 0.5351525}
+  m_LocalPosition: {x: -0.080403596, y: -0.029134512, z: 0.5351516}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 734197437860103427}
@@ -4358,7 +4358,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731038286651377569}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.050604105}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05060407}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 734056023633026695}
@@ -9724,7 +9724,7 @@ MonoBehaviour:
   canMove: 0
   canJump: 0
   PlayerIsAttack: 0
-  player_gravity: 9
+  player_gravity: 8
   jumpForce: 2
   turnSmoothTime: 0.12
   force_degat_recul: 4
@@ -9775,7 +9775,7 @@ CharacterController:
   m_Height: 1.74
   m_Radius: 0.59
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.5
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: -0.08, y: 0.85, z: 0}
@@ -10930,7 +10930,7 @@ ParticleSystem:
   looping: 0
   prewarm: 0
   playOnAwake: 0
-  useUnscaledTime: 0
+  useUnscaledTime: 1
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
   startDelay:
@@ -15583,7 +15583,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 9c0c97dd9fc580544a4c6517d2e946d5, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -15639,7 +15639,7 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 0
-  useUnscaledTime: 0
+  useUnscaledTime: 1
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
   startDelay:
@@ -20473,7 +20473,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3439678546046943981}
   m_LocalRotation: {x: 0.00024095528, y: -0.08021515, z: 0.000019390749, w: 0.9967776}
-  m_LocalPosition: {x: -0.24097824, y: 1.0209999, z: 0.22091985}
+  m_LocalPosition: {x: -0.24097711, y: 1.021, z: 0.22091973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3439678545307817698}
@@ -20611,7 +20611,7 @@ ParticleSystem:
   looping: 1
   prewarm: 1
   playOnAwake: 0
-  useUnscaledTime: 0
+  useUnscaledTime: 1
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
   startDelay:

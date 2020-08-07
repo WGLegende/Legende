@@ -20,8 +20,11 @@ public class GamePad_manager : MonoBehaviour
         dialogue,
         actionDisplay,
         actionDisplayKart,
-        actionNavy
+        startConversationNavy,
+        actionNavy,
+        nothing
     }
+
     public game_pad_attribution _game_pad_attribution = game_pad_attribution.player;
     public game_pad_attribution _last_game_pad_attribution = game_pad_attribution.player;
 
@@ -38,11 +41,14 @@ public class GamePad_manager : MonoBehaviour
     }
 
     public void open_close_inventory(bool is_open){
+
         Debug.Log("open_close_inventory " + is_open);
         if(is_open){
             if(_game_pad_attribution != game_pad_attribution.inventory){
                 _last_game_pad_attribution = _game_pad_attribution;
                 Time.timeScale = 0; // gamePaused
+                Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[1]); 
+
             }
             _game_pad_attribution = game_pad_attribution.inventory;
         }else{
@@ -71,7 +77,7 @@ public class GamePad_manager : MonoBehaviour
 
         switch(_game_pad_attribution){
 
-            case game_pad_attribution.player : case game_pad_attribution.actionDisplay : case game_pad_attribution.actionNavy :
+            case game_pad_attribution.player : case game_pad_attribution.actionDisplay : case game_pad_attribution.actionNavy : case game_pad_attribution.startConversationNavy :
 
                 player_gamePad_manager.instance.player_is_moving = left_stick_x < 0 || left_stick_x > 0 || left_stick_y < 0 || left_stick_y > 0;
               
@@ -105,30 +111,53 @@ public class GamePad_manager : MonoBehaviour
                 }
 
                 // Attack Player
-                if(Hinput.anyGamepad.B.justPressed){ // B
+                if(Hinput.anyGamepad.B.justPressed){ 
                     player_gamePad_manager.instance.player_attack();
                 }
+                // Position Bow
+                if(Hinput.anyGamepad.rightTrigger.justPressed){ 
+                    player_gamePad_manager.instance.position_bowman(true);
+                }
+                // fin position
+                if(Hinput.anyGamepad.rightTrigger.justReleased){ 
+                    player_gamePad_manager.instance.position_bowman(false);
+                }
+               
 
                 if(Hinput.anyGamepad.A.justPressed){
+
+                    if(ame_player.instance.navy_en_attente){
+                        ame_player.instance.navy_en_attente =false;
+                        ame_player.instance.anim_button_navy.SetBool("display_navy_button",false);
+                        ame_player.instance.CancelInvoke();
+                    }
+
                     if(_game_pad_attribution == game_pad_attribution.actionDisplay){
                         player_actions.instance.do_action();
                     }
+
+                    else if(_game_pad_attribution == game_pad_attribution.startConversationNavy){
+                       StartCoroutine(ame_player.instance.navy_start_speak((0f)));
+                    }
+
                     else if(_game_pad_attribution == game_pad_attribution.actionNavy){
                         ame_player.instance.nextTextNavySpeak();
-                    }
+                    }   
                 }
 
                 
-
                 // Utilise des shortcuts
                 if(Hinput.anyGamepad.dPad.up.justPressed){
                     inventory_shortcuts.instance.use_shortcut(0);
                 }else if(Hinput.anyGamepad.dPad.right.justPressed){
                     inventory_shortcuts.instance.use_shortcut(1);
+                    StartCoroutine(player_equipement.instance.equip_player_arc()); // pour test todo
                 }else if(Hinput.anyGamepad.dPad.down.justPressed){
                     inventory_shortcuts.instance.use_shortcut(2);
+                    StartCoroutine(player_equipement.instance.equip_player_noweapon()); // pour test todo
                 }else if(Hinput.anyGamepad.dPad.left.justPressed){
                     inventory_shortcuts.instance.use_shortcut(3);
+                    StartCoroutine(player_equipement.instance.equip_player_cac()); // pour test todo
                 }
 
             break;
@@ -148,14 +177,23 @@ public class GamePad_manager : MonoBehaviour
 
                 // Navigue dans les slots
                 if(!currently_navigate_in_inventory){
+
                     if(Hinput.anyGamepad.leftStick.up){
                         StartCoroutine(navigate_in_inventory("up"));
+                        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[0]); 
+
                     }else if(Hinput.anyGamepad.leftStick.right){
                         StartCoroutine(navigate_in_inventory("right"));
+                        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[0]); 
+
                     }else if(Hinput.anyGamepad.leftStick.down){
                         StartCoroutine(navigate_in_inventory("down"));
+                        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[0]); 
+
                     }else if(Hinput.anyGamepad.leftStick.left){
                         StartCoroutine(navigate_in_inventory("left"));
+                        Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.Inventory[0]); 
+
                     } 
                 }
 
@@ -186,54 +224,48 @@ public class GamePad_manager : MonoBehaviour
 
             case game_pad_attribution.kart : case game_pad_attribution.actionDisplayKart :
             
-                    // Gere le mouvement de camera et la rotation du siege
-                    if(right_stick_x != 0 || right_stick_y != 0){ 
-                        kart_manager.instance.kart_movement(right_stick_x, right_stick_y, left_stick_x, left_stick_y);
-                    }
+                // Gere le mouvement de camera et la rotation du siege
+                if(right_stick_x != 0 || right_stick_y != 0){ 
+                    kart_manager.instance.kart_movement(right_stick_x, right_stick_y, left_stick_x, left_stick_y);
+                }
 
-                    // GERE LE FREINAGE DU VEHICULE
-                    if(Hinput.anyGamepad.B.pressed)
-                    kart_manager.instance.frein(true);
+                // GERE LE FREINAGE DU VEHICULE
+                if(Hinput.anyGamepad.B.pressed)
+                kart_manager.instance.frein(true);
 
-                    if(Hinput.anyGamepad.B.released)
-                    kart_manager.instance.frein(false);
+                if(Hinput.anyGamepad.B.released)
+                kart_manager.instance.frein(false);
 
-                    // Gestion de la vitesse basique avec le joystick
-                    kart_manager.instance.calcul_vitesse_basique(left_stick_y);
+                // Gestion de la vitesse basique avec le joystick
+                kart_manager.instance.calcul_vitesse_basique(left_stick_y);
 
-                    // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
-                    if(Hinput.anyGamepad.rightTrigger.pressed && left_stick_y != 0){
-                        kart_manager.instance.boost(true);
-                    }
-                    if(Hinput.anyGamepad.rightTrigger.released || left_stick_y == 0){
-                        kart_manager.instance.boost(false);
-                    }
+                // Gestion Hauteur Kart
+                kart_manager.instance.up_kart(left_trigger);
 
-                    // Gestion du saut du kart
-                    // if(Hinput.anyGamepad.Y.justPressed){ 
-                    //     kart_manager.instance.kart_jump();
-                    // }
+                // Gestion du boost // Fonctionne seulement s'il y a encore de la vapeur
+                if(Hinput.anyGamepad.rightTrigger.pressed && left_stick_y != 0){
+                    kart_manager.instance.boost(true);
+                }
+                if(Hinput.anyGamepad.rightTrigger.released || left_stick_y == 0){
+                    kart_manager.instance.boost(false);
+                }
 
-                    // Gestion attaque du kart
-                    if(Hinput.anyGamepad.Y.justPressed){ 
-                        kart_manager.instance.kart_attaque();
-                    }
+                // Gestion attaque du kart
+                if(Hinput.anyGamepad.Y.justPressed){ 
+                    kart_manager.instance.kart_attaque();
+                }
 
-                    // Allume lumiere du kart
-                    if(Hinput.anyGamepad.X.justPressed){ 
-                        kart_manager.instance.kart_light();
-                    }
+                // Allume lumiere du kart
+                if(Hinput.anyGamepad.X.justPressed){ 
+                    kart_manager.instance.kart_light();
+                }
 
-                    if(Hinput.anyGamepad.A.justPressed){
-                        if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
-                            player_actions.instance.do_action_kart();
-                        }  
-                    }
-                    // Gestion Hauteur Kart
-                    kart_manager.instance.up_kart(left_trigger);
-                    
-                  
-
+                
+                if(Hinput.anyGamepad.A.justPressed){
+                    if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
+                        player_actions.instance.do_action_kart();
+                    }  
+                }
 
             break;
 

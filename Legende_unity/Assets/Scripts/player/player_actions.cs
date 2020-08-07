@@ -28,10 +28,9 @@ public class player_actions : MonoBehaviour
                 ButtonAction.instance.Action("Ramasser"); 
             }
 
-             if(action_init.GetType() == typeof(inventory_object)){
+            if(action_init.GetType() == typeof(inventory_object)){
                 ButtonAction.instance.Action("Prendre"); 
             }
-
 
             if(action_init.GetType() == typeof(Porte)){
                 ButtonAction.instance.Action("Ouvrir"); 
@@ -45,12 +44,16 @@ public class player_actions : MonoBehaviour
                 ButtonAction.instance.Action("Activer"); 
             }
 
-             if(action_init.GetType() == typeof(Switch_vanne)){
+            if(action_init.GetType() == typeof(Switch_vanne)){
                 ButtonAction.instance.Action("Activer"); 
             }
 
-             if(action_init.GetType() == typeof(RotateKartSwitch)){
+            if(action_init.GetType() == typeof(RotateKartSwitch)){
                 ButtonAction.instance.Action("Tourner le Kart"); 
+            }
+
+            if(action_init.GetType() == typeof(active_rails_switch)){
+                ButtonAction.instance.Action("Activer"); 
             }
 
             if(action_init.GetType() == typeof(EnterChariot)){
@@ -58,7 +61,6 @@ public class player_actions : MonoBehaviour
             }
 
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionDisplay;
-
         }
         
         else if(collider.tag == "PlayerKart"){
@@ -80,7 +82,7 @@ public class player_actions : MonoBehaviour
 
     // on declenche l'action avec bouton A via gamepad manager pour le player
     public void do_action(){
-       
+
         if(currently_displayed_action.GetType() == typeof(Porte)){ 
             do_action_porte((Porte)currently_displayed_action);
             clear_action(true);
@@ -101,10 +103,15 @@ public class player_actions : MonoBehaviour
             clear_action(true);
         } 
 
-         else if(currently_displayed_action.GetType() == typeof(RotateKartSwitch)){ 
+        else if(currently_displayed_action.GetType() == typeof(RotateKartSwitch)){ 
             do_action_turn_kart((RotateKartSwitch)currently_displayed_action);
             clear_action(true);
         }   
+
+        else if(currently_displayed_action.GetType() == typeof(active_rails_switch)){ 
+            do_action_put_rail((active_rails_switch)currently_displayed_action);
+            clear_action(true);
+        }
 
         else if(currently_displayed_action.GetType() == typeof(inventory_loot)){
             do_action_loot((inventory_loot)currently_displayed_action);
@@ -144,10 +151,17 @@ public class player_actions : MonoBehaviour
 
         if(isPlayer){
             ButtonAction.instance.Hide(); 
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; // TODO attention avec kart
-            currently_displayed_action = null; 
+            
+            if(ame_player.instance.navy_en_attente){
+                GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.startConversationNavy;
+            }else{
+                GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; // TODO attention avec kart
+            }
+            currently_displayed_action = null;
         }
-        else if(!isPlayer){
+
+        else{
+            print("ici que ca bascule");
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;
             currently_displayed_action = null; 
         }
@@ -160,7 +174,8 @@ public class player_actions : MonoBehaviour
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; 
             currently_displayed_action = null; 
         }
-         if(!isPlayerKart){ // pour sortie de gare
+
+        if(!isPlayerKart){ // pour sortie de gare
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
             currently_displayed_action = null; 
         }
@@ -185,10 +200,11 @@ public class player_actions : MonoBehaviour
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",true);
         camera_mini_map.instance.target = player_main.instance.playerKart.transform;
 
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;   
+        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; 
 
         StartCoroutine(Camera_control.instance.CameraBehindKart());
         Camera_control.instance.player_kart_camera.Priority = 11;
+
     }
 
 
@@ -210,18 +226,13 @@ public class player_actions : MonoBehaviour
         player_main.instance.player.transform.localPosition = _gare_kart.chariot_container.transform.position;
         player_main.instance.player.SetActive(true);
         player_gamePad_manager.instance.PlayerCanMove(true);
-        player_gamePad_manager.instance.changeEquipement(); // maj de l'animator
+       // player_gamePad_manager.instance.changeEquipement(); // maj de l'animator
 
-         // en rapport avec UI
+        // en rapport avec UI
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",false);
         camera_mini_map.instance.target = player_main.instance.player.transform;
 
         GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
-
-        if(!kart_manager.instance.equipement_bouteille){
-            ButtonAction.instance.Hide();
-            ame_player.instance.StartCoroutine(ame_player.instance.navy_start_speak(ame_player.instance.text_bouteille_kart,3f));
-        }
 
         Camera_control.instance.CameraBehindPlayer();
         Camera_control.instance.player_kart_camera.Priority = 9;
@@ -257,22 +268,21 @@ public class player_actions : MonoBehaviour
     }
 
    
-
     // Logique pick up objet
     public IEnumerator do_action_objet(inventory_object _inventory_loot){
 
         animPlayer.SetTrigger("pick_up");
 
         yield return new WaitForSeconds(0.4f);
-
         Debug.Log("add " + _inventory_loot.nom + " to inventory");
         Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[1]); 
         _inventory_loot.addObject();
 
         if(_inventory_loot.nom == "Bouteille"){
             kart_manager.instance.equipement_bouteille = true;
+            VapeurBar.instance.show_vapeur_bar.alpha = 1f; // on affiche la jauge dans UI
             Debug.Log("Equipement kart : bouteille");
-        };
+        }
     }
 
 
@@ -283,10 +293,13 @@ public class player_actions : MonoBehaviour
     public void do_action_ascenseur(AscenseurSwitch _ascenseur_switch){
 
         _ascenseur_switch.sound_levier.Play();
+        //_ascenseur_switch.col.enabled = false;
 
         if(!_ascenseur_switch.elevator_script.has_vapeur){
             _ascenseur_switch.anim_levier.SetTrigger("active_no_vapeur");
-            ame_player.instance.StartCoroutine(ame_player.instance.navy_start_speak(ame_player.instance.text_switch_no_vapeur_elevator,1.4f));
+
+            ame_player.instance.text_de_navy_container = ame_player.instance.text_switch_no_vapeur_elevator;
+            StartCoroutine(ame_player.instance.navy_want_speak(1f));
             return;
         }
 
@@ -302,7 +315,7 @@ public class player_actions : MonoBehaviour
         
     }
 
-     // Logique Vanne
+    // Logique Vanne
     public void do_action_vanne(Switch_vanne _switch_vanne){
 
         _switch_vanne.sound_levier.Play();
@@ -332,6 +345,14 @@ public class player_actions : MonoBehaviour
             kart_manager.instance.kart_is_reverse = false;
         } 
     }
+
+
+    // Logique Switch Rails
+    public void do_action_put_rail(active_rails_switch _active_rails_switch){
+
+        StartCoroutine(_active_rails_switch.active_rail());
+    }
+
       
 
 

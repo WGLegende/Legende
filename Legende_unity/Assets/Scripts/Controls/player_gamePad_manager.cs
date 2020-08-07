@@ -20,9 +20,9 @@ public class player_gamePad_manager : MonoBehaviour
     public float degat_sword;
     public float degat_bow;
 
-    bool isBowman;
-    bool isShooting;
-    public string modePlayer = "sword";
+    //bool isBowman;
+   // bool isShooting;
+   // public string modePlayer = "sword";
 
     public int SpeedMove;
    
@@ -51,8 +51,14 @@ public class player_gamePad_manager : MonoBehaviour
     
     public float force_degat_recul = 3f;
 
+    private float lastY;
+    public float FallingThreshold = -0.01f;  
+    public bool falling = false; 
+
 
     void Start(){
+
+         lastY = transform.position.y;
 
         if(instance == null){
             instance = this;
@@ -67,10 +73,6 @@ public class player_gamePad_manager : MonoBehaviour
         player_gravity/=10f;
         jumpForce/=10f;   
 
-        //Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
-       // Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
-       
-        changeEquipement();
     }
 
     void Update()
@@ -79,7 +81,7 @@ public class player_gamePad_manager : MonoBehaviour
 
             StartCoroutine(ImpactPlayer(force_degat_recul));
             print("test impact recul");
-        }
+        }  
     }
 
     IEnumerator ImpactPlayer(float force){
@@ -111,7 +113,18 @@ public class player_gamePad_manager : MonoBehaviour
             Player_Animator.SetFloat("SpeedMove", 0);
             Player_Animator.SetFloat("walkSide", 0);  
             Player_sound.instance.StopMove(); // Sound Player
-        }   
+        } 
+
+        float distancePerSecondSinceLastFrame = (transform.position.y - lastY) * Time.deltaTime;
+        lastY = transform.position.y;  //set for next frame
+        if (distancePerSecondSinceLastFrame < FallingThreshold && !falling && canJump){
+            falling = true; 
+            Player_Animator.SetBool("Grounded", false);
+            Player_Animator.SetTrigger("is_falling");
+            Player_sound.instance.StopMove(); // Sound Player
+        }
+        
+        
     }
 
 
@@ -158,8 +171,9 @@ public class player_gamePad_manager : MonoBehaviour
 
 
     public void player_jump(){
-        if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canJump){
+        if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canJump ){
             hasJump = true;
+            canJump = false;
             Player_Animator.SetBool("Grounded", false);
             Player_Animator.SetTrigger("jump"); // test
             Player_Animator.SetBool("initiate_jump", true); 
@@ -168,16 +182,26 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
     public void player_attack(){
-        if(canAttack){
-            if(!isBowman){
-                Player_Animator.SetTrigger("attackSword1");
-            }
-            else if(isBowman){
-                Player_Animator.SetTrigger("attackBow");
-            }
+        if(canAttack){ 
+            Player_Animator.SetTrigger("attack");  
         }
-        if(EnemyDefense.instance != null)
+        if(EnemyDefense.instance != null)// on renseigne aux enemy si player attack
             enemy_manager.instance.playerAttack();
+    }
+
+    public void position_bowman(bool value){
+
+        if(player_equipement.instance.mode_player != 1) // si en mode bow
+        return;
+
+        if(value){
+            Player_Animator.SetBool("start_attack_bow",value);
+            Camera_control.instance.cam_bow.Priority = 11; 
+            Camera_control.instance.CameraBehindPlayer();
+        }else{
+            Player_Animator.SetBool("start_attack_bow",value);
+            Camera_control.instance.cam_bow.Priority = 0; 
+        } 
     }
 
     public void PlayerCanMove(bool value){
@@ -190,7 +214,14 @@ public class player_gamePad_manager : MonoBehaviour
     void OnControllerColliderHit(ControllerColliderHit hit){  
         if(hit.gameObject.layer == 10 && !Player_Animator.GetBool("Grounded")){
             Player_Animator.SetBool("Grounded", true);
+            falling = false;
+            StartCoroutine(end_anim_Jump());
         }
+    }
+
+    IEnumerator end_anim_Jump(){
+        yield return new WaitForSeconds(0.4f);
+        canJump = true;
     }
 
 
@@ -203,7 +234,6 @@ public class player_gamePad_manager : MonoBehaviour
             float value = enemy_manager.instance.degatForPlayer;
             player_main.instance.DegatPlayerPv(value);   
            
-
             if(collider.gameObject.name== "FlecheEnemy(Clone)"){
                 Destroy(collider.gameObject);
             }
@@ -211,8 +241,7 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
     void OnTriggerStay(Collider collider){
-       // Debug.Log("stay : " + collider.gameObject.name);
-
+        // Debug.Log("stay : " + collider.gameObject.name);
         // if(!Player_Animator.GetBool("Grounded") && collider.gameObject.layer == 10){ 
         //     Debug.Log("STAY");
         //     Player_Animator.SetBool("Grounded", true);
@@ -220,9 +249,7 @@ public class player_gamePad_manager : MonoBehaviour
     }
     
     void OnTriggerExit(Collider collider){
-
-       
-      //  Debug.Log("exit : " + collider.gameObject.name);
+        //  Debug.Log("exit : " + collider.gameObject.name);
         // if(collider.gameObject.layer == 10){
         //     Debug.Log("EXIT");
         //     Player_Animator.SetBool("Grounded", false);
@@ -246,73 +273,17 @@ public class player_gamePad_manager : MonoBehaviour
     // declenchee par anim
     void ShootArrow(){
 
-        //Player_sound.instance.PlayFightFx(gameObject,Player_sound.instance.FightFx[1]);
+        Player_sound.instance.PlayFightFx(gameObject,Player_sound.instance.FightFx[1]);
+        Arrow.SetActive(false);
         GameObject ProjectileClone = Instantiate(projectile,originArrow.position, originArrow.rotation);
-        ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right *puissance_de_tir, ForceMode.Impulse);
-        Destroy(ProjectileClone,5);    
+        ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right * puissance_de_tir, ForceMode.Impulse);
+        Destroy(ProjectileClone,5); 
+        Invoke("arrow_display",0.2f);
     }
 
-
-   // declenchee par anim
-    public void changeEquipement(){ 
-       
-        if(modePlayer == "noweapon"){ 
-            Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
-            Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
-            Bow.SetActive(false);
-            Arrow.SetActive(false);
-            Sword.SetActive(false);
-            Shield.SetActive(false);
-            isBowman = false;
-        }
-
-        if(modePlayer == "sword"){  // 1 layer Sword, weight pour la priorite
-            Player_Animator.SetLayerWeight (1, 1); // layer 1 Sword
-            Player_Animator.SetLayerWeight (2, 0); // layer 2 Bow
-            Bow.SetActive(false);
-            Arrow.SetActive(false);
-            Sword.SetActive(true);
-            Shield.SetActive(true);
-            isBowman = false;
-        }
-
-        if(modePlayer == "bow"){ // 1 layer Sword, weight pour la priorite 
-            Player_Animator.SetLayerWeight (1, 0); // layer 1 Sword
-            Player_Animator.SetLayerWeight (2, 1); // layer 2 Bow
-            Bow.SetActive(true);
-            Arrow.SetActive(true);
-            Sword.SetActive(false);
-            Shield.SetActive(false);
-            isBowman = true;
-        }
+    void arrow_display(){
+        Arrow.SetActive(true);
     }
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

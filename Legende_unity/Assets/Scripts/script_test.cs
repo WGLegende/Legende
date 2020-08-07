@@ -7,35 +7,54 @@ using UnityEngine;
 
 public class script_test : MonoBehaviour{
 
-    [SerializeField]
-    public Transform start;
-    [SerializeField]
-    public Transform end;
-    public Transform other;
-    [SerializeField]
+    public Transform PointSpline;
+    public static script_test instance;
    
-    public float vitessekart = 10f;
+    // [System.Serializable]
+    // public struct MyStruct
+    // {
+    //     public enum MyEnum { hello, world }
+    //     public MyEnum m_MyEnum;
+    // }
+    
+    // public MyStruct[] m_MyStruct;
 
-    public float speed = 0;
+
+   
+    public base_clip[] _clip_audio; 
+    AudioClip clip_play;
+    AudioSource source;
 
 
-    void Start()
-    {
-        
+     public AudioClip[] testasseclip;
+   // public string[] names = new string[] {"Matt", "Joanne", "Robert"};
+ 
+ 
+
+    void Start(){
+
+        instance = this;
+
+        source = GetComponent<AudioSource>();
+
+        if(PointSpline != null){
+            print("x :"+PointSpline.transform.position.x);
+            print("y :"+PointSpline.transform.position.y);
+            print("z :"+PointSpline.transform.position.z);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    
+    void Update(){
+
+        if(Input.GetKeyDown("s")){
+
+           // clip_play = base_clip.sound_clip[0];
+
+           // source.clip =  base_clip._clip_audio.sound_clip[0];
+            source.Play();
+        }
+      
        
-        // transform.position = Vector3.Lerp(start.position,end.position,test);
-        // transform.rotation = Quaternion.Lerp(start.rotation,end.rotation,test);
-       // speed = Mathf.Lerp(speed,vitessekart,Time.deltaTime);
-         speed += speed < vitessekart ? 
-                                    Time.deltaTime* 5 : 
-                                   -(Time.deltaTime* 5);
-        
-     
-        
     }
 }

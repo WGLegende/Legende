@@ -19,6 +19,7 @@ public class Player_sound : MonoBehaviour
     public AudioClip[] FightFx;
     public AudioClip[] KartFx;
     public AudioClip[] MusicEventPlayer;
+    public AudioClip[] Inventory;
    
 
     void Awake(){

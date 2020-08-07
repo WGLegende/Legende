@@ -142,7 +142,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 96cc0404ab0955c4fa09309f29b86765, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 6774185259944297611}
   - component: {fileID: 6774185259944297608}
   - component: {fileID: 4544560752580078907}
+  - component: {fileID: 434131438180528994}
   m_Layer: 0
   m_Name: enemy_rail_container
   m_TagString: Untagged
@@ -237,12 +238,15 @@ MonoBehaviour:
   SplineFollowEnemy: {fileID: 0}
   gfx: {fileID: 0}
   can_up: 0
+  oneShot: 0
   vitesse_dpl: 12
   vitesse_attack: 5
   vitesse_up: 6
+  duree_de_vie: 2
   clips:
   - {fileID: 8300000, guid: f47116ae8eaa3c445943ea452ccef57e, type: 3}
   - {fileID: 8300000, guid: 8524588a69a4f3e40bb597b6221138f1, type: 3}
+  particule_death: {fileID: 100000, guid: c7b7995a01f609d48b8c8f900ff07d5d, type: 3}
 --- !u!114 &6774185259944297608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,3 +366,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!111 &434131438180528994
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6774185259944297655}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 666905e652a0bde47b09b0897ed7d0bb, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

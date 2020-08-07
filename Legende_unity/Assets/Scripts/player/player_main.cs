@@ -8,7 +8,7 @@ public class player_main : MonoBehaviour
 {
     public static player_main instance;
 
-    public GameObject player;
+    [HideInInspector] public GameObject player;
     public GameObject playerKart;
     public GameObject kart;
    
@@ -87,7 +87,6 @@ public class player_main : MonoBehaviour
 
             anim.SetBool("isDead",true);
             player_gamePad_manager.instance.PlayerCanMove(false);
-           
             yield return new WaitForSeconds(1.7f); // duree anim die
         }
 
@@ -126,7 +125,7 @@ public class player_main : MonoBehaviour
 
         timeInAir = controller.isGrounded ? timeInAir = 0f : timeInAir += Time.deltaTime;
 
-        if(timeInAir > 0.7f){ // todo test anim lorsque player quitte le sol sans sauter
+        if(player_gamePad_manager.instance.canJump && timeInAir > 0.3f){ // todo test anim lorsque player quitte le sol sans sauter
            anim.SetTrigger("is_falling");
            Player_sound.instance.StopMove(); // Sound Player
         }
@@ -135,9 +134,11 @@ public class player_main : MonoBehaviour
             StartCoroutine(playerDie());  
             playerIsAlive = false;
         }
-
-        if (climbtest.instance.canClimb){
-            timeInAir = 0f;
+        
+        if(climbtest.instance != null){
+            if (climbtest.instance.canClimb){
+                timeInAir = 0f;
+            }
         }
     }
 

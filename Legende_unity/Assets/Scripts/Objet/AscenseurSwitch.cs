@@ -7,6 +7,7 @@ public class AscenseurSwitch : MonoBehaviour{
     [HideInInspector] public bool isPositionUp = true;
     [HideInInspector] public bool toggle_levier;
     [HideInInspector] public Animator anim_levier;
+    [HideInInspector] public BoxCollider col;
   
 
     public GameObject elevator;
@@ -22,17 +23,27 @@ public class AscenseurSwitch : MonoBehaviour{
         elevator_script = elevator.GetComponent<Ascenseur>();
         anim_elevator = elevator.GetComponent<Animator>();
         sound_levier = GetComponent<AudioSource>();
+        col = GetComponent<BoxCollider>();
         
     }
    
 
     void OnTriggerEnter(Collider collider){ 
-        player_actions.instance.display_actions(this,collider);    
+
+        if(!ame_player.instance.navy_en_attente){
+        player_actions.instance.display_actions(this,collider);  
+        }  
     }
   
    
     void OnTriggerExit(Collider collider){
         player_actions.instance.clear_action(collider.tag == "Player");  
+    }
+
+    void enableCollider(){ // declenchee en fin anim
+
+        col.enabled = true;
+
     }
 
     
