@@ -40,12 +40,12 @@ public class player_equipement : MonoBehaviour
         if(mode_player != 0){
 
             anim_player.SetTrigger("changeEquipement");
+            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]); 
             player_gamePad_manager.instance.canAttack = false;
 
             yield return new WaitForSecondsRealtime(0.6f);
             Animator_overrider.instance.Player_animator.Set(0); // noweapon
             mode_player = 0;
-            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]); 
             player_gamePad_manager.instance.Bow.SetActive(false);
             player_gamePad_manager.instance.Arrow.SetActive(false);
             player_gamePad_manager.instance.Sword.SetActive(false);
@@ -59,10 +59,10 @@ public class player_equipement : MonoBehaviour
         if(mode_player != 1){
 
             anim_player.SetTrigger("changeEquipement");
+            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]);
             player_gamePad_manager.instance.canAttack = false;
 
             yield return new WaitForSecondsRealtime(0.6f);
-            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]);
             Animator_overrider.instance.Player_animator.Set(1); // bow
             mode_player = 1; 
             player_gamePad_manager.instance.Arrow.SetActive(true);
@@ -78,12 +78,12 @@ public class player_equipement : MonoBehaviour
         if(mode_player != 2){
        
             anim_player.SetTrigger("changeEquipement");
+            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]);
             player_gamePad_manager.instance.canAttack = false;
 
             yield return new WaitForSecondsRealtime(0.6f);
             Animator_overrider.instance.Player_animator.Set(2); // sword
             mode_player = 2; 
-            Player_sound.instance.PlayMusicEventPlayer(Player_sound.instance.MusicEventPlayer[6]); 
             player_gamePad_manager.instance.Bow.SetActive(false);
             player_gamePad_manager.instance.Arrow.SetActive(false);
             player_gamePad_manager.instance.Sword.SetActive(true);

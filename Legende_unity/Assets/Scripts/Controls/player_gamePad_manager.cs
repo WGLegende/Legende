@@ -58,8 +58,6 @@ public class player_gamePad_manager : MonoBehaviour
 
     void Start(){
 
-         lastY = transform.position.y;
-
         if(instance == null){
             instance = this;
         }
@@ -112,6 +110,8 @@ public class player_gamePad_manager : MonoBehaviour
 
             Player_Animator.SetFloat("SpeedMove", 0);
             Player_Animator.SetFloat("walkSide", 0);  
+            Player_Animator.SetFloat("moveY", 0, 0.2f,Time.deltaTime); // test
+            Player_Animator.SetFloat("moveX", 0, 0.2f,Time.deltaTime); // test
             Player_sound.instance.StopMove(); // Sound Player
         } 
 
@@ -142,12 +142,16 @@ public class player_gamePad_manager : MonoBehaviour
 
                 Player_Animator.SetFloat("SpeedMove", left_stick_y);
                 Player_Animator.SetFloat("walkSide", left_stick_x); 
+
+                Player_Animator.SetFloat("moveY", moveDir.z, 0.2f,Time.deltaTime); // test
+                Player_Animator.SetFloat("moveX", moveDir.x, 0.2f,Time.deltaTime); // test
             }
             // deplacement libre
             else{
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f,angle,0f);
-                Player_Animator.SetFloat("SpeedMove", direction.magnitude); 
+                Player_Animator.SetFloat("SpeedMove", direction.magnitude, 0.2f,Time.deltaTime); 
+                Player_Animator.SetFloat("moveY", direction.magnitude, 0.2f,Time.deltaTime); // test
                 Player_Animator.SetFloat("walkSide", 0);   
             }
 

@@ -260,7 +260,6 @@ public class GamePad_manager : MonoBehaviour
                     kart_manager.instance.kart_light();
                 }
 
-                
                 if(Hinput.anyGamepad.A.justPressed){
                     if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
                         player_actions.instance.do_action_kart();

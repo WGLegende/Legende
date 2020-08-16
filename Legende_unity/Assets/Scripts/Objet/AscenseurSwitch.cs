@@ -15,6 +15,8 @@ public class AscenseurSwitch : MonoBehaviour{
     [HideInInspector] public Animator anim_elevator;
 
     [HideInInspector]public AudioSource sound_levier;
+
+   
    
   
     void Start(){
@@ -23,15 +25,14 @@ public class AscenseurSwitch : MonoBehaviour{
         elevator_script = elevator.GetComponent<Ascenseur>();
         anim_elevator = elevator.GetComponent<Animator>();
         sound_levier = GetComponent<AudioSource>();
-        col = GetComponent<BoxCollider>();
-        
+        col = GetComponent<BoxCollider>();   
     }
    
 
     void OnTriggerEnter(Collider collider){ 
 
         if(!ame_player.instance.navy_en_attente){
-        player_actions.instance.display_actions(this,collider);  
+            player_actions.instance.display_actions(this,collider);  
         }  
     }
   
