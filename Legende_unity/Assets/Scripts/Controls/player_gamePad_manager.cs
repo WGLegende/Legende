@@ -98,7 +98,7 @@ public class player_gamePad_manager : MonoBehaviour
             verticalVelocity = use_multiple_jump ? (verticalVelocity + jumpForce) : jumpForce;
             hasJump = false;
         }
-        characterController.Move(new Vector3(0f, verticalVelocity, 0f));
+        //characterController.Move(new Vector3(0f, verticalVelocity, 0f));
 
 
         if(!player_is_moving || !canMove){
