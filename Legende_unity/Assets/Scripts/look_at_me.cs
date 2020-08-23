@@ -66,7 +66,7 @@ public class look_at_me : MonoBehaviour{
         
         while(head.weight > 0.01f){
         //    head.weight -= Time.deltaTime * speed_look * 2;
-            head.weight = Mathf.Lerp(head.weight,0f,Time.deltaTime*speed_look);
+            head.weight = Mathf.Lerp(head.weight,0f,Time.deltaTime*speed_look * 1.5f);
 
             yield return null;
         }

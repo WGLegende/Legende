@@ -20,13 +20,8 @@ public class player_gamePad_manager : MonoBehaviour
     public float degat_sword;
     public float degat_bow;
 
-    //bool isBowman;
-   // bool isShooting;
-   // public string modePlayer = "sword";
-
     public int SpeedMove;
    
-
     Rigidbody player_rigidBody;
     public Animator Player_Animator;
     public bool player_is_moving;
@@ -108,13 +103,13 @@ public class player_gamePad_manager : MonoBehaviour
 
         if(!player_is_moving || !canMove){
 
-            Player_Animator.SetFloat("SpeedMove", 0);
-            Player_Animator.SetFloat("walkSide", 0);  
+            Player_Animator.SetFloat("SpeedMove", 0); 
             Player_Animator.SetFloat("moveY", 0, 0.2f,Time.deltaTime); // test
             Player_Animator.SetFloat("moveX", 0, 0.2f,Time.deltaTime); // test
             Player_sound.instance.StopMove(); // Sound Player
         } 
-
+        
+        // test chute
         float distancePerSecondSinceLastFrame = (transform.position.y - lastY) * Time.deltaTime;
         lastY = transform.position.y;  //set for next frame
         if (distancePerSecondSinceLastFrame < FallingThreshold && !falling && canJump){
@@ -134,25 +129,29 @@ public class player_gamePad_manager : MonoBehaviour
             
             Vector3 direction = new Vector3(left_stick_x,0f,left_stick_y);
             float targetAngle  = Mathf.Atan2(direction.x, direction.z)* Mathf.Rad2Deg + cam.eulerAngles.y;
+           
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
+
+            if(!Player_Animator.applyRootMotion){ // pour test avec avec le rootmotion
+                characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
+            }
         
             // Animations Deplacement XY sans rotation
             if(lockTarget.instance.target_lock){
 
-                Player_Animator.SetFloat("SpeedMove", left_stick_y);
-                Player_Animator.SetFloat("walkSide", left_stick_x); 
-
+                Player_Animator.SetFloat("SpeedMove", direction.magnitude);
                 Player_Animator.SetFloat("moveY", moveDir.z, 0.2f,Time.deltaTime); // test
                 Player_Animator.SetFloat("moveX", moveDir.x, 0.2f,Time.deltaTime); // test
             }
+
             // deplacement libre
             else{
+
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f,angle,0f);
-                Player_Animator.SetFloat("SpeedMove", direction.magnitude, 0.2f,Time.deltaTime); 
+                Player_Animator.SetFloat("SpeedMove", direction.magnitude); 
                 Player_Animator.SetFloat("moveY", direction.magnitude, 0.2f,Time.deltaTime); // test
-                Player_Animator.SetFloat("walkSide", 0);   
+                Player_Animator.SetFloat("moveX", 0, 0.2f,Time.deltaTime); // test  
             }
 
             // Son bruitage step
