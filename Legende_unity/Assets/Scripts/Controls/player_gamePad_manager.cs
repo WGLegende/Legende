@@ -50,6 +50,8 @@ public class player_gamePad_manager : MonoBehaviour
     public float FallingThreshold = -0.01f;  
     public bool falling = false; 
 
+    public float smooth_transiton_blend = 0.1f;
+
 
     void Start(){
 
@@ -94,18 +96,19 @@ public class player_gamePad_manager : MonoBehaviour
         }else{
             verticalVelocity -= player_gravity * Time.deltaTime;
         }
+
         if(hasJump){
             verticalVelocity = use_multiple_jump ? (verticalVelocity + jumpForce) : jumpForce;
             hasJump = false;
         }
-        //characterController.Move(new Vector3(0f, verticalVelocity, 0f));
 
+        characterController.Move(new Vector3(0f, verticalVelocity, 0f));
 
         if(!player_is_moving || !canMove){
 
             Player_Animator.SetFloat("SpeedMove", 0); 
-            Player_Animator.SetFloat("moveY", 0, 0.2f,Time.deltaTime); // test
-            Player_Animator.SetFloat("moveX", 0, 0.2f,Time.deltaTime); // test
+            Player_Animator.SetFloat("moveY", 0, 0.1f,Time.deltaTime); // test
+            Player_Animator.SetFloat("moveX", 0, 0.1f,Time.deltaTime); // test
             Player_sound.instance.StopMove(); // Sound Player
         } 
         
@@ -129,19 +132,16 @@ public class player_gamePad_manager : MonoBehaviour
             
             Vector3 direction = new Vector3(left_stick_x,0f,left_stick_y);
             float targetAngle  = Mathf.Atan2(direction.x, direction.z)* Mathf.Rad2Deg + cam.eulerAngles.y;
-           
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
-            if(!Player_Animator.applyRootMotion){ // pour test avec avec le rootmotion
-                characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
-            }
+ 
+            characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
         
             // Animations Deplacement XY sans rotation
             if(lockTarget.instance.target_lock){
 
                 Player_Animator.SetFloat("SpeedMove", direction.magnitude);
-                Player_Animator.SetFloat("moveY", moveDir.z, 0.2f,Time.deltaTime); // test
-                Player_Animator.SetFloat("moveX", moveDir.x, 0.2f,Time.deltaTime); // test
+                Player_Animator.SetFloat("moveY", moveDir.z * direction.magnitude,smooth_transiton_blend,Time.deltaTime); // test
+                Player_Animator.SetFloat("moveX", moveDir.x * direction.magnitude,smooth_transiton_blend,Time.deltaTime); // test
             }
 
             // deplacement libre
@@ -150,13 +150,13 @@ public class player_gamePad_manager : MonoBehaviour
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f,angle,0f);
                 Player_Animator.SetFloat("SpeedMove", direction.magnitude); 
-                Player_Animator.SetFloat("moveY", direction.magnitude, 0.2f,Time.deltaTime); // test
-                Player_Animator.SetFloat("moveX", 0, 0.2f,Time.deltaTime); // test  
+                Player_Animator.SetFloat("moveY", direction.magnitude, smooth_transiton_blend,Time.deltaTime); // test
+                Player_Animator.SetFloat("moveX", 0,smooth_transiton_blend,Time.deltaTime); // test  
             }
 
             // Son bruitage step
             if(characterController.isGrounded){ 
-                if(direction.magnitude > 0 && direction.magnitude <= 0.7){
+                if(direction.magnitude > 0.1 && direction.magnitude <= 0.7){
                     Player_sound.instance.Walk();
                 }
                 else if(direction.magnitude > 0.7 ){
@@ -174,6 +174,7 @@ public class player_gamePad_manager : MonoBehaviour
 
 
     public void player_jump(){
+
         if((Player_Animator.GetBool("Grounded") || use_multiple_jump) && canJump ){
             hasJump = true;
             canJump = false;
