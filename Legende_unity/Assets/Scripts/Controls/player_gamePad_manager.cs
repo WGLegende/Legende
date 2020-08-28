@@ -50,7 +50,7 @@ public class player_gamePad_manager : MonoBehaviour
     public float FallingThreshold = -0.01f;  
     public bool falling = false; 
 
-    public float smooth_transiton_blend = 0.1f;
+    public float smooth_transiton_blendTree = 0.1f;
 
 
     void Start(){
@@ -67,6 +67,8 @@ public class player_gamePad_manager : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         player_gravity/=10f;
         jumpForce/=10f;   
+
+        lastY = transform.position.y;
 
     }
 
@@ -102,19 +104,19 @@ public class player_gamePad_manager : MonoBehaviour
             hasJump = false;
         }
 
-        characterController.Move(new Vector3(0f, verticalVelocity, 0f));
+       characterController.Move(new Vector3(0f, verticalVelocity, 0f));
 
         if(!player_is_moving || !canMove){
 
-            Player_Animator.SetFloat("SpeedMove", 0); 
-            Player_Animator.SetFloat("moveY", 0, 0.1f,Time.deltaTime); // test
-            Player_Animator.SetFloat("moveX", 0, 0.1f,Time.deltaTime); // test
+            Player_Animator.SetFloat("speed_move", 0, 0.1f,Time.deltaTime); // test
+            Player_Animator.SetFloat("direction", 0, 0.1f,Time.deltaTime); // test
             Player_sound.instance.StopMove(); // Sound Player
         } 
         
         // test chute
         float distancePerSecondSinceLastFrame = (transform.position.y - lastY) * Time.deltaTime;
         lastY = transform.position.y;  //set for next frame
+      
         if (distancePerSecondSinceLastFrame < FallingThreshold && !falling && canJump){
             falling = true; 
             Player_Animator.SetBool("Grounded", false);
@@ -133,15 +135,16 @@ public class player_gamePad_manager : MonoBehaviour
             Vector3 direction = new Vector3(left_stick_x,0f,left_stick_y);
             float targetAngle  = Mathf.Atan2(direction.x, direction.z)* Mathf.Rad2Deg + cam.eulerAngles.y;
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
- 
-            characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
+
+            if(!Player_Animator.applyRootMotion){
+                characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
+            }
         
             // Animations Deplacement XY sans rotation
             if(lockTarget.instance.target_lock){
 
-                Player_Animator.SetFloat("SpeedMove", direction.magnitude);
-                Player_Animator.SetFloat("moveY", moveDir.z * direction.magnitude,smooth_transiton_blend,Time.deltaTime); // test
-                Player_Animator.SetFloat("moveX", moveDir.x * direction.magnitude,smooth_transiton_blend,Time.deltaTime); // test
+                Player_Animator.SetFloat("speed_move", moveDir.z * direction.magnitude,smooth_transiton_blendTree,Time.deltaTime); // test
+                Player_Animator.SetFloat("direction", moveDir.x * direction.magnitude,smooth_transiton_blendTree,Time.deltaTime); // test
             }
 
             // deplacement libre
@@ -149,10 +152,12 @@ public class player_gamePad_manager : MonoBehaviour
 
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f,angle,0f);
-                Player_Animator.SetFloat("SpeedMove", direction.magnitude); 
-                Player_Animator.SetFloat("moveY", direction.magnitude, smooth_transiton_blend,Time.deltaTime); // test
-                Player_Animator.SetFloat("moveX", 0,smooth_transiton_blend,Time.deltaTime); // test  
+               
+                Player_Animator.SetFloat("speed_move", direction.magnitude, smooth_transiton_blendTree,Time.deltaTime); // test
+                Player_Animator.SetFloat("direction", 0, smooth_transiton_blendTree,Time.deltaTime); // test  
             }
+
+
 
             // Son bruitage step
             if(characterController.isGrounded){ 
@@ -185,6 +190,7 @@ public class player_gamePad_manager : MonoBehaviour
         }
     }
 
+
     public void player_attack(){
         if(canAttack){ 
             Player_Animator.SetTrigger("attack");  
@@ -192,6 +198,7 @@ public class player_gamePad_manager : MonoBehaviour
         if(EnemyDefense.instance != null)// on renseigne aux enemy si player attack
             enemy_manager.instance.playerAttack();
     }
+
 
     public void position_bowman(bool value){
 
@@ -215,7 +222,12 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
 
+
+
+
+
     void OnControllerColliderHit(ControllerColliderHit hit){  
+
         if(hit.gameObject.layer == 10 && !Player_Animator.GetBool("Grounded")){
             Player_Animator.SetBool("Grounded", true);
             falling = false;
@@ -224,9 +236,11 @@ public class player_gamePad_manager : MonoBehaviour
     }
 
     IEnumerator end_anim_Jump(){
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
         canJump = true;
     }
+
+   
 
 
     void OnTriggerEnter(Collider collider){

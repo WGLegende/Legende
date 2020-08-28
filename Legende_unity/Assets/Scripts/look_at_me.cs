@@ -16,7 +16,7 @@ public class look_at_me : MonoBehaviour{
     public float angle_de_vision = 160f;
    
     void Start(){
-        //head = GameObject.Find("Head").GetComponent<MultiAimConstraint>();
+        head = GameObject.Find("Rig_Head").GetComponent<MultiAimConstraint>();
         target_head = GameObject.Find("target_head").GetComponent<Transform>();
         player = GameObject.Find("Player").GetComponent<Transform>();
     }
