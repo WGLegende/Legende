@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1698219191945065360}
-  - component: {fileID: 3930428300573903641}
   - component: {fileID: 5531035161755218735}
   m_Layer: 0
   m_Name: Epee
@@ -27,54 +26,12 @@ Transform:
   m_GameObject: {fileID: 4383007076756596125}
   m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0.06, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.63922006, y: 0.6392202, z: 0.63922006}
   m_Children:
   - {fileID: 8962966031422873573}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -90}
---- !u!114 &3930428300573903641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4383007076756596125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbab559f2c508b049948f452ba22453c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state_id: SPHWLFaKNdvP9y5yC5QZ9wFMD
-  nom: Epee d'acier
-  description: Epee forgee par les artisants de Bourg De Givre
-  image: {fileID: 2800000, guid: a2d8f4450389d6545bc13ed6224a6ed7, type: 3}
-  jetable: 1
-  max_stack: 1
-  _type_object: 1
-  _type_equipement: 1
-  _type_consommable: 0
-  _type_ressource: 0
-  _type_plan: 0
-  _type_carte: 0
-  _type_quete: 0
-  _type_savoir: 0
-  _type_relique: 0
-  _type_effets_secondaire: 0
-  vitesseCoup: 1
-  degatsInfligesMin: 10
-  degatsInfligesMax: 50
-  pourcentageCritique: 20
-  puissanceDeRecul: 0
-  degatsSecondairesInfligesMin: 15.3
-  degatsSecondairesInfligesMax: 38
-  portee: 0
-  montantArmure_min: 0
-  montantArmure_max: 0
-  armureSecondaireMin: 0
-  armureSecondaireMax: 0
-  quantite: 1
-  is_equiped: 0
 --- !u!65 &5531035161755218735
 BoxCollider:
   m_ObjectHideFlags: 0

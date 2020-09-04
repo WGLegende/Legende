@@ -67,12 +67,14 @@ public class kart_manager : MonoBehaviour
 
     public  float reverse_pad = 1f;
     public bool kart_is_reverse;
+    bool toggle_rail;
+
     [HideInInspector] public BoxCollider collider_enter_chariot;
 
-    public float turnKart;
-    public float turnKart_bis;
+   // public float turnKart;
+   // public float turnKart_bis;
     public float angle_rotation_Y;
-    public bool danger_kart;
+   // public bool danger_kart;
 
     public Transform kart_img_minimap;
 
@@ -117,40 +119,40 @@ public class kart_manager : MonoBehaviour
        
     }
 
-    IEnumerator checkVirageKart(){
+    // IEnumerator checkVirageKart(){
 
-        while(true){
+    //     while(true){
 
-            turnKart_bis = turnKart;
+    //         turnKart_bis = turnKart;
             
-            yield return new WaitForSeconds(0.05f);
+    //         yield return new WaitForSeconds(0.05f);
 
-                angle_rotation_Y = turnKart_bis - turnKart;
+    //             angle_rotation_Y = turnKart_bis - turnKart;
                 
-                if(angle_rotation_Y  < -10  && Mathf.Abs(SplineFollow.Speed) >= 20){
-                    anim_kart.SetBool("turn_right",true);
-                    particle_etincelle_right_back.Stop();
-                    particle_etincelle_right_front.Stop();
-                }
-                else if(angle_rotation_Y > 10  && Mathf.Abs(SplineFollow.Speed) >= 20){
-                    anim_kart.SetBool("turn_left",true);
-                     particle_etincelle_left_back.Stop();
-                    particle_etincelle_left_front.Stop();
-                }
-                else if(angle_rotation_Y > -10 && angle_rotation_Y < 10){
-                    anim_kart.SetBool("turn_right",false);
-                    anim_kart.SetBool("turn_left",false);
-                }
+    //             if(angle_rotation_Y  < -10  && Mathf.Abs(SplineFollow.Speed) >= 20){
+    //                 anim_kart.SetBool("turn_right",true);
+    //                 particle_etincelle_right_back.Stop();
+    //                 particle_etincelle_right_front.Stop();
+    //             }
+    //             else if(angle_rotation_Y > 10  && Mathf.Abs(SplineFollow.Speed) >= 20){
+    //                 anim_kart.SetBool("turn_left",true);
+    //                  particle_etincelle_left_back.Stop();
+    //                 particle_etincelle_left_front.Stop();
+    //             }
+    //             else if(angle_rotation_Y > -10 && angle_rotation_Y < 10){
+    //                 anim_kart.SetBool("turn_right",false);
+    //                 anim_kart.SetBool("turn_left",false);
+    //             }
 
-            if(Mathf.Abs(angle_rotation_Y) > 10 && Mathf.Abs(SplineFollow.Speed) > 10){
-                danger_kart = true;
-                yield return new WaitForSeconds(0.3f);
-            }
-            else{
-                danger_kart = false;
-            }
-        }
-    }
+    //         if(Mathf.Abs(angle_rotation_Y) > 10 && Mathf.Abs(SplineFollow.Speed) > 10){
+    //             danger_kart = true;
+    //             yield return new WaitForSeconds(0.3f);
+    //         }
+    //         else{
+    //             danger_kart = false;
+    //         }
+    //     }
+    // }
     
 
     public void up_kart(float left_trigger){
@@ -300,9 +302,9 @@ public class kart_manager : MonoBehaviour
         angleChariot = angleChariot > 180 ? angleChariot - 360 : angleChariot;
         angleChariot = Mathf.Round(angleChariot * 100f) / 100f;
 
-        turnKart = Chariot_ContainerRotation.localEulerAngles.y;
-        turnKart = turnKart > 180 ? turnKart - 360 : turnKart;
-        turnKart = Mathf.Round(turnKart * 100f) / 100f;
+        // turnKart = Chariot_ContainerRotation.localEulerAngles.y;
+        // turnKart = turnKart > 180 ? turnKart - 360 : turnKart;
+        // turnKart = Mathf.Round(turnKart * 100f) / 100f;
 
 
       
@@ -332,13 +334,14 @@ public class kart_manager : MonoBehaviour
             Player_sound.instance.StopKart();// Gestion du son rails
         }
        
-        // Gestion aiguillage
-        if(SplineFollow.T >= 0.999 && vitesse_actuelle > 0){// fin circuit;
-            AiguillageManager.instance.switchRails();
-        }
-        if(SplineFollow.T <= 0.001 && vitesse_actuelle < 0 && AiguillageManager.instance.id_rails > 0){ // fin back circuit
-            AiguillageManager.instance.switchRailsBack();
-        }
+        //Gestion aiguillage
+        // if(SplineFollow.T == 1 && vitesse_actuelle > 0 ){// fin circuit;
+        //     AiguillageManager.instance.switchRails();
+          
+        // }
+        // if(SplineFollow.T <= 0.001 && vitesse_actuelle < 0 && AiguillageManager.instance.id_rails > 0){ // fin back circuit
+        //     AiguillageManager.instance.switchRailsBack();
+        // }
  
     }
 
@@ -348,7 +351,7 @@ public class kart_manager : MonoBehaviour
         speed_and_move();
        
         //Gestion des etincelles
-        if(!danger_kart){
+       // if(!danger_kart){
             if(vitesse_actuelle * reverse_pad >= 20){
                 particle_etincelle_left_back.Play();
                 particle_etincelle_right_back.Play();
@@ -375,7 +378,7 @@ public class kart_manager : MonoBehaviour
                 particle_etincelle_right_back.Stop();
                 audio_sparkle.Stop();
             }
-        }
+      //  }
     } 
 
    

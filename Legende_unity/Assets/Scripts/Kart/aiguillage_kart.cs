@@ -12,7 +12,14 @@ public class aiguillage_kart : MonoBehaviour{
         Gauche        
     }
 
-    public Battlehub.MeshDeformer2.SplineBase rails, right_rails, left_rails;
+    public Battlehub.MeshDeformer2.SplineBase rails;
+
+    public Battlehub.MeshDeformer2.SplineBase right_rails;
+    public bool rail_right_isInverse;
+
+    public Battlehub.MeshDeformer2.SplineBase left_rails;
+    public bool rail_left_isInverse;
+
    
     [HideInInspector] public bool toggle;
     [HideInInspector] public Animator anim;
@@ -53,10 +60,13 @@ public class aiguillage_kart : MonoBehaviour{
             indicator_particule.Play();  
 
                 if(_choix_circuit == ChoixCircuit.Gauche){ 
+
+                    AiguillageManager.instance.next_rails_isInverse = rail_left_isInverse;
                     AiguillageManager.instance.next_rails = left_rails;
                     StartCoroutine(moveParticuleView(particule_container,view_left_rails.transform.position, 0.4f));
                 }
                 else{
+                    AiguillageManager.instance.next_rails_isInverse = rail_right_isInverse;
                     AiguillageManager.instance.next_rails = right_rails;
                     StartCoroutine(moveParticuleView(particule_container,view_right_rails.transform.position, 0.4f));
                 }
@@ -76,6 +86,15 @@ public class aiguillage_kart : MonoBehaviour{
 
 
 
+
+    public void switchLeft(){
+        StartCoroutine(moveParticuleView(particule_container,view_left_rails.transform.position, 0.4f));
+    }
+
+    public void switchRight(){
+        StartCoroutine(moveParticuleView(particule_container,view_right_rails.transform.position, 0.4f));
+    }
+
     IEnumerator moveParticuleView (GameObject objectToMove, Vector3 end, float seconds){
 
         float elapsedTime = 0;
@@ -88,13 +107,5 @@ public class aiguillage_kart : MonoBehaviour{
         yield return new WaitForEndOfFrame();
         }
         objectToMove.transform.position = end;
-    }
-
-    public void switchLeft(){
-        StartCoroutine(moveParticuleView(particule_container,view_left_rails.transform.position, 0.4f));
-    }
-
-    public void switchRight(){
-        StartCoroutine(moveParticuleView(particule_container,view_right_rails.transform.position, 0.4f));
     }
 }

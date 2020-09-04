@@ -11,11 +11,21 @@ public class climbtest : MonoBehaviour{
     public float speed = 1f;
     public bool canClimb;
 
+
     void Start(){
         instance = this;
         playerObject = GameObject.Find("Player").GetComponent<Transform>();
         animator =  GameObject.Find("Player").GetComponent<Animator>();
-        controller = GameObject.Find("Player").GetComponent<CharacterController> ();
+        controller = GameObject.Find("Player").GetComponent<CharacterController>();
+    }
+
+    void Update()
+    {
+        if(Input.GetKey("c")){
+
+            print("test");
+              playerObject.transform.Translate(Vector3.up * Time.deltaTime*speed);
+        }
     }
 
   
@@ -23,18 +33,22 @@ public class climbtest : MonoBehaviour{
 
         if (other.name == "Player"){
 
+           
+
             if(canClimb){
 
                 if (Hinput.gamepad[0].leftStick.position.y > 0) {
                     playerObject.transform.Translate(Vector3.up * Time.deltaTime*speed);
-                    animator.SetBool("stopClimb",false);
-                    animator.SetBool("climb",true);
+                    print("on grimpe");
+                   animator.SetBool("stopClimb",false);
+                   animator.SetBool("climb",true);
                 }
 
                 else if (Hinput.gamepad[0].leftStick.position.y < 0 ) {
                     playerObject.transform.Translate(Vector3.down * Time.deltaTime*speed);
-                    animator.SetBool("stopClimb",false);
-                    animator.SetBool("climb",true);
+                      print("on descend");
+                   animator.SetBool("stopClimb",false);
+                   animator.SetBool("climb",true);
                 }
 
                 if(Hinput.gamepad[0].leftStick.position.y == 0 ){
@@ -49,7 +63,7 @@ public class climbtest : MonoBehaviour{
     void OnTriggerEnter(Collider other){
 
         if (other.name == "Player"){
-
+           
             if (Hinput.gamepad[0].leftStick.position.y < 0){
 
                 canClimb = false;
@@ -57,10 +71,11 @@ public class climbtest : MonoBehaviour{
                 controller.enabled = true;
                 animator.SetBool("climb",false);
             }
-            else{
 
-                StartCoroutine(startClimb());}
-            }   
+            else{
+                StartCoroutine(startClimb());
+            }
+        }       
     }
 
     void OnTriggerExit(Collider other){
@@ -69,11 +84,11 @@ public class climbtest : MonoBehaviour{
 
             if (Hinput.gamepad[0].leftStick.position.y > 0 ) {
                 StartCoroutine(EndClimb());
-                playerObject.transform.Translate(Vector3.forward);
+               // playerObject.transform.Translate(Vector3.forward);
             }
             else{
                 StartCoroutine(EndClimb());
-                playerObject.transform.Translate(Vector3.back);
+               // playerObject.transform.Translate(Vector3.back);
             }
         }   
     }
@@ -101,7 +116,7 @@ public class climbtest : MonoBehaviour{
         animator.SetBool("climb",false);
         canClimb = false;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         player_gamePad_manager.instance.canMove = true;
         controller.enabled = true;   

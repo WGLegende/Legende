@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Switch_vanne : MonoBehaviour
-{
+
+public class Switch_vanne : MonoBehaviour{
     
     public GameObject vanne;
     public GameObject elevator;
-     [HideInInspector] public bool oneShot;
+    [HideInInspector] public bool oneShot;
 
     [HideInInspector] public Animator anim_vanne;
     [HideInInspector] public AudioSource sound_vanne;
@@ -15,8 +15,8 @@ public class Switch_vanne : MonoBehaviour
 
     [HideInInspector] public Animator anim_levier;
     [HideInInspector] public AudioSource sound_levier;
-   
 
+    
     void Start(){
 
         anim_vanne = vanne.GetComponent<Animator>();

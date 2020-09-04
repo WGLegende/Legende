@@ -126,7 +126,7 @@ public class GamePad_manager : MonoBehaviour
                 }
                
 
-                if(Hinput.anyGamepad.A.justPressed){
+                if(Hinput.anyGamepad.A.justPressed || Input.GetKeyDown("a")){
 
                     if(ame_player.instance.navy_en_attente){
                         ame_player.instance.navy_en_attente =false;
@@ -166,7 +166,7 @@ public class GamePad_manager : MonoBehaviour
 
 
             case game_pad_attribution.inventory :
-                if(Hinput.anyGamepad.A.justPressed){
+                if(Hinput.anyGamepad.A.justPressed || Input.GetKeyDown("a")){
                     Debug.Log("Test A");
                 }
 
@@ -262,8 +262,7 @@ public class GamePad_manager : MonoBehaviour
                     kart_manager.instance.kart_light();
                 }
 
-                
-                if(Hinput.anyGamepad.A.justPressed){
+                if(Hinput.anyGamepad.A.justPressed || Input.GetKeyDown("a")){
                     if(_game_pad_attribution == game_pad_attribution.actionDisplayKart){
                         player_actions.instance.do_action_kart();
                     }  
