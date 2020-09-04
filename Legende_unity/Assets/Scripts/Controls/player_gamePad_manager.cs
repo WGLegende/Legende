@@ -48,6 +48,7 @@ public class player_gamePad_manager : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     Transform cam;
+    public Transform Player;
     
     public float force_degat_recul = 3f;
 
@@ -130,24 +131,38 @@ public class player_gamePad_manager : MonoBehaviour
 
     public void player_movement(float left_stick_x, float left_stick_y){
 
+
         if(canMove){
             
             Vector3 direction = new Vector3(left_stick_x,0f,left_stick_y);
             float targetAngle  = Mathf.Atan2(direction.x, direction.z)* Mathf.Rad2Deg + cam.eulerAngles.y;
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+            Vector3 playerAngle = Player.forward;
+            Vector3 camAngle = cam.transform.forward;
+            playerAngle.y = 0;
+            camAngle.y = 0;
+            float horizDiffAngle = Vector3.Angle(playerAngle, camAngle);
+            print (direction.magnitude);
+
+            
             characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
+
         
             // Animations Deplacement XY sans rotation
             if(lockTarget.instance.target_lock){
 
                 Player_Animator.SetFloat("SpeedMove", left_stick_y);
-                Player_Animator.SetFloat("walkSide", left_stick_x); 
+                Player_Animator.SetFloat("walkSide", horizDiffAngle); 
             }
             // deplacement libre
             else{
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                if(left_stick_x != 0 || left_stick_y != 0){
                 transform.rotation = Quaternion.Euler(0f,angle,0f);
-                Player_Animator.SetFloat("SpeedMove", direction.magnitude); 
+                }
+                    player_gamePad_manager.instance.Player_Animator.SetFloat("Blend", direction.magnitude, 0.1f, Time.deltaTime); 
+
                 Player_Animator.SetFloat("walkSide", 0);   
             }
 
@@ -274,7 +289,12 @@ public class player_gamePad_manager : MonoBehaviour
     void ShootArrow(){
 
         Player_sound.instance.PlayFightFx(gameObject,Player_sound.instance.FightFx[1]);
+        player_equipement.instance.nbr_fleche--;
         Arrow.SetActive(false);
+        if(player_equipement.instance.nbr_fleche <=0){
+        player_equipement.instance.nbr_fleche = 0;
+        return;
+        }
         GameObject ProjectileClone = Instantiate(projectile,originArrow.position, originArrow.rotation);
         ProjectileClone.GetComponent<Rigidbody>().AddForce(originArrow.right * puissance_de_tir, ForceMode.Impulse);
         Destroy(ProjectileClone,5); 

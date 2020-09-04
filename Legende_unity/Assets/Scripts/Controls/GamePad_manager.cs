@@ -73,6 +73,8 @@ public class GamePad_manager : MonoBehaviour
 
         left_trigger = Hinput.anyGamepad.leftTrigger.position;
 
+
+
       
 
         switch(_game_pad_attribution){

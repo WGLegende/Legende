@@ -10,6 +10,9 @@ public class player_equipement : MonoBehaviour
     Animator anim_player;
     [HideInInspector] public int mode_player;
 
+    public int contenance_carquois = 10;
+    public int nbr_fleche = 10;
+
 
     void Start(){
 
@@ -18,6 +21,20 @@ public class player_equipement : MonoBehaviour
         }
         anim_player = GameObject.Find("Player").GetComponent<Animator>();
     }
+
+    void Update()
+    {
+        if(Input.GetKeyDown("w")){
+
+            StartCoroutine(equip_player_arc());
+        }
+         if(Input.GetKeyDown("x")){
+
+            StartCoroutine(equip_player_cac());
+        }
+    }
+
+    
 
     public void equipe_un_objet(inventory_object obj){
 

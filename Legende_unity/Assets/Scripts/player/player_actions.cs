@@ -126,6 +126,7 @@ public class player_actions : MonoBehaviour
         else if(currently_displayed_action.GetType() == typeof(EnterChariot)){ 
             do_action_enter_kart((EnterChariot)currently_displayed_action);
             clear_action(false);
+            print("gtttt");
         }
 
        
@@ -148,6 +149,8 @@ public class player_actions : MonoBehaviour
    
 
     public void clear_action(bool isPlayer){
+
+        print("merdasse");
 
         if(isPlayer){
             ButtonAction.instance.Hide(); 
