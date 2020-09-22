@@ -31,7 +31,7 @@ public float vitesse_de_recharge;
 
         while(true){
 
-            player_main.instance.AddPlayerPv(Time.deltaTime * vitesse_de_recharge);
+            player_life.instance.change_player_life(Time.deltaTime * vitesse_de_recharge);
             yield return null;
         }
     }

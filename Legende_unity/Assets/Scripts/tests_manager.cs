@@ -64,8 +64,7 @@ public class tests_manager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)){   // Rempli la jauge vapeur TRICHE todo
             VapeurBar.instance.fill_vapeur_stock();
             StockBullet.instance.update_stock_bullet(20); 
-            player_main.instance.AddPlayerPv(100);
-           
+            player_life.instance.change_player_life(player_main.instance.player_life_max);         
         }
 
         if(Input.GetKeyDown("c")){  // test cam Auto kart
@@ -159,7 +158,7 @@ public class tests_manager : MonoBehaviour
   
 
     void PlayerInfinityPv(){
-        player_main.instance.AddPlayerPv(100);
+        player_life.instance.change_player_life(player_main.instance.player_life_max);         
     }
 
     void AlwaysVapeur(){  

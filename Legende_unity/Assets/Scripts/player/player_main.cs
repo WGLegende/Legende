@@ -15,8 +15,8 @@ public class player_main : MonoBehaviour
     Animator anim;
     Animator blackout;
 
-    public float player_current_pv;
-    float player_max_pv = 100f;
+    public float player_life_current;
+    public float player_life_max = 100f;
    
     Vector3 startPosition;
     Quaternion startRotation;
@@ -31,6 +31,7 @@ public class player_main : MonoBehaviour
     void Awake(){ 
 
         instance = this;
+        
         player = GameObject.Find("Player");
         anim = player.GetComponent<Animator>();
         blackout = GameObject.Find("black").GetComponent<Animator>();
@@ -43,40 +44,19 @@ public class player_main : MonoBehaviour
     void Update(){
 
         if(Input.GetKeyDown("k")){
-
-            DegatPlayerPv(50);
+            player_life.instance.change_player_life(50);
         }
       
         if(player.activeSelf){
            // checkIfPlayerIsFalling();
         }
-        
-      
     }
 
-    
-
-    public void AddPlayerPv(float value){
-
-        player_current_pv += value;
-        player_current_pv = Mathf.Clamp(player_current_pv, 0, 100); 
-        Barre_de_Vie.instance.RefreshPvPlayerUI(player_current_pv);
-    }
-
-    public void DegatPlayerPv(float value){
-
+    public void player_dies(){
         if(playerIsAlive){
-
-            player_current_pv -= value;
-            player_current_pv = Mathf.Clamp(player_current_pv, 0, 100); 
-            Barre_de_Vie.instance.RefreshPvPlayerUI(player_current_pv);
-        
-            if(player_current_pv <= 0){
-                
-                StartCoroutine(playerDie());  
-                playerIsAlive = false;   
-                Hinput.gamepad[0].StopVibration();       
-            }
+            StartCoroutine(playerDie());  
+            playerIsAlive = false;   
+            Hinput.gamepad[0].StopVibration();       
         }
     }
 
@@ -105,7 +85,7 @@ public class player_main : MonoBehaviour
         else{
             player.transform.position = startPosition;
             player.transform.rotation = startRotation;
-            player_main.instance.AddPlayerPv(100); 
+            player_life.instance.change_player_life(player_main.instance.player_life_max); 
         }
         player_gamePad_manager.instance.put_camera_behind_player();
 

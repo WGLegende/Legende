@@ -44,7 +44,7 @@ public class level_main : MonoBehaviour
         player.position = CheckPointSave.position;
         player.transform.rotation = CheckPointSave.transform.parent.rotation;
         player_gamePad_manager.instance.put_camera_behind_player();
-        player_main.instance.AddPlayerPv(100);         
+        player_life.instance.change_player_life(player_main.instance.player_life_max);         
     }
 
     // On stocke la derniere position du checkPoint

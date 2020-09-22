@@ -55,7 +55,7 @@ public class FireWall : MonoBehaviour
     void OnParticleCollision(GameObject other){
 
         if (other.name == "Player"){
-            player_main.instance.DegatPlayerPv(degat);
+            player_life.instance.change_player_life(degat);
         }
     }
     

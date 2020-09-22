@@ -68,7 +68,8 @@ MonoBehaviour:
   player: {fileID: 0}
   playerKart: {fileID: 0}
   kart: {fileID: 0}
-  player_current_pv: 50
+  player_life_current: 28
+  player_life_max: 28
   playerIsAlive: 1
   timeInAir: 0
   deathTimer: 2

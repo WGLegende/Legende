@@ -235,7 +235,7 @@ public class PlayerGamePad : MonoBehaviour
         if(collider.gameObject.tag == "degatPlayer"){
             Player_Animator.SetTrigger("getHit");
             float value = enemy_manager.instance.degatForPlayer;
-            player_main.instance.DegatPlayerPv(value);   
+            player_life.instance.change_player_life(value);
            // print("Player a recu "+value.ToString("f0")+" de degats");
 
             if(collider.gameObject.name== "FlecheEnemy(Clone)"){
