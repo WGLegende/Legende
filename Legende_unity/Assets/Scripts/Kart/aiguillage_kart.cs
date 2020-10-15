@@ -6,11 +6,7 @@ public class aiguillage_kart : MonoBehaviour{
 
     public static aiguillage_kart instance; 
 
-    public ChoixCircuit _choix_circuit;
-    public enum ChoixCircuit{
-        Droite,
-        Gauche        
-    }
+    public enum_manager.Direction _choix_circuit;
 
     public Battlehub.MeshDeformer2.SplineBase rails;
 
@@ -42,7 +38,7 @@ public class aiguillage_kart : MonoBehaviour{
         aiguillage_audio = GetComponentInChildren<AudioSource>();
         indicator_particule = GetComponentInChildren<ParticleSystem>();
 
-        if(_choix_circuit == ChoixCircuit.Gauche){ // on initialise si chg de rail au demarrage
+        if(_choix_circuit == enum_manager.Direction.left){ // on initialise si chg de rail au demarrage
             AiguillageManager.instance.next_rails = left_rails;
             toggle = true;
             anim.SetBool("switch",true);
@@ -59,7 +55,7 @@ public class aiguillage_kart : MonoBehaviour{
             player_actions.instance.display_actions(this,collider); 
             indicator_particule.Play();  
 
-                if(_choix_circuit == ChoixCircuit.Gauche){ 
+                if(_choix_circuit == enum_manager.Direction.left){ 
 
                     AiguillageManager.instance.next_rails_isInverse = rail_left_isInverse;
                     AiguillageManager.instance.next_rails = left_rails;

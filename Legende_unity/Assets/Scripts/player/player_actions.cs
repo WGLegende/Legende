@@ -60,7 +60,7 @@ public class player_actions : MonoBehaviour
                 ButtonAction.instance.Action("Monter A Bord");   
             }
 
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionDisplay;
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.actionDisplay;
         }
         
         else if(collider.tag == "PlayerKart"){
@@ -74,7 +74,7 @@ public class player_actions : MonoBehaviour
                 ButtonActionKart.instance.Action("Bifurquer");  
             }
 
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionDisplayKart;
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.actionDisplayKart;
         }
 
     }
@@ -153,16 +153,16 @@ public class player_actions : MonoBehaviour
             ButtonAction.instance.Hide(); 
             
             if(ame_player.instance.navy_en_attente){
-                GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.startConversationNavy;
+                GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.startConversationNavy;
             }else{
-                GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; // TODO attention avec kart
+                GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.player; // TODO attention avec kart
             }
             currently_displayed_action = null;
         }
 
         else{
             print("ici que ca bascule");
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.kart;
             currently_displayed_action = null; 
         }
     }
@@ -171,12 +171,12 @@ public class player_actions : MonoBehaviour
 
         if(isPlayerKart){
             ButtonActionKart.instance.Hide(); 
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; 
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.kart; 
             currently_displayed_action = null; 
         }
 
         if(!isPlayerKart){ // pour sortie de gare
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.player; 
             currently_displayed_action = null; 
         }
     }
@@ -200,7 +200,7 @@ public class player_actions : MonoBehaviour
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",true);
         camera_mini_map.instance.target = player_main.instance.playerKart.transform;
 
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart; 
+        GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.kart; 
 
         StartCoroutine(Camera_control.instance.CameraBehindKart());
         Camera_control.instance.player_kart_camera.Priority = 11;
@@ -232,7 +232,7 @@ public class player_actions : MonoBehaviour
         EnterChariot.instance.ui_chariot.SetBool("uiKartShow",false);
         camera_mini_map.instance.target = player_main.instance.player.transform;
 
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player; 
+        GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.player; 
 
         Camera_control.instance.CameraBehindPlayer();
         Camera_control.instance.player_kart_camera.Priority = 9;
@@ -248,13 +248,13 @@ public class player_actions : MonoBehaviour
         _aiguillage_kart.aiguillage_audio.Play();
 
             if(_aiguillage_kart.toggle){
-                _aiguillage_kart._choix_circuit = aiguillage_kart.ChoixCircuit.Gauche;
+                _aiguillage_kart._choix_circuit = enum_manager.Direction.left;
                 AiguillageManager.instance.next_rails = _aiguillage_kart.left_rails;
                 _aiguillage_kart.anim.SetBool("switch",true);
                 _aiguillage_kart.switchLeft();
             }
             else{
-                _aiguillage_kart._choix_circuit =  aiguillage_kart.ChoixCircuit.Droite;
+                _aiguillage_kart._choix_circuit =  enum_manager.Direction.right;
                 AiguillageManager.instance.next_rails = _aiguillage_kart.right_rails;
                 _aiguillage_kart.anim.SetBool("switch",false);
                 _aiguillage_kart.switchRight();

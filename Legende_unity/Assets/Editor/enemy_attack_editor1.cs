@@ -69,9 +69,9 @@
         EditorGUILayout.LabelField("Type d'Attaque",EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(_type_attack, new GUIContent("Type :"));
 
-        switch((EnemyAttack.typeAttack)_type_attack.enumValueIndex){
+        switch((enum_manager.typeAttack)_type_attack.enumValueIndex){
 
-            case EnemyAttack.typeAttack.Cac : 
+            case enum_manager.typeAttack.Cac : 
 
                 EditorGUILayout.PropertyField( distance_C_a_C, new GUIContent("Distance Attaque : "));
                 EditorGUILayout.PropertyField( Pcent_attackSecondaire, new GUIContent("% Attack Secondaire : ") );
@@ -88,7 +88,7 @@
 
 
 
-            case EnemyAttack.typeAttack.distance : 
+            case enum_manager.typeAttack.distance : 
                 EditorGUILayout.PropertyField( distance_shoot, new GUIContent("Distance Attaque : "));
                 EditorGUILayout.PropertyField( power_projectile, new GUIContent("Force de Tir : "));
                 EditorGUILayout.PropertyField( Projectile, new GUIContent("Projectile : "));
@@ -97,7 +97,7 @@
 
 
 
-            case EnemyAttack.typeAttack.Cac_et_distance : 
+            case enum_manager.typeAttack.Cac_et_distance : 
 
                 EditorGUILayout.PropertyField( distance_C_a_C, new GUIContent("Dist. Attack Cac : "));
                 EditorGUILayout.PropertyField( distance_shoot, new GUIContent("Dist. Attack Shoot : "));

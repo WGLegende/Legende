@@ -33,10 +33,10 @@ public class inventory_objects_manager : MonoBehaviour
     }
 
     void Update(){
-        if(Input.GetKeyDown(KeyCode.S)){
-            Debug.Log("simulate quit game");
-            OnQuitGame();
-        }
+        // if(Input.GetKeyDown(KeyCode.S)){
+        //     Debug.Log("simulate quit game");
+        //     OnQuitGame();
+        // }
     }
 
 
@@ -65,6 +65,12 @@ public class inventory_objects_manager : MonoBehaviour
             }
         }else{
             object_list.Add(new_obj);
+        }
+
+        // Equipe l'objet de type équipement automatiquement si aucun objet du même type n'est déjà équipé
+        if(!inventory_objects_manager.instance.object_list.Any(o => o._type_equipement == new_obj._type_equipement && o._type_equipement != 0 && o.is_equiped)){
+            new_obj.is_equiped = true;
+            player_equipement.instance.equipe_un_objet(new_obj);
         }
 
         setInventoryValuesInPlayerPref();

@@ -9,11 +9,7 @@ public class Ascenseur : MonoBehaviour{
     public float vitesse = 2f;
     public bool has_vapeur;
 
-    public positionAscenseur _position_ascenseur;
-    public enum positionAscenseur{
-        Haut,
-        Bas       
-    }
+    public enum_manager.Direction _position_ascenseur;
 
     [HideInInspector] public AudioSource _audio_source;
     public AudioClip[] _audio_clip;
@@ -25,7 +21,7 @@ public class Ascenseur : MonoBehaviour{
         anim_elevator.SetFloat("vitesse_deplacement",vitesse);  
         _audio_source = GetComponent<AudioSource>();  
 
-        if(_position_ascenseur == positionAscenseur.Bas){
+        if(_position_ascenseur == enum_manager.Direction.down){
             isPositionUp = false;
             anim_elevator.SetBool("position_up",false);
         }

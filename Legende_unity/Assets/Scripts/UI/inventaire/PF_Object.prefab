@@ -134,6 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6580716143118352573}
   - component: {fileID: 8811715552461781044}
+  - component: {fileID: -8448314428517168760}
   m_Layer: 0
   m_Name: PF_Object
   m_TagString: Untagged
@@ -173,7 +174,7 @@ MonoBehaviour:
   description: description
   image: {fileID: 2800000, guid: 5fd50594014b70e48bd6993443d46b32, type: 3}
   jetable: 1
-  _type_inventory: 0
+  max_stack: 1
   _type_object: 8
   _type_equipement: 0
   _type_consommable: 0
@@ -183,6 +184,7 @@ MonoBehaviour:
   _type_quete: 0
   _type_savoir: 0
   _type_relique: 0
+  _type_armure: 0
   _type_effets_secondaire: 0
   vitesseCoup: 1
   degatsInfligesMin: 10
@@ -192,10 +194,44 @@ MonoBehaviour:
   degatsSecondairesInfligesMin: 15.3
   degatsSecondairesInfligesMax: 38
   portee: 0
-  montantArmure_min: 0
-  montantArmure_max: 0
-  armureSecondaireMin: 0
-  armureSecondaireMax: 0
+  armure_current: 0
+  armure_max: 0
   quantite: 1
   is_equiped: 0
-  inventory_slot_yx: 0000000000000000
+--- !u!114 &-8448314428517168760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8075445175931164336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb0ecfbf9a89754fa48f4f30aca24f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  event_name: 
+  event_description: 
+  event_quantity_max: -1
+  _eventTrigger: 0
+  chanceOfEffect: 100
+  _eventStartsWhen: 0
+  _eventEffect: 0
+  effect_delay_before: 0
+  effect_duration: 0
+  effect_delay_after: 0
+  _eventStopping: 0
+  customAnimations: []
+  _enemy_type: 0
+  _weapon_type: 0
+  _attack_type: 0
+  _comparateur: 0
+  _damage_type: 0
+  _armor_type: 0
+  _target_object_type: 0
+  _target_equipement_type: 0
+  event_name_of_custom_trigger: 
+  event_condition_quantity_life: 0
+  event_condition_quantity_armor: 0
+  event_condition_countdown: 0
+  event_animation_Id: 0

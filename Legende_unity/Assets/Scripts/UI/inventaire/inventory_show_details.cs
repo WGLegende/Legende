@@ -62,8 +62,8 @@ public class inventory_show_details : MonoBehaviour
         }
 
 
-        bool object_is_arme = obj._type_equipement == inventory_main.equipement.arme_CaC || obj._type_equipement == inventory_main.equipement.arme_Distance || obj._type_equipement == inventory_main.equipement.arme_Projectile;
-        bool object_is_armure = obj._type_equipement == inventory_main.equipement.armure_Corps || obj._type_equipement == inventory_main.equipement.armure_Mains || obj._type_equipement == inventory_main.equipement.armure_Pieds || obj._type_equipement == inventory_main.equipement.armure_Tete;
+        bool object_is_arme = obj._type_equipement == enum_manager.equipement.arme_CaC || obj._type_equipement == enum_manager.equipement.arme_Distance || obj._type_equipement == enum_manager.equipement.arme_Projectile;
+        bool object_is_armure = obj._type_equipement == enum_manager.equipement.armure_Corps || obj._type_equipement == enum_manager.equipement.armure_Mains || obj._type_equipement == enum_manager.equipement.armure_Pieds || obj._type_equipement == enum_manager.equipement.armure_Tete;
         bool object_is_consommable = obj._type_consommable != 0;
         bool object_is_ressource = obj._type_ressource != 0;
         bool object_is_relique = obj._type_relique != 0;
@@ -72,14 +72,15 @@ public class inventory_show_details : MonoBehaviour
 
 
         // todo must evolve pour pouvoir verifier plus de types, ressources etc
-        bool has_secondary_effect = obj._type_effets_secondaire != inventory_main.type_effets.aucun;
+        bool has_secondary_effect = obj._type_effets_secondaire != enum_manager.type_effets.aucun;
+        bool typeArmor = obj._type_armure != enum_manager.type_effets.aucun; 
 
         DegatsSecondaires[0].gameObject.SetActive(has_secondary_effect);
         DegatsSecondaires[1].gameObject.SetActive(has_secondary_effect);
         DegatsSecondaires_DIFF.gameObject.SetActive(has_secondary_effect);
-        montantProtectionSecondaire[0].gameObject.SetActive(has_secondary_effect);
-        montantProtectionSecondaire[1].gameObject.SetActive(has_secondary_effect);
-        montantProtectionSecondaire_DIFF.gameObject.SetActive(has_secondary_effect);
+        montantProtectionSecondaire[0].gameObject.SetActive(typeArmor);
+        montantProtectionSecondaire[1].gameObject.SetActive(typeArmor);
+        montantProtectionSecondaire_DIFF.gameObject.SetActive(typeArmor);
 
         RTArmes.gameObject.SetActive(object_is_arme);
         RTArmures.gameObject.SetActive(object_is_armure);
@@ -93,8 +94,8 @@ public class inventory_show_details : MonoBehaviour
         TX_Quantite.gameObject.SetActive(obj.quantite > 1);
 
 
-        Action_utiliser.gameObject.SetActive(obj._type_object != inventory_main.type_object.equipement);
-        Action_Equiper.gameObject.SetActive(obj._type_object == inventory_main.type_object.equipement);
+        Action_utiliser.gameObject.SetActive(obj._type_object != enum_manager.type_object.equipement);
+        Action_Equiper.gameObject.SetActive(obj._type_object == enum_manager.type_object.equipement);
         Action_Jeter.gameObject.SetActive(obj.jetable);
 
 
@@ -107,7 +108,7 @@ public class inventory_show_details : MonoBehaviour
             pourcentageCritiques[1].text = obj.pourcentageCritique + "%";
             Recul[1].text = obj.puissanceDeRecul.ToString();
 
-            if(obj._type_equipement == inventory_main.equipement.arme_Distance || obj._type_equipement == inventory_main.equipement.arme_Projectile){
+            if(obj._type_equipement == enum_manager.equipement.arme_Distance || obj._type_equipement == enum_manager.equipement.arme_Projectile){
                 Portee[0].gameObject.SetActive(true);
                 Portee[1].gameObject.SetActive(true);
                 Portee[1].text = obj.portee.ToString();
@@ -116,8 +117,7 @@ public class inventory_show_details : MonoBehaviour
                 Portee[1].gameObject.SetActive(false);
             }
         }else if (object_is_armure){
-            montantProtection[1].text = obj.montantArmure_min +  " -> " + obj.montantArmure_max;
-            montantProtectionSecondaire[1].text = obj.armureSecondaireMin +  " -> " + obj.armureSecondaireMax;
+            montantProtectionSecondaire[1].text = obj.armure_current +  " -> " + obj.armure_max;
         }
     }
     

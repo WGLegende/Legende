@@ -15,8 +15,6 @@ public class player_main : MonoBehaviour
     Animator anim;
     Animator blackout;
 
-    public float player_life_current;
-    public float player_life_max = 100f;
    
     Vector3 startPosition;
     Quaternion startRotation;
@@ -44,7 +42,7 @@ public class player_main : MonoBehaviour
     void Update(){
 
         if(Input.GetKeyDown("k")){
-            player_life.instance.change_player_life(50);
+            player_life.instance.change_player_life_to_full();
         }
       
         if(player.activeSelf){
@@ -56,7 +54,7 @@ public class player_main : MonoBehaviour
         if(playerIsAlive){
             StartCoroutine(playerDie());  
             playerIsAlive = false;   
-            Hinput.gamepad[0].StopVibration();       
+            GamePad_manager.instance.gamePad_setVibration(false);      
         }
     }
 
@@ -80,13 +78,12 @@ public class player_main : MonoBehaviour
 
         if (level_main.instance.hasCheckPoint){
             level_main.instance.MovePlayerToCheckpoint();
-        }
-
-        else{
+        }else{
             player.transform.position = startPosition;
             player.transform.rotation = startRotation;
-            player_life.instance.change_player_life(player_main.instance.player_life_max); 
         }
+        player_life.instance.change_player_life_to_full();         
+
         player_gamePad_manager.instance.put_camera_behind_player();
 
         blackout.SetBool("blackout",false); // Back to game
@@ -97,6 +94,8 @@ public class player_main : MonoBehaviour
         yield return new WaitForSeconds(2.5f); // duree anim recoverDie
 
         player_gamePad_manager.instance.PlayerCanMove(true);
+        PlayerPrefs_Manager.instance.saveAll();
+
     }
 
 

@@ -11,7 +11,7 @@ public class inventory_slot_master : MonoBehaviour
     public int number_of_slot_max;
 
     public Dictionary<_Slot, inventory_object> slots_list = new Dictionary<_Slot, inventory_object>();
-    public inventory_main.type_object type_object_slots;
+    public enum_manager.type_object type_object_slots;
 
     public inventory_equipement_slot[] preExistingEquipementSlots;
 
@@ -25,9 +25,9 @@ public class inventory_slot_master : MonoBehaviour
 
     [Serializable]
     public struct sous_type_slots{
-        public inventory_main.equipement _type_equipement;
+        public enum_manager.equipement _type_equipement;
         public inventory_main.consommable _type_consommable;
-        public inventory_main.ressource _type_ressource;
+        public enum_manager.ressource _type_ressource;
         public inventory_main.plan _type_plan;
         public inventory_main.carte _type_carte;
         public inventory_main.quete _type_quete;
@@ -39,7 +39,7 @@ public class inventory_slot_master : MonoBehaviour
     public int last_hovered_id;
 
     
-    public void Initialize(inventory_main.equipement _type_equipement = 0)
+    public void Initialize(enum_manager.equipement _type_equipement = 0)
     {
         empty_slots();
         setDependentGameObjects(true);
@@ -78,7 +78,7 @@ public class inventory_slot_master : MonoBehaviour
         }
     }
 
-    public void create_all_slots(inventory_main.equipement _type_equipement = 0){
+    public void create_all_slots(enum_manager.equipement _type_equipement = 0){
 
         foreach(inventory_object obj in inventory_objects_manager.instance.object_list.FindAll(
             o => o._type_object == type_object_slots && (_type_equipement != 0 ? _type_equipement == o._type_equipement : true) &&
@@ -115,7 +115,6 @@ public class inventory_slot_master : MonoBehaviour
 
 
     public void update_equipement_slots(){
-        Debug.Log("update_equipement_slots");
         foreach(inventory_equipement_slot equipement_Slot in preExistingEquipementSlots){
             _Slot slot = equipement_Slot.GetComponent<_Slot>();
             inventory_object obj = equipement_Slot.getEquipedObject();

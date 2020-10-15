@@ -10130,7 +10130,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2236880695638474939}
   m_LocalRotation: {x: 0.00024095528, y: -0.08021515, z: 0.000019390749, w: 0.9967776}
-  m_LocalPosition: {x: 0.0750227, y: 1.243, z: 0.018919468}
+  m_LocalPosition: {x: 0.075022876, y: 1.243, z: 0.018919706}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2236880696905189374}
@@ -17148,6 +17148,8 @@ GameObject:
   - component: {fileID: 7794343586267583370}
   - component: {fileID: 7794343586267583373}
   - component: {fileID: 7794343586267583372}
+  - component: {fileID: 178349453}
+  - component: {fileID: 261574926}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -17439,6 +17441,35 @@ MonoBehaviour:
   - rig: {fileID: 2236880695846324558}
     active: 1
   m_Effectors: []
+--- !u!114 &178349453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794343586267583375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ebb38cdd3538894b8777c8f1d3435a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player_Life_Container: {fileID: 0}
+  Player_Armor_Container: {fileID: 0}
+  PF_Player_Life: {fileID: 779711289908144353, guid: db6c0cca410abd04b862895e90954d51,
+    type: 3}
+--- !u!114 &261574926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794343586267583375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b495fc3466b90b847898ef0933a7ac63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipedArmorList: []
 --- !u!1 &7862147392076787414
 GameObject:
   m_ObjectHideFlags: 0

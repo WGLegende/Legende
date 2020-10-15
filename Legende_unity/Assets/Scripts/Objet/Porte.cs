@@ -10,13 +10,7 @@ public class Porte : MonoBehaviour
 
  public GameObject[] keysList;
 
- public typeOuverture _type_ouverture;
-    public enum typeOuverture{
-        classique,
-        coulissant,
-        slideUp,
-        chute     
-    }
+ public enum_manager.typeOuverture _type_ouverture;
 
     [HideInInspector] public Animator animPorte;
     [HideInInspector] public string typeAnimation;
@@ -41,10 +35,10 @@ public class Porte : MonoBehaviour
 
         switch (_type_ouverture){
 
-            case typeOuverture.classique : typeAnimation = "isOpenPivot"; break;
-            case typeOuverture.coulissant : typeAnimation = "isOpenSlide"; break;
-            case typeOuverture.slideUp : typeAnimation = "isOpenUp"; break;
-            case typeOuverture.chute : typeAnimation = "isChute"; break;
+            case enum_manager.typeOuverture.classique : typeAnimation = "isOpenPivot"; break;
+            case enum_manager.typeOuverture.coulissant : typeAnimation = "isOpenSlide"; break;
+            case enum_manager.typeOuverture.slideUp : typeAnimation = "isOpenUp"; break;
+            case enum_manager.typeOuverture.chute : typeAnimation = "isChute"; break;
         }
      
         if (Switch != null){

@@ -10,12 +10,7 @@ public class EnemyAttack : MonoBehaviour
     Animator anim;
     Transform target;
 
-    public typeAttack _type_attack;
-    public enum typeAttack{
-        Cac,
-        distance,
-        Cac_et_distance 
-    }
+    public enum_manager.typeAttack _type_attack;
 
     public float degatMin;
     public float degatMax;
@@ -53,9 +48,9 @@ public class EnemyAttack : MonoBehaviour
         enemyScript = GetComponentInParent<enemy>();
         target = player_main.instance.player.transform;
       
-        if(_type_attack == typeAttack.Cac){enemyScript.distance_attack = distance_C_a_C;} // on renseigne la distance d'attaque en fonction du type
-        else if(_type_attack == typeAttack.Cac_et_distance){enemyScript.distance_attack = distance_shoot; tireur = true;}
-        else if(_type_attack == typeAttack.distance){enemyScript.distance_attack = distance_shoot;}
+        if(_type_attack == enum_manager.typeAttack.Cac){enemyScript.distance_attack = distance_C_a_C;} // on renseigne la distance d'attaque en fonction du type
+        else if(_type_attack == enum_manager.typeAttack.Cac_et_distance){enemyScript.distance_attack = distance_shoot; tireur = true;}
+        else if(_type_attack == enum_manager.typeAttack.distance){enemyScript.distance_attack = distance_shoot;}
    
         Pcent_gain_attackSpecial = Pcent_attackSpecial;  
     }
@@ -65,7 +60,7 @@ public class EnemyAttack : MonoBehaviour
     // declenche par manager comportement alerte
     public void animAlerte(bool value){
        anim.SetBool("eye_alerte",value);
-        if(_type_attack != typeAttack.Cac){ // on passe en mode distance 
+        if(_type_attack != enum_manager.typeAttack.Cac){ // on passe en mode distance 
             anim.SetBool("mode_shoot",value);
         }  
     }
@@ -73,7 +68,7 @@ public class EnemyAttack : MonoBehaviour
     // declenchee par manager on rebascule en shooter si mode tireur
     public void FinAlerte(){
         if(tireur){
-            _type_attack = typeAttack.Cac_et_distance;
+            _type_attack = enum_manager.typeAttack.Cac_et_distance;
             enemyScript.distance_attack = distance_shoot;
         }
     }
@@ -86,7 +81,7 @@ public class EnemyAttack : MonoBehaviour
             if (Vector3.Distance(target.position, transform.position) < distance_shoot/2){
 
                 enemyScript.distance_attack = distance_C_a_C;
-                _type_attack = typeAttack.Cac;
+                _type_attack = enum_manager.typeAttack.Cac;
                 anim.SetBool("mode_shoot",false);
             }
             yield return new WaitForSeconds(0.02f); 
@@ -107,7 +102,7 @@ public class EnemyAttack : MonoBehaviour
 
             if(!enemyScript.isDefense && !attack_special_is_active){ // Seulement si enemy n'est pas en attaque special et en defense
                   
-                if(_type_attack == typeAttack.Cac){ // attack Cac
+                if(_type_attack == enum_manager.typeAttack.Cac){ // attack Cac
 
                     float i = Random.value*100;
                     //print("chance special"+ i);
@@ -128,11 +123,11 @@ public class EnemyAttack : MonoBehaviour
                     }
                 }
 
-                if(_type_attack == typeAttack.Cac_et_distance){// Attack distance
+                if(_type_attack == enum_manager.typeAttack.Cac_et_distance){// Attack distance
                     attackDistance();
                 }
                 
-                if(_type_attack == typeAttack.distance){// Attack distance
+                if(_type_attack == enum_manager.typeAttack.distance){// Attack distance
                     attackPrincipal();
                 }
             }
@@ -148,7 +143,7 @@ public class EnemyAttack : MonoBehaviour
 
         anim.SetTrigger("attack1");
 
-        if(_type_attack != typeAttack.distance){  
+        if(_type_attack != enum_manager.typeAttack.distance){  
         enemyScript.PlaySound(0);
         }
         enemy_manager.instance.degatForPlayer = Random.Range(degatMin,degatMax);   
@@ -218,7 +213,7 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(1f); // le temps de se tourner (anim)
         
         anim.SetBool("attack3",true);
-        Hinput.gamepad[0].VibrateAdvanced(0.4f, 0.4f);
+        GamePad_manager.instance.gamePad_setVibration(true, 0.4f, true);  
         particule_attackSpecial.Play();
 
          
@@ -262,7 +257,7 @@ public class EnemyAttack : MonoBehaviour
         StopCoroutine("aspirePlayer");
        // StopCoroutine("timerAspiration");  
         attack_special_is_active = false;
-        Hinput.gamepad[0].StopVibration();
+        GamePad_manager.instance.gamePad_setVibration(false);
     }
 
 

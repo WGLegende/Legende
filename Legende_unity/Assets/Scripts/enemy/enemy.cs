@@ -352,7 +352,7 @@ public class enemy : MonoBehaviour
             isAlive = false;
             current_comportement = enemy_manager.comportement.dead;
             HealthBar.GetComponent<Canvas>().enabled = false;
-            Hinput.gamepad[0].StopVibration();
+            GamePad_manager.instance.gamePad_setVibration(false);
             lockTarget.instance.EndTargetLock();
         }  
          
@@ -364,7 +364,7 @@ public class enemy : MonoBehaviour
         switch (_race){ //enum type race
 
             case race.robot: AudioSource.PlayClipAtPoint(Enemy_sound.instance.Robot[9], transform.position);
-                             Hinput.gamepad[0].Vibrate(0.4f);
+                             GamePad_manager.instance.gamePad_setVibration(true, 0.4f);  
                              GameObject particuleDeath = Instantiate(particule, transform.position, transform.rotation);
                              Destroy(particuleDeath,5f);
                              this.enabled = false;

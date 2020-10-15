@@ -28,16 +28,14 @@
                 pourcentageCritique,
                 puissanceDeRecul,
                 _type_effets_secondaire,
+                _type_armure,
                     degatsSecondairesInfligesMin,
                     degatsSecondairesInfligesMax,
-                montantArmure_min,
-                montantArmure_max,
-                    armureSecondaireMin,
-                    armureSecondaireMax,
+                    armure_current,
+                    armure_max,
 
             portee;
-                
-
+            
         
      void OnEnable () {
          // Setup the SerializedProperties
@@ -63,19 +61,19 @@
              pourcentageCritique = serializedObject.FindProperty ("pourcentageCritique");
              puissanceDeRecul = serializedObject.FindProperty ("puissanceDeRecul");
              _type_effets_secondaire = serializedObject.FindProperty ("_type_effets_secondaire");
+             _type_armure = serializedObject.FindProperty ("_type_armure");
                 degatsSecondairesInfligesMin = serializedObject.FindProperty ("degatsSecondairesInfligesMin");
                 degatsSecondairesInfligesMax = serializedObject.FindProperty ("degatsSecondairesInfligesMax");
 
              portee = serializedObject.FindProperty ("portee");
 
 
-            montantArmure_min = serializedObject.FindProperty ("montantArmure_min");
-            montantArmure_max = serializedObject.FindProperty ("montantArmure_max");
-            armureSecondaireMin = serializedObject.FindProperty ("armureSecondaireMin");
-            armureSecondaireMax = serializedObject.FindProperty ("armureSecondaireMax");
+            armure_current = serializedObject.FindProperty ("armure_current");
+            armure_max = serializedObject.FindProperty ("armure_max");
 
          quantite = serializedObject.FindProperty("quantite");
          jetable = serializedObject.FindProperty("jetable");
+
 
      }
      
@@ -111,19 +109,21 @@
 
         EditorGUILayout.PropertyField(_type_object, new GUIContent("Type d'objet :"));
 
-        inventory_main.type_effets type_deg = (inventory_main.type_effets)_type_effets_secondaire.enumValueIndex;
-        inventory_main.type_object type_object = (inventory_main.type_object)_type_object.enumValueIndex;
+        enum_manager.type_effets type_deg = (enum_manager.type_effets)_type_effets_secondaire.enumValueIndex;
+        enum_manager.type_effets type_arm = (enum_manager.type_effets)_type_armure.enumValueIndex;
+        
+        enum_manager.type_object type_object = (enum_manager.type_object)_type_object.enumValueIndex;
 
         switch( type_object ) {
 
 
-            case inventory_main.type_object.equipement :
+            case enum_manager.type_object.equipement :
 
             EditorGUILayout.PropertyField(_type_equipement, new GUIContent("Type d'equipement :"));
-            inventory_main.equipement equipement = (inventory_main.equipement)_type_equipement.enumValueIndex;
+            enum_manager.equipement equipement = (enum_manager.equipement)_type_equipement.enumValueIndex;
 
             switch( equipement ) {
-                case inventory_main.equipement.arme_CaC : case inventory_main.equipement.arme_Projectile : case inventory_main.equipement.arme_Distance :
+                case enum_manager.equipement.arme_CaC : case enum_manager.equipement.arme_Projectile : case enum_manager.equipement.arme_Distance :
 
                     // ARMES
                     EditorGUILayout.PropertyField(vitesseCoup, new GUIContent("Vitesse du coup (en seconde) :"));
@@ -133,33 +133,31 @@
                     EditorGUILayout.PropertyField(degatsInfligesMax, new GUIContent("Dégats maximum :"));
                     EditorGUILayout.IntSlider ( pourcentageCritique, 0, 100, new GUIContent("Pourcentage coup critique : " + pourcentageCritique.intValue + "%"));
 
-                    if(equipement == inventory_main.equipement.arme_Distance){
+                    if(equipement == enum_manager.equipement.arme_Distance){
                         EditorGUILayout.PropertyField(portee, new GUIContent("Portée flèche :"));  
-                    }else if(equipement == inventory_main.equipement.arme_Projectile){
+                    }else if(equipement == enum_manager.equipement.arme_Projectile){
                         EditorGUILayout.PropertyField(portee, new GUIContent("Portée projectile :"));  
                         EditorGUILayout.IntSlider (quantite, 0, 100, new GUIContent("Quantitée projectile :") );
                     }
 
                     EditorGUILayout.PropertyField(_type_effets_secondaire, new GUIContent("Type de dégats secondaires infligés :") );
                         switch( type_deg ) {
-                            case inventory_main.type_effets.aucun:  break;
+                            case enum_manager.type_effets.aucun:  break;
                             default :  
                                 EditorGUILayout.PropertyField( degatsSecondairesInfligesMin, new GUIContent("Dégats secondaires minimum :") );            
                                 EditorGUILayout.PropertyField( degatsSecondairesInfligesMax, new GUIContent("Dégats force brute maximum :") );            
                                 break;
                         }
                     break;
-                case inventory_main.equipement.armure_Tete : case inventory_main.equipement.armure_Corps : case inventory_main.equipement.armure_Mains : case inventory_main.equipement.armure_Pieds :
+                case enum_manager.equipement.armure_Tete : case enum_manager.equipement.armure_Corps : case enum_manager.equipement.armure_Mains : case enum_manager.equipement.armure_Pieds :
                     // ARMURES
 
-                    EditorGUILayout.PropertyField( montantArmure_min, new GUIContent("Protection armure minimum :") );             
-                    EditorGUILayout.PropertyField( montantArmure_max, new GUIContent("Protection armure maximum :") );             
-                    EditorGUILayout.PropertyField(_type_effets_secondaire, new GUIContent("Protection secondaire :") );
-                        switch( type_deg ) {
-                            case inventory_main.type_effets.aucun:  break;
+                    EditorGUILayout.PropertyField(_type_armure, new GUIContent("Type de Protection :") );
+                        switch( type_arm ) {
+                            case enum_manager.type_effets.aucun:  break;
                             default :  
-                                EditorGUILayout.PropertyField( armureSecondaireMin, new GUIContent("Protection secondaire minimum :") );            
-                                EditorGUILayout.PropertyField( armureSecondaireMax, new GUIContent("Protection secondaire maximum :") );        
+                                EditorGUILayout.PropertyField( armure_current, new GUIContent("Montant d'armure actuelle :") );            
+                                EditorGUILayout.PropertyField( armure_max, new GUIContent("Montant d'armure MAX :") );        
                                 break;
                         }
                     break;
@@ -168,7 +166,7 @@
             break;
 
 
-            case inventory_main.type_object.consommable :
+            case enum_manager.type_object.consommable :
                 EditorGUILayout.PropertyField(_type_consommable, new GUIContent("Type de consommable :"));
                 inventory_main.consommable consommable = (inventory_main.consommable)_type_consommable.enumValueIndex;
                 switch(consommable){
@@ -180,12 +178,12 @@
                 EditorGUILayout.IntSlider ( quantite, 0, 100, new GUIContent("Quantitée trouvée :") );
             break;
 
-            case inventory_main.type_object.ressource :
+            case enum_manager.type_object.ressource :
 
                 EditorGUILayout.PropertyField(_type_ressource, new GUIContent("Type de ressource :"));
-                inventory_main.ressource ressource = (inventory_main.ressource)_type_ressource.enumValueIndex;
+                enum_manager.ressource ressource = (enum_manager.ressource)_type_ressource.enumValueIndex;
                 switch(ressource){
-                    case inventory_main.ressource.bois:
+                    case enum_manager.ressource.bois:
                         // instruction ici ...
                     break;
                 }
@@ -193,7 +191,7 @@
                 EditorGUILayout.IntSlider ( quantite, 0, 100, new GUIContent("Quantitée trouvée :") );
             break;
 
-            case inventory_main.type_object.plan :
+            case enum_manager.type_object.plan :
                 EditorGUILayout.PropertyField(_type_plan, new GUIContent("Type de plan :"));
                 inventory_main.plan plan = (inventory_main.plan)_type_plan.enumValueIndex;
                 switch(plan){
@@ -203,7 +201,7 @@
                 }
             break;
 
-            case inventory_main.type_object.carte :
+            case enum_manager.type_object.carte :
                 EditorGUILayout.PropertyField(_type_carte, new GUIContent("Type de carte :"));
                 inventory_main.carte carte = (inventory_main.carte)_type_carte.enumValueIndex;
                 switch(carte){
@@ -213,7 +211,7 @@
                 }
             break;
 
-            case inventory_main.type_object.quete :
+            case enum_manager.type_object.quete :
                 EditorGUILayout.PropertyField(_type_quete, new GUIContent("Type de quete :"));
                 inventory_main.quete quete = (inventory_main.quete)_type_quete.enumValueIndex;
                 switch(quete){
@@ -223,7 +221,7 @@
                 }
             break;
 
-            case inventory_main.type_object.savoir :
+            case enum_manager.type_object.savoir :
                 EditorGUILayout.PropertyField(_type_savoir, new GUIContent("Type de savoir :"));
                 inventory_main.savoir savoir = (inventory_main.savoir)_type_savoir.enumValueIndex;
                 switch(savoir){
@@ -233,7 +231,7 @@
                 }
             break;
 
-            case inventory_main.type_object.relique :
+            case enum_manager.type_object.relique :
                 EditorGUILayout.PropertyField(_type_relique, new GUIContent("Type de relique :"));
                 inventory_main.relique relique = (inventory_main.relique)_type_relique.enumValueIndex;
                 switch(relique){
@@ -269,13 +267,11 @@
             degatsInfligesMin.floatValue = degatsInfligesMax.floatValue;
         }
 
-
-
-        if(armureSecondaireMax.floatValue < armureSecondaireMin.floatValue){
-            armureSecondaireMax.floatValue = armureSecondaireMin.floatValue;
+        if(armure_max.intValue < armure_current.intValue){
+            armure_max.intValue = armure_current.intValue;
         }
-        if(armureSecondaireMin.floatValue > armureSecondaireMax.floatValue){
-            armureSecondaireMin.floatValue = armureSecondaireMax.floatValue;
+        if(armure_current.intValue > armure_max.intValue){
+            armure_current.intValue = armure_max.intValue;
         }
 
         if(vitesseCoup.floatValue < 0.2f){

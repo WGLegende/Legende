@@ -108,24 +108,24 @@ public class PlayerGamePad : MonoBehaviour
         // stick.y -1 = down
         // stick.y 1 = up
 
-        if(Hinput.anyGamepad.A.justPressed){
-                    Debug.Log("Test A");
-         }
+        // if(Hinput.anyGamepad.A.justPressed){
+        //             Debug.Log("Test A");
+        //  }
 
-          if(Input.GetKeyDown("p") && modePlayer != "noweapon"){
-            modePlayer = "noweapon";
-              Player_Animator.SetTrigger("changeEquipement");
-        } 
+        //   if(Input.GetKeyDown("p") && modePlayer != "noweapon"){
+        //     modePlayer = "noweapon";
+        //       Player_Animator.SetTrigger("changeEquipement");
+        // } 
 
-        if(Input.GetKeyDown("o") && modePlayer != "bow"){  
-            modePlayer = "bow";
-              Player_Animator.SetTrigger("changeEquipement");
-        }
+        // if(Input.GetKeyDown("o") && modePlayer != "bow"){  
+        //     modePlayer = "bow";
+        //       Player_Animator.SetTrigger("changeEquipement");
+        // }
 
-        if(Input.GetKeyDown("i") && modePlayer != "sword"){ 
-             modePlayer = "sword";
-               Player_Animator.SetTrigger("changeEquipement");
-        }
+        // if(Input.GetKeyDown("i") && modePlayer != "sword"){ 
+        //      modePlayer = "sword";
+        //        Player_Animator.SetTrigger("changeEquipement");
+        // }
        
 
         playerIsMoving = movePlayer.x < 0 || movePlayer.x > 0 || movePlayer.y < 0 || movePlayer.y > 0;
@@ -235,7 +235,7 @@ public class PlayerGamePad : MonoBehaviour
         if(collider.gameObject.tag == "degatPlayer"){
             Player_Animator.SetTrigger("getHit");
             float value = enemy_manager.instance.degatForPlayer;
-            player_life.instance.change_player_life(value);
+            player_life.instance.change_player_life((int)value);
            // print("Player a recu "+value.ToString("f0")+" de degats");
 
             if(collider.gameObject.name== "FlecheEnemy(Clone)"){

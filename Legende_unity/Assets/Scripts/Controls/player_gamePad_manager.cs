@@ -72,14 +72,14 @@ public class player_gamePad_manager : MonoBehaviour
 
     }
 
-    void Update()
-    {
-        if(Input.GetKeyDown("i")){
+    // void Update()
+    // {
+    //     if(Input.GetKeyDown("i")){
 
-            StartCoroutine(ImpactPlayer(force_degat_recul));
-            print("test impact recul");
-        }  
-    }
+    //         StartCoroutine(ImpactPlayer(force_degat_recul));
+    //         print("test impact recul");
+    //     }  
+    // }
 
     IEnumerator ImpactPlayer(float force){
         float timer = 1;
@@ -250,7 +250,7 @@ public class player_gamePad_manager : MonoBehaviour
             Player_Animator.SetTrigger("getHit");
             //StartCoroutine(ImpactPlayer(force_degat_recul));
             float value = enemy_manager.instance.degatForPlayer;
-            player_life.instance.change_player_life(value);
+            player_life.instance.change_player_life((int)value);
            
             if(collider.gameObject.name== "FlecheEnemy(Clone)"){
                 Destroy(collider.gameObject);
@@ -282,7 +282,7 @@ public class player_gamePad_manager : MonoBehaviour
             Player_Animator.SetTrigger("getHit");
             StartCoroutine(ImpactPlayer(force_degat_recul));
             float value = enemy_manager.instance.degatForPlayer;
-            player_life.instance.change_player_life(value); 
+            player_life.instance.change_player_life((int)value); 
         }
     }
 

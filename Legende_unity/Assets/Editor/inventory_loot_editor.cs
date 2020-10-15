@@ -75,7 +75,7 @@
                 EditorGUILayout.Space(10);
                 EditorGUILayout.IntSlider ( loot_percentage.GetArrayElementAtIndex(i), 0, 100, new GUIContent("     Chance loot : " + loot_percentage.GetArrayElementAtIndex(i).intValue + "%"));
                 
-                if(obj._type_object == inventory_main.type_object.consommable || obj._type_object == inventory_main.type_object.ressource){
+                if(obj._type_object == enum_manager.type_object.consommable || obj._type_object == enum_manager.type_object.ressource){
                     EditorGUILayout.IntSlider ( loot_quantite_min.GetArrayElementAtIndex(i), 1, 30, new GUIContent("     Qty min : " + loot_quantite_min.GetArrayElementAtIndex(i).intValue));
                     EditorGUILayout.IntSlider ( loot_quantite_max.GetArrayElementAtIndex(i), 1, 30, new GUIContent("     Qty max : " + loot_quantite_max.GetArrayElementAtIndex(i).intValue));
                 }else{

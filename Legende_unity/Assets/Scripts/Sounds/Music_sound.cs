@@ -40,16 +40,16 @@ public class Music_sound : MonoBehaviour
 
     }
 
-    void Update(){
+    // void Update(){
 
-        if(Input.GetKeyDown("o")){
-            StartCoroutine(FadeMixer.StartFade(MusicMaster, "musicMasterVolume", 5f , 0f));
-        }
+    //     if(Input.GetKeyDown("o")){
+    //         StartCoroutine(FadeMixer.StartFade(MusicMaster, "musicMasterVolume", 5f , 0f));
+    //     }
 
-        if(Input.GetKeyDown("i")){
-            StartCoroutine(FadeMixer.StartFade(MusicMaster, "musicMasterVolume", 5f , 20f));
-        }
-    }
+    //     if(Input.GetKeyDown("i")){
+    //         StartCoroutine(FadeMixer.StartFade(MusicMaster, "musicMasterVolume", 5f , 20f));
+    //     }
+    // }
 
 
 

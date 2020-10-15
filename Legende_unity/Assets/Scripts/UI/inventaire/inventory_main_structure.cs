@@ -36,7 +36,6 @@ public class inventory_main_structure : MonoBehaviour
         opened_panel.SetActive(true);
 
         foreach(inventory_slot_master slot_master in opened_panel.GetComponentsInChildren<inventory_slot_master>().Where(s => s.slot_master_of_this == null)){
-            Debug.Log("Initialize slot_master");
             slot_master.Initialize();
         }
     }

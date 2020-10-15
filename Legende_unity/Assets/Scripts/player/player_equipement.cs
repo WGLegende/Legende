@@ -30,24 +30,19 @@ public class player_equipement : MonoBehaviour
 
         bow_hand.SetActive(false);
         sword_hand.SetActive(false);
-
     }
 
     public void equipe_un_objet(inventory_object obj){
+        if(helpers.i.isObjectAnArmor(obj)){
+           player_armor.instance.equipe_armor(obj);
+        }
 
-        print("Objet ramasse: "+ obj.nom);
-
-        // switch(obj.nom){    
-        // }
-
-        if(obj._type_equipement == inventory_main.equipement.arme_CaC){ 
+        if(obj._type_equipement == enum_manager.equipement.arme_CaC){ 
             StartCoroutine(equip_player_cac());   
         }
-
-        else if(obj._type_equipement == inventory_main.equipement.arme_Distance){
+        else if(obj._type_equipement == enum_manager.equipement.arme_Distance){
             StartCoroutine(equip_player_arc());
         }
-       
     }
 
     public IEnumerator equip_player_noweapon(){

@@ -84,7 +84,7 @@ public class ame_player : MonoBehaviour{
 
             yield return new  WaitForSecondsRealtime(1f);
           
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.startConversationNavy;
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.startConversationNavy;
         }
 
     }
@@ -146,7 +146,7 @@ public class ame_player : MonoBehaviour{
 
             yield return new  WaitForSecondsRealtime(0.5f);
             StartCoroutine(AnimateText());
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionNavy;
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.actionNavy;
 
 
             yield return new  WaitForSecondsRealtime(0.5f);// on recentre pour retour player en fin de conversation
@@ -172,7 +172,7 @@ public class ame_player : MonoBehaviour{
 
         if(id_text < text_de_navy_container.Length){ 
             StartCoroutine(AnimateText());
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.actionNavy;     
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.actionNavy;     
         }
         else{
             id_text = 0;
@@ -209,7 +209,7 @@ public class ame_player : MonoBehaviour{
 
         if(playerinKart.activeSelf){ // on check quel player est en jeu
             print("playerkart active");
-            GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.kart;  
+            GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.kart;  
             ame_particule_kart.Stop(); 
         }else{
             GamePad_manager.instance._game_pad_attribution = GamePad_manager.instance._last_game_pad_attribution;
@@ -260,7 +260,7 @@ public class ame_player : MonoBehaviour{
         navy_en_attente = false;   
         anim_button_navy.SetBool("display_navy_button",false);
         CancelInvoke();
-        GamePad_manager.instance._game_pad_attribution = GamePad_manager.game_pad_attribution.player;
+        GamePad_manager.instance._game_pad_attribution = enum_manager.game_pad_attribution.player;
 
     }
 

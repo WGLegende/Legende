@@ -9,8 +9,6 @@ public class inventory_shortcuts : MonoBehaviour
 {
     public static inventory_shortcuts instance;
 
-    public enum shortcut_direction {up, right,down,left};
-
     public GameObject[] shortcut_slot = new GameObject[4];
     public Image[] shortcut_image = new Image[4];
     public Text[] shortcut_quantity = new Text[4];
@@ -63,11 +61,11 @@ public class inventory_shortcuts : MonoBehaviour
         }
         Debug.Log("use_shortcut " + direction);
 
-        // if(shortcut_slot_object[direction]._type_object == inventory_main.type_object.consommable_player || shortcut_slot_object[direction]._type_object == inventory_main.type_object.consommable_ressources){
-        //     player_utilisables.instance.utilise_un_objet(shortcut_slot_object[direction]);
-        // }else{
-        //     player_equipement.instance.equipe_un_objet(shortcut_slot_object[direction]);
-        // }
+        if(shortcut_slot_object[direction]._type_object == enum_manager.type_object.consommable || shortcut_slot_object[direction]._type_object == enum_manager.type_object.consommable){
+            player_utilisables.instance.utilise_un_objet(shortcut_slot_object[direction]);
+        }else{
+            player_equipement.instance.equipe_un_objet(shortcut_slot_object[direction]);
+        }
 
         shortcut_quantity[direction].text = shortcut_slot_object[direction].quantite.ToString();
         check_if_any(direction);

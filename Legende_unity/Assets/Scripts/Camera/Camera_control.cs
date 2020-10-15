@@ -58,7 +58,7 @@ public class Camera_control : MonoBehaviour
             cam_crash.LookAt = GameObject.Find("kart").GetComponent<Transform>();
             cam_crash.Follow = GameObject.Find("Chariot_Container").GetComponent<Transform>();
          }else{
-            Debug.Log("Pas de playerKart dans cette scene ?");
+            // Debug.Log("Pas de playerKart dans cette scene ?");
         }
 
         if(activate_earthquake_effect){

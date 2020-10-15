@@ -11,47 +11,13 @@ public class inventory_main : MonoBehaviour
 {
     public static inventory_main instance;
 
-        public enum type_object{ 
-            aucun,
-            equipement,
-            consommable,
-            ressource,
-            plan,
-            carte,
-            quete,
-            savoir,
-            relique
-        };
-
-        public enum equipement{
-            aucun,
-            arme_CaC,
-            arme_Distance,
-            arme_Projectile,
-            bouclier,
-            armure_Tete,
-            armure_Corps,
-            armure_Mains,
-            armure_Pieds
-        };
-
-        public enum consommable{ aucun, change_player_caracteristique, change_equipement_caracteristique };
-        public enum ressource{ aucun, composite, textile, plante_ou_champignon, liquide, metal, pierre, bois };
-        public enum plan{ aucun, plan };
-        public enum carte{ aucun, carte };
-        public enum quete{ aucun, quete };
-        public enum savoir{ aucun, savoir };
-        public enum relique{ aucun, relique, composant };
-
-
-        public enum type_effets{ 
-                aucun, 
-                brulant,
-                glace,
-                energie
-            };
-
-
+    public enum consommable{ aucun, change_player_caracteristique, change_equipement_caracteristique };
+    public enum ressource{ aucun, composite, textile, plante_ou_champignon, liquide, metal, pierre, bois };
+    public enum plan{ aucun, plan };
+    public enum carte{ aucun, carte };
+    public enum quete{ aucun, quete };
+    public enum savoir{ aucun, savoir };
+    public enum relique{ aucun, relique, composant };
 
 
     void Start(){
