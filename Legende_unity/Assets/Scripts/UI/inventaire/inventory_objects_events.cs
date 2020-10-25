@@ -71,13 +71,14 @@ public class inventory_objects_events : MonoBehaviour
         if(instance == null){
             instance = this;
         }
+
     }
 
 
 
     void FixedUpdate(){
 
-        Debug.Log(testal);
+        // Debug.Log(testal);
 
     }
 
@@ -141,37 +142,41 @@ public class inventory_objects_events : MonoBehaviour
 
         Debug.Log(obj.nom + " lance un evenement : " + obj_event.event_description);
 
-
+        // FAIRE LE STOP EVENT CHECK !!!!
         switch(obj_event._eventEffect){
             case eventEffect.none :break;
-
-
             case eventEffect.openAme :
                 // todo
             break;
             case eventEffect.changeSpeed :
-                // StartCoroutine(effect_countdown((x) => testal = x, testal, 4f, 15f));
-
+                // si le ending event est un countdown
+                StartCoroutine(event_ending_by_countdown((value) => player_main.instance.player_speed = value, player_main.instance.player_speed, obj_event._ending_event_countdown, obj_event.effect_value));
             break;
             case eventEffect.changeLife :
-
+                player_life.instance.change_player_life((int)obj_event.effect_value);
             break;
             case eventEffect.changeArmor :
-
+                player_armor.instance.change_player_armor((int)obj_event.effect_value, obj_event.event_effect_type_armor);
             break;
             case eventEffect.changeObjectCarac :
-
+                change_object_caracteristiques(
+                        obj_event._target_effect_on_object_type,
+                        obj_event._target_effect_on_equipement_type,
+                        obj_event.target_effect_on_object_id,
+                        obj_event._target_effect_on_type_caracteristiques,
+                        obj_event._target_effect_on_type_effets);
             break;
             case eventEffect.otherEffect :
-
+                trigger_custom_effect(obj_event.otherEffect);
             break;
         }
+    }
 
 
 
 
 
-    IEnumerator effect_countdown(System.Action<float> saveValue, float originalValue, float countdown, float addValue){
+    IEnumerator event_ending_by_countdown(System.Action<float> saveValue, float originalValue, float countdown, float addValue){
         saveValue(originalValue + addValue);
         yield return new WaitForSeconds(countdown);
         saveValue(originalValue);
@@ -179,27 +184,21 @@ public class inventory_objects_events : MonoBehaviour
 
 
 
-
-
+    public void trigger_custom_effect(string functionName){
+        Invoke(functionName, 0f);
     }
 
+    public void change_object_caracteristiques( 
+        enum_manager.type_object _target_effect_on_object_type = 0,
+        enum_manager.equipement _target_effect_on_equipement_type = 0,
+        string target_effect_on_object_id = null,
+        enum_manager.type_caracteristiques _target_effect_on_type_caracteristiques = 0,
+        enum_manager.type_effets _target_effect_on_type_effets = 0){  
+            
+        // Chercher l'objet ou les objets à changer
+        // Change le ou les objets
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 }

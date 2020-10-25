@@ -17,6 +17,7 @@ public class scripts_manager : MonoBehaviour
     void start_scripts(){
 
         player_life.instance.Start_player_life();
+        player_armor.instance.Start_player_armor();
 
     }
 

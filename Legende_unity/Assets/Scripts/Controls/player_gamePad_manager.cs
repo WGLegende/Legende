@@ -137,7 +137,7 @@ public class player_gamePad_manager : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
             if(!Player_Animator.applyRootMotion){
-                characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime);
+                characterController.Move(moveDir* direction.magnitude* SpeedMove* Time.deltaTime * player_main.instance.player_speed);
             }
         
             // Animations Deplacement XY sans rotation

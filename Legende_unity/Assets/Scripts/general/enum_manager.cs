@@ -76,13 +76,14 @@ public class enum_manager : MonoBehaviour
     };
 
     public enum type_effets{ 
-        aucun, 
+        none, 
         life,
         brut_force,
         hot,
         cold,
         ondes,
-        tous
+        all,
+        other
     };
     public enum Enemy_type{
         none,

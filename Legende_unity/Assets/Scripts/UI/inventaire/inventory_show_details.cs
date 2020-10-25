@@ -72,8 +72,8 @@ public class inventory_show_details : MonoBehaviour
 
 
         // todo must evolve pour pouvoir verifier plus de types, ressources etc
-        bool has_secondary_effect = obj._type_effets_secondaire != enum_manager.type_effets.aucun;
-        bool typeArmor = obj._type_armure != enum_manager.type_effets.aucun; 
+        bool has_secondary_effect = obj._type_effets_secondaire != enum_manager.type_effets.none;
+        bool typeArmor = obj._type_armure != enum_manager.type_effets.none; 
 
         DegatsSecondaires[0].gameObject.SetActive(has_secondary_effect);
         DegatsSecondaires[1].gameObject.SetActive(has_secondary_effect);

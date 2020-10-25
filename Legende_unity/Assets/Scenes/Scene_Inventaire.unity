@@ -343,6 +343,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d8587d95002802489cc4e15276c7be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &296194799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296194784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5015af7103442554da760b07568ea3ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &296831768 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2619881078187523912, guid: df8741acf58b1b54eb2a0bfdfe1b7374,
@@ -2515,7 +2527,7 @@ PrefabInstance:
     - target: {fileID: -8448314428517168760, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: _eventEffect
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8448314428517168760, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
@@ -2530,7 +2542,7 @@ PrefabInstance:
     - target: {fileID: -8448314428517168760, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: _eventEnding
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8448314428517168760, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
@@ -2541,6 +2553,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _ending_comparateur
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8448314428517168760, guid: 851c5945d00de8e459e8e13782c6797f,
+        type: 3}
+      propertyPath: _ending_event_countdown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8448314428517168760, guid: 851c5945d00de8e459e8e13782c6797f,
+        type: 3}
+      propertyPath: event_effect_type_armor
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6580716143118352573, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
@@ -2600,23 +2622,23 @@ PrefabInstance:
     - target: {fileID: 8075445175931164336, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: m_Name
-      value: obj_pomme
+      value: obj_
       objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: state_id
-      value: IHdzLXmEWCkCMgrlGNCWFAgBb
+      value: QtpSslaAKvFWVhqqVYt2w6nIG
       objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: nom
-      value: pomme
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: image
       value: 
-      objectReference: {fileID: 2800000, guid: abf019e3fa509ae42b6b6858623b9614, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: jetable
@@ -2625,7 +2647,7 @@ PrefabInstance:
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: _type_object
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
@@ -2675,7 +2697,7 @@ PrefabInstance:
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: description
-      value: Une bonne pomme
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
@@ -2710,7 +2732,7 @@ PrefabInstance:
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: quantite
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
@@ -2720,17 +2742,17 @@ PrefabInstance:
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: _type_ressource
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: _type_consommable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8811715552461781044, guid: 851c5945d00de8e459e8e13782c6797f,
         type: 3}
       propertyPath: max_stack
-      value: 35
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 851c5945d00de8e459e8e13782c6797f, type: 3}

@@ -25,9 +25,9 @@ public class player_main : MonoBehaviour
     public float timeInAir = 0f;
     public float deathTimer = 3f;
 
+    public float player_speed = 1f;
  
     void Awake(){ 
-
         instance = this;
         
         player = GameObject.Find("Player");

@@ -142,7 +142,7 @@
 
                     EditorGUILayout.PropertyField(_type_effets_secondaire, new GUIContent("Type de dégats secondaires infligés :") );
                         switch( type_deg ) {
-                            case enum_manager.type_effets.aucun:  break;
+                            case enum_manager.type_effets.none:  break;
                             default :  
                                 EditorGUILayout.PropertyField( degatsSecondairesInfligesMin, new GUIContent("Dégats secondaires minimum :") );            
                                 EditorGUILayout.PropertyField( degatsSecondairesInfligesMax, new GUIContent("Dégats force brute maximum :") );            
@@ -154,7 +154,7 @@
 
                     EditorGUILayout.PropertyField(_type_armure, new GUIContent("Type de Protection :") );
                         switch( type_arm ) {
-                            case enum_manager.type_effets.aucun:  break;
+                            case enum_manager.type_effets.none:  break;
                             default :  
                                 EditorGUILayout.PropertyField( armure_current, new GUIContent("Montant d'armure actuelle :") );            
                                 EditorGUILayout.PropertyField( armure_max, new GUIContent("Montant d'armure MAX :") );        

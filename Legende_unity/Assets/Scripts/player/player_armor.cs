@@ -8,13 +8,22 @@ public class player_armor : MonoBehaviour
     public static player_armor instance;
     public List<inventory_object> equipedArmorList = new List<inventory_object>();
 
+    public Dictionary<enum_manager.type_effets, int> extra_armor = new Dictionary<enum_manager.type_effets, int>();
+
+
     void Start(){
         if(instance == null){
             instance = this;
         }
     }
 
-    public void initArmors(){
+    public void Start_player_armor(){
+        PlayerPrefs_Manager.instance.initialize_PlayerPrefs_armor();
+        
+        foreach(string v in PlayerPrefs_Manager.instance.getStringValue("extra_armor").Split(';')){
+            extra_armor.Add((enum_manager.type_effets)int.Parse((v.Split(':')[0])), int.Parse(v.Split(':')[1])); 
+        }
+
         // fill equipedArmorList with objects recorded in playerprefs
     }
 
@@ -29,7 +38,15 @@ public class player_armor : MonoBehaviour
 
         getEquipementTotalArmor();
     }
-    
+
+    public void change_player_armor(int amount, enum_manager.type_effets type_armor){
+        // special change only on armor (repear for exemple)
+        extra_armor[type_armor] += amount; 
+
+        // life_list[type_armor][0] = (int)Mathf.Clamp(life_list[type_armor][0] + amount, 0, life_list[type_armor][1]);
+        player_life.instance.init_player_life();
+    }
+
     public void getEquipementTotalArmor(){
         
         resetArmorsValues();
@@ -44,7 +61,15 @@ public class player_armor : MonoBehaviour
                 };
             }
         }
-        
+
+        // Add extra armors (due to potion for example)
+        foreach (int v in Enum.GetValues(typeof(enum_manager.type_effets))){
+            player_life.instance.life_list[(enum_manager.type_effets)v] = new int[]{
+                player_life.instance.life_list[(enum_manager.type_effets)v][0] + extra_armor[(enum_manager.type_effets)v], 
+                player_life.instance.life_list[(enum_manager.type_effets)v][1] + extra_armor[(enum_manager.type_effets)v]
+            };
+        }
+
         player_life.instance.init_player_life();
     }
 

@@ -19,7 +19,7 @@ public class _PLife : MonoBehaviour
 
     public GameObject full;
 
-    public void initialize_life(int id, enum_manager.type_effets type, bool isActive){
+    public void initialize_life(enum_manager.type_effets type, bool isActive){
         _type_effets = type;
         full.SetActive(isActive);
         full.GetComponent<Image>().color = color_type[(int)type];

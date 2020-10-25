@@ -75,11 +75,11 @@ public class GamePad_manager : MonoBehaviour
 
         left_trigger = Hinput.anyGamepad.leftTrigger.position;
 
-        if(Input.GetKey("w")){    left_stick_y = 1f; };
-        if(Input.GetKey("s")){  left_stick_y = -1f; };
-        if(Input.GetKey("d")){ left_stick_x = 1f; };
-        if(Input.GetKey("a")){  left_stick_x = -1f; };
-
+        if(Input.GetKey("w")){    left_stick_y = 1f;  }
+        if(Input.GetKey("s")){    left_stick_y = -1f; }
+        if(Input.GetKey("d")){    left_stick_x = 1f;  }
+        if(Input.GetKey("a")){    left_stick_x = -1f; }
+        
         switch(_game_pad_attribution){
 
             case enum_manager.game_pad_attribution.player : 

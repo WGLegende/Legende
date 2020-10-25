@@ -288,11 +288,7 @@
                     EditorGUILayout.PropertyField(_ending_event_name_of_custom_trigger, new GUIContent("Nom de l'evenement ?"));
                 break;
             }
-
-
         }
-
-
 
         serializedObject.ApplyModifiedProperties ();
     }

@@ -26,7 +26,7 @@ public class player_life : MonoBehaviour
         }
         PlayerPrefs_Manager.instance.initialize_PlayerPrefs_life();
         
-        life_list.Add(enum_manager.type_effets.aucun,       new int[]{0,0});
+        life_list.Add(enum_manager.type_effets.none,       new int[]{0,0});
         life_list.Add(enum_manager.type_effets.life,        new int[]{PlayerPrefs_Manager.instance.getIntValue("life_current_life"), PlayerPrefs_Manager.instance.getIntValue("life_max_life")});
         life_list.Add(enum_manager.type_effets.brut_force,  new int[]{0, 0});
         life_list.Add(enum_manager.type_effets.hot,         new int[]{0, 0});
@@ -48,7 +48,17 @@ public class player_life : MonoBehaviour
             for(int i = 1; i <= life_list[(enum_manager.type_effets)j][1]; i++){
                 _PLife newLife = Instantiate(PF_Player_Life).GetComponent<_PLife>(); // Ajoute un coeur vide
                 newLife.gameObject.transform.SetParent( (j == 1 ? UI_Main.instance.Player_Life_Container : UI_Main.instance.Player_Armor_Container), false);
-                newLife.initialize_life(i, (enum_manager.type_effets)j, i <= life_list[(enum_manager.type_effets)j][0]);
+                newLife.initialize_life((enum_manager.type_effets)j, i <= life_list[(enum_manager.type_effets)j][0]);
+            }
+        }
+
+        // Extra armor
+        foreach(KeyValuePair<enum_manager.type_effets, int> entry in player_armor.instance.extra_armor)
+        {
+            for(int i = 0; i < entry.Value; i++){
+                _PLife newLife = Instantiate(PF_Player_Life).GetComponent<_PLife>(); // Ajoute un coeur vide
+                newLife.gameObject.transform.SetParent(UI_Main.instance.Player_Armor_Container, false);
+                newLife.initialize_life(entry.Key, true);
             }
         }
     }
@@ -83,14 +93,6 @@ public class player_life : MonoBehaviour
         } else {
             PlayerPrefs_Manager.instance.saveAll();
         }
-    }
-
-
-    public void change_player_armor(int amount, enum_manager.type_effets type_armor){
-        // special change only on armor (repear for exemple)
-
-        life_list[type_armor][0] = (int)Mathf.Clamp(life_list[type_armor][0] + amount, 0, life_list[type_armor][1]);
-        init_player_life();
     }
 
     public void change_player_life_to_full(){

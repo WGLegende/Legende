@@ -33,7 +33,7 @@ public class object_event : MonoBehaviour
     public int event_condition_quantity_armor;
 
     public float effect_value;
-    public int event_effect_type_armor;
+    public enum_manager.type_effets event_effect_type_armor;
 
     public enum_manager.type_object _target_effect_on_object_type;
     public enum_manager.equipement _target_effect_on_equipement_type;
